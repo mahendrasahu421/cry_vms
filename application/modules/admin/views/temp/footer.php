@@ -17,21 +17,42 @@
 
 
 		<script>
-			$('#exampleModal').on('show.bs.modal',function(event) {
-					// Button that triggered the modal
-					var li = $(event.relatedTarget)
-					// Extract info from data attributes 
-					var recipient = li.data('whatever')
-					// Updating the modal content using 
-					// jQuery query selectors
-					var modal = $(this)
-					modal.find('.modal-title')
-						.text('New message to ' + recipient)
+			$('#exampleModal').on('show.bs.modal', function(event) {
+				// Button that triggered the modal
+				var li = $(event.relatedTarget)
+				// Extract info from data attributes 
+				var recipient = li.data('whatever')
+				// Updating the modal content using 
+				// jQuery query selectors
+				var modal = $(this)
+				modal.find('.modal-title')
+					.text('New message to ' + recipient)
 
-					modal.find('.modal-body p')
-						.text('Welcome to ' + recipient)
-				});
-				
+				modal.find('.modal-body p')
+					.text('Welcome to ' + recipient)
+			});
+		</script>
+		<script>
+			// Example starter JavaScript for disabling form submissions if there are invalid fields
+			(function() {
+				'use strict'
+
+				// Fetch all the forms we want to apply custom Bootstrap validation styles to
+				var forms = document.querySelectorAll('.needs-validation')
+
+				// Loop over them and prevent submission
+				Array.prototype.slice.call(forms)
+					.forEach(function(form) {
+						form.addEventListener('submit', function(event) {
+							if (!form.checkValidity()) {
+								event.preventDefault()
+								event.stopPropagation()
+							}
+
+							form.classList.add('was-validated')
+						}, false)
+					})
+			})()
 		</script>
 
 		<!-- <script src="<?php echo base_url() ?>admin/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous">
@@ -41,7 +62,7 @@
 		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous">
 		</script>
 		<!-- JQUERY JS -->
-	
+
 		<!-- BOOTSTRAP JS -->
 		<script src="<?php echo base_url('admin/'); ?>assets/plugins/bootstrap/js/popper.min.js"></script>
 		<script src="<?php echo base_url('admin/'); ?>assets/plugins/bootstrap/js/bootstrap.min.js"></script>

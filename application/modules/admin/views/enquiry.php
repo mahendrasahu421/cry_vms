@@ -120,9 +120,7 @@
 							</div>
 						</form>
 						<div class="col-md-2 mt-5">
-							<div class="input-group  p-0">
-								<button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-lg">Preview</button>
-							</div>
+
 						</div>
 						<form method="post" action="send_orientation_emails" id="id-form">
 							<input type="hidden" value="" id="ids" name="ids">
@@ -180,8 +178,11 @@
 											} ?>
 										</tbody>
 									</table>
+
+									
 									<input type="hidden" name="emailContentValue" id="emailContentValue">
 									<!-- <input type="botton" id="submit3" value="Invite For Orientation" class="mt-5 btn btn-warning  pull-right" id="map_button" style="padding: 1% 2% 1% 2%;"> -->
+									<button type="button" class="btn btn-primary pull-right mt-3" data-toggle="modal" data-target=".bd-example-modal-lg" style="padding: 1% 2% 1% 2%;">Preview</button>
 								</div>
 							</div>
 						</form>
@@ -194,6 +195,7 @@
 </div>
 </div>
 </div>
+
 <script>
 	$(document).ready(function() {
 		$('#saveData').click(function() {

@@ -196,7 +196,7 @@ class admin_model extends CI_Model
 	function volunteer_enquiry_Data($where)
 	{
 		$this->db->initialize();
-		$this->db->select('v.*,s.state_name,c.city_name');
+		$this->db->select('v.volunteer_id,v.first_name,v.last_name,v.mobile,v.email,v.state_id,v.city_id,s.state_name,c.city_name');
 		$this->db->from('volunteer v');
 		$this->db->join('states s', 's.state_id = v.state_id', 'left');
 		$this->db->join('cities c', 'c.city_id = v.city_id', 'left');
@@ -456,7 +456,7 @@ class admin_model extends CI_Model
 	public function count_send_mailPostRegistration($volunteerEmail)
 	{
 		$this->db->initialize();
-		$updateCount = "UPDATE volunteer SET mail_count = mail_count + 1,status=4 WHERE volunteer_id ='" . $volunteerEmail . "'";
+		$updateCount = "UPDATE volunteer SET mail_count = mail_count + 1,status=3 WHERE volunteer_id ='" . $volunteerEmail . "'";
 		$querry = $this->db->query($updateCount);
 		//$count = $querry->num_rows();
 		return true;
@@ -596,5 +596,159 @@ class admin_model extends CI_Model
 	public function first($table, $id)
 	{
 		return $this->db->select('*')->from($table)->where('emp_id', $id, false)->get()->row_array();
+	}
+
+
+	function get_prev_schedule_date($fields, $tbl_name, $where, $orderby)
+	{
+		$this->db->select($fields);
+		$this->db->from($tbl_name);
+		$this->db->where($where);
+		$query = $this->db->order_by($orderby);
+		$query = $this->db->limit(1, 1);
+		$query = $this->db->get();
+		$result =    $query->row_array();
+		return $result;
+	}
+	public function reschedule_mail_to_user($data)
+	{
+		$mail = new PHPMailer();
+		$to = $data['user_email'];
+		$subject = $data['mode'] . '| reschedule ' . date("F d,Y h:i A", strtotime($data['old_schedule_date'] . ' ' . $data['old_schedule_time']));
+		// $from = 'info@drycoder.com';
+		$message = $this->load->view('admin/reschedule_mail_to_user', $data, true);
+		$mail->IsSMTP();
+		$mail->Host = 'mail.mgracesolution.com';
+		$mail->SMTPDebug = 1;
+		$mail->SMTPAuth = true;
+		$mail->SMTPSecure = "tls";
+		$mail->Port = 587;
+		$mail->Username = "testvms@mgracesolution.com";
+		$mail->Password = "smvtset@1234";
+		$mail->setFrom('testvms@mgracesolution.com');
+		$mail->FromName = $subject;
+		$mail->AddAddress($to);
+		$mail->addBCC('pransi.g@neuralinfo.org');
+		$mail->IsHTML(true);
+		$mail->Subject = $subject;
+		$mail->Body = $message;
+		if ($mail->Send()) {
+			return 1;
+		} else {
+			return 0;
+		}
+	}
+	public function schedule_mail_to_user($data)
+	{
+		$mail = new PHPMailer();
+		$to = $data['user_email'];
+		$subject = $data['mode'] . '|' . date("F d,Y h:i A", strtotime($data['schedule_date'] . ' ' . $data['schedule_time']));
+		// $from = 'info@drycoder.com';
+		$message = $this->load->view('admin/schedule_mail_to_user', $data, true);
+		$mail->IsSMTP();
+		$mail->Host = 'mail.mgracesolution.com';
+		$mail->SMTPDebug = 1;
+		$mail->SMTPAuth = true;
+		$mail->SMTPSecure = "tls";
+		$mail->Port = 587;
+		$mail->Username = "testvms@mgracesolution.com";
+		$mail->Password = "smvtset@1234";
+		$mail->setFrom('testvms@mgracesolution.com');
+		$mail->FromName = $subject;
+		$mail->AddAddress($to);
+		$mail->addBCC('pransi.g@neuralinfo.org');
+		$mail->IsHTML(true);
+		$mail->Subject = $subject;
+		$mail->Body = $message;
+		if ($mail->Send()) {
+			return 1;
+		} else {
+			return 0;
+		}
+	}
+	public function interview_final_mail($data)
+	{
+		$mail = new PHPMailer();
+		$to = $data['user_email'];
+		$subject = 'shotlisted';
+		$message = $this->load->view('admin/interview_final_mail_to_user', $data, true);
+		//$mail->IsSMTP();
+		$mail->Host = 'mail.mgracesolution.com';
+		$mail->SMTPDebug = 1;
+		$mail->SMTPAuth = true;
+		$mail->SMTPSecure = "tls";
+		$mail->Port = 587;
+		$mail->Username = "testvms@mgracesolution.com";
+		$mail->Password = "smvtset@1234";
+		$mail->setFrom('testvms@mgracesolution.com');
+		$mail->FromName = $subject;
+		$mail->AddAddress($to);
+		$mail->addBCC('pransi.g@neuralinfo.org');
+		$mail->IsHTML(true);
+		$mail->Subject = $subject;
+		$mail->Body = $message;
+		if ($mail->Send()) {
+			return 1;
+		} else {
+			return 0;
+		}
+	}
+	public function shortlist_mail($data)
+	{
+		$mail = new PHPMailer();
+		$to = $data['user_email'];
+		$subject = 'shotlisted';
+		// $from = 'info@drycoder.com';
+		$message = $this->load->view('admin/shortlist_mail_to_user', $data, true);
+		//$mail->IsSMTP();
+		$mail->Host = 'mail.mgracesolution.com';
+		$mail->SMTPDebug = 1;
+		$mail->SMTPAuth = true;
+		$mail->SMTPSecure = "tls";
+		$mail->Port = 587;
+		$mail->Username = "testvms@mgracesolution.com";
+		$mail->Password = "smvtset@1234";
+		$mail->setFrom('testvms@mgracesolution.com');
+		$mail->FromName = $subject;
+		$mail->AddAddress($to);
+		$mail->IsHTML(true);
+		$mail->addBCC('pransi.g@neuralinfo.org');
+		$mail->Subject = $subject;
+		$mail->Body = $message;
+		if ($mail->Send()) {
+			return 1;
+		} else {
+			return 0;
+		}
+	}
+	public function send_offer_letter($full_path, $file_name, $data)
+	{
+		$mail = new PHPMailer();
+		$full_path = (file_get_contents($full_path));
+		$to = $data['user_email'];
+		$subject = 'Offer letter';
+		// $from = 'info@drycoder.com';
+		$message = $this->load->view('mailer/offer_letter_to_user', $data, true);
+		//$mail->IsSMTP();
+		$mail->Host = 'mail.mgracesolution.com';
+		$mail->SMTPDebug = 1;
+		$mail->SMTPAuth = true;
+		$mail->SMTPSecure = "tls";
+		$mail->Port = 587;
+		$mail->Username = "testvms@mgracesolution.com";
+		$mail->Password = "smvtset@1234";
+		$mail->setFrom('testvms@mgracesolution.com');
+		$mail->FromName = $subject;
+		$mail->AddAddress($to);
+		$mail->IsHTML(true);
+		$mail->Subject = $subject;
+		$mail->addBCC('ravishankar.k@neuralinfo.org');
+		$mail->addstringAttachment($full_path, $file_name);
+		$mail->Body = $message;
+		if ($mail->Send()) {
+			return 1;
+		} else {
+			return 0;
+		}
 	}
 }

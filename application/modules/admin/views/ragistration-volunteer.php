@@ -203,7 +203,7 @@
 											} ?>
 										</tbody>
 									</table>
-									<input type="botton" id="submit3" value="Send Post Registration" class="mt-5 btn btn-warning  pull-right" id="map_button" style="padding: 1% 2% 1% 2%;">
+									<!-- <input type="botton" id="submit3" value="Send Post Registration" class="mt-5 btn btn-warning  pull-right" id="map_button" style="padding: 1% 2% 1% 2%;"> -->
 								</div>
 							</div>
 						</form>

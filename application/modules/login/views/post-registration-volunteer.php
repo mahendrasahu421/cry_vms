@@ -464,11 +464,11 @@
     <script>
         $('#step2').click(function(e) {
             let id_proof_attach = $('#id_proof_attach').val();
-            alert(id_proof_attach);
+            // /alert(id_proof_attach);
             let add_proof_attach = $('#add_proof_attach').val();
             let letter_parents_attach = $('#letter_parents_attach').val();
             let close_up_photo = $('#close_up_photo').val();
-            let letter_parents_attach = $('#letter_parents_attach').val();
+            //let letter_parents_attach = $('#letter_parents_attach').val();
             let cv_attach = $('#cv_attach').val();
             let ref_attach = $('#ref_attach').val();
             e.preventDefault();

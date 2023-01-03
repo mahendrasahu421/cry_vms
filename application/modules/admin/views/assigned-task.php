@@ -128,15 +128,17 @@
 												<option value="<?php echo $tt['task_type_id']; ?>"><?php echo $tt['task_type'] ?></option>
 											<?php } ?>
 										</select>
+										<div class="invalid-feedback">Please Select Task Type</div>
 									</div>
 									<div class="col-md-2">
 										<label for="validationCustom02" class="form-label">Select Task</label>
 									</div>
 									<div class="col-md-4">
 										<select class="form-control select2-show-search form-select" name="taskName" id="taskName" required>
-											<option>Select Task</option>
+											<option value="">Select Task</option>
 
 										</select>
+										<div class="invalid-feedback">Please Select Task</div>
 									</div>
 									<div class="col-md-2 mt-3">
 										<label for="validationCustom03" class="form-label">State</label>
@@ -146,12 +148,14 @@
 											<option label="Select State"></option>
 
 										</select>
+										<div class="invalid-feedback">Please Select State</div>
 									</div>
 									<div class="col-md-2 mt-3">
 										<label for="validationCustom04" class="form-label">Assigned Date</label>
 									</div>
 									<div class="col-md-4 mt-3">
 										<input type="date" class="form-control" name="assignDate" required value="" required>
+										<div class="invalid-feedback">Please Select Date</div>
 									</div>
 
 								</div>
@@ -251,7 +255,7 @@
 			datastr = {
 				stateName: stateName,
 				taskType: taskType,
-				 taskName: taskName
+				taskName: taskName
 			};
 
 			$.ajax({

@@ -28,17 +28,17 @@
                             <form class="needs-validation" action="<?php echo base_url(); ?>insert-program" method="post" novalidate>
                                 <div class="form-row">
                                     <div class="col-md-6 mb-3">
-                                    <?php $regionId = $this->session->userdata('region_id'); ?>
+                                        <?php $regionId = $this->session->userdata('region_id'); ?>
                                         <label class="form-label fw-bold" for="validationCustom02">Region Name</label>
                                         <select class="form-control select2-show-search form-select" name="region_id" id="region_id">
-										<option selected disabled value="">Select Region</option>
-										<?php foreach ($regions as $rd) {
-										?>
-											<option value="<?php echo $rd['region_id']; ?>" <?php if ($regionId == $rd['region_id']) {
-																								echo "selected";
-																							} ?>><?php echo $rd['region_name'] ?></option>
-										<?php } ?>
-									</select>
+                                            <option selected disabled value="">Select Region</option>
+                                            <?php foreach ($regions as $rd) {
+                                            ?>
+                                                <option value="<?php echo $rd['region_id']; ?>" <?php if ($regionId == $rd['region_id']) {
+                                                                                                    echo "selected";
+                                                                                                } ?>><?php echo $rd['region_name'] ?></option>
+                                            <?php } ?>
+                                        </select>
                                         <div class="valid-feedback">Looks good!</div>
                                     </div>
                                     <div class="col-md-6 mb-3">
@@ -62,7 +62,7 @@
                                         <div class="valid-feedback">Looks good!</div>
                                     </div>
                                     <div class="col-md-6 mb-3">
-                                        <label class="form-label fw-bold" for="validationCustom04">Program In Brife</label>
+                                        <label class="form-label fw-bold" for="validationCustom04">Program in Brief</label>
                                         <textarea type="date" maxlength="500" name="programInbrife" class="form-control" id="programInbrife" value="" placeholder="Program In Brife" required></textarea>
                                         <div class="valid-feedback">Looks good!</div>
                                     </div>
@@ -70,7 +70,7 @@
                                     <div class="col-md-6 mb-3">
                                         <label class="form-label fw-bold" for="validationCustom04">Status</label>
                                         <select class="form-control select2 form-select" name="status" id="" required>
-                                            <option selected disabled value="">Select status</option>
+                                            <option value="">Select status</option>
                                             <option value="1">Active</option>
                                             <option value="2">Inactive</option>
                                         </select>
@@ -100,13 +100,13 @@
 </div>
 </div>
 <script>
-	$(document).ready(function() {
-		let region_id = $('#region_id').val();
-		if (region_id != null) {
-			$('#region_id option:not(:selected)').attr('disabled', true);
-		}
+    $(document).ready(function() {
+        let region_id = $('#region_id').val();
+        if (region_id != null) {
+            $('#region_id option:not(:selected)').attr('disabled', true);
+        }
 
-	});
+    });
 </script>
 <script>
     $(document).ready(function() {

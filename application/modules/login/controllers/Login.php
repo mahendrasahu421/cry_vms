@@ -356,6 +356,65 @@ class Login extends MY_Controller
             echo 'Caught exception: ',  $e->getMessage(), "\n";
         }
     }
+    public function programVolunteer_insertoccupationDetails()
+    {
+        //echo "working";exit;
+        try {
+            $ProgramId = $this->input->post('ProgramId');
+            $emergency_contact = $this->input->post('emergency_contact');
+            // echo "<pre>";
+            // print_r($emergency_contact);
+            // exit;
+            $occupation = $this->input->post('occupation');
+            $otherOccupation = $this->input->post('otherOccupation');
+            $name_of_school = $this->input->post('name_of_school');
+            $designation = $this->input->post('designation');
+            $language = $this->input->post('language');
+            $Otherlanguages = $this->input->post('otherlanguage');
+            $programsInterests = $this->input->post('programsInterests');
+            $otherprogramsInterests = $this->input->post('otherprogramsInterests');
+            $commitment = $this->input->post('commitment');
+            $knowaboutCRY = $this->input->post('where_know_opportunity');
+            $where_know_opportunityBox = $this->input->post('where_know_opportunityBox');
+            $signature = $this->input->post('signature');
+            $dateofSubmission = $this->input->post('dateofSubmission');
+            $occupationDetails = array(
+                //'other_contact' => $other_contact,
+                'emergency_contact' => $emergency_contact,
+                'occupation' => $occupation,
+                'otherOccupation' => $otherOccupation,
+                'name_of_school' => $name_of_school,
+                'designation' =>  $designation,
+                'language' => $language,
+                'Otherlanguages' => $Otherlanguages,
+                'programsInterests' =>  $programsInterests,
+                'communicated_cry' => $otherprogramsInterests,
+                'start_date_internship' => $commitment,
+                'profileofProject' => $knowaboutCRY,
+                'knowaboutCRY' => $where_know_opportunityBox,
+                'signature' => $signature,
+                'dateofSubmission' => $dateofSubmission,
+
+            );
+            // echo "<pre>";
+            // print_r($occupationDetails);
+            // exit;
+            $status = array(
+                'status' => 1,
+            );
+            $where = array(
+                'id' => $ProgramId,
+            );
+            $this->Curl_model->update_data('volunteer_program_users', $status, $where);
+            if ($this->Curl_model->update_data('program_volunteer_data', $occupationDetails, $where)) {
+                return 1;
+            } else {
+                return 1;
+            }
+        } catch (Exception $e) {
+            echo 'Caught exception: ',  $e->getMessage(), "\n";
+        }
+    }
 
     public function program_volunteerbasicData()
     {
@@ -378,19 +437,20 @@ class Login extends MY_Controller
                 'first_name' => $first_name,
                 'last_name' => $last_name,
                 'age' => $age,
-                'gender' => $mobile_number,
-                'age' => $age,
                 'gender' => $gender,
+                'email' => $email,
+                'mobile' => $mobile_number,
                 'country_id' => $country,
                 'state_id' => $state_id,
                 'city_id' => $city_name,
                 'volunteer_programs' => $volunteer_programs,
                 'occupation_id' => $occupation,
                 'present_address' => $present_address,
+                'creation_date' => date('Y-m-d'),
             );
 
-            $this->Crud_modal->user_data_insert('volunteer_program_users', $basicData1);
-            //$this->Curl_model->update_data('volunteer_data', $basicData2, $where);
+            $programVolunteerid = $this->Crud_modal->program_volunteer_insert('volunteer_program_users', $basicData1);
+            echo $encoded_id = rtrim(strtr(base64_encode($programVolunteerid), '+/', '-_'), '=');
         } catch (Exception $e) {
             echo 'Caught exception: ',  $e->getMessage(), "\n";
         }
@@ -456,74 +516,59 @@ class Login extends MY_Controller
             $state_id = $this->input->post('state_id');
             $city_name = $this->input->post('city_name');
             $occupation = $this->input->post('occupation');
-            //$office_location = $this->input->post('office_location');
             $volunteering_type = $this->input->post('volunteering_type');
             // echo "<pre>";
-            // print_r($volunteering_type);exit;
+            // print_r($volunteering_type);
+            // exit;
             $where_know_opportunity = $this->input->post('where_know_opportunity');
-            $internship = $this->input->post('skill_id');
+            //$internship = $this->input->post('skill_id');
             $volunteerSkill = $this->input->post('skill_id');
+            
             $Uploade_file = $this->input->post('Uploade_file');
             $mention_past = $this->input->post('mention_past');
             $whatyou_aim = $this->input->post('whatyou_aim');
 
-
-            // echo "<pre>";
-            // print_r($office_location);
-            // exit;
-
-
-            $volunteerData = array(
-                //  'looking_for' => $looking_for,
-                'first_name' => $name,
-                'last_name' => $lname,
-                'date_of_birth' => $dob,
-                'gender' => $gender,
-                'email' => $email,
-                'mobile' => $mobile_number,
-                'country_id' => $county,
-                'state_id' => $state_id,
-                'city_id ' => $city_name,
-                'occupation_id' => $occupation,
-                //'office_location' => $office_location,
-                'vol_type_id' => $volunteering_type,
-                'volunteer_skill' => implode(",", $volunteerSkill),
-                'where_did_u_know' => implode(",", $where_know_opportunity),
-                'creation_date' => date('Y-m-d'),
-                'status' => 1,
-            );
-            // echo "<pre>";
-            // print_r($volunteerData);
-            // exit;
-            $internData = array(
-                // 'looking_for' => $looking_for,
-                'first_name' => $name,
-                'last_name' => $lname,
-                'date_of_birth' => $dob,
-                'gender' => $gender,
-                'email' => $email,
-                'mobile' => $mobile_number,
-                'country_id' => $county,
-                'state_id' => $state_id,
-                'city_id ' => $city_name,
-                'occupation_id' => $occupation,
-                //'office_location' => $office_location,
-                'skill_id' => implode(",", $internship),
-                //'cv_file' => $Uploade_file,
-                'past_volunteering' => $mention_past,
-                'what_you_aim' => $whatyou_aim,
-                'creation_date' => date('Y-m-d'),
-                'status' => 1,
-            );
-            // echo "<pre>";
-            // print_r($internData);exit;
-
             if ($looking_for == 'volunteering') {
+                $volunteerData = array(
+                    'first_name' => $name,
+                    'last_name' => $lname,
+                    'date_of_birth' => $dob,
+                    'gender' => $gender,
+                    'email' => $email,
+                    'mobile' => $mobile_number,
+                    'country_id' => $county,
+                    'state_id' => $state_id,
+                    'city_id ' => $city_name,
+                    'occupation_id' => $occupation,
+                    'vol_type_id' => $volunteering_type,
+                    'volunteer_skill' => implode(",", $volunteerSkill),
+                    'where_did_u_know' => implode(",", $where_know_opportunity),
+                    'creation_date' => date('Y-m-d'),
+                    'status' => 1,
+                );
+               
                 $this->Crud_modal->user_data_insert('volunteer', $volunteerData);
                 $this->session->set_flashdata('master_insert_message', '<div class="alert alert-warning"><strong>Registration Success!</strong> We Are Contact Soon.</div>');
                 redirect(base_url() . 'thank-you');
             } else {
 
+                $internData = array(
+                    'first_name' => $name,
+                    'last_name' => $lname,
+                    'date_of_birth' => $dob,
+                    'gender' => $gender,
+                    'email' => $email,
+                    'mobile' => $mobile_number,
+                    'country_id' => $county,
+                    'state_id' => $state_id,
+                    'city_id ' => $city_name,
+                    'occupation_id' => $occupation,
+                    'skill_id' => implode(",", $internship),
+                    'past_volunteering' => $mention_past,
+                    'what_you_aim' => $whatyou_aim,
+                    'creation_date' => date('Y-m-d'),
+                    'status' => 1,
+                );
                 $config['upload_path'] = './uploads';
                 $config['allowed_types']  = 'gif|jpg|png|pdf';
                 $new_name = time() . $_FILES["Uploade_file"]['name'];
@@ -535,14 +580,14 @@ class Login extends MY_Controller
                     $internData['cv_file'] = $file['file_name'];
 
                     $this->Crud_modal->user_data_insert('interns', $internData);
-                    $this->session->set_flashdata('master_insert_message', '<div class="alert alert-warning"><strong>Registration Success!</strong> We Are Contact Soon.</div>');
+                    //$this->session->set_flashdata('master_insert_message', '<div class="alert alert-warning"><strong>Registration Success!</strong> We Are Contact Soon.</div>');
                     redirect(base_url() . 'thank-you');
                 } else {
+
                     $error = array('error' => $this->upload->display_errors());
                     print_r($error);
                     $this->session->set_flashdata('assign_message', '<div class="danger"><strong>Oops!</strong>Error</div>');
                 }
-                //$this->Crud_modal->data_insert('interns', $internData);
             }
 
             $this->session->set_flashdata('volunteer_sing_up_msg', '<div class="alert alert-info"><strong>Success!</strong>  Migrant //sign up successfully.</div>');
@@ -683,6 +728,136 @@ class Login extends MY_Controller
         }
     }
 
+    public function program_volunteersecondinsertBasicdata()
+    {
+        $program_id = $this->input->post('ProgramId');
+        if ($_FILES['id_proof_attach'] != "") {
+            $config['upload_path'] = './programs_data/id';
+            $config['allowed_types'] = 'gif|jpg|png|doc|pdf|jpeg';
+            $config['max_size'] = 1024 * 8;
+            $new_name = time() . $_FILES["id_proof_attach"]['name'];
+            $config['file_name'] = $new_name;
+            $this->load->library('upload', $config);
+            if (!$this->upload->do_upload('id_proof_attach')) {
+                $status = 'error';
+                $msg = $this->upload->display_errors('', '');
+            } else {
+                $file = $this->upload->data();
+                $id_proof_attachvol['id_proof_attach'] = $file['file_name'];
+                $where = array(
+                    'id' => $program_id,
+                );
+                $this->Curl_model->update_data('program_volunteer_data', $id_proof_attachvol, $where);
+            }
+            echo json_encode(array('status' => $status, 'msg' => $msg));
+        }
+        if ($_FILES['add_proof_attach'] != "") {
+            $config['upload_path'] = './programs_data/address_p';
+            $config['allowed_types'] = 'gif|jpg|png|doc|pdf|jpeg';
+            $config['max_size'] = 1024 * 8;
+            $new_name = time() . $_FILES["add_proof_attach"]['name'];
+            $config['file_name'] = $new_name;
+            $this->load->library('upload', $config);
+            if (!$this->upload->do_upload('add_proof_attach')) {
+                $status = 'error';
+                $msg = $this->upload->display_errors();
+                exit;
+            } else {
+                $file = $this->upload->data();
+                $add_proof_attachvol['add_proof_attach'] = $file['file_name'];
+                $where = array(
+                    'id' => $program_id,
+                );
+                $this->Curl_model->update_data('program_volunteer_data', $add_proof_attachvol, $where);
+            }
+            echo json_encode(array('status' => $status, 'msg' => $msg));
+        }
+        if ($_FILES['letter_parents_attach'] != "") {
+            $config['upload_path'] = './programs_data/referenceLetter';
+            $config['allowed_types'] = 'gif|jpg|png|doc|pdf|jpeg';
+            $config['max_size'] = 1024 * 8;
+            $new_name = time() . $_FILES["letter_parents_attach"]['name'];
+            $config['file_name'] = $new_name;
+            $this->load->library('upload', $config);
+            if (!$this->upload->do_upload('letter_parents_attach')) {
+                $status = 'error';
+                $msg = $this->upload->display_errors();
+                exit;
+            } else {
+                $file = $this->upload->data();
+                $letter_parents_attachvol['letter_parents_attach'] = $file['file_name'];
+                $where = array(
+                    'id' => $program_id,
+                );
+                $this->Curl_model->update_data('program_volunteer_data', $letter_parents_attachvol, $where);
+            }
+            echo json_encode(array('status' => $status, 'msg' => $msg));
+        }
+        if ($_FILES['close_up_photo'] != "") {
+            $config['upload_path'] = './programs_data/closePic';
+            $config['allowed_types'] = 'gif|jpg|png|doc|pdf|jpeg';
+            $config['max_size'] = 1024 * 8;
+            $new_name = time() . $_FILES["close_up_photo"]['name'];
+            $config['file_name'] = $new_name;
+            $this->load->library('upload', $config);
+            if (!$this->upload->do_upload('close_up_photo')) {
+                $status = 'error';
+                $msg = $this->upload->display_errors();
+                exit;
+            } else {
+                $file = $this->upload->data();
+                $close_up_photovol['close_up_photo'] = $file['file_name'];
+                $where = array(
+                    'id' => $program_id,
+                );
+                $this->Curl_model->update_data('program_volunteer_data', $close_up_photovol, $where);
+            }
+            echo json_encode(array('status' => $status, 'msg' => $msg));
+        }
+        if ($_FILES['cv_attach'] != "") {
+            $config['upload_path'] = './programs_data/cvvv';
+            $config['allowed_types'] = 'gif|jpg|png|doc|pdf|jpeg';
+            $config['max_size'] = 1024 * 8;
+            $new_name = time() . $_FILES["cv_attach"]['name'];
+            $config['file_name'] = $new_name;
+            $this->load->library('upload', $config);
+            if (!$this->upload->do_upload('cv_attach')) {
+                $status = 'error';
+                $msg = $this->upload->display_errors();
+                exit;
+            } else {
+                $file = $this->upload->data();
+                $cv_attachvol['cv_attach'] = $file['file_name'];
+                $where = array(
+                    'id' => $program_id,
+                );
+                $this->Curl_model->update_data('program_volunteer_data', $cv_attachvol, $where);
+            }
+            echo json_encode(array('status' => $status, 'msg' => $msg));
+        }
+        if ($_FILES['ref_attach'] != "") {
+            $config['upload_path'] = './programs_data/referenceLetter';
+            $config['allowed_types'] = 'gif|jpg|png|doc|pdf|jpeg';
+            $config['max_size'] = 1024 * 8;
+            $new_name = time() . $_FILES["ref_attach"]['name'];
+            $config['file_name'] = $new_name;
+            $this->load->library('upload', $config);
+            if (!$this->upload->do_upload('ref_attach')) {
+                $status = 'error';
+                $msg = $this->upload->display_errors();
+                exit;
+            } else {
+                $file = $this->upload->data();
+                $ref_attachvol['ref_attach'] = $file['file_name'];
+                $where = array(
+                    'id' => $program_id,
+                );
+                $this->Curl_model->update_data('program_volunteer_data', $ref_attachvol, $where);
+            }
+            echo json_encode(array('status' => $status, 'msg' => $msg));
+        }
+    }
+
     public function email_ajax_check()
     {
         $data['email_exsist'] = $this->LoginModel->email_exsist();
@@ -698,6 +873,7 @@ class Login extends MY_Controller
     public function create_emailOtp()
     {
         $email = $this->input->post('VOLUNTEEREMAIL');
+        //print_r($email);exit;
         $length = 4;
         $to = $email;
         $keys = array_merge(range(0, 9), range(0, 9));
@@ -706,7 +882,8 @@ class Login extends MY_Controller
         for ($i = 0; $i < $length; $i++) {
             $key .= $keys[mt_rand(0, count($keys) - 1)];
         }
-        //echo $key;exit;
+        // print_r($key);
+        // exit;
         echo  $this->preregistration_sendMail($key, $to);
     }
 
@@ -750,6 +927,7 @@ class Login extends MY_Controller
             $data['allvolunteersData'] = $this->LoginModel->allDatavolunteers($val);
             $data['occupation'] = $this->Crud_modal->fetch_all_data('*', 'occupation', 'status= 1', 'occupation_name ASC');
             $data['volunteer_programs'] = $this->Crud_modal->fetch_all_data('*', 'program_volunteer', 'status= 1', 'occupation_name ASC');
+            $data['volunteer_programs_user'] = $this->Crud_modal->fetch_all_data('*', 'volunteer_program_users', 'status= 1');
             // echo "<pre>";
             // print_r($data['volunteer_programs']);exit;
             $data['opportunity'] = $this->Crud_modal->fetch_all_data('*', 'opportunity', 'opportunity_status= 1', 'opportunity_name ASC');
@@ -757,63 +935,6 @@ class Login extends MY_Controller
             $data['countries'] = $this->Crud_modal->fetch_all_data('*', 'countries', 'status= 1', 'Name ASC');
             $data['state'] = $this->Crud_modal->all_data_select('*', 'states', 'status=1 and state_id !=45', 'state_name ASC');
             $this->load->view('volunteer-programs', $data);
-        } catch (Exception $e) {
-            echo 'Caught exception: ',  $e->getMessage(), "\n";
-        }
-    }
-
-    public function insert_volunteer_programs()
-    {
-        try {
-            //   $VolProgramId = $this->input->post('ProgramId');
-            //   $val =  base64_encode( $VolProgramId );
-
-            $name = $this->input->post('first_name');
-            $lname = $this->input->post('last_name');
-            $age = $this->input->post('age');
-            $gender = $this->input->post('gender');
-            $email = $this->input->post('email');
-            $mobile_number = $this->input->post('mobile_number');
-            // $encoded_mob = rtrim(strtr(base64_encode($mobile_number), '+/', '-_'), '=');
-            $country = $this->input->post('country');
-            $state_id = $this->input->post('state_id');
-            $city_name = $this->input->post('city_name');
-            $school = $this->input->post('school');
-            $board = $this->input->post('board');
-            $grade = $this->input->post('grade');
-            $about_this_program = $this->input->post('about_this_program');
-            $what_made_you = $this->input->post('what_made_you');
-            $volunteer_programs = $this->input->post('volunteer_programs');
-            // echo "<pre>";
-            // print_r($volunteer_programs);exit;
-            $volunteerData = array(
-                //'looking_for' => $looking_for,
-                'first_name' => $name,
-                'last_name' => $lname,
-                'age' => $age,
-                'gender' => $gender,
-                'email' => $email,
-                'mobile' => $mobile_number,
-                'country_id' => $country,
-                'state_id' => $state_id,
-                'city_id ' => $city_name,
-                'name_of_school' => $school,
-                'which_board' => $board,
-                'grade' => $grade,
-                'about_this_program' => $about_this_program,
-                'what_made_you' => $what_made_you,
-                'volunteer_programs' => $volunteer_programs,
-                //'creation_date' => date('Y-m-d'),
-                'status' => 1,
-            );
-            // echo "<pre>";
-            // print_r($volunteerData);
-            // exit;
-            $this->Crud_modal->data_insert('volunteer_program_users', $volunteerData);
-            $this->session->set_flashdata('master_insert_message', '<div class="alert alert-warning"><strong>Registration Success!</strong> We Are Contact Soon.</div>');
-            redirect(base_url() . 'login');
-            $this->session->set_flashdata('volunteer_sing_up_msg', '<div class="alert alert-info"><strong>Success!</strong>  Migrant //sign up successfully.</div>');
-            redirect(base_url() . 'login');
         } catch (Exception $e) {
             echo 'Caught exception: ',  $e->getMessage(), "\n";
         }
@@ -1696,5 +1817,21 @@ class Login extends MY_Controller
     {
 
         $this->load->view('thank-you');
+    }
+    public function progrmaVolunteer_thankYou()
+    {
+        $data['val'] = $this->uri->segment(2);
+        $this->load->view('progrmaVolunteer-thankYou', $data);
+    }
+    public function program_volunteerFulldetails()
+    {
+        $fullDetails = $this->uri->segment(2);
+        $val = base64_decode(str_pad(strtr($fullDetails, '-_', '+/'), strlen($fullDetails) % 4, '=', STR_PAD_RIGHT));
+        $where = "id = '$val'";
+        $data['opportunity'] = $this->Crud_modal->fetch_all_data('*', 'opportunity', 'opportunity_status= 1', 'opportunity_name ASC');
+        $data['programvolunteerFulldetails'] = $this->Crud_modal->all_data_select('*', 'volunteer_program_users', $where, 'id desc');
+        // echo "<pre>";
+        // print_r($data['programvolunteerFulldetails']);exit;
+        $this->load->view('program-volunteerFulldetails', $data);
     }
 }

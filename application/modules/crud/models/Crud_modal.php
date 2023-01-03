@@ -261,12 +261,31 @@ class Crud_modal extends CI_model
 		try {
 			$this->db->initialize();
 			$insert = $this->db->insert($bl_name, $field);
-			$uid['volunteer_id	'] = $this->db->insert_id();
+			$uid['volunteer_id'] = $this->db->insert_id();
 			$this->db->insert('volunteer_data', $uid);
 
 			if ($insert == 1) {
 				//$this->db->close();	
 				return $uid['uid'];
+			} else {
+				//$this->db->close();	
+				return 0;
+			}
+		} catch (Exception $e) {
+			echo 'Caught exception: ',  $this->$e->getMessage(), "\n";
+		}
+	}
+	function program_volunteer_insert($bl_name, $field)
+	{
+		try {
+			$this->db->initialize();
+			$insert = $this->db->insert($bl_name, $field);
+			$uid['id'] = $this->db->insert_id();
+			$this->db->insert('program_volunteer_data', $uid);
+
+			if ($insert == 1) {
+				//$this->db->close();	
+				return $uid['id'];
 			} else {
 				//$this->db->close();	
 				return 0;

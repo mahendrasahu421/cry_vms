@@ -17,10 +17,14 @@
 
                         <div class="col-md-12 " style="text-align: left;">
                             <div class="col-md-3" style="padding-left: 1%;">
-                                <h4 style="margin-top: 17px; font-weight: 600">Mahendra Sahu</h4>
+                                <h4 style=" font-weight: 600;margin-top: 20px;"><?php echo $interuser['first_name'].$interuser['last_name']?></h4>
                             </div>
                             <div class="col-md-9">
-                                <span><a href="javascript:void(0)" id="job_view">View CV</a></span>
+							<?php if($interuser['cv_file']==NULL){ ?>
+								<span><a href="#" >NA</a></span> 
+							<?php } else{ ?>
+								<span><a href="<?php echo base_url(); ?>uploads/<?php echo $interuser['cv_file'];?>" target="_blank" >View CV</a></span>
+							<?php } ?>
                             </div>
                         </div>
 
@@ -29,23 +33,36 @@
                                 <table class="table">
                                     <tbody>
                                         <tr>
-                                            <td class="tdhead">DOB</td>
-                                            <td>03/05/1998</td>
+                                            <td class="tdhead">DOB </td>
+                                            <td><?php echo date("d-m-Y",strtotime($interuser['date_of_birth'])); ?></td>
                                             <td class="tdhead">State</td>
-                                            <td>Uttar Pradesh</td>
+                                            <td><?php $state_id = $interuser['state_id']; 
+                                               $statei = $this->Crud_modal->fetch_single_data("state_name","states","state_id='$state_id'");
+												echo $statei['state_name']; ?></td>
                                         </tr>
                                         <tr>
                                             <td class="tdhead">Email</td>
-                                            <td style="width: 25%">mahi421@gmail.com</td>
+                                            <td style="width: 25%"><?php echo $interuser['email']; ?></td>
                                             <td class="tdhead">City</td>
-                                            <td>
-                                                Kanpur
+                                            <td><?php $city_id = $interuser['city_id']; 
+                                               $cityi = $this->Crud_modal->fetch_single_data("city_name","cities","city_id='$city_id'");
+												echo $cityi['city_name']; ?>
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td class="tdhead">
-                                                Skill</td>
-                                            <td style="width: 25%">Programing,devlopment</td>
+                                            <td class="tdhead">Skill</td>
+												<?php
+												  if($interuser['skill_id']!=''){
+												  $skill_name=explode(',', $interuser['skill_id']);
+												  for($i=0;$i<sizeof($skill_name);$i++){
+													 $assig_name =$this->Crud_modal->fetch_single_data("(skill_name) as name","skills","skill_id='$skill_name[$i]'");?>
+													<td ><?php echo $assig_name['name'].(($i+1)<sizeof($skill_name) ? ", " :"");?> </td>                                            
+												 <?php }
+												  }else{?>
+													 <td style="width: 25%"><?php echo "NA";?></td>
+												 <?php }                                        
+												  ?> 
+                                           
                                         </tr>
                                     </tbody>
                                 </table>
@@ -344,73 +361,147 @@
                         <div class="content-wrapper" style="background-color:#f4f4f4; border:none;height: 1000px">
                             <div class="row">
                                 <div class="col-lg-12">
+								
+								 <?php $process_step_short= $interuser['status'];
+								 $process_step= $user_schedule['job_process_step'];?>
                                     <div class="">
                                         <div class="process">
                                             <div class="process-row nav nav-tabs">
                                                 <div class="process-step" style="width: 20%;">
                                                     <button type="button" class="btn btn-success btn-circle" disabled><i class="fa fa-file fa-3x"></i></button>
                                                     <p><small><strong>Submission</strong></small>
-                                                        <br> <small>Date: 14/03/2019</small>
-                                                        <br> <small>Time: 10:33 AM </small>
+                                                        <br> <small>Date: <?php echo $interuser['creation_date']; ?></small>   
                                                     </p>
                                                 </div>
-                                                <!-- ##################################################      submission div     #####################################################  -->
+                                                <!-- ###########    submission div     ###########  -->
+												<?php $intern_id = $interuser['intern_id']; ?>
+												<?php
+													if($process_step_short[0]<=1){
+													   $bnt_disable=''; 
+													   if($process_step_short[0]==0){
+														  $bnt_color= ($process_step_short[1]==0 ? "btn-info" : "");
+														  $bnt_disable=($process_step_short[1]==0 ? "" : "disabled");
+													   }else{
+														  $bnt_color="btn-danger";
+														   $bnt_disable="disabled";
+													   }
+													}else{
+													   $bnt_color="btn-success";
+													   $bnt_disable="disabled";
+													}                            
+												 ?>
                                                 <div class="process-step" style="width: 20%;">
-                                                    <button type="button" class="btn btn-circle process_btn btn-info"><i class="fa fa-check fa-3x"></i></button>
+                                                     <button type="button" class="btn btn-circle process_btn <?php echo $bnt_color?>"  ><i class="fa fa-check fa-3x"></i></button>
                                                     <p>
                                                         <small><strong>Shortlist</strong></small>
+														<?php $can=$this->Crud_modal->check_numrow("interns","intern_id='$intern_id'");
+														   $disabl='';
+														   if($can>0){
+															  $disabl='disabled';
+														   }
+														?>
                                                         <br>
-                                                        <input type="radio" class="demo4" name="short_radio" value="Shortlisted">Shortlisted
-                                                        <input type="radio" class="demo4" name="short_radio" value="Not Shortlisted">Not Shortlisted
+                                                        <input type="radio" class="demo4 me-1" name="short_radio" <?php echo ($interuser['status'][0]>1 ? "checked=checked" : '' );  ?> value="Shortlisted">Shortlisted
+                                                        <input type="radio" class="demo4 me-1" name="short_radio" <?php echo ($interuser['status'][0]==0 ? "checked=checked" : '' );  ?> value="Not Shortlisted">Not Shortlisted
                                                     </p>
-                                                    <button class="btn btn-info shortlist_email" title="Email"><i class="fa fa-paper-plane" aria-hidden="true"></i></button>
+                                                    <button class="btn btn-info shortlist_email" <?php echo($interuser['status'][0]>1 ? ($interuser['status'][0]>1 ?'disabled' : '') : '' ); echo $disabl; ?> title="Email"><i class="fa fa-paper-plane" aria-hidden="true"></i></button>
                                                 </div>
-                                                <!-- ##################################################      Shortlisted div     #####################################################  -->
+                                                <!-- ############   End Shortlisted div     ################## -->
                                                 <div class="process-step" style="width: 20%;">
-                                                    <button type="button" class="btn btn-default btn-circle process_btn" disabled><i class="fa fa-calendar fa-3x"></i></button>
+												<?php
+													if($process_step[0]<=3){
+													   $bnt_disable=''; 
+													   if($process_step[0]==3){
+														  $bnt_color= ($process_step[1]==0 ? "btn-info" : "");
+														  $bnt_disable=($process_step[1]==0 ? "" : "disabled");
+													   }else{
+														  $bnt_color="btn-default";
+														  $bnt_disable="disabled";
+													   }
+													}else{
+													   $bnt_color="btn-success";
+													   $bnt_disable="disabled";
+													}                            
+												 ?>
+                                                    <button type="button" class="btn <?php echo $bnt_color?> btn-circle process_btn" <?php echo $bnt_disable ?> ><i class="fa fa-calendar fa-3x"></i></button>
                                                     <p>
                                                         <strong>Interview</strong>
 
                                                         <br>
                                                     </p>
                                                     <br>
-                                                    <button class="btn btn-info interview_final_mail" title="Email"><i class="fa fa-paper-plane" aria-hidden="true"></i>
+                                                   <button class="btn btn-info interview_final_mail" 
+													 title="Email"><i class="fa fa-paper-plane" aria-hidden="true"></i></button>
 
                                                 </div>
 
                                                 <!-- ##################################################      Interview div     #####################################################  -->
                                                 <div class="process-step" style="width: 20%;">
-                                                    <button type="button" class="btn btn-default btn-circle process_btn" disabled><i class="fa fa-file-text-o fa-3x"></i></button>
+												<?php
+													if($process_step[0]<=4){
+													   $bnt_disable=''; 
+													   if($process_step[0]==4){
+														  $bnt_color= ($process_step[1]==0 ? "btn-info" : "");
+														  $bnt_disable=($process_step[1]==0 ? "" : "disabled");
+													   }else{
+														  $bnt_color="btn-default";
+														  $bnt_disable="disabled";
+													   }
+													}else{
+													   $bnt_color="btn-success";
+													   $bnt_disable="disabled";
+													}                            
+												 ?>
+                                                    <button type="button" class="btn <?php echo $bnt_color?> btn-circle process_btn" <?php echo $bnt_disable ?>><i class="fa fa-file-text-o fa-3x"></i></button>
                                                     <p>
                                                         <strong>Offer</strong>
-                                                    <form enctype="multipart/form-data" action="" method="post" style="margin-bottom: 10px;">
-                                                        <h6 style="font-weight: 600">Upload offer letter here</h6>
-                                                        <p style="margin-left: 20%;margin-bottom: 0px !important;">
-                                                            <input type="file" name="pdfFile" class="process_btn" accept=".pdf" />
-                                                        </p>
-                                                    </form>
-                                                    <button type="button" class="btn btn-info send_offer_letter" disabled>Send offer letter <i class="fa fa-paper-plane" aria-hidden="true"></i></button>
-                                                    <button type="button" class="btn btn-danger send_offer_letter" disabled>Close <i class="fa fa-ban" aria-hidden="true"></i></button>
+                                                    <form enctype="multipart/form-data" action="" method="post" style="margin-bottom: 10px;" id="offer_letter_form">
+													   <h6 style="font-weight: 600">Upload offer letter here</h6>
+													   <p style="margin-left: 20%;margin-bottom: 0px !important;">
+														  <input type="file" id="offer_letter" name="offer_letter" class="process_btn" accept=".pdf"  />
+													   </p>
+													</form>
+													<button type="button" class="btn btn-info send_offer_letter" >Send offer letter <i class="fa fa-paper-plane" aria-hidden="true"></i></button>
                                                     </p>
                                                 </div>
                                                 <!-- ##################################################      Placed  div     #####################################################  -->
                                                 <div class="process-step">
-                                                    <button type="button" class="btn btn-default btn-circle" disabled><i class="fa fa-industry fa-3x"></i></button>
-                                                    <p>
-                                                        <strong>Placed</strong>
-                                                    </p>
-                                                    <input type="radio" name="Join_radio" value="Join">Join
-                                                    <input type="radio" name="Join_radio" value="Not Join">Not
-                                                    Join
+                                                     <?php
+														if($process_step[0]<=5){
+														   $bnt_disable=''; 
+														   if($process_step[0]==5){
+															  $bnt_color= ($process_step[1]==0 ? "btn-info" : "");
+															  $bnt_disable=($process_step[1]==0 ? "" : "disabled");
+														   }else{
+															  $bnt_color="btn-default";
+															  $bnt_disable="disabled";
+														   }
+														}else{
+														   $bnt_color="btn-success";
+														   $bnt_disable="disabled";
+														}
+														$bnt_addtion_disable='';
+														if($process_step[0]<5){
+														   $bnt_addtion_disable="disabled"; 
+														}
+
+
+													 ?>
+													 <button type="button" class="btn <?php echo $bnt_color?> btn-circle" <?php echo $bnt_disable ?> ><i class="fa fa-industry fa-3x"></i></button>
+													 <p>
+														<strong>Placed</strong>
+													 </p>
+                                                     <input type="radio"  name="Join_radio" value="Join">Join
+													<input type="radio"  name="Join_radio" value="Not Join">Not Join
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                     <div>
                                         <div class="row row-sm">
-                                            <div class="col-lg-12">
+                                            <div class="col-lg-12 card">
 
-                                                <div class="card-body">
+                                                <div class="">
                                                     <div class="table-responsive ">
                                                         <table id="example" class="display" cellspacing="0" width="100%">
                                                             <thead>
@@ -424,7 +515,6 @@
                                                                     <th style="background: #f7b731;"></th>
                                                                     <th style="background: #f7b731;"></th>
                                                                     <th style="background: #f7b731; color:#000;">Save & send mail</th>
-                                                                    <th style="background: #f7b731;"></th>
                                                                 </tr>
                                                                 <tr class="bg-gray-light">
                                                                     <th style="color:#000">Round</th>
@@ -434,12 +524,11 @@
                                                                     <th style="color:#000">Venue</th>
                                                                     <th style="color:#000">Status</th>
                                                                     <th style="color:#000">Comment</th>
-                                                                    <th style="color:#000">Save & send mail</th>
-                                                                    <th style="color:#000"></th>
+                                                                    <th class="w-15" style="color:#000">Save & send mail</th>
                                                                 </tr>
                                                             </thead>
                                                             <tbody id="tdd">
-
+																<?php if(empty($user_schedule)){  ?> 
                                                                 <tr>
                                                                     <td style="color:#000; line-height: 32px;font-weight: 600;">R1</td>
                                                                     <td style="line-height: 32px;">
@@ -462,14 +551,13 @@
                                                                         </div>
                                                                     </td>
                                                                     <td>
-                                                                        <textarea style="color:#000;" name="venue" class="form-control venue" placeholder="Venue" disabled>   City: Kanpur    State: Uttar Pradesh</textarea>
+                                                                        <textarea style="color:#000;" name="venue" class="form-control venue" placeholder="Venue" disabled >  <?php echo "City: ".$cityi['city_name']."   State: ".$statei['state_name']?></textarea>
                                                                     </td>
                                                                     <td></td>
                                                                     <td></td>
                                                                     <td>
                                                                         <button class="btn btn-info save_schedule" type="button" title="Save"><i class="fa fa-paste"></i> </button>
                                                                         <button class="btn btn-info mail_schedule" type="button" title="Email"><i class="fa fa-paper-plane" aria-hidden="true"></i></button>
-                                                                        <button class="btn btn-danger mail_schedule" type="button" title="Email"><i class="fa fa-ban" aria-hidden="true"></i></button>
                                                                         <style>
                                                                             .reject {
                                                                                 margin-left: 70%;
@@ -478,8 +566,98 @@
                                                                         </style>
 
                                                                     </td>
-                                                                    <td></td>
+																	
                                                                 </tr>
+																<?php } else{
+																$i =1;  
+																 foreach($user_schedule as $u_schedule){?>
+																 <tr>
+															   <td style="line-height: 32px;font-weight: 600;">R<?php echo $i++;?></td>
+															   <td style="line-height: 32px;">
+																  <select style="color:#000; margin-top: 1%" class="form-control mode" <?php echo ($u_schedule['mode']!="" ? "disabled" : '' )?>>
+																	 <option value="">Select mode</option>
+																	 <option value="On Call" <?php echo ($u_schedule['mode']=="On Call" ? "selected=selected" : '' )?> >On Call</option>
+																	 <option value="Face to Face" <?php echo ($u_schedule['mode']=="Face to Face" ? "selected=selected" : '' )?> >Face to Face</option>
+																	 <option value="Skype" <?php echo ($u_schedule['mode']=="Skype" ? "selected=selected" : '' )?> >Skype</option>
+																  </select>
+															   </td>
+															   <td>
+																  <input type="text" data-role="date" style="color:#000" name="schedule_date" <?php echo ($u_schedule['schedule_date_time']!="0000-00-00 00:00:00" ? "disabled" : '' )?> class="form-control dob_cafc_interview schedule_date" value="<?php if($u_schedule['schedule_date_time']!="0000-00-00 00:00:00"){ echo date("m/d/Y",strtotime($u_schedule['schedule_date_time'])); }?>" placeholder="MM/DD/YYYY">
+																  <span style="display:none;color:red" class="erorr">Date must be greater then previous schedule date</span>
+																  <span style="display:none;color:red" class="schedule_error"></span>
+															   </td>
+															   <td>
+																  <div class="input-group clockpicker" data-autoclose="true" style="color:#000;">
+																	 <input type="text" class="form-control schedule_time" placeholder="09:30" name="schedule_time" <?php echo ($u_schedule['schedule_date_time']!="0000-00-00 00:00:00" ? "disabled" : '' )?> value="<?php if($u_schedule['schedule_date_time']!="0000-00-00 00:00:00"){echo date("H:i",strtotime($u_schedule['schedule_date_time'])); }?>">
+																  </div>
+															   </td>
+															   <td>
+																  <textarea  style="color:#000;" name="venue" class="form-control venue" placeholder="Venue" disabled ><?php if($u_schedule['venue']=='' ){
+																		echo "City: ".$cityi['city_name']."State: ".$statei['state_name'];
+																	 }else{
+																		echo $u_schedule['venue'];
+																	 }
+																	 ?></textarea>
+															   </td>
+															   <td>
+
+																  <?php if($u_schedule['schedule_date_time']!='0000-00-00 00:00:00') {
+																	 $button_disable='';
+																	 if(sizeof($user_schedule)==($i-1)){
+																		   if($process_step[0]>4){
+																			  $button_disable="disabled";
+																		   }
+																	 }else{
+																		$button_disable="disabled";
+																	 }            
+									 ?>
+																  <select style="color:#000;" class="form-control interview_status" name="interview_status" <?php echo $button_disable?>>
+																	 <option value="">Select status</option>
+																	 <?php foreach($step_name as $step){
+																		$sel='';
+																		if($u_schedule['round_status']==$step['step_id']){
+																		   $sel="selected=selected";
+																		}
+																		?>                                 
+																	 <option value="<?php echo $step['step_id']?>" <?php echo $sel?>><?php echo $step['step_name']?></option>
+																	 <?php }?>
+																  </select>
+																  <?php }?>
+															   </td>
+															   <td>
+																  <?php if($u_schedule['schedule_date_time']!='0000-00-00 00:00:00') {?>
+																	 <textarea class="form-control comment" <?php echo $button_disable?> ><?php echo $u_schedule['comment']?></textarea>
+																  <?php }?>
+															   </td>
+															   <td>
+																  <?php $save_mail_button=''; 
+
+																	 if(sizeof($user_schedule)==($i-1)){
+																		   if($process_step[0]==3){
+																			  $save_mail_button="";
+																		   }
+																	 }else{
+																		$save_mail_button="disabled";
+																	 }?>
+																  <input type="hidden" value="<?php echo $u_schedule['schedule_id']?>">
+																  
+																  <button class="btn btn-info <?php echo ($u_schedule['schedule_date_time']=='0000-00-00 00:00:00' ? "save_schedule" : "save_btn_action") ?> "  title="Save" data-action="" <?php echo $save_mail_button;  echo($process_step[0]>4 ? "disabled" : '') ?> ><i class="fa fa-paste"></i> </button>
+																  <?php
+																	 $resudule_data_aciton=''; 
+																	 $disabl_mail='';
+																	 if($u_schedule['round_status']==0 && $u_schedule['comment']!=''){
+																		$resudule_data_aciton='interview_reschedule_mail';
+																	 }else{
+																		$disabl_mail='disabled';
+																	 }
+																  ?>
+																  <button class="btn btn-info mail_btn_action" data-action="<?php echo $resudule_data_aciton ?>" title="Email" <?php echo $save_mail_button.' '.($process_step[0]>4 ? "disabled":''); //echo $disabl_mail;  ?>   ><i class="fa fa-paper-plane" aria-hidden="true"></i></button>
+															   </td>
+															   <td>  
+																  <!-- <input type="button" class="add-row add-btn" value="+"> -->
+															   </td>
+															</tr>
+														  <?php   }}?>
                                                             </tbody>
                                                         </table>
                                                     </div>
@@ -497,17 +675,18 @@
                             <div class="modal-dialog">
                                 <!-- Modal content-->
                                 <div class="modal-content">
-                                    <div class="modal-header">
-                                        <button type="button" class="close cancel_short" data-dismiss="modal">&times;</button>
+                                    <div class="modal-header bg-warning">
+										<h5>Shortlisted</h5>
+                                        <button type="button" class="close cancel_short pull-right" data-bs-dismiss="modal">&times;</button>
                                     </div>
                                     <div class="modal-body">
                                         <h2>Are you sure?</h2>
                                         <p style="display: block;">You want to shortlist.</p>
-                                        <div class="sa-button-container" style="margin-top: 10%;">
-                                            <a class="button cancel_short" data-dismiss="modal" style="box-shadow: none;border: 1px solid red;color: #fff;border-radius: 3px;padding: 10px;background-color: red;">No</a>
-                                            <a class="confirm" id="confirm_short" style="background-color: rgb(221, 107, 85);border: 1px solid #009688;color: #fff;padding: 10px; border-radius: 3px;box-shadow: none;">Yes</a>
-                                        </div>
                                     </div>
+									<div class="modal-footer">
+										<div class="text-center confirm" id="confirm_short" ><button type="button" class="btn btn-primary fs-14" data-bs-dismiss="modal">Yes</button></div>
+										<div class="text-center cancel_short"><button type="button" class="btn btn-default fs-14" data-bs-dismiss="modal">NO</button></div>
+									</div>
                                 </div>
                             </div>
                         </div>
@@ -516,60 +695,25 @@
                             <div class="modal-dialog">
                                 <!-- Modal content-->
                                 <div class="modal-content">
-                                    <div class="modal-header">
-                                        <button type="button" class="close cancel_short" data-dismiss="modal">&times;</button>
+                                    <div class="modal-header bg-warning">
+										<h5>Not Shortlisted</h5>
+                                        <button type="button" class="close cancel_short" data-bs-dismiss="modal">&times;</button>
                                     </div>
                                     <div class="modal-body">
                                         <h2>Are you sure?</h2>
                                         <p style="display: block;">You want to reject it.</p>
-                                        <div class="sa-button-container" style="margin-top: 10%;">
-                                            <a class="button cancel_short" data-dismiss="modal" style="box-shadow: none;border: 1px solid red;color: #fff;border-radius: 3px;padding: 10px;background-color: red;">No</a>
-                                            <a class="confirm" id="confirm_reject" style="background-color: rgb(221, 107, 85);border: 1px solid #009688;color: #fff;padding: 10px; border-radius: 3px;box-shadow: none;">Yes</a>
-                                        </div>
                                     </div>
-
-                                </div>
-                            </div>
-                        </div>
-
-                        <div id="job_detail_model" class="modal fade" role="dialog">
-                            <div class="modal-dialog" style="width: 70%">
-                                <!-- Modal content-->
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                    </div>
-                                    <div class="modal-body" style="padding: 0px 30px 30px 30px;"></div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                    </div>
+									<div class="modal-footer">
+										<div class="text-center confirm" id="confirm_reject"><button type="button" class="btn btn-primary fs-14" data-bs-dismiss="modal">Yes</button></div>
+										<div class="text-center cancel_short"><button type="button" class="btn btn-default fs-14" data-bs-dismiss="modal">NO</button></div>
+									</div>
                                 </div>
                             </div>
                         </div>
 
                     </div>
                     <!-- end  new popup -->
-                    <script type="text/javascript">
-                        var a;
-                        $('.demo4').click(function() {
-                            a = $(this).parent().parent().attr('data-val');
-                            swal({
-                                title: "Are you sure?",
-                                text: "Do you really want to logout!",
-                                type: "warning",
-                                showCancelButton: true,
-                                confirmButtonColor: "#DD6B55",
-                                closeOnConfirm: false
-                            });
-
-                        });
-
-                        $(".confirm").click(function() {
-                            window.location = a;
-                        });
-                    </script>
-                    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script> -->
-
+                   
                     <!-- <script>
                         var $j = $.noConflict(true);
                         $j('.clockpicker').clockpicker();
@@ -593,7 +737,7 @@
                             var date_value = date_picker_object.val();
                             $.ajax({
                                 type: "post",
-                                url: " https://drycoder.com/employer/employer/get_same_day_schedule_user_count",
+                                url: " <?php echo base_url(); ?>get_same_day_schedule_user_count",
                                 data: {
                                     date_value: date_value
                                 },
@@ -609,43 +753,6 @@
                     </script>
 
                     <script type="text/javascript">
-                        // show job detail 
-                        $("#job_view").click(function() {
-                            $.ajax({
-                                type: "post",
-                                url: " https://drycoder.com/employer/employer/job_desc_view_ajax",
-                                data: {
-                                    job_id: "312"
-                                },
-                                dataType: "html",
-                                success: function(datas) {
-                                    $("#job_detail_model").modal('show');
-                                    $("#job_detail_model").find('.modal-body').html(datas);
-                                },
-                                error: function() {
-                                    alert("Something went wrong");
-                                }
-                            });
-                        });
-
-                        $("#candidate_view").click(function() {
-                            $.ajax({
-                                type: "post",
-                                url: " https://drycoder.com/employer/employer/candidate_full_detail_ajax",
-                                data: {
-                                    candidate_id: "3928"
-                                },
-                                dataType: "html",
-                                success: function(datas) {
-                                    $("#job_detail_model").modal('show');
-                                    $("#job_detail_model").find('.modal-body').html(datas);
-                                },
-                                error: function() {
-                                    alert("fail");
-                                }
-                            });
-                        });
-
                         // conformation of shortlist is cancel 
                         $(".cancel_short").click(function() {
                             $("input[name=short_radio]").each(function() {
@@ -654,9 +761,9 @@
                         });
                         // conformation of shortlist is confirm
                         $("#confirm_short").click(function() {
-                            $.post("https://drycoder.com/employer/employer/shortlist_status_update", {
-                                applied_id: "202",
-                                status: 0
+                            $.post("<?php echo base_url(); ?>shortlist_status_update", {
+								intern_id: "<?php echo $interuser['intern_id']?>",
+                                status: 2
                             }, function(data) {
                                 if (data == false) {
                                     alert("Something went wrong");
@@ -671,9 +778,9 @@
                             });
                         });
                         $("#confirm_reject").click(function() {
-                            $.post("https://drycoder.com/employer/employer/shortlist_status_update", {
-                                applied_id: "202",
-                                status: 1
+                            $.post("<?php echo base_url(); ?>shortlist_status_update", {
+								intern_id: "<?php echo $interuser['intern_id']?>",
+                                status: 0
                             }, function(data) {
                                 if (data == false) {
                                     alert("Something went wrong");
@@ -739,20 +846,19 @@
                                 if (mode != '' && schedule_date != '' && schedule_time != '' && venue_cout == 0) {
                                     $.ajax({
                                         method: "post",
-                                        url: "https://drycoder.com/employer/employer/save_job_schedule_data",
+                                        url: "<?php echo base_url(); ?>save_interview_schedule_data",
                                         data: {
                                             'mode': mode,
                                             'schedule_date': schedule_date,
                                             'schedule_time': schedule_time,
                                             'venue': venue,
                                             'round': round + 1,
-                                            job_id: "312",
-                                            candidate_id: "3928",
-                                            schedule_id: schedule_id
+											'intern_id':<?php echo $interuser['intern_id']?>,
+                                            'schedule_id': schedule_id
                                         },
                                         success: function(datas) {
                                             window.location.reload();
-
+									
                                         },
                                         error: function() {
                                             alert("Something went wrong");
@@ -834,12 +940,11 @@
 
                                     if (comment_object.val() != '') {
                                         var in_data = {
-                                            applied_id: "202",
                                             "comment": comment_object.val(),
                                             "status": interview_status_object.val(),
                                             "schedule_id": schedule_id
                                         };
-                                        var link = 'https://drycoder.com/employer/employer/clear_interview';
+                                        var link = '<?php echo base_url(); ?>clear_interview';
                                         ajax_function(in_data, link);
                                     } else {
                                         comment_object.focus();
@@ -855,11 +960,10 @@
                                             "comment": comment_object.val(),
                                             "status": interview_status_object.val(),
                                             "schedule_id": schedule_id,
-                                            candidate_id: "3928",
-                                            job_id: "312",
+                                            'intern_id':<?php echo $interuser['intern_id']?>,
                                             'round': round + 1
                                         };
-                                        var link = 'https://drycoder.com/employer/employer/ongoing_interview';
+                                        var link = '<?php echo base_url(); ?>ongoing_interview';
                                         ajax_function(in_data, link);
                                     } else {
                                         comment_object.focus();
@@ -870,12 +974,11 @@
                                 case 'interview_rejected':
                                     if (comment_object.val() != '') {
                                         var in_data = {
-                                            applied_id: "202",
                                             "comment": comment_object.val(),
                                             "status": interview_status_object.val(),
                                             "schedule_id": schedule_id
                                         };
-                                        var link = 'https://drycoder.com/employer/employer/reject_interview';
+                                        var link = '<?php echo base_url(); ?>reject_interview';
                                         ajax_function(in_data, link);
                                     } else {
                                         comment_object.focus();
@@ -934,13 +1037,12 @@
                                                 'schedule_time': schedule_time,
                                                 'venue': venue,
                                                 'round': round + 1,
-                                                job_id: "312",
-                                                candidate_id: "3928",
-                                                schedule_id: schedule_id,
-                                                comment: comments
+                                                'intern_id':<?php echo $interuser['intern_id']?>,
+                                                'schedule_id': schedule_id,
+                                                'comment': comments
                                             };
                                             var link =
-                                                'https://drycoder.com/employer/employer/update_job_schedule_data';
+                                                '<?php echo base_url(); ?>update_job_schedule_data';
                                             ajax_function(in_data, link);
                                         }
                                     } else {
@@ -998,16 +1100,15 @@
                                     if (con) {
                                         $.ajax({
                                             method: "post",
-                                            url: "https://drycoder.com/employer/employer/mail_interview_data",
+                                            url: "<?php echo base_url(); ?>mail_interview_data",
                                             data: {
                                                 'mode': mode,
                                                 'schedule_date': schedule_date,
                                                 'schedule_time': schedule_time,
                                                 'venue': venue,
                                                 'round': round + 1,
-                                                job_id: "312",
-                                                candidate_id: "3928",
-                                                schedule_id: schedule_id,
+                                                'intern_id':<?php echo $interuser['intern_id']?>,
+                                                'schedule_id': schedule_id,
                                                 "data_action": data_action
                                             },
                                             success: function(datas) {
@@ -1032,24 +1133,24 @@
 
                         // send offer letter to user  
                         $(document).on("click", ".send_offer_letter", function() {
+                           let offer = document.getElementById("offer_letter").files[0];
                             var datas = new FormData();
-                            datas.append('offer_letter', $("input[type=file]")[0].files[0]);
-                            datas.append("applied_job_id", '202');
-                            datas.append("job_id", '312');
-                            datas.append("candidate_id", '3928');
+                           datas.append('offer_letter', offer);
+                            datas.append("intern_id",'<?php echo $interuser['intern_id']?>');
                             if ($("input[type=file]").val() != '') {
                                 if ($("input[type=file]")[0].files[0].type == "application/pdf") {
-                                    var con = confirm("Are you want to mail");
+                                    var con = confirm("Are you want to mail?");
                                     if (con) {
                                         $.ajax({
                                             method: "post",
-                                            url: "https://drycoder.com/employer/employer/send_offer_to_user",
+                                            url: "<?php echo base_url(); ?>send_offer_to_user",
                                             processData: false, // tell jQuery not to process the data
                                             contentType: false, // tell jQuery not to set contentType
                                             data: datas,
-                                            success: function(datas) {
+                                            success: function(datasss) {
+												alert(datasss)
                                                 if (datas) {
-                                                    window.location.reload();
+                                                    //window.location.reload();
                                                 } else {
                                                     alert("Something went wrong");
                                                 }
@@ -1089,10 +1190,10 @@
                         function join_function(join) {
                             $.ajax({
                                 method: "post",
-                                url: "https://drycoder.com/employer/employer/confirm_joining",
+                                url: "<?php echo base_url(); ?>confirm_joining",
                                 data: {
                                     "join": join,
-                                    "applied_job_id": '202'
+                                    'intern_id':<?php echo $interuser['intern_id']?>,
                                 },
                                 success: function(datas) {
                                     if (datas) {
@@ -1120,9 +1221,8 @@
 
                         $(".shortlist_email").click(function() {
                             if ($("input[name=short_radio][value='Shortlisted']").prop("checked")) {
-                                $.post("https://drycoder.com/employer/employer/shortlist_mail", {
-                                    job_id: "312",
-                                    candidate_id: "3928"
+                                $.post("<?php echo base_url(); ?>shortlist_mail", {
+                                    'intern_id':<?php echo $interuser['intern_id']?>,
                                 }, function(data) {
                                     if (data == false) {
                                         alert("Something went wrong");
@@ -1138,375 +1238,25 @@
                             }
                         })
                         // interview result mail
-                        $(".interview_final_mail").click(function() {
-                            $.post("https://drycoder.com/employer/employer/interview_final_mail", {
-                                job_id: "312",
-                                candidate_id: "3928",
-                                applied_job_id: "202"
-                            }, function(data) {
-                                if (data == false) {
-                                    alert("Something went wrong");
-                                } else {
-                                    alert("Mail Send");
-                                }
-                            }).fail(function(data) {
-                                alert("Something went wrong");
+						$(".interview_final_mail").click(function (){
+						   $.post("<?php echo base_url().'interview_final_mail'?>",{intern_id:"<?php echo $interuser['intern_id']?>"
+						   },function(data){
+							  if(data==false){
+								 alert("11Something went wrong");
+							  }else{
+								 alert("Mail Send");
+							  }
+						   }).fail(function(data){
+							  alert("22Something went wrong");
 
-                            });
-                        });
-                        // $.getJSON("https://api.ipify.org/?format=json", function(e) {
-                        //     console.log(e.ip);
-                        // });
+						  }); 
+						});   
                     </script>
                     <div class="control-sidebar-bg"></div>
                 </div>
-                <script>
-                    $('#usersignup').click(function() {
-                        var msgdiv = $('#field_errors');
-                        if ($('#firstname').val() == '') {
-                            msgdiv.text('Please fill your First Name');
-                            $('#firstname').focus();
-                            msgdiv.slideDown().delay(2000).slideUp(500);;
-                        } else if ($('#lastname').val() == '') {
-                            msgdiv.text('Please fill your Last Name');
-                            $('#lastname').focus();
-                            msgdiv.slideDown().delay(2000).slideUp(500);;
-                        } else if ($('#user_email').val() == '') {
-                            msgdiv.text('Please fill your Email');
-                            $('#user_email').focus();
-                            msgdiv.slideDown().delay(2000).slideUp(500);;
-                        } else if ($('#user_password').val() == '') {
-                            msgdiv.text('Please fill your Password');
-                            $('#user_password').focus();
-                            msgdiv.slideDown().delay(2000).slideUp(500);;
-                        } else {
-                            $('#loginform').submit();
-                        }
-                    });
 
-                    $('#employer_industry_id').editable({
-                        pk: 1,
-                        source: 'https://drycoder.com/select-industry',
-                        sourceCache: true,
-                        name: 'employer_industry_id',
-                        title: 'Enter industries',
-                        url: 'https://drycoder.com/employer-update-editable',
-                        success: function(response) {
-                            window.location.reload();
-                        }
-                    });
-                    $('#all_state').editable({
-                        pk: 1,
-                        source: 'https://drycoder.com/emp-selectstate',
-                        sourceCache: true,
-                        name: 'state_id',
-                        title: 'Enter State',
-                        url: 'https://drycoder.com/employer-update-editable',
-                        success: function(response) {
-                            window.location.reload();
-                        }
-                    });
-                    $('#all_city').editable({
-                        pk: 1,
-                        source: 'https://drycoder.com/employer/employer/emp_selectcity_head',
-                        sourceCache: true,
-                        name: 'employer_city_id',
-                        title: 'Enter City',
-                        url: 'https://drycoder.com/employer-update-editable',
-                        success: function(response) {
-                            window.location.reload();
-                        }
-                    });
-                </script>
-                <script type="text/javascript">
-                    $('#contact_person_name').editable({
-                        pk: 1,
-                        sourceCache: true,
-                        name: 'employer_contact_person_name',
-                        title: 'Enter Name',
-                        url: 'https://drycoder.com/employer-data-edit',
-                        validate: function(value) {
-                            if ($.isNumeric(value) != '') {
-                                return 'Enter alphabets only';
-                            }
-                            if (value.length >= 50) {
-                                return 'Only lesss than 50 alphabets are allowed';
-                            }
-                            if (!value.match(/^[a-zA-Z\s]+$/)) {
-                                return 'Enter alphabets only';
-                            }
-
-                        },
-                        success: function(response) {
-                            window.location.reload();
-                        },
-                        error: function() {
-                            alert('Some Error Occurred');
-                        }
-
-                    });
-
-                    $('#contact_number').editable({
-                        pk: 1,
-                        sourceCache: true,
-                        name: 'employer_mobile',
-                        title: 'Enter Contact Number',
-                        url: 'https://drycoder.com/employer-data-edit',
-                        success: function(response) {
-                            window.location.reload();
-                        }
-                    });
-                    $('#present_addr').editable({
-                        pk: 1,
-                        sourceCache: true,
-                        name: 'employer_address',
-                        title: 'Enter Address',
-                        url: 'https://drycoder.com/employer-data-edit',
-                        success: function(response) {
-                            window.location.reload();
-                        }
-                    });
-                    $("#contact_number").keypress(function(event) {
-                        // Allow: backspace, delete, tab, escape, enter and .
-                        // Ensure that it is a number and stop the keypress
-                        var key = window.event ? event.keyCode : event.which;
-                        if (event.keyCode === 8 || event.keyCode === 46) {
-                            return true;
-                        } else if (key < 48 || key > 57) {
-                            alert('Write only the numbers');
-                            return false;
-                        } else {
-                            return true;
-                        }
-                    });
-                    $('#head_office_pincode').editable({
-                        pk: 1,
-                        sourceCache: true,
-                        name: 'pincode',
-                        title: 'Enter Pincode',
-                        url: 'https://drycoder.com/employer-data-edit',
-                        success: function(response) {
-                            window.location.reload();
-                        }
-                    });
-                    $('#reg_pincode').editable({
-                        pk: 1,
-                        sourceCache: true,
-                        name: 'reg_pincode',
-                        title: 'Enter Pincode',
-                        url: 'https://drycoder.com/employer-data-edit',
-                        success: function(response) {
-                            window.location.reload();
-                        }
-                    });
-                    $('#reg_address').editable({
-                        pk: 1,
-                        sourceCache: true,
-                        name: 'reg_address',
-                        title: 'Enter Address',
-                        url: 'https://drycoder.com/employer-data-edit',
-                        success: function(response) {
-                            window.location.reload();
-                        }
-                    });
-                    $('#phone_no').editable({
-                        pk: 1,
-                        sourceCache: true,
-                        name: 'employer_phone',
-                        title: 'Enter Phone No.',
-                        url: 'https://drycoder.com/employer-data-edit',
-                        success: function(response) {
-                            window.location.reload();
-                        }
-                    });
-                    $('#fb_link').editable({
-                        pk: 1,
-                        sourceCache: true,
-                        name: 'fb_link',
-                        title: 'Facebook Link',
-                        url: 'https://drycoder.com/employer-data-edit',
-                        success: function(response) {
-                            window.location.reload();
-                        }
-                    });
-                    $('#linkedin_link').editable({
-                        pk: 1,
-                        sourceCache: true,
-                        name: 'linkedin_link',
-                        title: 'Linked Link',
-                        url: 'https://drycoder.com/employer-data-edit',
-                        success: function(response) {
-                            window.location.reload();
-                        }
-                    });
-                    $('#tw_link').editable({
-                        pk: 1,
-                        sourceCache: true,
-                        name: 'twitter_link',
-                        title: 'Twitter Link',
-                        url: 'https://drycoder.com/employer-data-edit',
-                        success: function(response) {
-                            window.location.reload();
-                        }
-                    });
-                    $('#gp_link').editable({
-                        pk: 1,
-                        sourceCache: true,
-                        name: 'google_link',
-                        title: 'Google Plus Link',
-                        url: 'https://drycoder.com/employer-data-edit',
-                        success: function(response) {
-                            window.location.reload();
-                        }
-                    });
-                    $('#web_link').editable({
-                        pk: 1,
-                        placement: 'right',
-                        sourceCache: true,
-                        name: 'web_link',
-                        title: 'Website Link',
-                        url: 'https://drycoder.com/employer-data-edit',
-                        success: function(response) {
-                            window.location.reload();
-                        }
-                    });
-
-                    $('#reg_state').editable({
-                        pk: 1,
-                        source: 'https://drycoder.com/emp-selectstate',
-                        sourceCache: true,
-                        name: 'reg_state',
-                        title: 'Enter State',
-                        url: 'https://drycoder.com/employer-update-editable',
-                        success: function(response) {
-                            window.location.reload();
-                        }
-                    });
-
-                    $('#reg_city').editable({
-                        pk: 1,
-                        source: 'https://drycoder.com/emp-selectcity',
-                        sourceCache: true,
-                        name: 'reg_city',
-                        title: 'Enter City',
-                        url: 'https://drycoder.com/employer-update-editable',
-                        success: function(response) {
-                            window.location.reload();
-                        }
-                    });
-
-                    $('#employer_description').editable({
-                        placeholder: 'Enter Company Description',
-                        type: 'textarea',
-                        pk: 3,
-                        placement: 'top',
-                        sourceCache: true,
-                        name: 'employer_description',
-                        title: 'Enter Description',
-                        url: 'https://drycoder.com/employer-data-edit',
-                        validate: function(value) {
-                            if (value.length >= 1500) {
-                                return 'Only lesss than 1500 alphabets are allowed';
-                            }
-                        },
-                        success: function(response) {
-                            window.location.reload();
-                        }
-                    });
-                    $('#designation').editable({
-                        pk: 1,
-                        sourceCache: true,
-                        name: 'designation',
-                        title: 'Enter Designation',
-                        url: 'https://drycoder.com/employer-data-edit',
-                        success: function(response) {
-                            window.location.reload();
-                        }
-                    });
-                    $('#alternate_email').editable({
-                        pk: 1,
-                        sourceCache: true,
-                        name: 'alternate_email',
-                        title: 'Enter Alternate Email',
-                        url: 'https://drycoder.com/employer-data-edit',
-                        validate: function(value) {
-                            var filter =
-                                /^([\w-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
-                            if (filter.test($.trim(value))) {} else {
-                                if ($.trim(value) == "") {} else {
-                                    alert('Invalid Email Address');
-                                    e.preventDefault();
-                                }
-                            }
-                        },
-                        success: function(response) {
-
-                        }
-                    });
-                </script>
-                <!--Added Scripts for tooltip-->
-
-                <div class="modal" id="new_model" role="dialog">
-                    <div class="modal-dialog">
-
-                        <!-- Modal content-->
-                        <div class="modal-content" style="margin-top: 130px;">
-                            <div class="modal-header" style="padding: 25px!important;text-align:center;font-weight:bold;">
-                                Alert Message
-                            </div>
-                            <div class="modal-body">
-                                <p style="color:red;text-align: center;font-size: 25px;"> There's no Internet Connection
-                                    on your device.</p>
-                                <p style="text-align: center;font-size: 20px;">Pop up will disappear once Internet
-                                    Connection is available.</p>
-                            </div>
-
-                        </div>
-
-                    </div>
-                </div>
-                <!-- <script>
-                    $(document).ready(function() {
-                        setInterval(function() {
-                            var online = navigator.onLine;
-                            if (online == false) {
-                                $('#new_model').css('display', 'block');
-                            } else {
-                                $('#new_model').css('display', 'none');
-                            }
-                        }, 1000);
-                    });
-                </script> -->
             </div>
-            <style>
-                .sidebar-mini.sidebar-collapse .sidebar-menu>li>a>span {
-                    padding: 9px !important;
-                }
 
-                .main-sidebar strong {
-                    color: #fff;
-                }
-
-                .skin-blue .wrapper,
-                .skin-blue .main-sidebar,
-                .skin-blue .left-side {
-                    box-shadow: none;
-                }
-
-                .slidehover li a:hover,
-                .slidehover li.active a {
-                    background-color: #293846 !important;
-                }
-
-                .skin-blue .sidebar-menu>li>a {
-                    border-left: none !important;
-                }
-
-                .fafa {
-                    color: #fff;
-                }
-            </style>
-            <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> -->
         </div>
     </div>
 </div>

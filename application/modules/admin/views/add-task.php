@@ -34,7 +34,7 @@ echo $today;
 											<option value="<?php echo $tt['task_type_id']; ?>"><?php echo $tt['task_type'] ?></option>
 										<?php } ?>
 									</select>
-									<div class="invalid-feedback"></div>
+									<div class="invalid-feedback">Please Select Task Type</div>
 								</div>
 								<div class="col-md-4">
 									<label for="validationCustom02" class="form-label">Select Region<sup class="text-danger fs-6">*</sup></label>
@@ -50,12 +50,12 @@ echo $today;
 										<?php } ?>
 									</select>
 
-									<div class="invalid-feedback"></div>
+									<div class="invalid-feedback">Please Select Region</div>
 								</div>
 								<div class="col-md-4 thisOnline">
 									<label for="validationCustom02" class="form-label">Select State<sup class="text-danger fs-6">*</sup></label>
-									<select class="form-control select2-show-search form-select" name="state_name" id="state_name" required>
-										<option>Select State</option>
+									<select class="form-control select2-show-search form-select" name="state_name" id="state_name">
+										<option value="">Select State</option>
 										<?php foreach ($states as $sd) { ?>
 											<option value="<?php echo $sd['state_id']; ?>" <?php if ($sd['state_id'] == $sid) {
 																								echo "selected";
@@ -65,12 +65,12 @@ echo $today;
 
 										<?php } ?>
 									</select>
-									<div class="invalid-feedback"></div>
+									<div class="invalid-feedback">Please Select State</div>
 								</div>
 								<div class="col-md-4 thisOnline">
 									<label for="validationCustom02" class="form-label">Select Districts<sup class="text-danger fs-6">*</sup></label>
 									<select class="form-control select2-show-search form-select" name="city" id="city">
-										<option>Select City</option>
+										<option value="">Select City</option>
 										<?php foreach ($cities as $cd) { ?>
 											<option value="<?php echo $cd['city_id']; ?>" <?php if ($cd['state_id'] == $sid) {
 																								echo "selected";
@@ -80,27 +80,28 @@ echo $today;
 
 										<?php } ?>
 									</select>
-									<div class="invalid-feedback"></div>
+									<div class="invalid-feedback">Select Districts</div>
 								</div>
 								<div class="col-md-4">
 									<label for="validationCustom02" class="form-label">Start Date<sup>*</sup></label>
 									<input type="date" name="sdate" id="sdate" onkeyup="onlyNumber('sdate');" value="" class="form-control dob_caf" required />
-									<div class="ininvalid-feedback"></div>
+									<div class="invalid-feedback">Select Start Date</div>
 								</div>
 								<div class="col-md-4 ">
 									<label for="validationCustom02" class="form-label">Expected End Date <sup>*</sup></label>
 									<input type="date" name="edate" id="edate" onkeyup="onlyNumber('sdate');" value="" class="form-control dob_caf" required />
 									<div id="expdateerror" class="col-md-12"></div>
-									<div class="invalid-feedback"></div>
+									<div class="invalid-feedback">Select End Date</div>
 								</div>
 								<div class="col-md-4">
 									<label for="validationCustom02" class="form-label">Total Volunteers Required <sup>*</sup></label>
 									<input type="text" class="form-control" onkeyup="onlyNumber('volunteer');" id="volunteer" name="volunteer_required" value="" required />
+									<div class="invalid-feedback">Fill Total Volunteers</div>
 								</div>
 								<div class="col-md-4">
 									<label for="validationCustom02" class="form-label">Keywords<sup>*</sup></label>
 									<select class="form-control select2-show-search form-select" name="keywords" id="city" required>
-										<option value="0">Select Keywords</option>
+										<option value="">Select Keywords</option>
 										<option value="Research">Research</option>
 										<option value="Documentation">Documentation</option>
 										<option value="Data Analysis">Data Analysis</option>
@@ -111,22 +112,26 @@ echo $today;
 										<option value="Video/film making">Video/film making</option>
 
 									</select>
-									<div class="invalid-feedback"></div>
+									<div class="invalid-feedback">Select Keywords</div>
 								</div>
 								<div class="col-md-4">
 									<label for="validationCustom02" class="form-label">Task Title <sup>*</sup></label>
 									<textarea class="form-control" id="exampleFormControlTextarea2" rows="2" placeholder="Title" maxlength="150" name="title" required></textarea>
-									<div class="invalid-feedback"></div>
+									<div class="invalid-feedback">Fill Task Title</div>
 								</div>
 								<div class="col-md-12">
 									<label for="validationCustom04" class="form-label">What To Do ?<sup>*</sup></label>
 									<div class="">
 										<textarea class="content" name="what_to_do" rows="4" cols="10" required></textarea>
 									</div>
+									<div class="invalid-feedback"></div>
 								</div>
 								<div class="col-md-6 upstair">
 									<label for="inputEmail3" class="form-label">Status</label>
 									<select class="form-control select2-show-search form-select" id="location" name="status" required>
+										<option value="">
+											Select Status
+										</option>
 										<option value="1">
 											Published
 										</option>
@@ -134,6 +139,7 @@ echo $today;
 											UnPublished
 										</option>
 									</select>
+									<div class="invalid-feedback">Select Status</div>
 								</div>
 								<div class="col-md-6 upstair float-left">
 									<button class="btn btn-warning" type="submit" value="Submit" style="margin-top: 6%; margin-left:80%;">Submit
@@ -151,6 +157,7 @@ echo $today;
 </div>
 </div>
 </div>
+
 <script>
 	$(document).ready(function() {
 		let region_id = $('#region_id').val();

@@ -2325,7 +2325,7 @@ class Intern extends MY_Controller
                 'intern_task_id ' => $intern_task_id,
                 'intern_id' => $intern_id,
                 'status' => 0,
-                'sendRequiestCreatingDate' => date('y-m-d h:i:s'),
+                'sendRequiestCreatingDate' => date('Y-m-d'),
             );
 
             $results = $this->Curl_model->insert_data('intern_send_request', $data);
@@ -2439,113 +2439,6 @@ class Intern extends MY_Controller
         }
     }
 
-    // public function send_request()
-    // {
-    //     $userID = $this->session->userdata('userID');
-    //     $task = $this->uri->segment(2);
-    //     $taskID = base64_decode(str_pad(strtr($task, '-_', '+/'), strlen($task) % 4, '=', STR_PAD_RIGHT));
-    //     $data = array(
-    //         'taskID' => $taskID,
-    //         'userID' => $userID,
-    //         'status' => 0,
-    //         'sendRequiestCreatingDate' => date('y-m-d h:i:s'),
-    //     );
-    //     $results = $this->Curl_model->insert_data('send_requiest', $data);
-    //     if ($results) {
-    //         $join_data = array(
-    //             array(
-    //                 'table' => 'task',
-    //                 'fields' => array('taskDescription', 'taskID', 'taskTitle', 'causesID', 'taskBrief', 'taskPublishedDate', 'status', 'taskStatus'),
-    //                 'where' => array('taskID' => $taskID),
-    //                 'order_by' => array('taskID', 'DESC'),
-    //             ),
-    //             array(
-    //                 'joined' => 0,
-    //                 'table' => 'causes',
-    //                 'fields' => array('causesName'),
-    //                 'joinWith' => array('causesID', 'left'),
-    //             ),
-    //         );
-    //         $join_data1 = array(
-    //             array(
-    //                 'table' => 'task_location',
-    //                 'fields' => array('cityID'),
-    //                 'where' => array('taskID' => $taskID),
-    //                 'joinWith' => array('taskID', 'left'),
-    //             ),
-    //             array(
-    //                 'joined' => 0,
-    //                 'table' => 'cities',
-    //                 'fields' => array('cityName'),
-    //                 'joinWith' => array('cityID', 'left'),
-    //             ),
-    //         );
-    //         $limit = '';
-    //         $order_by = '';
-    //         $task_data = $this->Curl_model->fetch_data_with_joining($join_data, $limit, $order_by);
-    //         $task_location_data = $this->Curl_model->fetch_data_with_joining($join_data1, $limit, $order_by);
-    //         $user_data = $this->Curl_model->fetch_data('users', array('email'), array('userID' => $userID), '', '');
-    //         // print_r($task_data);
-    //         // die();
-    //         $email = $user_data['email'];
-    //         $href = base_url() . 'login';
-    //         //$href2 = base_url().'verify/'.md5($results);
-    //         $to = $email;
-    //         $from = 'volunteer@caritasindia.org';
-    //         $msg = 'Caritas India Volunteer';
-
-    //         function task_type($stauts)
-    //         {
-    //             if ($stauts == 0) {
-    //                 return "<span style='padding:5px 10px;margin-right:5px;background-color:green;color:white;border-radius:10px;text-align:center;'>New</span>";
-    //             }
-    //             if ($stauts == 2) {
-    //                 return "<span style='padding:5px 10px;margin-right:5px;background-color:orange;color:white;border-radius:10px;text-align:center;'>In-Working</span>";
-    //             }
-    //         }
-    //         $task_stauts = task_type($task_data[0]['taskStatus']);
-    //         $tlocation = '';
-    //         $count = 1;
-    //         foreach ($task_location_data as $key1 => $value1) {
-    //             $tlocation .= "<span style='display:block;float:left; padding:5px 10px;margin-right:5px;margin-bottom:5px;background-color:#8f281f;color:white;border-radius:10px;text-align:center;'>" . $value1['cityName'] . "</span>";
-    //             if ($count == (sizeof($task_location_data) - 1)) {
-    //             }
-    //             $count++;
-    //         }
-    //         $msg2 = "
-    //         <center><p><strong style='font-weight:bold;'>Thanks for sending request for task. Task details is given below</strong></p></center>
-    //         <table style='border:1px solid #8f281f;border-top:0px solid #8f281f !important;border-spacing: 0px;width:100%;'>
-    //             <tr>
-    //                 <th style='border-top:1px solid #8f281f !important;padding:10px 20px ;text-align:left;'>Title</th>
-    //                 <td style='border-top:1px solid #8f281f !important;border-left:1px solid #8f281f !important;padding:10px 20px ;text-align:left;'>" . $task_data[0]['taskTitle'] . "</td>
-    //             </tr>
-    //             <tr>
-    //                 <th style='border-top:1px solid #8f281f !important;padding:10px 20px ;text-align:left;'>Description</th>
-    //                 <td style='border-top:1px solid #8f281f !important;border-left:1px solid #8f281f !important;padding:10px 20px ;text-align:left;'>" . $task_data[0]['taskDescription'] . "</td>
-    //             </tr>
-    //             <tr>
-    //                 <th style='border-top:1px solid #8f281f !important;padding:10px 20px ;text-align:left;'>Theme</th>
-    //                 <td style='border-top:1px solid #8f281f !important;border-left:1px solid #8f281f !important;padding:10px 20px ;text-align:left;'>" . $task_data[0]['causesName'] . "</td>
-    //             </tr>
-    //             <tr>
-    //                 <th style='border-top:1px solid #8f281f !important;padding:10px 20px ;text-align:left;'>Type</th>
-    //                 <td style='border-top:1px solid #8f281f !important;border-left:1px solid #8f281f !important;padding:10px 20px ;text-align:left;'>" . $task_stauts . "</td>
-    //             </tr>
-    //             <tr>
-    //                 <th style='border-top:1px solid #8f281f !important;padding:10px 20px ;text-align:left;'>Location</th>
-    //                 <td style='border-top:1px solid #8f281f !important;border-left:1px solid #8f281f !important;padding:10px 20px ;text-align:left;'>" . $tlocation . "</td>
-    //             </tr>
-    //         </table>";
-    //         //die();
-    //         $subj = "Send Request for Task from Caritas India";
-    //         $btn = "LogIn Now!";
-
-    //         $html = $this->request_email($msg, $msg2, $href, $btn);
-    //         $res = $this->mail_send($to, $from, $msg, $msg2, $subj, $href, $btn, $html);
-    //         $this->session->set_userdata('request_send', 'true');
-    //         echo '<script>window.location.href = "' . base_url() . 'find-task"</script>';
-    //     }
-    // }
 
     public function search_find_task()
     {
@@ -4030,13 +3923,13 @@ class Intern extends MY_Controller
     {
         $mail = new PHPMailer();
         // $mail->IsSMTP();
-        $mail->Host = 'office365.caritasindia.org';
+        $mail->Host = 'mail.mgracesolution.com';
         $mail->SMTPDebug = 1;
         $mail->SMTPAuth = true;
         $mail->SMTPSecure = "tls";
         $mail->Port = 587;
-        $mail->Username = "volunteer@caritasindia.org";
-        $mail->Password = "volunteer@123";
+        $mail->Username = "testvms@mgracesolution.com";
+        $mail->Password = "smvtset@1234";
         $mail->setFrom($from);
         $mail->AddAddress($to);
         $mail->addBCC("pransi.g@neuralinfo.org", "Pransi");

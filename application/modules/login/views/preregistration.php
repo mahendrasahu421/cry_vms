@@ -128,7 +128,7 @@ select.form-control:not([size]):not([multiple]) {
                         <div class="card-header">
                             <span class="login100-form-title">Pre Registration</span>
                         </div>
-                        <?php echo $this->session->flashdata('master_insert_message'); ?>
+                        <!-- <?php echo $this->session->flashdata('master_insert_message'); ?> -->
                         <div class="card-body">
                             <form class="login100-form validate-form needs-validation" id="sform" method="post"
                                 action="<?php echo base_url(); ?>insert_preregistration_data"
@@ -139,12 +139,12 @@ select.form-control:not([size]):not([multiple]) {
                                         <div class="form-group col-md-12 mb-0" id="lookingFor">
                                             <label for="validationCustom01">Looking for</label>
                                             <select id="single" class="form-select select2 form-control"
-                                                id="validatedInputGroupSelect" name="looking_for" required>
+                                                id="looking_for" name="looking_for" required>
                                                 <option value="">Looking for...</option>
                                                 <option value="volunteering">Volunteering</option>
                                                 <option value="internship">Internship</option>
                                             </select>
-                                            <div class="valid-feedback">Please select One</div>
+                                            <div class="invalid-feedback">Please select One</div>
                                         </div>
                                         <div class="form-group col-md-12 mb-0">
                                             <label class="form-label fw-bold">Enter Email (OTP Send on your
@@ -210,7 +210,7 @@ select.form-control:not([size]):not([multiple]) {
                                             <option value="2">Female</option>
                                             <option value="3">Transgender</option>
                                         </select>
-                                        <div class="invalid-feedback">Please select One</div>
+                                        <div class="invalid-feedback">Please select Gender</div>
                                     </div>
                                     <div class="form-group col-md-12 mb-0">
                                         <label class="form-label fw-bold">Enter Mobile Number </label>
@@ -244,7 +244,7 @@ select.form-control:not([size]):not([multiple]) {
                                         <label class="form-label fw-bold">Current Districts
                                             (Resident/Studying/Work)</label>
                                         <select class="form-control select2-show-search" name="city_name" id="city_name"
-                                            data-placeholder="Current City" required>
+                                            data-placeholder="Current Districts" required>
                                             <option value="">Current Districts </option>
                                         </select>
                                         <div class="invalid-feedback">Please select Districts</div>
@@ -281,6 +281,7 @@ select.form-control:not([size]):not([multiple]) {
                                         <select class="form-control select2" name="skill_id[]" data-placeholder=""
                                             multiple required id="skill_id">
                                             <?php foreach ($skills as $skillsData) { ?>
+                                            <option value=""> Select Volunteership Skills</option>
                                             <option value="<?php echo $skillsData['skill_id']; ?>">
                                                 <?php echo $skillsData['skill_name']; ?></option>
 
@@ -288,9 +289,10 @@ select.form-control:not([size]):not([multiple]) {
                                         </select>
                                         <div class="invalid-feedback">Please select Volunteership Skills</div>
                                         <div class="form-group" id="cv">
-                      <label class="form-label fw-bold">Upload Your CV</label>
-                      <input class="form-control btn-warning" type="file" name="Uploade_file" id="Uploade_file">
-                    </div>
+                                            <label class="form-label fw-bold">Upload Your CV</label>
+                                            <input class="form-control btn-warning" type="file" name="Uploade_file"
+                                                id="Uploade_file">
+                                        </div>
                                     </div>
                                     <div class="form-group col-md-12 mb-0 select-dropdown">
                                         <label class="form-label fw-bold">Where did you get to know about this
@@ -308,6 +310,7 @@ select.form-control:not([size]):not([multiple]) {
                                         <select class="form-control select2" name="skill_id[]" data-placeholder=""
                                             multiple id="internSkill_id">
                                             <?php foreach ($skills as $skillsData) { ?>
+                                            <option value="">Volunteership Skills</option>
                                             <option value="<?php echo $skillsData['skill_id']; ?>">
                                                 <?php echo $skillsData['skill_name']; ?></option>
                                             <?php } ?>
@@ -355,18 +358,18 @@ select.form-control:not([size]):not([multiple]) {
     <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js" type="text/javascript"></script>
     <link href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="Stylesheet"
         type="text/css" />
-    <!-- <script>
+    <script>
     $(document).ready(function() {
-      $("#single").change(function() {
-        let volunteeringType = $('#single').val();
-        if (volunteeringType == 'volunteering') {
-          $('#skill_id').removeAttr(required);
-          $('#where_know_opportunity').removeAttr(required);
-          $('#inputState').removeAttr(required);
-        }
-      });
+        $("#single").change(function() {
+            let volunteeringType = $('#single').val();
+            if (volunteeringType == 'internship') {
+                $('#skill_id').removeAttr("required");
+                $('#where_know_opportunity').removeAttr("required");
+                $('#inputState').removeAttr("required");
+            }
+        });
     });
-  </script> -->
+    </script>
     <script>
     $(document).ready(function() {
         $('#verifyMail').on('click', function() {
@@ -389,9 +392,11 @@ select.form-control:not([size]):not([multiple]) {
         $('#genrateOTP').click(function() {
             let email = $('#email').val();
             var looking_for = $('#single').val();
-            if (email != "") {
+            if (email == "") {
+                $('.email-verify-error').text('Enter Your Email');
+            } else {
+
                 $('.email-verify-error').empty('Please Enter Email');
-                // $('.email-verify-error').text('Please Check Your Email');
                 var datastr = {
                     VOLUNTEEREMAIL: email,
                     SINGLE: looking_for,
@@ -429,8 +434,6 @@ select.form-control:not([size]):not([multiple]) {
                         }
                     }
                 });
-            } else {
-                $('.email-verify-error').text('Enter Your Email');
             }
 
         });
@@ -453,7 +456,7 @@ select.form-control:not([size]):not([multiple]) {
     });
     </script>
 
-    <!-- <script>
+    <script>
     // Example starter JavaScript for disabling form submissions if there are invalid fields
     (function() {
         'use strict'
@@ -474,7 +477,7 @@ select.form-control:not([size]):not([multiple]) {
                 }, false)
             })
     })()
-    </script> -->
+    </script>
 
     <script>
     $(document).ready(function() {
