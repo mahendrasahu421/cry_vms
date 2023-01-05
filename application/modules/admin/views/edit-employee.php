@@ -39,7 +39,7 @@
 
                                             <?php } ?>
                                         </select>
-                                        <div class="invalid-feedback"></div>
+                                        <div class="invalid-feedback">Choose Region</div>
                                     </div>
                                     <div class="col-md-6">
                                         <label for="validationCustom04" class="form-label">Role Name</label>
@@ -51,24 +51,24 @@
                                                                                                     } ?>><?php echo $roleData['role_name']; ?></option>
                                             <?php } ?>
                                         </select>
-                                        <div class="invalid-feedback"></div>
+                                        <div class="invalid-feedback">Choose Role Name</div>
 
                                     </div>
                                     <div class="col-md-6">
                                         <label for="validationCustom04" class="form-label">Employee Name</label>
                                         <input type="text" name="emp_name" class="form-control" id="validationCustom02" value="<?php echo $employee[0]['emp_name']; ?>" placeholder="Employee Name " required>
-                                        <div class="invalid-feedback"></div>
+                                        <div class="invalid-feedback">Enter Employee Name</div>
                                     </div>
 
                                     <div class="col-md-6">
                                         <label for="validationCustom04" class="form-label">Mobile Number</label>
                                         <input type="tel" class="form-control" onkeypress="return /^-?[0-9]*$/.test(this.value+event.key)" maxlength="10" name="mobile_number" id="validationCustom02" value="<?php echo $employee[0]['emp_contact']; ?>" placeholder="Mobile Number" required>
-                                        <div class="valid-feedback"></div>
+                                        <div class="invalid-feedback">Enter 10 Digit Mobile Number</div>
                                     </div>
                                     <div class="col-md-4">
                                         <label for="validationCustom04" class="form-label">Email</label>
                                         <input type="email" name="email" class="form-control" id="validationCustom02" value="<?php echo $employee[0]['emp_email']; ?>" placeholder="Email" required>
-                                        <div class="invalid-feedback"></div>
+                                        <div class="invalid-feedback">Enter Your Email</div>
                                     </div>
 
                                     <div class="col-md-4">
@@ -88,6 +88,7 @@
                                             </option>
 
                                         </select>
+                                        <div class="invalid-feedback">Select Gender</div>
                                     </div>
 
                                     <div class="col-md-4">
@@ -105,7 +106,7 @@
                                                 Inactive
                                             </option>
                                         </select>
-                                        <div class="invalid-feedback"></div>
+                                        <div class="invalid-feedback">Choose Status</div>
 
                                     </div>
                                 </div>

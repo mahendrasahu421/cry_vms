@@ -126,52 +126,7 @@
 											</tr>
 										</thead>
 										<tbody>
-											<?php
-											$count = 1;
-											foreach ($internTransfer as $volunteerData) {
-												$relocate_id = $volunteerData['relocate_id'];
-												$relocateState = $volunteerData['relocate_state'];
-												$relocate_city = $volunteerData['relocate_city'];
-												$intern_id = $volunteerData['intern_id'];
-												$internEmail = $volunteerData['email'];
-												$encoded_id = rtrim(strtr(base64_encode($volunteer_id), '+/', '-_'), '=');
-												$internencoded_id = rtrim(strtr(base64_encode($intern_id), '+/', '-_'), '=');
-											?>
-												<tr>
-													<td>
-														<?php echo $count++;?>
-													</td>
-													<td>
-														<?php echo date("d-m-Y", strtotime($volunteerData['creation_date'])); ?>
-													</td>
-													<td>
-														<?php echo ucwords($volunteerData['first_name'] . ' ' . $volunteerData['last_name']); ?>
-														<br>
-														<a href="#" data-toggle="modal" data-target=".profile-details" onclick="fetch_details('<?php echo $encoded_id; ?>','profile_details');">
-															<small class="text-primary">(View Profile)</small></a>
-													</td>
-													<td><?php echo $volunteerData['mobile']; ?>
-													</td>
-													<td><?php echo $internEmail; ?></td>
-
-													<td><?php echo $volunteerData['state_name']; ?></td>
-													<td>
-														<?php echo $volunteerData['relocate_state_name']; ?></td>
-													<td>
-														<?php echo $volunteerData['relocate_city_name']; ?></td>
-													<td>
-														<?php echo $volunteerData['relocate_reason']; ?></td>
-													<td>
-														<?php if ($volunteerData['status'] == 2) { ?>
-															<button type='button' class='badge bg-warning  me-1 mb-1 mt-1'>Accepted</button>
-														<?php } else { ?>
-															<button type='button'class='badge bg-info  me-1 mb-1 mt-1'>Accept</button>
-
-														<?php } ?>
-													</td>
-												</tr>
-											<?php
-											} ?>
+										
 										</tbody>
 									</table>
 									<!-- <input type="botton" id="submit3" value="Send Post Registration" class="mt-5 btn btn-warning  pull-right" id="map_button" style="padding: 1% 2% 1% 2%;"> -->

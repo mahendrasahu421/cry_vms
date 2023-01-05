@@ -9,10 +9,10 @@
                 <div>
                     <h1 class="page-title">
 
-                        City Master</h1>
+                        District Master</h1>
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item"><a href="admin-dashboard">Home</a></li>
-                        <li class="breadcrumb-item"><a href="javascript:void(0);">City Master
+                        <li class="breadcrumb-item"><a href="javascript:void(0);">District Master
                             </a></li>
                     </ol>
                 </div>
@@ -34,8 +34,11 @@
                                         <div class="col-md-12 mb-3">
                                             <label for="validationCustom04" class="form-label">State Name</label>
                                             <select name="state_id" class="form-control select2-show-search form-select" id="validationCustom04" required>
-                                                <?php foreach ($state as $st) { ?>
-                                                    <option value="<?php echo $st['state_id']; ?>"><?php echo $st['state_name']; ?></option>
+                                                <?php foreach ($cities as $ct) { ?>
+                                                    <option value="<?php echo $ct['state_id']; ?>"><?php if ($state['state_id'] == $ct['state_id']) {
+                                                                                                        echo "selected";
+                                                                                                    }
+                                                                                                    ?><?php echo $ct['state_name']; ?></option>
                                                 <?php } ?>
                                             </select>
                                             </select>

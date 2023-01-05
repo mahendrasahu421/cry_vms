@@ -276,36 +276,73 @@ class Login extends MY_Controller
         }
     }
 
-    public function post_registration_volunteer()
+
+    public function intern_insertoccupationDetails()
     {
         try {
+            $intern_id = $this->input->post('intern_id');
+            $emergency_contact = $this->input->post('emergency_contact');
+            $occupation = $this->input->post('occupation');
+            $otherOccupation = $this->input->post('otherOccupation');
+            $name_of_school = $this->input->post('name_of_school');
+            $designation = $this->input->post('designation');
+            $language = $this->input->post('language');
+            $Otherlanguages = $this->input->post('otherlanguage');
+            $Startdate_internship = $this->input->post('Startdate_internship');
+            $knowaboutCRY = $this->input->post('where_know_opportunity');
+            $where_know_opportunityBox = $this->input->post('where_know_opportunityBox');
+            $signature = $this->input->post('signature');
+            $representative = $this->input->post('representative');
+            $communicatedWith = $this->input->post('communicatedWith');
+            $project_profile = $this->input->post('project_profile');
+            $youInternship = $this->input->post('youInternship');
+            $NoOfweeks = $this->input->post('NoOfweeks');
 
-            $volunteer_id = $this->uri->segment(2);
-            $val = base64_decode(str_pad(strtr($volunteer_id, '-_', '+/'), strlen($volunteer_id) % 4, '=', STR_PAD_RIGHT));
-            $where = "volunteer_id = '$val'";
-            $data['allvolunteersData'] = $this->LoginModel->allDatavolunteers($val);
-            // echo "<pre>";
-            // print_r($data['allvolunteersData']);exit;
-            $data['state'] = $this->Crud_modal->fetch_all_data('*', 'states', 'status=1');
-            $data['cities'] = $this->Crud_modal->fetch_all_data('*', 'cities', 'status=1');
-            $data['regions'] = $this->Crud_modal->fetch_all_data('*', 'regions', 'region_status=1');
-            $data['occupation'] = $this->Crud_modal->fetch_all_data('*', 'occupation', 'status= 1', 'occupation_name ASC');
-            $data['opportunity'] = $this->Crud_modal->fetch_all_data('*', 'opportunity', 'opportunity_status= 1', 'opportunity_name ASC');
-            $this->load->view('post-registration-volunteer', $data);
+            $occupationDetails = array(
+                'emergency_contact' => $emergency_contact,
+                'occupation' => $occupation,
+                'name_of_school' => $name_of_school,
+                'language' => $language,
+                'representative_cry' => $representative,
+                'project_profile' => $project_profile,
+                'designation' =>  $designation,
+                'language' => $language,
+                'Otherlanguages' => $Otherlanguages,
+                'signature' => $signature,
+                'project_profile' => $knowaboutCRY,
+                'designation' => $designation,
+                'otherlanguages' => $Otherlanguages,
+                'otherOccupation' => $otherOccupation,
+                'whichcryOffice' => $communicatedWith,
+                'knowaboutCRY' => $where_know_opportunityBox,
+                'NoOfweeks' => $NoOfweeks,
+                'youInternship' => $youInternship,
+                'Startdate_internship' => $Startdate_internship,
+
+
+            );
+            $status = array(
+                'status' => 6,
+            );
+            $where = array(
+                'intern_id' => $intern_id,
+            );
+            $this->Curl_model->update_data('interns', $status, $where);
+            if ($this->Curl_model->update_data('interns_data', $occupationDetails, $where)) {
+                return 1;
+            } else {
+                return 1;
+            }
         } catch (Exception $e) {
             echo 'Caught exception: ',  $e->getMessage(), "\n";
         }
     }
-
 
     public function insertoccupationDetails()
     {
         try {
             $volunteer_id = $this->input->post('volunteer_id');
             $emergency_contact = $this->input->post('emergency_contact');
-            // echo "<pre>";
-            // print_r($emergency_contact);
-            // exit;
             $occupation = $this->input->post('occupation');
             $otherOccupation = $this->input->post('otherOccupation');
             $name_of_school = $this->input->post('name_of_school');
@@ -356,15 +393,16 @@ class Login extends MY_Controller
             echo 'Caught exception: ',  $e->getMessage(), "\n";
         }
     }
+
+
+
+
+
     public function programVolunteer_insertoccupationDetails()
     {
-        //echo "working";exit;
         try {
             $ProgramId = $this->input->post('ProgramId');
             $emergency_contact = $this->input->post('emergency_contact');
-            // echo "<pre>";
-            // print_r($emergency_contact);
-            // exit;
             $occupation = $this->input->post('occupation');
             $otherOccupation = $this->input->post('otherOccupation');
             $name_of_school = $this->input->post('name_of_school');
@@ -379,7 +417,6 @@ class Login extends MY_Controller
             $signature = $this->input->post('signature');
             $dateofSubmission = $this->input->post('dateofSubmission');
             $occupationDetails = array(
-                //'other_contact' => $other_contact,
                 'emergency_contact' => $emergency_contact,
                 'occupation' => $occupation,
                 'otherOccupation' => $otherOccupation,
@@ -396,9 +433,6 @@ class Login extends MY_Controller
                 'dateofSubmission' => $dateofSubmission,
 
             );
-            // echo "<pre>";
-            // print_r($occupationDetails);
-            // exit;
             $status = array(
                 'status' => 1,
             );
@@ -455,6 +489,7 @@ class Login extends MY_Controller
             echo 'Caught exception: ',  $e->getMessage(), "\n";
         }
     }
+
     public function insertBasicdata()
     {
         try {
@@ -493,11 +528,85 @@ class Login extends MY_Controller
             echo 'Caught exception: ',  $e->getMessage(), "\n";
         }
     }
+    public function intern_insertBasicdata()
+    {
+        try {
+            $intern_id = $this->input->post('intern_id');
+            $firstName = $this->input->post('firstName');
+            $lastName = $this->input->post('lastName');
+            $email = $this->input->post('email');
+            $mobile = $this->input->post('mobile');
+            $dob = $this->input->post('dob');
+            //  $age = $this->input->post('age');
+            $gender = $this->input->post('gender');
+            $present_address = $this->input->post('present_address');
+            $permanent_address = $this->input->post('permanent_address');
+            $cityResindence = $this->input->post('cityResindence');
+            $basicData1 = array(
+                'first_name' => $firstName,
+                'last_name' => $lastName,
+                'email' => $email,
+                'mobile' => $mobile,
+                'date_of_birth' => $dob,
+                //  'age' => $age,
+                'gender' => $gender,
+            );
+            $basicData2 = array(
+                'present_address' => $present_address,
+                'permanent_address' => $permanent_address,
+                'cityResindence' => $cityResindence,
+            );
+            $where = array(
+                'intern_id' => $intern_id,
+            );
+            // print_r($where);exit;
+            $this->Curl_model->update_data('interns', $basicData1, $where);
+            $this->Curl_model->update_data('interns_data', $basicData2, $where);
+        } catch (Exception $e) {
+            echo 'Caught exception: ',  $e->getMessage(), "\n";
+        }
+    }
 
     public function post_registration_intern()
     {
+        try {
 
-        $this->load->view('post-registration-intern');
+            $intern_id = $this->uri->segment(2);
+            $val = base64_decode(str_pad(strtr($intern_id, '-_', '+/'), strlen($intern_id) % 4, '=', STR_PAD_RIGHT));
+            $where = "intern_id = '$val'";
+            $data['allinternData'] = $this->LoginModel->allDatavolunteers($val);
+            // echo "<pre>";
+            // print_r($data['allvolunteersData']);exit;
+            $data['state'] = $this->Crud_modal->fetch_all_data('*', 'states', 'status=1');
+            $data['cities'] = $this->Crud_modal->fetch_all_data('*', 'cities', 'status=1');
+            $data['regions'] = $this->Crud_modal->fetch_all_data('*', 'regions', 'region_status=1');
+            $data['occupation'] = $this->Crud_modal->fetch_all_data('*', 'occupation', 'status= 1', 'occupation_name ASC');
+            $data['opportunity'] = $this->Crud_modal->fetch_all_data('*', 'opportunity', 'opportunity_status= 1', 'opportunity_name ASC');
+            $this->load->view('post-registration-intern', $data);
+        } catch (Exception $e) {
+            echo 'Caught exception: ',  $e->getMessage(), "\n";
+        }
+    }
+
+    public function post_registration_volunteer()
+    {
+        try {
+
+            $volunteer_id = $this->uri->segment(2);
+            $val = base64_decode(str_pad(strtr($volunteer_id, '-_', '+/'), strlen($volunteer_id) % 4, '=', STR_PAD_RIGHT));
+            $where = "volunteer_id = '$val'";
+            $data['allvolunteersData'] = $this->LoginModel->allDatavolunteers($val);
+            // echo "<pre>";
+            // print_r($data['allvolunteersData']);exit;
+            $data['state'] = $this->Crud_modal->fetch_all_data('*', 'states', 'status=1');
+            $data['cities'] = $this->Crud_modal->fetch_all_data('*', 'cities', 'status=1');
+            $data['regions'] = $this->Crud_modal->fetch_all_data('*', 'regions', 'region_status=1');
+            $data['occupation'] = $this->Crud_modal->fetch_all_data('*', 'occupation', 'status= 1', 'occupation_name ASC');
+            $data['opportunity'] = $this->Crud_modal->fetch_all_data('*', 'opportunity', 'opportunity_status= 1', 'opportunity_name ASC');
+            $this->load->view('post-registration-volunteer', $data);
+        } catch (Exception $e) {
+            echo 'Caught exception: ',  $e->getMessage(), "\n";
+        }
     }
 
     public function insert_preregistration_data()
@@ -517,13 +626,9 @@ class Login extends MY_Controller
             $city_name = $this->input->post('city_name');
             $occupation = $this->input->post('occupation');
             $volunteering_type = $this->input->post('volunteering_type');
-            // echo "<pre>";
-            // print_r($volunteering_type);
-            // exit;
             $where_know_opportunity = $this->input->post('where_know_opportunity');
-            //$internship = $this->input->post('skill_id');
             $volunteerSkill = $this->input->post('skill_id');
-            
+            $internskill_id = $this->input->post('internskill_id');
             $Uploade_file = $this->input->post('Uploade_file');
             $mention_past = $this->input->post('mention_past');
             $whatyou_aim = $this->input->post('whatyou_aim');
@@ -546,7 +651,7 @@ class Login extends MY_Controller
                     'creation_date' => date('Y-m-d'),
                     'status' => 1,
                 );
-               
+
                 $this->Crud_modal->user_data_insert('volunteer', $volunteerData);
                 $this->session->set_flashdata('master_insert_message', '<div class="alert alert-warning"><strong>Registration Success!</strong> We Are Contact Soon.</div>');
                 redirect(base_url() . 'thank-you');
@@ -563,7 +668,7 @@ class Login extends MY_Controller
                     'state_id' => $state_id,
                     'city_id ' => $city_name,
                     'occupation_id' => $occupation,
-                    'skill_id' => implode(",", $internship),
+                    'skill_id' => implode(",", $internskill_id),
                     'past_volunteering' => $mention_past,
                     'what_you_aim' => $whatyou_aim,
                     'creation_date' => date('Y-m-d'),
@@ -723,6 +828,136 @@ class Login extends MY_Controller
                     'volunteer_id' => $volunteer_id,
                 );
                 $this->Curl_model->update_data('volunteer_data', $ref_attachvol, $where);
+            }
+            echo json_encode(array('status' => $status, 'msg' => $msg));
+        }
+    }
+    public function intern_secondinsertBasicdata()
+    {
+        $intern_id = $this->input->post('intern_id');
+
+        if ($_FILES['id_proof_attach'] != "") {
+            $config['upload_path'] = './internDoc/id_proof';
+            $config['allowed_types'] = 'gif|jpg|png|doc|pdf|jpeg';
+            $config['max_size'] = 1024 * 8;
+            $new_name = time() . $_FILES["id_proof_attach"]['name'];
+            $config['file_name'] = $new_name;
+            $this->load->library('upload', $config);
+            if (!$this->upload->do_upload('id_proof_attach')) {
+                $status = 'error';
+                $msg = $this->upload->display_errors('', '');
+            } else {
+                $file = $this->upload->data();
+                $id_proof_attachvol['id_proof_attach'] = $file['file_name'];
+                $where = array(
+                    'intern_id' => $intern_id,
+                );
+                $this->Curl_model->update_data('interns_data', $id_proof_attachvol, $where);
+            }
+            echo json_encode(array('status' => $status, 'msg' => $msg));
+        }
+        if ($_FILES['add_proof_attach'] != "") {
+            $config['upload_path'] = './internDoc/address_proof';
+            $config['allowed_types'] = 'gif|jpg|png|doc|pdf|jpeg';
+            $config['max_size'] = 1024 * 8;
+            $new_name = time() . $_FILES["add_proof_attach"]['name'];
+            $config['file_name'] = $new_name;
+            $this->load->library('upload', $config);
+            if (!$this->upload->do_upload('add_proof_attach')) {
+                $status = 'error';
+                $msg = $this->upload->display_errors();
+                exit;
+            } else {
+                $file = $this->upload->data();
+                $add_proof_attachvol['add_proof_attach'] = $file['file_name'];
+                $where = array(
+                    'intern_id' => $intern_id,
+                );
+                $this->Curl_model->update_data('interns_data', $add_proof_attachvol, $where);
+            }
+            echo json_encode(array('status' => $status, 'msg' => $msg));
+        }
+        if ($_FILES['letter_parents_attach'] != "") {
+            $config['upload_path'] = './internDoc/letter_parents_attach';
+            $config['allowed_types'] = 'gif|jpg|png|doc|pdf|jpeg';
+            $config['max_size'] = 1024 * 8;
+            $new_name = time() . $_FILES["letter_parents_attach"]['name'];
+            $config['file_name'] = $new_name;
+            $this->load->library('upload', $config);
+            if (!$this->upload->do_upload('letter_parents_attach')) {
+                $status = 'error';
+                $msg = $this->upload->display_errors();
+                exit;
+            } else {
+                $file = $this->upload->data();
+                $letter_parents_attachvol['letter_parents_attach'] = $file['file_name'];
+                $where = array(
+                    'intern_id' => $intern_id,
+                );
+                $this->Curl_model->update_data('interns_data', $letter_parents_attachvol, $where);
+            }
+            echo json_encode(array('status' => $status, 'msg' => $msg));
+        }
+        if ($_FILES['close_up_photo'] != "") {
+            $config['upload_path'] = './internDoc/closeup_photo';
+            $config['allowed_types'] = 'gif|jpg|png|doc|pdf|jpeg';
+            $config['max_size'] = 1024 * 8;
+            $new_name = time() . $_FILES["close_up_photo"]['name'];
+            $config['file_name'] = $new_name;
+            $this->load->library('upload', $config);
+            if (!$this->upload->do_upload('close_up_photo')) {
+                $status = 'error';
+                $msg = $this->upload->display_errors();
+                exit;
+            } else {
+                $file = $this->upload->data();
+                $close_up_photovol['close_up_photo'] = $file['file_name'];
+                $where = array(
+                    'intern_id' => $intern_id,
+                );
+                $this->Curl_model->update_data('interns_data', $close_up_photovol, $where);
+            }
+            echo json_encode(array('status' => $status, 'msg' => $msg));
+        }
+        if ($_FILES['cv_attach'] != "") {
+            $config['upload_path'] = './internDoc/cv';
+            $config['allowed_types'] = 'gif|jpg|png|doc|pdf|jpeg';
+            $config['max_size'] = 1024 * 8;
+            $new_name = time() . $_FILES["cv_attach"]['name'];
+            $config['file_name'] = $new_name;
+            $this->load->library('upload', $config);
+            if (!$this->upload->do_upload('cv_attach')) {
+                $status = 'error';
+                $msg = $this->upload->display_errors();
+                exit;
+            } else {
+                $file = $this->upload->data();
+                $cv_attachvol['cv_attach'] = $file['file_name'];
+                $where = array(
+                    'intern_id' => $intern_id,
+                );
+                $this->Curl_model->update_data('interns_data', $cv_attachvol, $where);
+            }
+            echo json_encode(array('status' => $status, 'msg' => $msg));
+        }
+        if ($_FILES['ref_attach'] != "") {
+            $config['upload_path'] = './internDoc/reference_letter';
+            $config['allowed_types'] = 'gif|jpg|png|doc|pdf|jpeg';
+            $config['max_size'] = 1024 * 8;
+            $new_name = time() . $_FILES["ref_attach"]['name'];
+            $config['file_name'] = $new_name;
+            $this->load->library('upload', $config);
+            if (!$this->upload->do_upload('ref_attach')) {
+                $status = 'error';
+                $msg = $this->upload->display_errors();
+                exit;
+            } else {
+                $file = $this->upload->data();
+                $ref_attachvol['ref_attach'] = $file['file_name'];
+                $where = array(
+                    'intern_id' => $intern_id,
+                );
+                $this->Curl_model->update_data('interns_data', $ref_attachvol, $where);
             }
             echo json_encode(array('status' => $status, 'msg' => $msg));
         }
@@ -1823,6 +2058,7 @@ class Login extends MY_Controller
         $data['val'] = $this->uri->segment(2);
         $this->load->view('progrmaVolunteer-thankYou', $data);
     }
+
     public function program_volunteerFulldetails()
     {
         $fullDetails = $this->uri->segment(2);

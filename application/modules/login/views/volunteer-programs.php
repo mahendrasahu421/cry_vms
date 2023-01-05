@@ -259,14 +259,14 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6/jquery.min.js" type="text/javascript"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js" type="text/javascript"></script>
     <link href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="Stylesheet" type="text/css" />
-    <script>
+    <!-- <script>
         $(document).ready(function() {
             $('#step_1_submit').click(function() {
 
             });
 
         });
-    </script>
+    </script> -->
 
     <script>
         $('.feedback').hide();
@@ -293,7 +293,7 @@
                     url: url,
                     data: form.serialize(),
                     success: function(data) {
-                        window.location.href = "<?php echo base_url()."progrmaVolunteer-thankYou/" ?>"+data.trim();
+                        window.location.href = "<?php echo base_url() . "progrmaVolunteer-thankYou/" ?>" + data.trim();
                     },
                     error: function(data) {}
                 });

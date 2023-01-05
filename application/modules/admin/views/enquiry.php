@@ -10,6 +10,28 @@
 		); ?> -->
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.8.7/chosen.css" integrity="sha512-0nkKORjFgcyxv3HbE4rzFUlENUMNqic/EzDIeYCgsKa/nwqr2B91Vu/tNAu4Q0cBuG4Xe/D1f/freEci/7GDRA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<div class="modal fade profile-details" id="exampleModal1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="exampleModalLabel">
+					Profile Details
+				</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">×</span>
+				</button>
+			</div>
+			<div class="modal-body row" id="profile_details">
+
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-dismiss="modal">
+					Close
+				</button>
+			</div>
+		</div>
+	</div>
+</div>
 <div class="main-content app-content mt-0">
 	<div class="side-app">
 		<!-- CONTAINER -->
@@ -55,8 +77,6 @@
 			</div>
 			<style>
 				#success_msg {
-					/* padding: 20px; */
-					/* background-color: #f7b731; */
 					color: black;
 					margin-bottom: 15px;
 					font-size: 20px;
@@ -179,7 +199,7 @@
 										</tbody>
 									</table>
 
-									
+
 									<input type="hidden" name="emailContentValue" id="emailContentValue">
 									<!-- <input type="botton" id="submit3" value="Invite For Orientation" class="mt-5 btn btn-warning  pull-right" id="map_button" style="padding: 1% 2% 1% 2%;"> -->
 									<button type="button" class="btn btn-primary pull-right mt-3" data-toggle="modal" data-target=".bd-example-modal-lg" style="padding: 1% 2% 1% 2%;">Preview</button>
@@ -213,7 +233,9 @@
 <script>
 	$(document).ready(function() {
 		let region_id = $('#region_id').val();
-		if (region_id != null) {
+		if (region_id == null) {
+			
+		}else{
 			$('#region_id option:not(:selected)').attr('disabled', true);
 		}
 

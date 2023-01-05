@@ -30,15 +30,17 @@
                                     <div class="col-md-12 mb-3">
                                         <label class="form-label fw-bold" for="validationCustom02">Region Name</label>
                                         <input type="text" name="region_name" class="form-control" id="validationCustom02" value="" placeholder="Region Name " required>
-                                        <div class="valid-feedback">Looks good!</div>
+                                        <div class="invalid-feedback">Region Name</div>
                                     </div>
                                     <div class="form-group col-md-12 mb-3">
                                         <label class="form-label">States</label>
-                                        <select class="form-control select2" name="states[]" data-placeholder="Select Statess" multiple>
+                                        <select class="form-control select2" name="states[]" data-placeholder="Select States" multiple required>
                                             <?php foreach ($state as $st) { ?>
+                                                <option value=""> Select State</option>
                                                 <option value="<?php echo $st['state_id']; ?>"><?php echo $st['state_name']; ?></option>
                                             <?php } ?>
                                         </select>
+                                        <div class="invalid-feedback">Select States Names</div>
                                     </div>
 
                                     <div class="col-md-12 mb-3">
@@ -48,6 +50,7 @@
                                             <option value="1">Active</option>
                                             <option value="2">Inactive</option>
                                         </select>
+                                        <div class="invalid-feedback">Select Status</div>
                                     </div>
                                 </div>
                                 <div class="">

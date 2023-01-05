@@ -118,262 +118,262 @@
 						<?php echo $this->session->flashdata('master_insert_message'); ?>
 						<!-- Row -->
 						<form class="needs-validation" novalidate>
-						<div class="row ">
-							<div class="col-md-12">
-								<div class="">
-									<div class="card-body">
-										<div id="wizard1">
-											<h3>Personal Information</h3>
-											<div>
-												<div class="row">
-													<div class="control-group form-group col-md-6 mb-0">
-														<label class="form-label fw-bold">Name</label>
-														<input type="text" name="first_name" class="form-control" placeholder="Name" required>
+							<div class="row ">
+								<div class="col-md-12">
+									<div class="">
+										<div class="card-body">
+											<div id="wizard1">
+												<h3>Personal Information</h3>
+												<div>
+													<div class="row">
+														<div class="control-group form-group col-md-6 mb-0">
+															<label class="form-label fw-bold">Name</label>
+															<input type="text" name="first_name" class="form-control" placeholder="Name" required>
+														</div>
+														<div class="control-group form-group col-md-6 mb-0">
+															<label class="form-label fw-bold">Email id
+															</label>
+															<input type="email" name="last_name" class="form-control" placeholder="Email id" required>
+														</div>
 													</div>
-													<div class="control-group form-group col-md-6 mb-0">
-														<label class="form-label fw-bold">Email id
-														</label>
-														<input type="email" name="last_name" class="form-control" placeholder="Email id" required>
+													<div class="row">
+														<div class="control-group form-group col-md-6 mb-0">
+															<label class="form-label fw-bold">Phone No.</label>
+															<input type="text" name="first_name" class="form-control" placeholder="Phone No." required>
+														</div>
+														<div class="control-group form-group col-md-6 mb-0">
+															<label class="form-label fw-bold">Date of Birth</label>
+															<input type="text" class="form-control" placeholder="Date of Birth" name="dob" id="dob" required autocomplete="off">
+															<span id="lblError" style="color:Red"><?php echo $this->session->flashdata('dob_error'); ?></span>
+														</div>
+													</div>
+													<div class="row">
+														<div class="control-group form-group col-md-6 mb-0">
+															<label class="form-label fw-bold">Age</label>
+															<input type="text" name="first_name" class="form-control" placeholder="Age" required>
+														</div>
+														<div class="control-group form-group col-md-6 mb-0">
+															<label class="form-label fw-bold">Gender</label>
+															<select class="form-control select2 form-select" name="gender" data-placeholder="Select Gender">
+																<option label="Select Gender"></option>
+																<option value="1">Male</option>
+																<option value="2">Female</option>
+																<option value="3">Transgender</option>
+															</select>
+														</div>
+													</div>
+													<div class="row">
+														<div class="control-group form-group col-md-12 mb-0">
+															<label class="form-label fw-bold">Present Address
+															</label>
+															<input type="text" name="first_name" class="form-control" placeholder="Permanent Address" required>
+														</div>
+													</div>
+													<div class="row">
+														<div class="control-group form-group col-md-12 mb-0">
+															<label class="form-label fw-bold">Permanent Address</label>
+															<input type="text" name="first_name" class="form-control" placeholder="Permanent Address" required>
+														</div>
+													</div>
+													<div class="row">
+														<div class="control-group form-group col-md-12 mb-0">
+															<label class="form-label fw-bold">City of Residence</label>
+															<input type="text" name="first_name" class="form-control" placeholder="City of Residence" required>
+														</div>
 													</div>
 												</div>
-												<div class="row">
-													<div class="control-group form-group col-md-6 mb-0">
-														<label class="form-label fw-bold">Phone No.</label>
-														<input type="text" name="first_name" class="form-control" placeholder="Phone No." required>
-													</div>
-													<div class="control-group form-group col-md-6 mb-0">
-														<label class="form-label fw-bold">Date of Birth</label>
-														<input type="text" class="form-control" placeholder="Date of Birth" name="dob" id="dob" required autocomplete="off">
-														<span id="lblError" style="color:Red"><?php echo $this->session->flashdata('dob_error'); ?></span>
-													</div>
-												</div>
-												<div class="row">
-													<div class="control-group form-group col-md-6 mb-0">
-														<label class="form-label fw-bold">Age</label>
-														<input type="text" name="first_name" class="form-control" placeholder="Age" required>
-													</div>
-													<div class="control-group form-group col-md-6 mb-0">
-														<label class="form-label fw-bold">Gender</label>
-														<select class="form-control select2 form-select" name="gender" data-placeholder="Select Gender">
-															<option label="Select Gender"></option>
-															<option value="1">Male</option>
-															<option value="2">Female</option>
-															<option value="3">Transgender</option>
-														</select>
-													</div>
-												</div>
-												<div class="row">
-													<div class="control-group form-group col-md-12 mb-0">
-														<label class="form-label fw-bold">Present Address
-														</label>
-														<input type="text" name="first_name" class="form-control" placeholder="Permanent Address" required>
-													</div>
-												</div>
-												<div class="row">
-													<div class="control-group form-group col-md-12 mb-0">
-														<label class="form-label fw-bold">Permanent Address</label>
-														<input type="text" name="first_name" class="form-control" placeholder="Permanent Address" required>
-													</div>
-												</div>
-												<div class="row">
-													<div class="control-group form-group col-md-12 mb-0">
-														<label class="form-label fw-bold">City of Residence</label>
-														<input type="text" name="first_name" class="form-control" placeholder="City of Residence" required>
-													</div>
-												</div>
-											</div>
-											<h3>Document Details</h3>
-											<div>
-												<div class="row">
-													<div class="control-group form-group col-md-6 mb-0">
-														<label class="form-label fw-bold">ID proof<span class="text-red">*</span>
-															<span class="col-auto align-self-center">
-																<span class="form-help" data-bs-toggle="popover" data-bs-placement="top" data-bs-content="(Please attach a scan copy of your PAN Card, aadhar card, passport, driving license, voter id card, ration card)
+												<h3>Document Details</h3>
+												<div>
+													<div class="row">
+														<div class="control-group form-group col-md-6 mb-0">
+															<label class="form-label fw-bold">ID proof<span class="text-red">*</span>
+																<span class="col-auto align-self-center">
+																	<span class="form-help" data-bs-toggle="popover" data-bs-placement="top" data-bs-content="(Please attach a scan copy of your PAN Card, aadhar card, passport, driving license, voter id card, ration card)
 													" data-bs-original-title="" title="" aria-describedby="popover10908">?</span>
-															</span></label>
-														<input type="file" name="first_name" class="form-control" required>
-													</div>
-													<div class="control-group form-group col-md-6 mb-0">
-														<label class="form-label fw-bold">Address proof
-															<span class="col-auto align-self-center">
-																<span class="form-help" data-bs-toggle="popover" data-bs-placement="top" data-bs-content="(only if you are below 18 years)
+																</span></label>
+															<input type="file" name="first_name" class="form-control" required>
+														</div>
+														<div class="control-group form-group col-md-6 mb-0">
+															<label class="form-label fw-bold">Address proof
+																<span class="col-auto align-self-center">
+																	<span class="form-help" data-bs-toggle="popover" data-bs-placement="top" data-bs-content="(only if you are below 18 years)
 													" data-bs-original-title="" title="" aria-describedby="popover10908">?</span>
-															</span></label>
-														<input type="file" name="first_name" class="form-control" required>
-													</div>
-												</div>
-
-												<div class="row">
-													<div class="control-group form-group col-md-6 mb-0">
-														<label class="form-label fw-bold">consent letter from your parents<span class="text-red">*</span> </label>
-														<input type="file" name="first_name" class="form-control" required>
-													</div>
-													<div class="control-group form-group col-md-6 mb-0">
-														<label class="form-label fw-bold">Upload a close up photo
-														</label>
-														<input type="file" name="first_name" class="form-control" required>
-													</div>
-												</div>
-												<div class="row">
-													<div class="control-group form-group col-md-6 mb-0">
-														<label class="form-label fw-bold">Upload your CV
-
-															<span class="col-auto align-self-center">
-																<span class="form-help" data-bs-toggle="popover" data-bs-placement="top" data-bs-content="(Name, Address, and phone number)" data-bs-original-title="" title="" aria-describedby="popover10908">?</span>
-															</span> </label>
-														<input type="file" name="first_name" class="form-control" required>
-													</div>
-													<div class="control-group form-group col-md-6 mb-0">
-														<label class="form-label fw-bold">Emergency Contact
-															<span class="col-auto align-self-center">
-																<span class="form-help" data-bs-toggle="popover" data-bs-placement="top" data-bs-content="(any letter from your professional circle, teachers, professors, or any person in some power who can vouch for you)" data-bs-original-title="" title="" aria-describedby="popover10908">?</span>
-															</span>
-														</label>
-														<input type="text" name="first_name" class="form-control" required>
+																</span></label>
+															<input type="file" name="first_name" class="form-control" required>
+														</div>
 													</div>
 
-												</div>
-												<div class="row">
-													<div class="control-group form-group col-md-6 mb-0">
-														<label class="form-label fw-bold">Reference etter
-															<span class="col-auto align-self-center">
-																<span class="form-help" data-bs-toggle="popover" data-bs-placement="top" data-bs-content="Please share the contact details: full name, designation, phone and email ID of the person who has written the recommendation letter." data-bs-original-title="" title="" aria-describedby="popover10908">?</span>
-															</span>
-														</label>
-														<input type="file" name="first_name" class="form-control" required>
+													<div class="row">
+														<div class="control-group form-group col-md-6 mb-0">
+															<label class="form-label fw-bold">consent letter from your parents<span class="text-red">*</span> </label>
+															<input type="file" name="first_name" class="form-control" required>
+														</div>
+														<div class="control-group form-group col-md-6 mb-0">
+															<label class="form-label fw-bold">Upload a close up photo
+															</label>
+															<input type="file" name="first_name" class="form-control" required>
+														</div>
 													</div>
-													<div class="control-group form-group col-md-6 mb-0">
-														<label class="form-label fw-bold">share the contact details
-															<span class="col-auto align-self-center">
-																<span class="form-help" data-bs-toggle="popover" data-bs-placement="top" data-bs-content="(any letter from your professional circle, teachers, professors, or any person in some power who can vouch for you)" data-bs-original-title="" title="" aria-describedby="popover10908">?</span>
-															</span>
-														</label>
-														<input type="text" name="first_name" class="form-control" required>
+													<div class="row">
+														<div class="control-group form-group col-md-6 mb-0">
+															<label class="form-label fw-bold">Upload your CV
+
+																<span class="col-auto align-self-center">
+																	<span class="form-help" data-bs-toggle="popover" data-bs-placement="top" data-bs-content="(Name, Address, and phone number)" data-bs-original-title="" title="" aria-describedby="popover10908">?</span>
+																</span> </label>
+															<input type="file" name="first_name" class="form-control" required>
+														</div>
+														<div class="control-group form-group col-md-6 mb-0">
+															<label class="form-label fw-bold">Emergency Contact
+																<span class="col-auto align-self-center">
+																	<span class="form-help" data-bs-toggle="popover" data-bs-placement="top" data-bs-content="(any letter from your professional circle, teachers, professors, or any person in some power who can vouch for you)" data-bs-original-title="" title="" aria-describedby="popover10908">?</span>
+																</span>
+															</label>
+															<input type="text" name="first_name" class="form-control" required>
+														</div>
+
 													</div>
-												</div>
+													<div class="row">
+														<div class="control-group form-group col-md-6 mb-0">
+															<label class="form-label fw-bold">Reference etter
+																<span class="col-auto align-self-center">
+																	<span class="form-help" data-bs-toggle="popover" data-bs-placement="top" data-bs-content="Please share the contact details: full name, designation, phone and email ID of the person who has written the recommendation letter." data-bs-original-title="" title="" aria-describedby="popover10908">?</span>
+																</span>
+															</label>
+															<input type="file" name="first_name" class="form-control" required>
+														</div>
+														<div class="control-group form-group col-md-6 mb-0">
+															<label class="form-label fw-bold">share the contact details
+																<span class="col-auto align-self-center">
+																	<span class="form-help" data-bs-toggle="popover" data-bs-placement="top" data-bs-content="(any letter from your professional circle, teachers, professors, or any person in some power who can vouch for you)" data-bs-original-title="" title="" aria-describedby="popover10908">?</span>
+																</span>
+															</label>
+															<input type="text" name="first_name" class="form-control" required>
+														</div>
+													</div>
 
 
-											</div>
-											<h3>Occupation Details</h3>
-											<div>
-												<div class="row">
-													<div class="control-group form-group col-md-6 mb-0">
-														<label class="form-label fw-bold">Occupation</label>
-														<select class="form-control select2 form-select" name="gender" data-placeholder="Select Occupation">
-															<option label="Select Occupation"></option>
-															<option value="1">School Student</option>
-															<option value="2">College/university student</option>
-															<option value="3">Working professional</option>
-															<option value="3">Retired</option>
-															<option value="3">Home maker</option>
-															<option value="3">Personal business</option>
-															<option value="3">Other</option>
-														</select>
-													</div>
-													<div class="control-group form-group col-md-6 mb-0">
-														<label class="form-label fw-bold">Name of your school</label>
-														<input type="text" name="first_name" class="form-control" placeholder="Name of your school/ college" required>
-													</div>
 												</div>
-												<div class="row">
-													<div class="control-group form-group col-md-6 mb-0">
-														<label class="form-label fw-bold">Designation if working</label>
-														<input type="text" name="first_name" class="form-control" placeholder="Designation if working" required>
+												<h3>Occupation Details</h3>
+												<div>
+													<div class="row">
+														<div class="control-group form-group col-md-6 mb-0">
+															<label class="form-label fw-bold">Occupation</label>
+															<select class="form-control select2 form-select" name="gender" data-placeholder="Select Occupation">
+																<option label="Select Occupation"></option>
+																<option value="1">School Student</option>
+																<option value="2">College/university student</option>
+																<option value="3">Working professional</option>
+																<option value="3">Retired</option>
+																<option value="3">Home maker</option>
+																<option value="3">Personal business</option>
+																<option value="3">Other</option>
+															</select>
+														</div>
+														<div class="control-group form-group col-md-6 mb-0">
+															<label class="form-label fw-bold">Name of your school</label>
+															<input type="text" name="first_name" class="form-control" placeholder="Name of your school/ college" required>
+														</div>
 													</div>
-													<div class="control-group form-group col-md-6 mb-0">
-														<label class="form-label fw-bold">Languages known</label>
-														<select class="form-control select2 form-select" name="gender" data-placeholder="Select Languages">
-															<option label="Languages known"></option>
-															<option value="1">English</option>
-															<option value="2">Hindi</option>
-															<option value="3">Other</option>
+													<div class="row">
+														<div class="control-group form-group col-md-6 mb-0">
+															<label class="form-label fw-bold">Designation if working</label>
+															<input type="text" name="first_name" class="form-control" placeholder="Designation if working" required>
+														</div>
+														<div class="control-group form-group col-md-6 mb-0">
+															<label class="form-label fw-bold">Languages known</label>
+															<select class="form-control select2 form-select" name="gender" data-placeholder="Select Languages">
+																<option label="Languages known"></option>
+																<option value="1">English</option>
+																<option value="2">Hindi</option>
+																<option value="3">Other</option>
 
-														</select>
+															</select>
+														</div>
 													</div>
-												</div>
-												<div class="row">
-													<div class="control-group form-group col-md-6 mb-0">
-														<label class="form-label fw-bold">Which kind of programs interests you?</label>
-														<select class="form-control select2 form-select" name="gender" data-placeholder=" Your Answer">
-															<option label="kind of programs"></option>
-															<option value="1">Research and Documentation</option>
-															<option value="2">Working with Communities and Children</option>
-															<option value="3">Designing posters and pamphlets</option>
-															<option value="3">Media related work/ Publishing articles</option>
-															<option value="3">Initiating a campaign</option>
-															<option value="3">Fundraising</option>
-															<option value="3">Video editing, photography etc</option>
-															<option value="3">Preparing professional PPT's/documents</option>
+													<div class="row">
+														<div class="control-group form-group col-md-6 mb-0">
+															<label class="form-label fw-bold">Which kind of programs interests you?</label>
+															<select class="form-control select2 form-select" name="gender" data-placeholder=" Your Answer">
+																<option label="kind of programs"></option>
+																<option value="1">Research and Documentation</option>
+																<option value="2">Working with Communities and Children</option>
+																<option value="3">Designing posters and pamphlets</option>
+																<option value="3">Media related work/ Publishing articles</option>
+																<option value="3">Initiating a campaign</option>
+																<option value="3">Fundraising</option>
+																<option value="3">Video editing, photography etc</option>
+																<option value="3">Preparing professional PPT's/documents</option>
 
-														</select>
+															</select>
+														</div>
+														<div class="control-group form-group col-md-6 mb-0">
+															<label class="form-label fw-bold">What is the time commitment that you can offer with CRY?</label>
+															<select class="form-control select2 form-select" name="gender" data-placeholder=" Your Answer">
+																<option label="commitment"></option>
+																<option value="2">3 to 6 months</option>
+																<option value="3">More then 6 months</option>
+																<option value="3">More then 1 year</option>
+															</select>
+														</div>
 													</div>
-													<div class="control-group form-group col-md-6 mb-0">
-														<label class="form-label fw-bold">What is the time commitment that you can offer with CRY?</label>
-														<select class="form-control select2 form-select" name="gender" data-placeholder=" Your Answer">
-															<option label="commitment"></option>
-															<option value="2">3 to 6 months</option>
-															<option value="3">More then 6 months</option>
-															<option value="3">More then 1 year</option>
-														</select>
-													</div>
-												</div>
 
-												<div class="row">
-													<div class="control-group form-group col-md-12 mb-0">
-														<label class="form-label fw-bold">How did you came to know about CRY?</label>
-														<select class="form-control select2 form-select" name="gender" data-placeholder=" Your Answer">
-															<option label="know about"></option>
-															<option value="2">CRY's website</option>
-															<option value="3">Social media sites</option>
-															<option value="3">Print Ads/ Hoardings</option>
-															<option value="3">Friends/Family</option>
-															<option value="3">CRY Volunteers/interns</option>
-															<option value="3">CRY Staff</option>
-															<option value="3">Online ads and posts</option>
-															<option value="3">Other</option>
-														</select>
+													<div class="row">
+														<div class="control-group form-group col-md-12 mb-0">
+															<label class="form-label fw-bold">How did you came to know about CRY?</label>
+															<select class="form-control select2 form-select" name="gender" data-placeholder=" Your Answer">
+																<option label="know about"></option>
+																<option value="2">CRY's website</option>
+																<option value="3">Social media sites</option>
+																<option value="3">Print Ads/ Hoardings</option>
+																<option value="3">Friends/Family</option>
+																<option value="3">CRY Volunteers/interns</option>
+																<option value="3">CRY Staff</option>
+																<option value="3">Online ads and posts</option>
+																<option value="3">Other</option>
+															</select>
+														</div>
 													</div>
-												</div>
-												<hr>
-												<h5>Please read the below 3 documents properly</h5>
-												<div class="row">
-													<div class="col-md-6 mb-0">
-														<a href="https://drive.google.com/drive/folders/1OA4CvaYcoVowDUMYyUbmnMvwKKhhiVpt" target="_blank">
-															<h5>CRY's Child Protection Policy</h5>
-														</a>
+													<hr>
+													<h5>Please read the below 3 documents properly</h5>
+													<div class="row">
+														<div class="col-md-6 mb-0">
+															<a href="https://drive.google.com/drive/folders/1OA4CvaYcoVowDUMYyUbmnMvwKKhhiVpt" target="_blank">
+																<h5>CRY's Child Protection Policy</h5>
+															</a>
+														</div>
+														<div class="col-md-6 mb-0">
+															<a href="https://docs.google.com/document/d/14G9qJjqgCFiapxChbbMRW2dsLPnK8WpVxyZo05qSWsk/edit?usp=sharing" target="_blank">
+																<h5>CRY's Code of Conduct</h5>
+															</a>
+														</div>
 													</div>
-													<div class="col-md-6 mb-0">
-														<a href="https://docs.google.com/document/d/14G9qJjqgCFiapxChbbMRW2dsLPnK8WpVxyZo05qSWsk/edit?usp=sharing" target="_blank">
-															<h5>CRY's Code of Conduct</h5>
-														</a>
+													<div class="row">
+														<div class="col-md-6 mb-0">
+															<a href="https://drive.google.com/file/d/119ksoFAzQ7gE8uuvRol0EaCfjbwGL6sz/view?usp=sharing" target="_blank">
+																<h5>CRY's Online sessions SOP</h5>
+															</a>
+														</div>
+														<div class="col-md-6 mb-0"></div>
 													</div>
-												</div>
-												<div class="row">
-													<div class="col-md-6 mb-0">
-														<a href="https://drive.google.com/file/d/119ksoFAzQ7gE8uuvRol0EaCfjbwGL6sz/view?usp=sharing" target="_blank">
-															<h5>CRY's Online sessions SOP</h5>
-														</a>
+													<div class="row">
+														<div class="control-group form-group col-md-6 mb-0">
+															<label class="form-label fw-bold">Signature</label>
+															<input type="text" name="first_name" class="form-control" placeholder="Signature" required>
+														</div>
+														<div class="control-group form-group col-md-6 mb-0">
+															<label class="form-label fw-bold">Date of submission</label>
+															<input type="date" name="first_name" class="form-control" required>
+														</div>
 													</div>
-													<div class="col-md-6 mb-0"></div>
-												</div>
-												<div class="row">
-													<div class="control-group form-group col-md-6 mb-0">
-														<label class="form-label fw-bold">Signature</label>
-														<input type="text" name="first_name" class="form-control" placeholder="Signature" required>
-													</div>
-													<div class="control-group form-group col-md-6 mb-0">
-														<label class="form-label fw-bold">Date of submission</label>
-														<input type="date" name="first_name" class="form-control" required>
-													</div>
-												</div>
 
+												</div>
 											</div>
 										</div>
 									</div>
 								</div>
 							</div>
-						</div>
-						<!--/Row -->
+							<!--/Row -->
 						</form>
 					</div>
 

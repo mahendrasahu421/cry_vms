@@ -116,7 +116,6 @@
 										<?php } ?>
 									</select>
 								</div>
-								<!-- <input type="hidden" class="input-sm form-control" name="start" value="<?php echo $date_from ?>" required /> -->
 								<div class="col-lg-2">
 									<div class="input-group">
 										<div class="input-group-text">
@@ -216,7 +215,7 @@
 </div>
 </div>
 </div>
-<script>
+<!-- <script>
 	$(document).ready(function() {
 		let region_id = $('#region_id').val();
 		if (region_id != null) {
@@ -224,7 +223,7 @@
 		}
 
 	});
-</script>
+</script> -->
 <script>
 	function fetch_details(id, display_id) {
 		//alert(id);
@@ -313,7 +312,7 @@
 			type: 'post',
 			data: datastr,
 			success: function(response) {
-				$('#success_msg').html('Post Registration Email Send');
+				$('#success_msg').html('Registration Request Sent Successfully');
 
 			}
 		});

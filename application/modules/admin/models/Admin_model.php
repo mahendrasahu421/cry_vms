@@ -105,6 +105,19 @@ class admin_model extends CI_Model
 		//$this->db->close();	exit;
 		return $result;
 	}
+	function all_City_data($where)
+	{
+		$this->db->initialize();
+		$city = $this->db->select('c.city_id,c.city_name,c.code,c.state_id,s.state_name');
+		$this->db->from('cities c');
+		$this->db->join('states s', 's.state_id = c.state_id', 'left');
+		$this->db->where('c.city_id ', $where);
+		$query = $this->db->get();
+		//echo $this->db->last_query(); die;
+		$result = $query->result_array();
+		//$this->db->close();	exit;
+		return $result;
+	}
 	public function total_task_count_volunteer()
 	{
 		$this->db->select('task_id');
@@ -196,7 +209,7 @@ class admin_model extends CI_Model
 	function volunteer_enquiry_Data($where)
 	{
 		$this->db->initialize();
-		$this->db->select('v.volunteer_id,v.first_name,v.last_name,v.mobile,v.email,v.state_id,v.city_id,s.state_name,c.city_name');
+		$this->db->select('v.volunteer_id,v.first_name,v.last_name,v.mobile,v.email,v.state_id,v.city_id,v.creation_date,s.state_name,c.city_name');
 		$this->db->from('volunteer v');
 		$this->db->join('states s', 's.state_id = v.state_id', 'left');
 		$this->db->join('cities c', 'c.city_id = v.city_id', 'left');

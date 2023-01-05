@@ -23,7 +23,7 @@
 								<div class="form-row">
 									<div class="col-md-12 mb-3">
 										<label for="validationCustom04" class="form-label">State Name</label>
-										<input type="text" name="state_name" class="form-control" id="validationCustom02" value="" placeholder="State Name " required>
+										<input type="text" onkeypress="return /^-?[A-Z,a-z]*$/.test(this.value+event.key)" maxlength="20" name="state_name" class="form-control" id="validationCustom02" value="" placeholder="State Name " required>
 										<div class="valid-feedback">Looks good!</div>
 									</div>
 									<div class="col-md-12 mb-3">

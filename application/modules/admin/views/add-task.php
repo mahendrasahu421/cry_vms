@@ -95,7 +95,7 @@ echo $today;
 								</div>
 								<div class="col-md-4">
 									<label for="validationCustom02" class="form-label">Total Volunteers Required <sup>*</sup></label>
-									<input type="text" class="form-control" onkeyup="onlyNumber('volunteer');" id="volunteer" name="volunteer_required" value="" required />
+									<input type="text" class="form-control" onkeypress="return /^-?[0-9]*$/.test(this.value+event.key)" id="volunteer" name="volunteer_required" value="" required placeholder="Total Volunteers Required"/>
 									<div class="invalid-feedback">Fill Total Volunteers</div>
 								</div>
 								<div class="col-md-4">
@@ -161,7 +161,9 @@ echo $today;
 <script>
 	$(document).ready(function() {
 		let region_id = $('#region_id').val();
-		if (region_id != null) {
+		if (region_id == "") {
+
+		} else {
 			$('#region_id option:not(:selected)').attr('disabled', true);
 		}
 

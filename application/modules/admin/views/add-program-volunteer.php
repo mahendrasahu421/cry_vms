@@ -8,10 +8,10 @@
             <div class="page-header">
                 <div>
                     <h1 class="page-title">
-                        Program Volunteer</h1>
+                        Add Program </h1>
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item"><a href="admin-dashboard">Home</a></li>
-                        <li class="breadcrumb-item"><a href="javascript:void(0);">Program Volunteer
+                        <li class="breadcrumb-item"><a href="javascript:void(0);">Add Program Volunteer
                             </a>
                         </li>
                     </ol>
@@ -22,7 +22,7 @@
                 <div class="col-lg-12 col-md-12 col-xl-12">
                     <div class="card">
                         <div class="card-header bg-warning">
-                            <h3 class="card-title text-white">Program Volunteer</h3>
+                            <h3 class="card-title text-white">Add Program</h3>
                         </div>
                         <div class="card-body">
                             <form class="needs-validation" action="<?php echo base_url(); ?>insert-program" method="post" novalidate>
@@ -39,22 +39,22 @@
                                                                                                 } ?>><?php echo $rd['region_name'] ?></option>
                                             <?php } ?>
                                         </select>
-                                        <div class="valid-feedback">Looks good!</div>
+                                        <div class="invalid-feedback">Select Region</div>
                                     </div>
                                     <div class="col-md-6 mb-3">
                                         <label class="form-label fw-bold" for="validationCustom04">Program Name</label>
                                         <input type="text" name="programName" class="form-control" id="programName" value="" placeholder="Program Name" required>
-                                        <div class="valid-feedback">Looks good!</div>
+                                        <div class="invalid-feedback">Enter Program Name</div>
                                     </div>
                                     <div class="col-md-6 mb-3">
                                         <label class="form-label fw-bold" for="validationCustom04">Program Start Date</label>
                                         <input type="date" name="program_start_date" class="form-control" id="programstart-date" value="" placeholder="Program Name" required>
-                                        <div class="valid-feedback">Looks good!</div>
+                                        <div class="invalid-feedback">Enter Program Start Date</div>
                                     </div>
                                     <div class="col-md-6 mb-3">
                                         <label class="form-label fw-bold" for="validationCustom04">Program End Date</label>
                                         <input type="date" name="program_end_date" class="form-control" id="programend-date" value="" placeholder="Program Name" required>
-                                        <div class="valid-feedback">Looks good!</div>
+                                        <div class="invalid-feedback">Enter Program End Date</div>
                                     </div>
                                     <div class="col-md-6 mb-3">
                                         <label class="form-label fw-bold" for="validationCustom04">URL Expire Date</label>
@@ -64,7 +64,7 @@
                                     <div class="col-md-6 mb-3">
                                         <label class="form-label fw-bold" for="validationCustom04">Program in Brief</label>
                                         <textarea type="date" maxlength="500" name="programInbrife" class="form-control" id="programInbrife" value="" placeholder="Program In Brife" required></textarea>
-                                        <div class="valid-feedback">Looks good!</div>
+                                        <div class="invalid-feedback">Enter URL Expire Date</div>
                                     </div>
 
                                     <div class="col-md-6 mb-3">
@@ -74,6 +74,7 @@
                                             <option value="1">Active</option>
                                             <option value="2">Inactive</option>
                                         </select>
+                                        <div class="invalid-feedback">Select status</div>
                                     </div>
                                     <style>
                                         #programSubmit {

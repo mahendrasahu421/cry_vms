@@ -29,24 +29,24 @@
                                 <div class="form-row">
                                     <div class="col-md-12 mb-3">
                                         <label for="validationCustom04" class="form-label">State Name</label>
-                                        <select class="form-control select2-show-search form-select" data-placeholder="Select State" required>
-                                        <option label="Select State"></option>
+                                        <select class="form-control select2-show-search form-select" name="state_name" data-placeholder="Select State" required >
+                                        <option value="">Select State</option>
                                             <?php foreach ($state as $st) { ?>
                                                 <option value="<?php echo $st['state_id']; ?>"><?php echo $st['state_name']; ?></option>
                                             <?php } ?>
                                         </select>
-                                        </select>
-                                        <div class="invalid-feedback">Looks good!</div>
+                                        
+                                        <div class="invalid-feedback">Select State Name</div>
                                     </div>
                                     <div class="col-md-12 mb-3">
                                         <label for="validationCustom04" class="form-label">Districts Name</label>
-                                        <input type="text" name="city_name" class="form-control" id="validationCustom02" value="" placeholder="City Name " required>
-                                        <div class="invalid-feedback">Looks good!</div>
+                                        <input type="text" name="city_name" onkeypress="return /^-?[A-Z,a-z]*$/.test(this.value+event.key)" maxlength="20" class="form-control" id="validationCustom02" value="" placeholder="City Name " required>
+                                        <div class="invalid-feedback">Enter Districts Name</div>
                                     </div>
                                     <div class="col-md-12 mb-3">
                                         <label for="validationCustom04" class="form-label">Abbreviation Name</label>
-                                        <input type="text" name="code" class="form-control" id="validationCustom02" value="" placeholder="Abbreviation Name" required>
-                                        <div class="invalid-feedback">Looks good!</div>
+                                        <input type="text" name="code" onkeypress="return /^-?[A-Z,a-z]*$/.test(this.value+event.key)" maxlength="20" class="form-control" id="validationCustom02" value="" placeholder="Abbreviation Name" required>
+                                        <div class="invalid-feedback">Enter Abbreviation Name</div>
                                     </div>
                                     <div class="col-xl-12 col-lg-12 mb-3">
                                         <label for="validationCustom04" class="form-label">Status</label>
@@ -55,7 +55,7 @@
                                             <option value="1">Active</option>
                                             <option value="2">Inactive</option>
                                         </select>
-                                        <div class="invalid-feedback">Looks good!</div>
+                                        <div class="invalid-feedback">Select Status</div>
 
                                     </div>
                                 </div>

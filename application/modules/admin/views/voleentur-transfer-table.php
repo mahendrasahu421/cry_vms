@@ -133,7 +133,7 @@
 												<th>Current State</th>
 												<th>Where to Relocate State</th>
 												<th>Where to Relocate City</th>
-												<th>Resion</th>
+												<th>Reason </th>
 												<th>Action </th>
 
 

@@ -100,10 +100,10 @@
 			<!-- PAGE-HEADER -->
 			<div class="page-header">
 				<div>
-					<h1 class="page-title">All Volunteer List</h1>
+					<h1 class="page-title">Pre Registration Volunteer List</h1>
 					<ol class="breadcrumb">
 						<li class="breadcrumb-item"><a href="admin-dashboard">Home</a></li>
-						<li class="breadcrumb-item active" aria-current="page">All Volunteer List</li>
+						<li class="breadcrumb-item active" aria-current="page">Pre Registration Volunteer List</li>
 					</ol>
 				</div>
 				<div class="ms-auto pageheader-btn" id="flip">

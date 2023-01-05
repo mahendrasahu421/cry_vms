@@ -181,7 +181,7 @@ if ($this->session->userdata('task_status')) {
                                             <th>Published Date</th>
                                             <th>keyword</th>
                                             <th>Task Name</th>
-                                            <th>Task Brif</th>
+                                            <th>Task Brief</th>
                                             <th>Status</th>
                                             <!-- <th>Task Status</th> -->
                                             <th>Action</th>

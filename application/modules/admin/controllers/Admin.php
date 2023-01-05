@@ -91,170 +91,6 @@ class Admin extends MY_Controller
         }
     }
 
-    public function intern_volenteership()
-    {
-        // $CI = &get_instance();
-
-        // $userID = $this->session->userdata('userID');
-        // $res['startDate'] = date('m/d/Y');
-        // $res['endDate'] = date('Y-m-d', strtotime('-28 days', strtotime($res['startDate'])));
-        // $res['causesID'] = "";
-        // $res['stateID'] = "";
-        // $where111['mailConfrmationStatus'] = 1;
-        // $where111['roleID'] = 2;
-        // $where111['verify !'] = 2;
-        // if ($this->input->post()) {
-        // print_r($this->input->post('datefilter'));
-        // die();
-        // $datefilter = $this->input->post('datefilter');
-
-        // $datefilter = explode("-", $datefilter);
-        //print_r($datefilter); die;
-        // $second_date = date('Y-m-d', strtotime(str_replace('/', '-', $datefilter[0])));
-        // $first_date = date('Y-m-d', strtotime(str_replace('/', '-', $datefilter[1])));
-        //die;
-        //$date = explode('-',$this->input->post('datefilter'));
-        // if(sizeof($date)>0)
-        // {
-        //     $res['startDate'] = $first_date;
-        //     $res['endDate'] = $second_date;
-        //     //}
-        //     if ($this->input->post('cause') != '') {
-        //         $where333['causesID'] = $this->input->post('cause');
-        //         $res['causesID'] = $this->input->post('cause');
-        //     }
-        //     if ($this->input->post('state') != '') {
-        //         $where222['stateID'] = $this->input->post('state');
-        //         $res['stateID'] = $this->input->post('state');
-        //     }
-        //     //die();
-        // }
-        // $where222['status'] = 1;
-        // $where112['usersCreationDate'] = "'" . date("Y-m-d", strtotime('+0 days', strtotime($res['startDate']))) . "'";
-        // $where113['usersCreationDate'] = "'" . date("Y-m-d", strtotime($res['endDate'])) . "'";
-        // if ($this->input->post('cause') == '') {
-        //     $join_data = array(
-        //         array(
-        //             'table' => 'users',
-        //             'fields' => array('volunteerID', 'verify', 'userID', 'firstName', 'lastName', 'mobile', 'email', 'usersCreationDate'),
-        //             'joinWith' => array('userID'),
-        //             'where' => $where111,
-        //             'order_by' => array('userID', 'DESC'),
-        //             'where_function' => array(
-        //                 array('CAST', 'DATE', $where112, '<'),
-        //                 array('CAST', 'DATE', $where113, '>')
-        //             ),
-        //         ),
-        //         array(
-        //             'joined' => 0,
-        //             'table' => 'user_data',
-        //             'fields' => array('correspontenceAddress', 'stateID', 'cityID', 'gender'),
-        //             'joinWith' => array('userID', 'left'),
-        //             'where' => $where222,
-        //         ),
-        //         array(
-        //             'joined' => 1,
-        //             'table' => 'states',
-        //             'fields' => array('stateName'),
-        //             'joinWith' => array('stateID', 'left'),
-        //         ),
-        //         array(
-        //             'joined' => 1,
-        //             'table' => 'cities',
-        //             'fields' => array('cityName'),
-        //             'joinWith' => array('cityID', 'left'),
-        //         ),
-        //     );
-        // } else {
-        //     $join_data = array(
-        //         array(
-        //             'table' => 'user_area_of_interest',
-        //             'fields' => array('userAreaOfInterestID'),
-        //             'joinWith' => array('userID'),
-        //             'where' => $where333,
-        //         ),
-        //         array(
-        //             'joined' => 0,
-        //             'table' => 'users',
-        //             'fields' => array('verify', 'userID', 'firstName', 'lastName', 'mobile', 'email', 'usersCreationDate'),
-        //             'joinWith' => array('userID'),
-        //             'where' => $where111,
-        //             'order_by' => array('userID', 'DESC'),
-        //         ),
-        //         array(
-        //             'joined' => 1,
-        //             'table' => 'user_data',
-        //             'fields' => array('correspontenceAddress', 'stateID', 'cityID', 'gender'),
-        //             'joinWith' => array('userID', 'left'),
-        //             'where' => $where222,
-        //         ),
-        //         array(
-        //             'joined' => 2,
-        //             'table' => 'states',
-        //             'fields' => array('stateName'),
-        //             'joinWith' => array('stateID', 'left'),
-        //         ),
-        //         array(
-        //             'joined' => 2,
-        //             'table' => 'cities',
-        //             'fields' => array('cityName'),
-        //             'joinWith' => array('cityID', 'left'),
-        //         ),
-        //     );
-        // }
-
-        // $limit = '';
-        // $order_by = '';
-        // $res['volunteerDetails'] = $this->Curl_model->fetch_data_with_joining($join_data, $limit, $order_by);
-        // $res['enc_userID'] = rtrim(strtr(base64_encode($userID), "+/", "-_"), "=");
-        // $res['userID'] = $userID;
-        // $fields = array(
-        //     'stateID',
-        //     'stateName',
-        // );
-        // $where = '';
-        // $limit = '';
-        // $order_by = array('stateID', 'ASC');
-        // $res['state'] = $this->Curl_model->fetch_data_in_many_array('states', $fields, $where, $limit, $order_by);
-        // $fields = array(
-        //     'causesName',
-        //     'causesID',
-        //     'causesImg',
-        //     'status'
-        // );
-        // $where = '';
-        // $limit = '';
-        // $order_by = array('causesID', 'DESC');
-        // $res['causes'] = $this->Curl_model->fetch_data_in_many_array('causes', $fields, $where, $limit, $order_by);
-        // $userID = $this->session->userdata('userID');
-        // $join_data = array(
-        //     array(
-        //         'table' => 'users',
-        //         'fields' => array('firstName', 'lastName', 'mobile', 'email', 'userID'),
-        //         'joinWith' => array('userID'),
-        //         'where' => array(
-        //             'userID' => $userID
-        //         ),
-
-        //     ),
-        //     array(
-        //         'joined' => 0,
-        //         'table' => 'user_data',
-        //         'fields' => array('profile', 'correspontenceAddress'),
-        //         'joinWith' => array('userID', 'left'),
-        //     ),
-        // );
-        // $where = array();
-        // $limit = '';
-        // $order_by = '';
-        // $data['userDetails'] = $this->Curl_model->fetch_data_with_joining($join_data, $limit, $order_by);
-        $this->load->view('temp/head');
-        $this->load->view('temp/header');
-        $this->load->view('temp/sidebar');
-        $this->load->view('intern-volenteership');
-        $this->load->view('temp/footer');
-    }
-
     public function insert_add_task()
     {
         try {
@@ -1201,10 +1037,10 @@ class Admin extends MY_Controller
                 $region = $this->session->userdata('region_id');
                 $role = $this->session->userdata('role_id');
                 if ($role == 1) {
-                    $task_id = $this->input->post('task_id');
-                    echo "<pre>";
-                    print_r($region);
-                    exit;
+                    $data['taskId'] =  $task_id = $this->input->post('task_id');
+                    $where  = 'sr.task_id=' . $task_id . '';
+                    $data['requetedtask'] = $this->Admin_model->request_task_volunteer($where);
+                    $data['rname'] = $this->Crud_modal->fetch_single_data('region_name,state_id', 'regions', array('region_id' => $region));
                 } else {
                     $data['taskId'] =  $task_id = $this->input->post('task_id');
                     $where  = 'sr.task_id=' . $task_id . '';
@@ -1416,197 +1252,7 @@ class Admin extends MY_Controller
         $this->load->view('temp/footer');
     }
 
-    public function view_daily_report()
-    {
-        // $CI = &get_instance();
 
-        // $userID = $this->session->userdata('userID');
-        // $fields = array(
-        //     'taskID',
-        //     'taskTitle',
-        //     'status',
-        //     'taskStatus'
-        // );
-        // $where = array('status' => 1);
-        // $limit = '';
-        // $order_by = array('taskPublishedDate', 'DESC');
-        // $task = $this->Curl_model->fetch_data_in_many_array('task', $fields, $where, $limit, $order_by);
-        // $res['task'] = $task;
-        // $fields = array(
-        //     'resionID',
-        //     'resionName',
-        // );
-        // $where = array('status' => 1);
-        // $limit = '';
-        // $order_by = array('resionID', 'DESC');
-        // $res['mm_resion'] = $this->Curl_model->fetch_data_in_many_array('mm_resion', $fields, $where, $limit, $order_by);
-        // if ($this->input->get()) {
-        // print_r($this->input->get());
-        // $taskID = $this->input->get('taskID');
-        // $date = date("Y-m-d", strtotime($this->input->get('asdate')));
-        // $res['taskID'] = $taskID;
-        // $res['birthday'] = $date;
-        //die();
-        // $join_data = array(
-        //     array(
-        //         'table' => 'daily_report',
-        //         'fields' => array('dailyReportID', 'dailyReportTimeIn', 'userID', 'taskID', 'dailyReportTimeOut', 'dailyReportDate', 'dailyReportActivity'),
-        //         'joinWith' => array('userID'),
-        //         'where' => array(
-        //             'status' => 1,
-        //             'taskID' => $taskID,
-        //             'approved_status' => 0,
-        //             'dailyReportDate <' => "'" . $date . "'",
-        //             'approveddaily_ID' => 0,
-        //         ),
-        //         'order_by' => array('dailyReportID', 'DESC'),
-        //         'group_by' => array('userID'),
-        // 'function'=>array('SUM','dailyReportTimeIn'),
-        //     ),
-        //     array(
-        //         'joined' => 0,
-        //         'table' => 'users',
-        //         'fields' => array('verify', 'userID', 'firstName', 'lastName', 'mobile', 'email', 'usersCreationDate'),
-        //         'joinWith' => array('userID', 'left'),
-        //     ),
-        //     array(
-        //         'joined' => 1,
-        //         'table' => 'user_data',
-        //         'fields' => array('correspontenceAddress', 'stateID', 'cityID', 'gender'),
-        //         'joinWith' => array('userID', 'left'),
-        //     ),
-        //     array(
-        //         'joined' => 2,
-        //         'table' => 'states',
-        //         'fields' => array('stateName'),
-        //         'joinWith' => array('stateID', 'left'),
-        //     ),
-        //     array(
-        //         'joined' => 2,
-        //         'table' => 'cities',
-        //         'fields' => array('cityName'),
-        //         'joinWith' => array('cityID', 'left'),
-        //     ),
-        // );
-
-        // $limit = '';
-        // $order_by = '';
-        // $res['daily_report'] = $this->Curl_model->fetch_data_with_joining($join_data, $limit, $order_by);
-        // } else {
-        //     $date = date("Y-m-d");
-        //     $res['taskID'] = $taskID;
-        //     $res['birthday'] = $date;
-        // }
-        // if ($this->input->post()) {
-        //     if ($this->input->post('disaproved') == 'disaproved') {
-        //         $userID = $this->input->post('userid');
-        //         $taskID = $this->input->post('taskid');
-        //         $vwh = $this->input->post('vwh');
-        //         $vwm = $this->input->post('vwm');
-        //         $ywh = $this->input->post('ywh');
-        //         $ywm = $this->input->post('ywm');
-        //         $user_time = $vwh . '.' . $vwm;
-        //         $admin_time = $ywh . '.' . $ywm;
-        //         $reasonID = $this->input->post('reasonID');
-        //         $dailyReportDate = $this->input->post('dailyReportDate');
-
-        //         $data = array(
-        //             'userID' => $userID,
-        //             'taskID' => $taskID,
-        //             'total_time' => $admin_time,
-        //             'status' => 2,
-        //             'user_time' => $user_time,
-        //             'admin_time' => $admin_time,
-        //             'reason' => $reasonID,
-        //         );
-        //         $approveddaily_ID = $this->Curl_model->insert_data('approveddaily_report', $data);
-        //         $where = array(
-        //             'userID' => $userID,
-        //             'taskID' => $taskID,
-        //             'CAST(`dailyReportDate` as DATE)=' => $dailyReportDate
-        //         );
-        //         $fields = array(
-        //             'approved_status' => 2,
-        //             'approveddaily_ID' => $approveddaily_ID
-        //         );
-        //         $results = $this->Curl_model->update_data('daily_report', $fields, $where);
-
-        //         if ($results) {
-        //             $user_data = $this->Curl_model->fetch_data('users', array('email'), array('userID' => $userID), '', '');
-        // print_r($task_data);
-        // die();
-        // $email = $user_data['email'];
-        // $href = base_url() . 'login';
-        //$href2 = base_url().'verify/'.md5($results);
-        // $to = $email;
-        // $from = 'volunteer@caritasindia.org';
-        // $msg = 'Caritas India Volunteer';
-        // $msg2 = "
-        // <center><p><strong style='font-weight:bold;'>Oops! </strong>Your daily report has been disapproved.</p></center>
-        // <table style='border:1px solid #8f281f;border-top:0px solid #8f281f !important;border-spacing: 0px;width:100%;'>
-        //     <tr>
-        //         <th style='border-top:1px solid #8f281f !important;padding:10px 20px ;text-align:left;'>Your Total Time</th>
-        //         <td style='border-top:1px solid #8f281f !important;border-left:1px solid #8f281f !important;padding:10px 20px ;text-align:left;'>" . $vwh . " Hours " . $vwm . " Min</td>
-        //     </tr>
-        //     <tr>
-        //         <th style='border-top:1px solid #8f281f !important;padding:10px 20px ;text-align:left;'>Admin Total Time</th>
-        //         <td style='border-top:1px solid #8f281f !important;border-left:1px solid #8f281f !important;padding:10px 20px ;text-align:left;'>" . $ywh . " Hours" . $ywm . " Min</td>
-        //     </tr>
-        //     <tr>
-        //         <th style='border-top:1px solid #8f281f !important;padding:10px 20px ;text-align:left;'>Reason</th>
-        //         <td style='border-top:1px solid #8f281f !important;border-left:1px solid #8f281f !important;padding:10px 20px ;text-align:left;'>" . ucwords($reasonID) . "</td>
-        //     </tr>
-        // </table>";
-        //die();
-        // $subj = "Daily Report Activity";
-        // $btn = "Check Now!";
-
-        // $html = $this->request_email($msg, $msg2, $href, $btn);
-        // $res = $this->mail_send($to, $from, $msg, $msg2, $subj, $href, $btn, $html);
-        //echo "1";
-        //     $this->session->set_userdata('dailyreport_disapproved1', 'true');
-        //     echo '<script>window.location.href = "' . base_url() . 'view-daily-report"</script>';
-        //     die();
-        // }
-
-        // print_r($this->input->post());
-
-        //     }
-        // }
-
-        // $res['enc_userID'] = rtrim(strtr(base64_encode($userID), "+/", "-_"), "=");
-        // $res['userID'] = $userID;
-        // echo "<pre>";
-        // print_r($res);
-        // die();
-        // $userID = $this->session->userdata('userID');
-        // $join_data = array(
-        //     array(
-        //         'table' => 'users',
-        //         'fields' => array('firstName', 'lastName', 'mobile', 'email', 'userID'),
-        //         'joinWith' => array('userID'),
-        //         'where' => array(
-        //             'userID' => $userID
-        //         ),
-
-        //     ),
-        //     array(
-        //         'joined' => 0,
-        //         'table' => 'user_data',
-        //         'fields' => array('profile', 'correspontenceAddress'),
-        //         'joinWith' => array('userID', 'left'),
-        //     ),
-        // );
-        // $where = array();
-        // $limit = '';
-        // $order_by = '';
-        // $data['userDetails'] = $this->Curl_model->fetch_data_with_joining($join_data, $limit, $order_by);
-        $this->load->view('temp/head');
-        $this->load->view('temp/header');
-        $this->load->view('temp/sidebar');
-        $this->load->view('view-daily-report');
-        $this->load->view('temp/footer');
-    }
 
     public function daily_report_approved()
     {
@@ -2311,243 +1957,6 @@ class Admin extends MY_Controller
         } catch (Exception $e) {
             echo 'Caught exception: ',  $e->getMessage(), "\n";
         }
-    }
-
-    public function user_profile()
-    {
-        // $CI = &get_instance();
-
-        // $userID = $this->session->userdata('userID');
-        // $join_data = array(
-        //     array(
-        //         'table' => 'users',
-        //         'fields' => array('firstName', 'lastName', 'mobile', 'email'),
-        //         'joinWith' => array('userID'),
-        //         'where' => array(
-        //             'userID' => $userID
-        //         ),
-        //     ),
-        //     array(
-        //         'joined' => 0,
-        //         'table' => 'user_data',
-        //         'fields' => array('dateOfBirth', 'correspontenceAddress', 'govt_name', 'time_duration', 'ref1_name', 'ref1_relation', 'ref1_contact', 'ref1_email', 'ref1_address', 'ref2_name', 'ref2_relation', 'ref2_contact', 'ref2_email', 'ref2_address', 'profile'),
-        //         'joinWith' => array('userID', 'left'),
-        //     ),
-        //     array(
-        //         'joined' => 0,
-        //         'table' => 'position',
-        //         'fields' => array('positionName'),
-        //         'joinWith' => array('positionID', 'left'),
-        //     ),
-        //     array(
-        //         'joined' => 1,
-        //         'table' => 'states',
-        //         'fields' => array('stateName'),
-        //         'joinWith' => array('stateID', 'left'),
-        //     ),
-        //     array(
-        //         'joined' => 1,
-        //         'table' => 'cities',
-        //         'fields' => array('cityName'),
-        //         'joinWith' => array('cityID', 'left'),
-        //     ),
-        //     array(
-        //         'joined' => 1,
-        //         'table' => 'nationality',
-        //         'fields' => array('nationalityName'),
-        //         'joinWith' => array('nationalityID', 'left'),
-        //     ),
-        //     array(
-        //         'joined' => 1,
-        //         'table' => 'education',
-        //         'fields' => array('educationName'),
-        //         'joinWith' => array('educationID', 'left'),
-        //     ),
-        //     array(
-        //         'joined' => 1,
-        //         'table' => 'blood_group',
-        //         'fields' => array('bloodGroupName'),
-        //         'joinWith' => array('bloodGroupID', 'left'),
-        //     ),
-        //     array(
-        //         'joined' => 1,
-        //         'table' => 'occupation',
-        //         'fields' => array('occupationName'),
-        //         'joinWith' => array('occupationID', 'left'),
-        //     ),
-        // );
-        // $where = array();
-        // $limit = '';
-        // $order_by = '';
-        // $res['userDetails'] = $this->Curl_model->fetch_data_with_joining($join_data, $limit, $order_by);
-        // $userID = $this->session->userdata('userID');
-        // $join_data = array(
-        //     array(
-        //         'table' => 'users',
-        //         'fields' => array('firstName', 'lastName', 'mobile', 'email', 'userID'),
-        //         'joinWith' => array('userID'),
-        //         'where' => array(
-        //             'userID' => $userID
-        //         ),
-
-        //     ),
-        //     array(
-        //         'joined' => 0,
-        //         'table' => 'user_data',
-        //         'fields' => array('profile', 'correspontenceAddress'),
-        //         'joinWith' => array('userID', 'left'),
-        //     ),
-        // );
-        // $where = array();
-        // $limit = '';
-        // $order_by = '';
-        // $data['userDetails'] = $this->Curl_model->fetch_data_with_joining($join_data, $limit, $order_by);
-        $this->load->view('temp/head');
-        $this->load->view('temp/header');
-        $this->load->view('temp/sidebar');
-        $this->load->view('user-profile');
-        $this->load->view('temp/footer');
-    }
-
-    public function admin_user_form()
-    {
-        // $userID = $this->session->userdata('userID');
-        // $join_data = array(
-        //     array(
-        //         'table' => 'users',
-        //         'fields' => array('firstName', 'lastName', 'mobile', 'email', 'userID'),
-        //         'joinWith' => array('userID'),
-        //         'where' => array(
-        //             'userID' => $userID
-        //         ),
-
-        //     ),
-        //     array(
-        //         'joined' => 0,
-        //         'table' => 'user_data',
-        //         'fields' => array('profile', 'correspontenceAddress'),
-        //         'joinWith' => array('userID', 'left'),
-        //     ),
-        // );
-        // $where = array();
-        // $limit = '';
-        // $order_by = '';
-        // $data['userDetails'] = $this->Curl_model->fetch_data_with_joining($join_data, $limit, $order_by);
-        $this->load->view('temp/head');
-        $this->load->view('temp/header');
-        $this->load->view('temp/sidebar');
-        $this->load->view('user-form');
-        $this->load->view('temp/footer');
-    }
-
-    public function view_task()
-    {
-        // $encode_taskID = $this->uri->segment(2);
-        // $res['encode_taskID'] = $encode_taskID;
-        // $taskID = base64_decode(str_pad(strtr($encode_taskID, '-_', '+/'), strlen($encode_taskID) % 4, '=', STR_PAD_RIGHT));
-        // $join_data = array(
-        //     array(
-        //         'table' => 'task',
-        //         'fields' => array('taskTitle', 'taskDescription', 'taskBrief', 'taskStatus', 'taskPublishedDate', 'status', 'sDate', 'expDate'),
-        //         'joinWith' => array('causesID'),
-        //         'where' => array(
-        //             'taskID' => $taskID
-        //         ),
-        //     ),
-        //     array(
-        //         'joined' => 0,
-        //         'table' => 'causes',
-        //         'fields' => array('causesName'),
-        //         'joinWith' => array('causesID', 'left'),
-        //     ),
-        // );
-
-        // $limit = '';
-        // $order_by = '';
-        // $res['task'] = $this->Curl_model->fetch_data_with_joining($join_data, $limit, $order_by);
-        // $join_data = array(
-        //     array(
-        //         'table' => 'attachment',
-        //         'fields' => array('attachmentName', 'attachmentSize', 'attachmentDate', 'userID', 'attachmentTypeID', 'attachmentCreationDate'),
-        //         'joinWith' => array('attachmentTypeID'),
-        //         'where' => array(
-        //             'status' => 1,
-        //             'taskID' => $taskID
-        //         ),
-        //     ),
-        //     array(
-        //         'joined' => 0,
-        //         'table' => 'attachment_type',
-        //         'fields' => array('attachmentTypeName', 'attachmentFileType'),
-        //         'joinWith' => array('attachmentTypeID', 'left'),
-        //     ),
-        //     array(
-        //         'joined' => 0,
-        //         'table' => 'users',
-        //         'fields' => array('firstName', 'lastName'),
-        //         'joinWith' => array('userID', 'left'),
-        //     ),
-        // );
-
-        // $limit = '';
-        // $order_by = '';
-        // $res['attachment'] = $this->Curl_model->fetch_data_with_joining($join_data, $limit, $order_by);
-        // $join_data = array(
-        //     array(
-        //         'table' => 'assigning_task',
-        //         'fields' => array('taskID', 'userID'),
-        //         'joinWith' => array('userID'),
-        //         'where' => array(
-        //             'status' => 1,
-        //             'taskID' => $taskID
-        //         ),
-        //     ),
-        //     array(
-        //         'joined' => 0,
-        //         'table' => 'users',
-        //         'fields' => array('firstName', 'lastName'),
-        //         'joinWith' => array('userID', 'left'),
-        //         'where' => array(
-        //             'status' => 1,
-        //         ),
-        //     ),
-        //     array(
-        //         'joined' => 1,
-        //         'table' => 'user_data',
-        //         'fields' => array('gender', 'profile'),
-        //         'joinWith' => array('userID', 'left'),
-        //     ),
-        // );
-        // $limit = '';
-        // $order_by = '';
-        // $res['valunteers'] = $this->Curl_model->fetch_data_with_joining($join_data, $limit, $order_by);
-        // $userID = $this->session->userdata('userID');
-        // $join_data = array(
-        //     array(
-        //         'table' => 'users',
-        //         'fields' => array('firstName', 'lastName', 'mobile', 'email', 'userID'),
-        //         'joinWith' => array('userID'),
-        //         'where' => array(
-        //             'userID' => $userID
-        //         ),
-
-        //     ),
-        //     array(
-        //         'joined' => 0,
-        //         'table' => 'user_data',
-        //         'fields' => array('profile', 'correspontenceAddress'),
-        //         'joinWith' => array('userID', 'left'),
-        //     ),
-        // );
-        // $where = array();
-        // $limit = '';
-        // $order_by = '';
-        // $data['userDetails'] = $this->Curl_model->fetch_data_with_joining($join_data, $limit, $order_by);
-        $this->load->view('temp/head');
-        $this->load->view('temp/header');
-        $this->load->view('temp/sidebar');
-        $this->load->view('view-task');
-        $this->load->view('temp/footer');
     }
 
 
@@ -4851,9 +4260,6 @@ class Admin extends MY_Controller
         try {
             if (($this->session->userdata('emp_id') != "" || $this->session->userdata('emp_id') != null)) {
                 $data['state'] = $this->Crud_modal->fetch_all_data('*', 'states', 'status=1');
-                // echo "<pre>";
-                // print_r($data['state']);
-                // exit;
                 $this->load->view('temp/head');
                 $this->load->view('temp/header');
                 $this->load->view('temp/sidebar');
@@ -4871,13 +4277,16 @@ class Admin extends MY_Controller
     public function insert_city()
     {
         try {
+            $state_name = $this->input->post('state_name');
+            $city_name = $this->input->post('city_name');
+            $code = $this->input->post('code');
+            $status = $this->input->post('status');
             $createdata = array(
                 //'country_id' => 101,
-                'state_id' => $this->input->post('state_name'),
-                'city_name' => $this->input->post('city_name'),
-                'code' => $this->input->post('code'),
-                //'state_id' => $this->input->post('state_id'),
-                'status' => $this->input->post('status'),
+                'state_id' => $state_name,
+                'city_name' => $city_name,
+                'code' => $code,
+                'status' => $status,
             );
             // echo "<pre>";
             // print_r($createdata);
@@ -4885,7 +4294,7 @@ class Admin extends MY_Controller
 
             $this->Crud_modal->data_insert('cities', $createdata);
             $this->session->set_flashdata('district_insert_message', '<div class="alert alert-info"><strong>Success!</strong> District has Inserted.</div>');
-            redirect(base_url() . 'add-city-list');
+            redirect(base_url() . 'add-district-list');
         } catch (Exception $e) {
             echo 'Caught exception: ',  $e->getMessage(), "\n";
         }
@@ -4898,10 +4307,13 @@ class Admin extends MY_Controller
             if (($this->session->userdata('emp_id') != "" || $this->session->userdata('emp_id') != null)) {
                 $ci_id = $this->uri->segment(2);
                 $val = base64_decode(str_pad(strtr($ci_id, '-_', '+/'), strlen($ci_id) % 4, '=', STR_PAD_RIGHT));
-                $where = "city_id = '$val'";
-                $data['cities'] = $this->Crud_modal->all_data_select('*', 'cities', $where, 'city_id desc');
+                $where = $val;
                 // echo "<pre>";
-                // print_r($data['cities']);exit;
+                // print_r($where);exit;
+                $data['cities'] = $this->Admin_model->all_City_data($where);
+                // echo "<pre>";
+                // print_r($data['cities']);
+                // exit;
                 $data['state'] = $this->Crud_modal->fetch_all_data('*', 'states', 'status=1');
                 $this->load->view('temp/head');
                 $this->load->view('temp/header');
@@ -5986,6 +5398,8 @@ class Admin extends MY_Controller
                         $data['state_name'] = $state_name;
                         $where = "creation_date>='" . $date_from . "' and creation_date<='" . $date_to . "' and v.state_id=" . $state_name . "  and (v.status=4 OR v.status=5)";
                         $data['volunteer'] = $this->Admin_model->volunteer_enquiry_Data($where);
+                        // echo "<pre>";
+                        // print_r($data['volunteer']);exit;
                     }
                 } else {
                     $data['rname'] = $this->Curl_model->fetch_single_data('region_name,state_id', 'regions', array('region_id' => $region));
@@ -6114,12 +5528,12 @@ class Admin extends MY_Controller
                 } else {
                     $data['rname'] = $this->Curl_model->fetch_single_data('region_name,state_id', 'regions', array('region_id' => $region));
                     $data['states'] = $this->Crud_modal->fetch_all_data('*', 'states', 'region_id=' . $region);
-                    $this->load->view('temp/head');
-                    $this->load->view('temp/header', $data);
-                    $this->load->view('temp/sidebar');
-                    $this->load->view('create-template', $data);
-                    $this->load->view('temp/footer');
                 }
+                $this->load->view('temp/head');
+                $this->load->view('temp/header', $data);
+                $this->load->view('temp/sidebar');
+                $this->load->view('create-template', $data);
+                $this->load->view('temp/footer');
             } else {
 
                 redirect(base_url() . 'login', 'refresh');
@@ -6142,6 +5556,9 @@ class Admin extends MY_Controller
                     $where = "email_templates_id = '$val'";
                     $data['email_tep'] = $this->Crud_modal->all_data_select('*', 'email_templates', $where, 'email_templates_id desc');
                 } else {
+
+                    $data['rname'] = $this->Curl_model->fetch_single_data('region_name,state_id', 'regions', array('region_id' => $region));
+                    $data['states'] = $this->Crud_modal->fetch_all_data('*', 'states', 'region_id=' . $region);
                     $email_templates_id = $this->uri->segment(2);
                     $val = base64_decode(str_pad(strtr($email_templates_id, '-_', '+/'), strlen($email_templates_id) % 4, '=', STR_PAD_RIGHT));
                     $where = "email_templates_id = '$val'";
@@ -6149,7 +5566,7 @@ class Admin extends MY_Controller
                 }
 
                 $this->load->view('temp/head');
-                $this->load->view('temp/header');
+                $this->load->view('temp/header', $data);
                 $this->load->view('temp/sidebar');
                 $this->load->view('edit-email-template', $data);
                 $this->load->view('temp/footer');
@@ -6640,7 +6057,6 @@ class Admin extends MY_Controller
     }
 
 
-
     public function volunteer_list()
     {
         try {
@@ -6828,69 +6244,7 @@ class Admin extends MY_Controller
         }
     }
 
-    public function volunteer_transfer_report()
-    {
-        try {
-            if (($this->session->userdata('emp_id') != "" || $this->session->userdata('emp_id') != null)) {
-                $region = $this->session->userdata('region_id');
-                $role = $this->session->userdata('role_id');
-                if ($role == 1) {
-                    $date2 = $data['date_to'] = date("Y-m-d");
-                    $data['date_from'] = date("Y-m-d", strtotime($date2 . '-7 days'));
-                    $where = 'vt.status =2';
-                    if ($this->input->post('start_new') != "" && $this->input->post('end_new') != "" &&  $this->input->post('state_name') != "") {
-                        $state_name = $this->input->post('state_name');
-                        $date1 = $this->input->post('start_new');
-                        $date2 = $this->input->post('end_new');
-                        $date_from = date("Y-m-d", strtotime($date1));
-                        $date_to = date("Y-m-d", strtotime($date2 . '+1 days'));
-                        $data['creation_date'] = $date1;
-                        $data['creation_date'] = $date2;
-                        $data['state_name'] = $state_name;
-                        $where = "vt.creation_date>='" . $date_from . "' and vt.creation_date<='" . $date_to . "' and vt.current_state=" . $state_name . "  and (vt.status=2)";
-                        $data['volunteerTransfer'] = $this->Admin_model->volunteer_transferRequest($where);
-                        // echo "<pre>";
-                        // print_r($data['volunteerTransfer']);
-                        // exit;
-                    }
-                } else {
-                    $data['rname'] = $this->Curl_model->fetch_single_data('region_name,state_id', 'regions', array('region_id' => $region));
-                    $data['states'] = $this->Crud_modal->fetch_all_data('*', 'states', 'region_id=' . $region);
-                    $date2 = $data['date_to'] = date("Y-m-d");
-                    $data['date_from'] = date("Y-m-d", strtotime($date2 . '-7 days'));
-                    $where = 'vt.status =2';
-                    if ($this->input->post('start_new') != "" && $this->input->post('end_new') != "" &&  $this->input->post('state_name') != "") {
-                        $state_name = $this->input->post('state_name');
-                        $date1 = $this->input->post('start_new');
-                        $date2 = $this->input->post('end_new');
-                        $date_from = date("Y-m-d", strtotime($date1));
-                        $date_to = date("Y-m-d", strtotime($date2 . '+1 days'));
-                        $data['creation_date'] = $date1;
-                        $data['creation_date'] = $date2;
-                        $data['state_name'] = $state_name;
-                        $where = "vt.creation_date>='" . $date_from . "' and vt.creation_date<='" . $date_to . "' and vt.current_state=" . $state_name . "  and (vt.status=2)";
-                        $data['volunteerTransfer'] = $this->Admin_model->volunteer_transferRequest($where);
-                        // echo "<pre>";
-                        // print_r($data['volunteerTransfer']);
-                        // exit;
-                    }
-                }
-                $data['states'] = $this->Crud_modal->fetch_all_data('*', 'states', 'status=1');
-                // echo "<pre>";
-                // print_r($data['states']);exit;
-                $data['regions'] = $this->Crud_modal->fetch_all_data('*', 'regions', 'region_status=1');
-                $this->load->view('temp/head');
-                $this->load->view('temp/header', $data);
-                $this->load->view('temp/sidebar');
-                $this->load->view('volunteer-transfer-report', $data);
-                $this->load->view('temp/footer');
-            } else {
-                redirect(base_url() . 'login', 'refresh');
-            }
-        } catch (Exception $e) {
-            echo 'Caught exception: ',  $e->getMessage(), "\n";
-        }
-    }
+
 
     public function send_certificate_emails()
     {
@@ -7408,6 +6762,107 @@ class Admin extends MY_Controller
             } else {
                 echo false;
             }
+        }
+    }
+
+    public function intern_tast_report()
+    {
+        try {
+            if (($this->session->userdata('emp_id') != "" || $this->session->userdata('emp_id') != null)) {
+                $this->load->view('temp/head');
+                $this->load->view('temp/header',);
+                $this->load->view('temp/sidebar');
+                $this->load->view('intern-tast-report',);
+                $this->load->view('temp/footer');
+            } else {
+                redirect(base_url() . 'login', 'refresh');
+            }
+        } catch (Exception $e) {
+            echo 'Caught exception: ',  $e->getMessage(), "\n";
+        }
+    }
+
+    public function pre_registration_intern_report()
+    {
+        $this->load->view('temp/head');
+        $this->load->view('temp/header');
+        $this->load->view('temp/sidebar');
+        $this->load->view('pre-registration-intern-report');
+        $this->load->view('temp/footer');
+    }
+
+    public function post_registration_intern_report()
+    {
+        $this->load->view('temp/head');
+        $this->load->view('temp/header');
+        $this->load->view('temp/sidebar');
+        $this->load->view('post-registration-intern-report');
+        $this->load->view('temp/footer');
+    }
+    public function intern_assign_task_report()
+    {
+        $this->load->view('temp/head');
+        $this->load->view('temp/header');
+        $this->load->view('temp/sidebar');
+        $this->load->view('intern-assign-task-report');
+        $this->load->view('temp/footer');
+    }
+    public function pre_registration_volunteer_report()
+    {
+        $this->load->view('temp/head');
+        $this->load->view('temp/header');
+        $this->load->view('temp/sidebar');
+        $this->load->view('pre-registration-volunteer-report');
+        $this->load->view('temp/footer');
+    }
+
+    public function post_registration_volunteer_report()
+    {
+        $this->load->view('temp/head');
+        $this->load->view('temp/header');
+        $this->load->view('temp/sidebar');
+        $this->load->view('post-registration-volunteer-report');
+        $this->load->view('temp/footer');
+    }
+    public function volunteer_assign_task()
+    {
+        $this->load->view('temp/head');
+        $this->load->view('temp/header');
+        $this->load->view('temp/sidebar');
+        $this->load->view('volunteer-assign-task');
+        $this->load->view('temp/footer');
+    }
+    public function volunteer_certificate_report()
+    {
+        $this->load->view('temp/head');
+        $this->load->view('temp/header');
+        $this->load->view('temp/sidebar');
+        $this->load->view('volunteer-certificate-report');
+        $this->load->view('temp/footer');
+    }
+    public function volunteer_self_task_daily_report()
+    {
+        $this->load->view('temp/head');
+        $this->load->view('temp/header');
+        $this->load->view('temp/sidebar');
+        $this->load->view('volunteer-self-task-daily-report');
+        $this->load->view('temp/footer');
+    }
+
+    public function volunteer_transfer_report()
+    {
+        try {
+            if (($this->session->userdata('emp_id') != "" || $this->session->userdata('emp_id') != null)) {
+                $this->load->view('temp/head');
+                $this->load->view('temp/header');
+                $this->load->view('temp/sidebar');
+                $this->load->view('volunteer-transfer-report');
+                $this->load->view('temp/footer');
+            } else {
+                redirect(base_url() . 'login', 'refresh');
+            }
+        } catch (Exception $e) {
+            echo 'Caught exception: ',  $e->getMessage(), "\n";
         }
     }
 }

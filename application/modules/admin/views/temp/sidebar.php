@@ -136,170 +136,102 @@ $rid = $this->session->userdata('admin_role');
 
 					</ul>
 				</li>
+				<li class="slide">
+				<a class="side-menu__item" data-bs-toggle="slide" href="javascript:void(0);"><i class="side-menu__icon fe fe-package"></i><span class="side-menu__label">Volunteer Section Report</span><i class="angle fa fa-angle-right"></i></a>
+				<ul class="slide-menu">
+						<li class="side-menu-label1"><a href="javascript:void(0)">Settings</a></li>
+						<li>
+							<a href="<?php echo base_url();?>pre-registration-volunteer-report" class="slide-item">
+							Pre Registration Report
+							</a>
+						</li>
+						<li>
+							<a href="<?php echo base_url();?>post-registration-volunteer-report" class="slide-item">
+							Post Registration Report
+							</a>
+						</li>
+						<li>
+							<a href="<?php echo base_url(); ?>onboard-volunteer" class="slide-item">
+							All On Board Volunteer Report
+							</a>
+						</li>
+						<li>
+							<a href="<?php echo base_url(); ?>tast-report" class="slide-item">
+							Task Report
+							</a>
+						</li>
+						<li>
+							<a href="<?php echo base_url(); ?>volunteer-assign-task" class="slide-item">
+							Assign Task Report
+							</a>
+						</li>
+						<li>
+							<a href="<?php echo base_url(); ?>volunteer-certificate-report" class="slide-item">
+							Send Certificate Report
+							</a>
+						</li>
+						<li>
+							<a href="<?php echo base_url(); ?>volunteer-self-task-daily-report" class="slide-item">
+							Self Task Report 
+							</a>
+						</li>
+						<li>
+							<a href="<?php echo base_url(); ?>volunteer-transfer-report" class="slide-item">
+							Transfer Report
+							</a>
+						</li>
 
-				<!-- <li class="slide">
-					<a class="side-menu__item" data-bs-toggle="slide" href="javascript:void(0);">
-						<i class="side-menu__icon fe fe-file"></i>
-						<span class="side-menu__label">Volunteer Zone</span>
-						<i class="angle fa fa-angle-right"></i>
-					</a>
-					<ul class="slide-menu">
-						<li class="side-menu-label1"><a href="javascript:void(0)">Volunteer
-								Zone</a></li>
-						<li class="side-menu-label1">
-							<a href="javascript:void(0)"></a>
-						</li>
-						<li>
-							<a href="<?php echo base_url(); ?>add-task" class="slide-item">
-								Add Task
-							</a>
-						</li>
-						<li>
-							<a href="<?php echo base_url(); ?>task-list" class="slide-item">
-								Task List
-							</a>
-						</li>
-						<li>
-							<a href="<?php echo base_url(); ?>assigned-task" class="slide-item">
-								Assign Task
-							</a>
-						</li>
-						<li>
-							<a href="<?php echo base_url(); ?>view-assigned-task" class="slide-item">
-								Assigned Task List
-							</a>
-						</li>
-						<li>
-							<a href="<?php echo base_url(); ?>volenteership" class="slide-item">
-								Volunteer List
-							</a>
-						</li>
-						<li>
-							<a href="<?php echo base_url(); ?>requested-task" class="slide-item">
-								Request For Task
-							</a>
-						</li>
-						<li>
-							<a href="<?php echo base_url(); ?>admin-final-daily-report" class="slide-item">
-								Volunteer Daily Reports
-							</a>
-						</li>
-						<li>
-							<a href="<?php echo base_url(); ?>request-certificate" class="slide-item">
-								Requested Certificate
-							</a>
-						</li>
 					</ul>
-				</li> -->
-				<!-- <li class="slide">
-					<a class="side-menu__item" data-bs-toggle="slide" href="javascript:void(0);"><i class="side-menu__icon fe fe-pie-chart"></i><span class="side-menu__label">Intern
-							Zone</span><i class="angle fa fa-angle-right"></i></a>
-					<ul class="slide-menu">
+				</li>
+				<li class="slide">
+				<a class="side-menu__item" data-bs-toggle="slide" href="javascript:void(0);"><i class="side-menu__icon fe fe-package"></i><span class="side-menu__label">Intern Section Report</span><i class="angle fa fa-angle-right"></i></a>
+				<ul class="slide-menu">
+						
 						<li>
-							<a href="applied-candidates" class="slide-item">
-								Applied Candidates
-							</a>
-						</li>
-						<li class="side-menu-label1">
-							<a href="javascript:void(0)"></a>
-						</li>
-						<li>
-							<a href="intern-add-task" class="slide-item">
-								Intern Add Task
+							<a href="<?php echo base_url(); ?>pre-registration-intern-report" class="slide-item">
+							Pre Registration Report
 							</a>
 						</li>
 						<li>
-							<a href="intern-task-list" class="slide-item">
-								Intern Task List
+							<a href="<?php echo base_url(); ?>post-registration-intern-report" class="slide-item">
+							Post Registration Report
 							</a>
 						</li>
 						<li>
-							<a href="intern-assigned-task" class="slide-item">
-								Intern Assigned Task
-							</a>
-						</li>
-
-						<li>
-							<a href="view-intern-assigned-task" class="slide-item">
-								Intern Assigned Task List
+							<a href="<?php echo base_url(); ?>co-volunteer-report" class="slide-item">
+							All On Board Intern Report
 							</a>
 						</li>
 						<li>
-							<a href="internlist" class="slide-item">
-								Intern List
+							<a href="<?php echo base_url(); ?>intern-tast-report" class="slide-item">
+							Task Report
 							</a>
 						</li>
 						<li>
-							<a href="intern-request-task" class="slide-item">
-								Intern Request For Task
+							<a href="<?php echo base_url(); ?>intern-assign-task-report" class="slide-item">
+							Assign Task Report
 							</a>
 						</li>
 						<li>
-							<a href="admin-intern-daily-report" class="slide-item">
-								Intern Daily Reports
+							<a href="<?php echo base_url(); ?>intern-certificate-report" class="slide-item">
+							Send Certificate Report
 							</a>
-						</li>
-
-						<li>
-							<a href="intern-request-certificate" class="slide-item">
-								Requested Certificate Intern
-							</a>
-						</li>
-					</ul>
-				</li> -->
-				<!-- <li class="sub-category">
-					<h3>Reports</h3>
-				</li> -->
-				<!-- <li class="slide">
-					<a class="side-menu__item" data-bs-toggle="slide" href="javascript:void(0);">
-						<i class="side-menu__icon fe fe-sliders"></i>
-						<span class="side-menu__label">
-							Activity Report
-						</span>
-						<i class="angle fa fa-angle-right">
-						</i>
-					</a>
-					<ul class="slide-menu">
-						<li class="side-menu-label1">
-							<a href="javascript:void(0)">
-								Submenus
-							</a>
-
-						</li>
-						<li class="sub-slide">
-							<a class="sub-side-menu__item" data-bs-toggle="sub-slide" href="javascript:void(0);">
-								<span class="sub-side-menu__label">
-									Volunteer Report
-								</span>
-								<i class="sub-angle fa fa-angle-right"></i>
-							</a>
-							<ul class="sub-slide-menu">
-								<li>
-									<a class="sub-slide-item" href="volunteer">
-										Basic Report
-									</a>
-								</li>
-								<li>
-									<a class="sub-slide-item" href="co-volunteer-report">
-										Advance Report
-									</a>
-								</li>
-							</ul>
 						</li>
 						<li>
-							<a href="tast-report" class="slide-item">
-								Task Report
+							<a href="<?php echo base_url(); ?>intern-self-task-daily-report" class="slide-item">
+							Self Task Report 
+							</a>
+						</li>
+						<li>
+							<a href="<?php echo base_url(); ?>intern-transfer-report" class="slide-item">
+							Transfer Report
 							</a>
 						</li>
 						
-						<li>
-							<a href="admin-self-task-daily-report" class="slide-item">
-								Self Task Daily Report
-							</a>
-						</li>
-						
+
 					</ul>
-				</li> -->
+				</li>
+
 			</ul>
 			<div class="slide-right" id="slide-right"><svg xmlns="http://www.w3.org/2000/svg" fill="#7b8191" width="24" height="24" viewBox="0 0 24 24">
 					<path d="M10.707 17.707 16.414 12l-5.707-5.707-1.414 1.414L13.586 12l-4.293 4.293z" />

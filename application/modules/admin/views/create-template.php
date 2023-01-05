@@ -27,7 +27,7 @@
                                     </div>
                                     <div class="col-md-9">
                                         <input type="text" name="template_name" class="form-control" id="validationCustom04" value="" placeholder="Template Name" required>
-                                        <div class="invalid-feedback"></div>
+                                        <div class="invalid-feedback">Enter Template</div>
                                     </div>
                                     <div class="col-md-3 mt-5">
                                         <label for="validationCustom04" class="form-label">Body Content</label>
@@ -36,23 +36,27 @@
                                         <div class="card-body">
                                             <textarea class="content" name="body_content"></textarea>
                                         </div>
+                                        <div class="invalid-feedback">Enter Body Content</div>    
                                     </div>
                                     <div class="form-group col-md-3">
                                         <label for="validationCustom04" class="form-label">Note</label>
                                     </div>
                                     <div class="form-group col-md-9">
-                                        <textarea class="form-control mb-4" name="notes" placeholder="" required="" rows="3" spellcheck="false"></textarea>
-                                    </div>
+                                        
+                                    <textarea class="form-control mb-4" name="notes" placeholder="" required="" rows="3" spellcheck="false"></textarea>
+                                    <div class="invalid-feedback">Enter Notes</div>    
+                                </div>
                                     <div class="form-group col-md-3">
                                         <label for="validationCustom04" class="form-label">Status</label>
                                     </div>
                                     <div class="form-group col-md-9">
                                         <select name="status" class="form-control select2 form-select" id="validationCustom04" data-placeholder="Select Status" required>
-                                            <option label="Choose one">
+                                            <option value="">
                                             </option>
                                             <option value="1">Active</option>
                                             <option value="2">Inactive</option>
                                         </select>
+                                        <div class="invalid-feedback">Select Status</div>
                                     </div>
                                     <button class="btn btn-warning mt-3" type="submit">Submit</button>
                             </form>

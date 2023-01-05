@@ -100,10 +100,10 @@
 			<!-- PAGE-HEADER -->
 			<div class="page-header">
 				<div>
-					<h1 class="page-title">Send Registration Request</h1>
+					<h1 class="page-title">Send Login Credentional</h1>
 					<ol class="breadcrumb">
 						<li class="breadcrumb-item"><a href="admin-dashboard">Home</a></li>
-						<li class="breadcrumb-item active" aria-current="page">Send Registration Request</li>
+						<li class="breadcrumb-item active" aria-current="page">Send Login Credentional</li>
 					</ol>
 				</div>
 				<div class="ms-auto pageheader-btn" id="flip">

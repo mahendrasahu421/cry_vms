@@ -124,9 +124,9 @@
                                     </p>
                                 </div>
                                 <button class="btn btn-block btn-warning mb-4 rounded-pill" type="submit" name="signin" value="signin">Login</button>
-                                <div class="text-center pt-3">
+                                <!-- <div class="text-center pt-3">
                                     <p class="text-dark mb-0">Not a member?<a href="preregistration" class="text-warning ms-1">Create an Account</a></p>
-                                </div>
+                                </div> -->
                             </form>
 
                         </div>

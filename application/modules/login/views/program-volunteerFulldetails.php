@@ -192,7 +192,7 @@
                                             <div class="card">
                                                 <form method="post" action="" id="occupationDetails" name="pForm">
                                                     <h3>Occupation Details</h3>
-                                                    <input type="hidden" name="ProgramId" value="<?php echo $programvolunteerFulldetails['0']['id']; ?>">
+                                                    <input name="volunteer_id" type="hidden" class="form-control" value="<?php echo $programvolunteerFulldetails['0']['id']; ?>">
                                                     <div class="row">
                                                         <div class="control-group form-group col-md-6 mb-0">
                                                             <label class="form-label fw-bold">Emergency Contact
@@ -200,24 +200,39 @@
                                                                     <span class="form-help" data-bs-toggle="popover" data-bs-placement="top" data-bs-content="(any letter from your professional circle, teachers, professors, or any person in some power who can vouch for you)" data-bs-original-title="" title="" aria-describedby="popover10908">?</span>
                                                                 </span>
                                                             </label>
-                                                            <input maxlength="10" type="text" value="" name="emergency_contact" onkeypress="return /^-?[0-9]*$/.test(this.value+event.key)" class="form-control" required placeholder="Emergency Contact" id="emergency_contact">
+                                                            <input maxlength="10" type="text" value="<?php echo $programvolunteerFulldetails['emergency_contact']; ?>" name="emergency_contact" class="form-control" required placeholder="Emergency Contact">
                                                         </div>
+                                                        <!-- <div class="control-group form-group col-md-6 mb-0">
+                                                            <label class="form-label fw-bold">Occupation</label>
+                                                            <select class="form-control select2-show-search" id="occupation" name="occupation" data-placeholder="Choose Occupation...">
+                                                                <option value="">Choose Occupation...</option>
+                                                                <?php foreach ($occupation as $occupationData) { ?>
+                                                                    <option value="<?php echo $occupationData['occupation_id']; ?>" <?php if ($occupationData['occupation_id'] == $programvolunteerFulldetails['occupation_id']) {
+                                                                                                                                        echo "selected";
+                                                                                                                                    } ?>><?php echo $occupationData['occupation_name']; ?></option>
 
+                                                                <?php } ?>
+                                                            </select>
+                                                        </div> -->
+                                                        <!-- <div class="control-group form-group col-md-6 mb-0" id="occupation_input_box">
+                                                            <label class="form-label fw-bold">Other Occupation</label>
+                                                            <input type="text" value="<?php echo $programvolunteerFulldetails['first_name']; ?>" name="otherOccupation" placeholder="Other Occupation" class="form-control" required>
+                                                        </div> -->
                                                         <div class="control-group form-group col-md-6 mb-0">
                                                             <label class="form-label fw-bold">School/College/University/Organization/Company</label>
-                                                            <input type="text" value="" name="name_of_school" class="form-control" placeholder="Name of your school/ college" required id="name_of_school">
+                                                            <input type="text" value="<?php echo $programvolunteerFulldetails['name_of_school']; ?>" id="name_of_school" name="name_of_school" class="form-control" placeholder="Name of your school/ college" required>
                                                         </div>
                                                     </div>
                                                     <div class="row">
                                                         <div class="control-group form-group col-md-6 mb-0">
                                                             <label class="form-label fw-bold">Designation if
                                                                 working</label>
-                                                            <input type="text" value="" name="designation" class="form-control" placeholder="Designation if working" required id="designation">
+                                                            <input type="text" value="<?php echo $programvolunteerFulldetails['designation']; ?>" name="designation" class="form-control" placeholder="Designation if working" required id="designation">
                                                         </div>
                                                         <div class="control-group form-group col-md-6 mb-0">
                                                             <label class="form-label fw-bold">Languages known</label>
                                                             <select class="form-control select2 form-select" name="language" id="language" data-placeholder="Select Languages" required>
-                                                                <option value="">Select Language</option>
+                                                                <option value=""> Select Languages known</option>
                                                                 <option value="1">English</option>
                                                                 <option value="2">Hindi</option>
                                                                 <option value="3">Other</option>
@@ -225,44 +240,35 @@
                                                         </div>
                                                         <div class="control-group form-group col-md-6 mb-0" id="lang_input_box">
                                                             <label class="form-label fw-bold">Languages known</label>
-                                                            <input type="text" value="" class="form-control" name="otherlanguage" required>
+                                                            <input type="text" value="<?php echo $programvolunteerFulldetails['Otherlanguages']; ?>" class="form-control" name="otherlanguage">
                                                         </div>
                                                         <div class="control-group form-group col-md-6 mb-0">
-                                                            <label class="form-label fw-bold">Which kind of programs
-                                                                interests you?
+                                                            <label class="form-label fw-bold">Which kind of programs interests you?
                                                                 *</label>
-                                                            <select class="form-control select2 form-select" name="programsInterests" id="programsInterests" data-placeholder="Select Languages" required>
-                                                                <option value="">Which kind of programs interests you?
-                                                                </option>
+                                                            <select class="form-control select2 form-select" name="programsInterests" id="interestsyouBox" data-placeholder="Select Languages" required>
+                                                                <option value="">Which kind of programs interests you?</option>
                                                                 <option value="1">Research and Documentation</option>
-                                                                <option value="2">Working with Communities and Children
-                                                                </option>
-                                                                <option value="3">Designing posters and pamphlets
-                                                                </option>
-                                                                <option value="4">Media related work/ Publishing
-                                                                    articles</option>
+                                                                <option value="2">Working with Communities and Children</option>
+                                                                <option value="3">Designing posters and pamphlets</option>
+                                                                <option value="4">Media related work/ Publishing articles</option>
                                                                 <option value="5">Initiating a campaign</option>
                                                                 <option value="6">Fundraising</option>
-                                                                <option value="7">Video editing, photography etc
-                                                                </option>
-                                                                <option value="8">Preparing professional PPT's/documents
-                                                                </option>
+                                                                <option value="7">Video editing, photography etc</option>
+                                                                <option value="8">Preparing professional PPT's/documents</option>
                                                                 <option value="9">Data Analysis</option>
                                                                 <option value="10">Event planning and execution</option>
-                                                                <option value="11">Othere</option>
+                                                                <option value="11">Others</option>
 
                                                             </select>
                                                         </div>
                                                         <div class="control-group form-group col-md-6 mb-0" id="interestsBox">
-                                                            <label class="form-label fw-bold">Which kind of programs
-                                                                interests you?</label>
-                                                            <input type="text" value="" class="form-control" name="otherprogramsInterests" required id="">
+                                                            <label class="form-label fw-bold">Which kind of programs interests you?</label>
+                                                            <input type="text" value="<?php echo $programvolunteerFulldetails['first_name']; ?>" class="form-control" name="otherprogramsInterests">
                                                         </div>
                                                         <div class="control-group form-group col-md-6 mb-0">
-                                                            <label class="form-label fw-bold">What is the time
-                                                                commitment that you can offer with CRY
+                                                            <label class="form-label fw-bold">What is the time commitment that you can offer with CRY?
                                                             </label>
-                                                            <select class="form-control select2 form-select" name="commitment" data-placeholder=" Your Answer" requiredm id="commitment">
+                                                            <select class="form-control select2 form-select" name="commitment" data-placeholder=" Your Answer" required id="commitment">
                                                                 <option value="">Select commitment</option>
                                                                 <option value="1">3 months</option>
                                                                 <option value="2">3 to 6 months</option>
@@ -274,20 +280,15 @@
                                                     </div>
                                                     <div class="row">
                                                         <div class="control-group form-group col-md-6 mb-0">
-                                                            <label class="form-label fw-bold">How did you came to know
-                                                                about CRY?</label>
+                                                            <label class="form-label fw-bold">How did you came to know about CRY?</label>
                                                             <select class="form-control select2" name="where_know_opportunity" data-placeholder="" id="where_know_opportunity" required>
                                                                 <?php foreach ($opportunity as $opportunityData) { ?>
-                                                                    <option value=""> Select Opportunity</option>
-                                                                    <option value="<?php echo $opportunityData['opportunity_id']; ?>">
-                                                                        <?php echo $opportunityData['opportunity_name']; ?>
-                                                                    </option><?php } ?>
+                                                                    <option value="<?php echo $opportunityData['opportunity_id']; ?>"><?php echo $opportunityData['opportunity_name']; ?></option><?php } ?>
                                                             </select>
                                                         </div>
                                                         <div class="control-group form-group col-md-6 mb-0" id="where_know_opportunityBox">
-                                                            <label class="form-label fw-bold">How did you came to know
-                                                                about CRY?</label>
-                                                            <input type="text" value="" class="form-control" required>
+                                                            <label class="form-label fw-bold">How did you came to know about CRY?</label>
+                                                            <input type="text" value="<?php echo $programvolunteerFulldetails['knowaboutCRY']; ?>" class="form-control">
                                                         </div>
 
                                                     </div>
@@ -297,14 +298,14 @@
 
                                                         <div class="col-md-6 mb-0">
                                                             <a href="https://drive.google.com/drive/folders/1OA4CvaYcoVowDUMYyUbmnMvwKKhhiVpt" target="_blank">
-                                                                <h5><span>&nbsp;</span><input type="checkbox" value="" required> &nbsp;CRY's
+                                                                <h5><span>&nbsp;</span><input type="checkbox" value="childProtection" required id=""> &nbsp;CRY's
                                                                     Child Protection
                                                                     Policy</h5>
                                                             </a>
                                                         </div>
                                                         <div class="col-md-6 mb-0">
                                                             <a href="https://docs.google.com/document/d/14G9qJjqgCFiapxChbbMRW2dsLPnK8WpVxyZo05qSWsk/edit?usp=sharing" target="_blank">
-                                                                <h5><span>&nbsp;</span><input type="checkbox" value="" required> &nbsp;CRY's
+                                                                <h5><span>&nbsp;</span><input type="checkbox" value=" " required> &nbsp;CRY's
                                                                     Code of Conduct
                                                                 </h5>
                                                             </a>
@@ -312,8 +313,8 @@
                                                     </div>
                                                     <div class="row">
                                                         <div class="col-md-6 mb-0">
-                                                            <a href="https://drive.google.com/file/d/119ksoFAzQ7gE8uuvRol0EaCfjbwGL6sz/viewusp=sharing" target="_blank">
-                                                                <h5><span>&nbsp;</span><input type="checkbox" value="" required> &nbsp;CRY's
+                                                            <a href="https://drive.google.com/file/d/119ksoFAzQ7gE8uuvRol0EaCfjbwGL6sz/view?usp=sharing" target="_blank">
+                                                                <h5><span>&nbsp;</span><input type="checkbox" value=" " required> &nbsp;CRY's
                                                                     Online sessions
                                                                     SOP</h5>
                                                             </a>
@@ -322,12 +323,14 @@
                                                     </div>
                                                     <div class="row">
                                                         <div class="control-group form-group col-md-6 mb-0">
-                                                            <label class="form-label fw-bold">Signature</label>
-                                                            <input type="text" value="" name="signature" class="form-control" placeholder="Signature" required id="signature">
+                                                            <label class="form-label fw-bold">Signature </label>
+                                                            <input type="text" onkeypress="return /^-?[A-Z,a-z]*$/.test(this.value+event.key)" value="<?php echo $programvolunteerFulldetails['signature']; ?>" name="signature" class="form-control" placeholder="Signature" required>
                                                         </div>
+
                                                     </div>
                                                     <div class="submitbtnleft">
                                                         <div class="control-group form-group col-md-12 mb-0 ">
+
                                                             <input class="btn btn-warning mt-5 mb-5" id="step_3_submit" type="button" value="Finish ">
 
                                                         </div>
@@ -350,18 +353,21 @@
     <link href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="Stylesheet" type="text/css" />
     <script>
         $("#step_3_submit").click(function(ev) {
-            //var form = $("#occupationDetails");
             let emergency_contact = $('#emergency_contact').val();
+            let occupation = $('#occupation').val();
             let name_of_school = $('#name_of_school').val();
             let designation = $('#designation').val();
             let language = $('#language').val();
-            let programsInterests = $('#programsInterests').val();
+            let interestsyouBox = $('#interestsyouBox').val();
             let commitment = $('#commitment').val();
             let where_know_opportunity = $('#where_know_opportunity').val();
             let signature = $('#signature').val();
-            if (emergency_contact == "" || name_of_school == "" || name_of_school == "" || designation == "" || language == "" || programsInterests == "" || commitment == "" || where_know_opportunity == "" || signature == "") {
-                alert('Please Fill Fields')
+            if (emergency_contact == "" || occupation == "" || designation == "" || language == "" || interestsyouBox == "" || commitment == "" || where_know_opportunity == "" || signature == "" || occupationDetails == "") {
+                alert('Please Fill All Details');
+                return false;
             } else {
+                ev.preventDefault();
+                var form = $("#occupationDetails");
                 var url = '<?php echo base_url() . 'programVolunteer_insertoccupationDetails' ?>';
                 $.ajax({
                     type: "POST",
@@ -372,7 +378,9 @@
                     },
                     error: function(data) {}
                 });
+
             }
+
 
         });
     </script>
