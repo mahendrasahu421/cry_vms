@@ -281,6 +281,54 @@
 </div>
 </div>
 <script>
+	function getId_sendmail(volunteerEmail) {
+		var volunteer_sendId = volunteerEmail;
+		var emailContentValue = $('#emailContentValue').val();
+
+		if (emailContentValue == "") {
+			alert('Please Check Mail Format');
+			return false;
+		}
+		datastr = {
+			volunteer_sendId: volunteerEmail,
+			emailContentValue: emailContentValue
+		};
+
+		$.ajax({
+			url: '<?php echo base_url() ?>send_loginCredntional_emails',
+			type: 'post',
+			data: datastr,
+			success: function(response) {
+				$('#success_msg').html('Login Credentials Send Successfully');
+
+			}
+		});
+
+	}
+</script>
+<script>
+	$(document).ready(function() {
+		$("#region_id").change(function() {
+			var region_id = $(this).val();
+			//alert(region_id);
+			datastr = {
+				region_id: region_id
+			};
+
+			$.ajax({
+				url: '<?php echo base_url() ?>get-states-admin',
+				type: 'post',
+				data: datastr,
+				success: function(response) {
+					$("#state_name").html(response);
+					// $('select').selectpicker('refresh');
+				}
+			});
+		});
+
+	});
+</script>
+<script>
 	$(document).ready(function() {
 		$('#saveData').click(function() {
 			let emialcontent = $('#emialcontent').val();
@@ -357,54 +405,8 @@
 	});
 </script>
 <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script> -->
-<script>
-	$(document).ready(function() {
-		$("#region_id").change(function() {
-			var region_id = $(this).val();
-			//alert(region_id);
-			datastr = {
-				region_id: region_id
-			};
 
-			$.ajax({
-				url: '<?php echo base_url() ?>get-states-admin',
-				type: 'post',
-				data: datastr,
-				success: function(response) {
-					$("#state_name").html(response);
-					// $('select').selectpicker('refresh');
-				}
-			});
-		});
 
-	});
-</script>
-<script>
-	function getId_sendmail(volunteerEmail) {
-		var volunteer_sendId = volunteerEmail;
-		var emailContentValue = $('#emailContentValue').val();
-
-		if (emailContentValue == "") {
-			alert('Please Check Mail Format');
-			return false;
-		}
-		datastr = {
-			volunteer_sendId: volunteerEmail,
-			emailContentValue: emailContentValue
-		};
-
-		$.ajax({
-			url: '<?php echo base_url() ?>send_loginCredntional_emails',
-			type: 'post',
-			data: datastr,
-			success: function(response) {
-				$('#success_msg').html('Login Credentials Send Successfully');
-
-			}
-		});
-
-	}
-</script>
 <!-- <script>
 	$(document).on('click', '#submit3', function() {
 		var matches = [];

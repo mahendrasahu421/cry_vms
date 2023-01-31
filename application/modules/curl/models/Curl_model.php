@@ -206,8 +206,8 @@ class Curl_model extends CI_Model{
             $this->db->group_by($group_by);
         }
         $q = $this->db->get();
-          //print_r($this->db->last_query());
-         // die();
+        //   print_r($this->db->last_query());
+        //  die();
         //return $q->row_array();
         return $q->result_array();
     }

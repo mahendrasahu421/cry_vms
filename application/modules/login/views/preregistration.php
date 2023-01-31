@@ -264,10 +264,7 @@
                                             <?php } ?>
                                         </select>
                                         <div class="invalid-feedback">Please select Volunteership Skills</div>
-                                        <div class="form-group" id="cv">
-                                            <label class="form-label fw-bold">Upload Your CV</label>
-                                            <input class="form-control btn-warning" type="file" name="Uploade_file" id="Uploade_file">
-                                        </div>
+
                                     </div>
                                     <div class="form-group col-md-12 mb-0 select-dropdown">
                                         <label class="form-label fw-bold">Where did you get to know about this
@@ -282,18 +279,46 @@
                                         </select>
                                         <div class="invalid-feedback">Please select Opportunity</div>
                                     </div>
-                                    <div class="form-group col-md-12 mb-0" id="select-dropdown1">
+                                    <div class="form-group col-md-12 mb-0 select-dropdown1" id="">
+                                        <label class="form-label fw-bold">Internship Type</label>
+                                        <select class="form-control select2" name="internshipType" data-placeholder="Internship Type" id="internshipType">
+                                        <option value="">Select Type Of...</option>
+                                            <?php foreach ($taskType as $taskTypedata) { ?>
+                                                <option value="<?php echo $taskTypedata['vol_type_id']; ?>">
+                                                    <?php echo $taskTypedata['vol_type_name']; ?></option>
+
+                                            <?php } ?>
+                                        </select>
+
+                                    </div>
+                                    <div class="form-group col-md-12 mb-0 select-dropdown1" id="">
+                                        <label class="form-label fw-bold">Internship Deruation</label>
+                                        <select class="form-control select2" name="internshipDeruation" data-placeholder="Internship Deruation" id="internSkill_id">
+                                            <option value=""> Select Internship Deruation</option>
+                                            <?php for($i = 4; $i<=12; $i++){?>
+                                               <option value="<?php echo $i;?>"><?php echo $i." Weeks";?></option> 
+                                               <?php }?>
+                                        </select>
+
+                                    </div>
+                                    <div class="form-group col-md-12 mb-0 select-dropdown1" id="">
                                         <label class="form-label fw-bold">Internship Skills</label>
-                                        <select class="form-control select2" name="internskill_id[]" data-placeholder="" multiple id="internSkill_id">
+                                        <select class="form-control select2" name="internskill_id[]" data-placeholder="Internship Skills" multiple id="internSkill_id">
+                                            <option value="0">Internship Skills</option>
                                             <?php foreach ($skills as $skillsData) { ?>
-                                                <option value="">Internship Skills</option>
                                                 <option value="<?php echo $skillsData['skill_id']; ?>">
                                                     <?php echo $skillsData['skill_name']; ?></option>
                                             <?php } ?>
                                         </select>
+                                        <!-- <div class="form-group" id="cv">
+                                            <label class="form-label fw-bold">Upload Your CV</label>
+                                            <input class="form-control btn-warning" type="file" name="Uploade_file" id="Uploade_file">
+                                        </div> -->
+                                    </div>
+                                    <div class="form-group col-md-12 mb-0 select-dropdown1" id="">
                                         <div class="form-group" id="cv">
                                             <label class="form-label fw-bold">Upload Your CV</label>
-                                            <input class="form-control btn-warning" type="file" name="Uploade_file" id="Uploade_file" accept=".pdf">
+                                            <input class="form-control btn-warning" type="file" name="Uploade_file" id="Uploade_file">
                                         </div>
                                     </div>
                                     <div class="col-lg-12 mb-0" id="textarea1">
@@ -326,6 +351,60 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6/jquery.min.js" type="text/javascript"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js" type="text/javascript"></script>
     <link href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="Stylesheet" type="text/css" />
+
+    <script>
+        $("document").ready(function() {
+            // $('#cv').hide();
+            $('.select-dropdown').hide();
+            $('.select-dropdown1').hide();
+            $('#textarea1').hide();
+            $('#textarea2').hide();
+            $('#single').change(function() {
+                let volunteerValue = $('#single').val();
+                if (volunteerValue == 'volunteering') {
+
+                    $('.select-dropdown').show();
+                    $('.select-dropdown1').hide();
+
+                    //$('#lookingFor').hide();
+                    $('#textarea1').hide();
+
+                    $('#textarea2').hide();
+
+                } else if ($('#single').val() == 'internship') {
+
+                    if (confirm(
+                            'In Internship we expect minimum of 5-6 hours of work daily through minimum of 4 weeks Are you sure you will like to apply? '
+                        )) {
+                        // Save it!
+
+                        $('.select-dropdown').hide();
+                        $('.select-dropdown').hide();
+                        $('.select-dropdown1').show();
+
+                        $('#textarea1').show();
+                        $('#textarea2').show();
+                    } else {
+                        // Do nothing!
+                        $(location).attr('href', '#simple');
+                        $('.select-dropdown').hide();
+
+                    }
+
+                } else {
+                    $('.select-dropdown').hide();
+                    $('.select-dropdown1').hide();
+                    $('#textarea1').hide();
+                    $('#textarea2').hide();
+                }
+            });
+            $(".multiple").select2({
+                placeholder: "Select a programming language",
+                allowClear: true,
+                maximumSelectionLength: 8
+            });
+        })
+    </script>
     <script>
         $(document).ready(function() {
             $("#single").change(function() {
@@ -601,59 +680,7 @@
         }
     </script>
 
-    <script>
-        $("document").ready(function() {
-            $('#cv').hide();
-            $('.select-dropdown').hide();
-            $('#select-dropdown1').hide();
-            $('#textarea1').hide();
-            $('#textarea2').hide();
-            $('#single').change(function() {
-                let volunteerValue = $('#single').val();
-                if (volunteerValue == 'volunteering') {
 
-                    $('.select-dropdown').show();
-                    $('#select-dropdown1').hide();
-
-                    //$('#lookingFor').hide();
-                    $('#textarea1').hide();
-
-                    $('#textarea2').hide();
-
-                } else if ($('#single').val() == 'internship') {
-
-                    if (confirm(
-                            'In Internship we expect minimum of 5-6 hours of work daily through minimum of 4 weeks Are you sure you will like to apply? '
-                        )) {
-                        // Save it!
-
-                        $('.select-dropdown').hide();
-                        $('.select-dropdown').hide();
-                        $('#select-dropdown1').show();
-
-                        $('#textarea1').show();
-                        $('#textarea2').show();
-                    } else {
-                        // Do nothing!
-                        $(location).attr('href', '#simple');
-                        $('.select-dropdown').hide();
-
-                    }
-
-                } else {
-                    $('.select-dropdown').hide();
-                    $('#select-dropdown1').hide();
-                    $('#textarea1').hide();
-                    $('#textarea2').hide();
-                }
-            });
-            $(".multiple").select2({
-                placeholder: "Select a programming language",
-                allowClear: true,
-                maximumSelectionLength: 8
-            });
-        })
-    </script>
     <script>
         $(document).ready(function() {
             $('#number').on('change', function() {

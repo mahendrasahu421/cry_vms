@@ -571,7 +571,7 @@ class Login extends MY_Controller
 
             $intern_id = $this->uri->segment(2);
             $val = base64_decode(str_pad(strtr($intern_id, '-_', '+/'), strlen($intern_id) % 4, '=', STR_PAD_RIGHT));
-           
+
             $where = "intern_id = '$val'";
             $data['allinternData'] = $this->LoginModel->allDataintern($val);
             $data['state'] = $this->Crud_modal->fetch_all_data('*', 'states', 'status=1');
@@ -627,6 +627,8 @@ class Login extends MY_Controller
             $Uploade_file = $this->input->post('Uploade_file');
             $mention_past = $this->input->post('mention_past');
             $whatyou_aim = $this->input->post('whatyou_aim');
+            $internshipType = $this->input->post('internshipType');
+            $internshipDeruation = $this->input->post('internshipDeruation');
 
             if ($looking_for == 'volunteering') {
                 $volunteerData = array(
@@ -665,11 +667,16 @@ class Login extends MY_Controller
                     'occupation_id' => $occupation,
                     'skill_id' => implode(",", $internskill_id),
                     'past_volunteering' => $mention_past,
+                    'internshipType' => $internshipType,
+                    'internshipDeruation' => $internshipDeruation,
                     'what_you_aim' => $whatyou_aim,
                     'creation_date' => date('Y-m-d'),
                     'status' => 1,
                 );
-                $config['upload_path'] = './uploads';
+                // echo "<pre>";
+                // print_r($internData);
+                // exit;
+                $config['upload_path'] = './uploads/';
                 $config['allowed_types']  = 'gif|jpg|png|pdf';
                 $new_name = time() . $_FILES["Uploade_file"]['name'];
                 $config['file_name'] = $new_name;
@@ -678,8 +685,9 @@ class Login extends MY_Controller
                 if ($this->upload->do_upload('Uploade_file')) {
                     $file = $this->upload->data();
                     $internData['cv_file'] = $file['file_name'];
-
-                    $this->Crud_modal->intern_data_insert('interns', $internData);
+                    $internDataresult =  $this->Crud_modal->intern_data_insert('interns', $internData);
+                    //    echo "<pre>";
+                    //    print_r($internDataresult);exit;
                     //$this->session->set_flashdata('master_insert_message', '<div class="alert alert-warning"><strong>Registration Success!</strong> We Are Contact Soon.</div>');
                     redirect(base_url() . 'thank-you');
                 } else {
@@ -1121,7 +1129,7 @@ class Login extends MY_Controller
     public function preregistration_sendMail($otp, $to)
     {
         $mail = new PHPMailer();
-         $mail->IsSMTP();
+        $mail->IsSMTP();
         $mail->Host = 'smtp.office365.com';
         $mail->SMTPDebug = 1;
         $mail->SMTPAuth = true;
@@ -1199,7 +1207,7 @@ class Login extends MY_Controller
     public function volunteer_programspre_registration_sendMail($otp, $to)
     {
         $mail = new PHPMailer();
-         $mail->IsSMTP();
+        $mail->IsSMTP();
         $mail->Host = 'smtp.office365.com';
         $mail->SMTPDebug = 1;
         $mail->SMTPAuth = true;
@@ -1280,7 +1288,7 @@ class Login extends MY_Controller
     public function mail_send($to, $from, $msg, $msg2, $subj, $link, $btn, $html)
     {
         $mail = new PHPMailer();
-         $mail->IsSMTP();
+        $mail->IsSMTP();
         $mail->Host = 'smtp.office365.com';
         $mail->SMTPDebug = 1;
         $mail->SMTPAuth = true;
@@ -2079,11 +2087,11 @@ class Login extends MY_Controller
         $mail->Password = "^%n7wh#m7_2k";
         $mail->setFrom('noreply@crymail.org');
         $mail->AddAddress("ravishankar.k@neuralinfo.org");
-       // $mail->addBCC("ravishankar.k@neuralinfo.org", "Ravi");
+        // $mail->addBCC("ravishankar.k@neuralinfo.org", "Ravi");
         $mail->FromName = 'cry Vms';
         $mail->IsHTML(true);
         $mail->Subject = 'OTP From CRY VMS ';
-        $mail->Body = 'Hello User Your One Time Password is 1234' ;
+        $mail->Body = 'Hello User Your One Time Password is 1234';
         if (!$mail->Send()) {
             echo "Message could not be sent. <p>";
             echo "Mailer Error: " . $mail->ErrorInfo;

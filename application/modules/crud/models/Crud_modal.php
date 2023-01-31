@@ -314,6 +314,25 @@ class Crud_modal extends CI_model
 			echo 'Caught exception: ',  $this->$e->getMessage(), "\n";
 		}
 	}
+	function feedback_data($bl_name, $field)
+	{
+		try {
+			$this->db->initialize();
+			$insert = $this->db->insert($bl_name, $field);
+			$uid['feedback_id'] = $this->db->insert_id();
+			$this->db->insert('intern_submission_report', $uid);
+
+			if ($insert == 1) {
+				//$this->db->close();	
+				return $uid['id'];
+			} else {
+				//$this->db->close();	
+				return 0;
+			}
+		} catch (Exception $e) {
+			echo 'Caught exception: ',  $this->$e->getMessage(), "\n";
+		}
+	}
 
 	function fetchdata_with_limit($fields, $tbl_name, $where, $orderby, $limit)
 	{
@@ -831,7 +850,7 @@ class Crud_modal extends CI_model
 		$this->db->where('status', 1);
 		$this->db->where($where_industry);
 		$this->db->limit($limit, $id);
-		$this->db->order_by(job_id, 'DESC');
+		$this->db->order_by($id, 'DESC');
 		$query = $this->db->get();
 		$result = $query->result_array();
 		//$this->db->close();    

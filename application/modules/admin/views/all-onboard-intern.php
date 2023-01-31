@@ -8,25 +8,8 @@
 <!-- <?php print_r(
 			$_POST['ids']
 		); ?> -->
-<div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-	<div class="modal-dialog modal-lg">
-		<div class="modal-content">
-			<div class="card-body">
-				<div class="col-md-12">
-					<div class=""><strong>Email Template Content</strong></div>
-				</div>
 
-				<div class="col-md-12 mt-3"><textarea class="content" id="emialcontent" name="example"><?php echo $email_templates['body_content'] ?></textarea></div>
-				<div class="modal-footer">
-
-				</div>
-			</div>
-			<button type="button" class="btn btn-secondary" id="saveData" data-dismiss="modal">
-				Save
-			</button>
-		</div>
-	</div>
-</div>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.8.7/chosen.css" integrity="sha512-0nkKORjFgcyxv3HbE4rzFUlENUMNqic/EzDIeYCgsKa/nwqr2B91Vu/tNAu4Q0cBuG4Xe/D1f/freEci/7GDRA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 <div class="modal fade profile-details" id="exampleModal1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 	<div class="modal-dialog" role="document">
 		<div class="modal-content">
@@ -49,8 +32,6 @@
 		</div>
 	</div>
 </div>
-
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.8.7/chosen.css" integrity="sha512-0nkKORjFgcyxv3HbE4rzFUlENUMNqic/EzDIeYCgsKa/nwqr2B91Vu/tNAu4Q0cBuG4Xe/D1f/freEci/7GDRA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 <div class="main-content app-content mt-0">
 	<div class="side-app">
 		<!-- CONTAINER -->
@@ -58,10 +39,10 @@
 			<!-- PAGE-HEADER -->
 			<div class="page-header">
 				<div>
-					<h1 class="page-title">Send Registration Request</h1>
+					<h1 class="page-title">All Onboard Intern</h1>
 					<ol class="breadcrumb">
 						<li class="breadcrumb-item"><a href="admin-dashboard">Home</a></li>
-						<li class="breadcrumb-item active" aria-current="page">Send Registration Request</li>
+						<li class="breadcrumb-item active" aria-current="page">All Onboard Intern</li>
 					</ol>
 				</div>
 				<div class="ms-auto pageheader-btn" id="flip">
@@ -75,10 +56,27 @@
 					</div>
 				</div>
 			</div>
+			<div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+				<div class="modal-dialog modal-lg">
+					<div class="modal-content">
+						<div class="card-body">
+							<div class="col-md-12">
+								<div class=""><strong>Email Template Content</strong></div>
+							</div>
+
+							<div class="col-md-12 mt-3"><textarea class="content" id="emialcontent" name="example"><?php echo $email_templates['body_content'] ?></textarea></div>
+							<div class="modal-footer">
+
+							</div>
+						</div>
+						<button type="button" class="btn btn-secondary" id="saveData" data-dismiss="modal">
+							Save
+						</button>
+					</div>
+				</div>
+			</div>
 			<style>
 				#success_msg {
-					/* padding: 20px; */
-					/* background-color: #f7b731; */
 					color: black;
 					margin-bottom: 15px;
 					font-size: 20px;
@@ -89,13 +87,13 @@
 			<div class="row row-sm">
 				<div class="col-lg-12">
 					<div class="card">
-						<form action="ragistration-volunteer" method="post">
+						<form action="all-onboard-intern" method="post" id="form">
 							<div class="card-header">
 								<div class="col-md-3">
 									<input type="hidden" name="regionId" value="<?php $regionId = $this->session->userdata('region_id'); ?>">
 									<?php $regionId = $this->session->userdata('region_id'); ?>
 									<select class="form-control select2-show-search form-select" name="region_id" id="region_id">
-										<option value="">Select Region</option>
+										<option selected disabled value="">Select Region</option>
 										<?php foreach ($regions as $rd) {
 										?>
 											<option value="<?php echo $rd['region_id']; ?>" <?php if ($regionId == $rd['region_id']) {
@@ -108,14 +106,14 @@
 									<select class="form-control select2-show-search form-select" name="state_name" id="state_name">
 										<option value="">Select State</option>
 										<?php foreach ($states as $sd) { ?>
-											<option value="<?php echo $sd['state_id']; ?>" <?php echo $state == $sd['state_id'] ? "selected" : "";
-																							?>>
+											<option value="<?php echo $sd['state_id']; ?>" <?php echo $state == $sd['state_id'] ? "selected" : ""; ?>>
 												<?php echo $sd['state_name']; ?>
 											</option>
 
 										<?php } ?>
 									</select>
 								</div>
+
 								<div class="col-lg-2">
 									<div class="input-group">
 										<div class="input-group-text">
@@ -138,13 +136,12 @@
 										<button type="submit" name="submit" id="searchData" class="input-group-text btn btn-warning">Search</button>
 									</div>
 								</div>
+
 							</div>
 						</form>
-						<!-- <div class="col-md-2 mt-5">
-							<div class="input-group  p-0">
-								<button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-lg">Preview</button>
-							</div>
-						</div> -->
+						<div class="col-md-2 mt-5">
+
+						</div>
 						<form method="post" action="send_orientation_emails" id="id-form">
 							<input type="hidden" value="" id="ids" name="ids">
 							<div class="card-body">
@@ -165,35 +162,34 @@
 										<tbody>
 											<?php
 											$count = 1;
-											foreach ($volunteer as $volunteerData) {
-												$volunteer_id = $volunteerData['volunteer_id'];
-												$volunteerEmail = $volunteerData['email'];
-												$encoded_id = rtrim(strtr(base64_encode($volunteer_id), '+/', '-_'), '=');
+											foreach ($intern as $internData) {
+												$intern_id = $internData['intern_id'];
+												$internEmail = $internData['email'];
+												$encoded_id = rtrim(strtr(base64_encode($intern_id), '+/', '-_'), '=');
 											?>
 												<tr>
 													<td>
-														<input class="che" id="volunteer_id" name="numchec" value="<?php echo $volunteer_id; ?>" type="checkbox">
+														<input class="che" id="intern_id" name="numchec" value="<?php echo $intern_id; ?>" type="checkbox">
 													</td>
 													<td>
-														<?php echo date("d-m-Y", strtotime($volunteerData['creation_date'])); ?>
+														<?php echo date("d-m-Y", strtotime($internData['creation_date'])); ?>
 													</td>
 													<td>
-														<?php echo ucwords($volunteerData['first_name'] . ' ' . $volunteerData['last_name']); ?>
+														<?php echo ucwords($internData['first_name'] . ' ' . $internData['last_name']); ?>
 														<br>
 														<a href="#" data-toggle="modal" data-target=".profile-details" onclick="fetch_details('<?php echo $encoded_id; ?>','profile_details');">
 															<small class="text-primary">(View Profile)</small></a>
 													</td>
-													<td><?php echo $volunteerData['mobile']; ?>
+													<td><?php echo $internData['mobile']; ?>
 													</td>
-													<td><?php echo $volunteerData['state_name']; ?></td>
-													<td><?php echo $volunteerData['city_name']; ?></td>
-													<td><?php echo $volunteerEmail; ?></td>
-
+													<td><?php echo $internData['state_name']; ?></td>
+													<td><?php echo $internData['city_name']; ?></td>
+													<td><?php echo $internEmail; ?></td>
 													<td>
-														<?php if ($volunteerData['status'] == 2) { ?>
-															<button type='button' onclick="getId_sendmail('<?php echo $volunteer_id; ?>')" class='badge bg-warning  me-1 mb-1 mt-1'>Already Mail Sent(<?php echo $volunteerData['mail_count']; ?>)</button>
+														<?php if ($internData['status'] == 7) { ?>
+															<button type='button' onclick="getId_sendmail('<?php echo $internEmail; ?>')" class='badge bg-warning  me-1 mb-1 mt-1'>Already Mail Sent(<?php echo $internData['mail_count']; ?>)</button>
 														<?php } else { ?>
-															<button type='button' onclick="getId_sendmail('<?php echo $volunteer_id; ?>')" class='badge bg-info  me-1 mb-1 mt-1'>Send Mail(<?php echo $volunteer_id['mail_count']; ?>)</button>
+															<button type='button' onclick="getId_sendmail('<?php echo $internEmail; ?>')" class='badge bg-info  me-1 mb-1 mt-1'>Send Mail(<?php echo $internData['mail_count']; ?>)</button>
 
 														<?php } ?>
 													</td>
@@ -202,7 +198,11 @@
 											} ?>
 										</tbody>
 									</table>
-									<!-- <input type="botton" id="submit3" value="Send Post Registration" class="mt-5 btn btn-warning  pull-right" id="map_button" style="padding: 1% 2% 1% 2%;"> -->
+
+
+									<input type="hidden" name="emailContentValue" id="emailContentValue">
+									<!-- <input type="botton" id="submit3" value="Invite For Orientation" class="mt-5 btn btn-warning  pull-right" id="map_button" style="padding: 1% 2% 1% 2%;"> -->
+									<!-- <button type="button" class="btn btn-primary pull-right mt-3" data-toggle="modal" data-target=".bd-example-modal-lg" style="padding: 1% 2% 1% 2%;">Preview</button> -->
 								</div>
 							</div>
 						</form>
@@ -215,15 +215,61 @@
 </div>
 </div>
 </div>
-<!-- <script>
+
+<script>
+	$(document).ready(function() {
+		$('#saveData').click(function() {
+			let emialcontent = $('#emialcontent').val();
+			if (emialcontent != null) {
+				//alert(emialcontent);
+				$('#emailContentValue').val(emialcontent);
+			} else {
+
+			}
+		})
+
+	});
+</script>
+<script>
 	$(document).ready(function() {
 		let region_id = $('#region_id').val();
-		if (region_id != null) {
+		if (region_id == null) {
+			
+		}else{
 			$('#region_id option:not(:selected)').attr('disabled', true);
 		}
 
 	});
-</script> -->
+</script>
+
+
+<script>
+	function getId_sendmail(internEmail) {
+		var intern_sendId = internEmail;
+		var emailContentValue = $('#emailContentValue').val();
+
+		if (emailContentValue == "") {
+			alert('Please Check Mail Format');
+			return false;
+		}
+		datastr = {
+			intern_sendId: internEmail,
+			emailContentValue: emailContentValue
+		};
+
+		$.ajax({
+			url: '<?php echo base_url() ?>send_orientation_emails',
+			type: 'post',
+			data: datastr,
+			success: function(response) {
+				$('#success_msg').html('Orientation Mail Sent Successfully');
+
+			}
+		});
+
+	}
+</script>
+
 <script>
 	function fetch_details(id, display_id) {
 		//alert(id);
@@ -232,7 +278,7 @@
 			url: '<?php echo base_url("fetch-user-info"); ?>',
 			method: "POST",
 			data: {
-				volunteer_id: id
+				intern_id: id
 			},
 			success: function(results) {
 				// console.log(results);
@@ -243,6 +289,7 @@
 		});
 	}
 </script>
+
 <script>
 	let example = $('#example').DataTable({
 		columnDefs: [{
@@ -277,6 +324,7 @@
 		}
 	});
 </script>
+
 <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script> -->
 <script>
 	$(document).ready(function() {
@@ -300,25 +348,9 @@
 
 	});
 </script>
-<script>
-	function getId_sendmail(volunteerEmail) {
-		var volunteer_sendId = volunteerEmail;
-		datastr = {
-			volunteer_sendId: volunteerEmail
-		};
 
-		$.ajax({
-			url: '<?php echo base_url() ?>send_postRegistration_emailsLink',
-			type: 'post',
-			data: datastr,
-			success: function(response) {
-				$('#success_msg').html('Registration Request Sent Successfully');
 
-			}
-		});
 
-	}
-</script>
 <script>
 	$(document).on('click', '#submit3', function() {
 		var matches = [];

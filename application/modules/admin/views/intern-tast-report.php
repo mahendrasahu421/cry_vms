@@ -1,72 +1,3 @@
-<div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">
-                    <table>TASK REPORT STATUS</table>
-                </h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <form action="" method="post">
-                    <div class="modal-body">
-
-                        <div class="row form-group m-b-20">
-                            <!-- <div class="col-md-3">
-												<h4 class="f-16  m-0 p-0 font-weight-bold">Choose Status</h4>
-											</div> -->
-                            <div class="col-md-12">
-
-                                <h4 class="f-16  m-0 p-0 font-weight-bold">Choose Status</h4>
-
-                            </div>
-                        </div>
-                        <div class="row form-group m-b-20">
-
-                            <div class="col-md-12">
-                                <input type="number" name="taskID" id="taskID" value="0" style="display:none;">
-                                <select class="form-control custom-select" name="taskStatus" required data-placeholder="Choose a Category" tabindex="1" id="mylist" onchange="yesnoCheck(this);">
-                                    <option value="">Select Status</option>
-                                    <option id="ts0" value="0">Pending</option>
-                                    <option id="ts2" value="2">In-working</option>
-                                    <option id="ts1" value="1">Complete</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="submit" class="btn btn-rounded btn-primary">Save</button>
-                        <button type="button" class="btn btn-rounded  btn-secondary" data-dismiss="modal" aria-hidden="true">Cancel</button>
-                    </div>
-                </form>
-            </div>
-
-        </div>
-    </div>
-</div>
-<?php
-if ($this->session->userdata('task_add')) {
-?>
-    <div class="alert alert-success alert-dismissible fade show" role="alert">
-        <strong>Successfull!</strong> <?php echo ucwords($this->session->userdata('task_add')); ?>
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-        </button>
-    </div>
-<?php $this->session->unset_userdata('task_add');
-} ?>
-<?php
-if ($this->session->userdata('task_status')) {
-?>
-    <div class="alert alert-success alert-dismissible fade show" role="alert">
-        <strong>Successfull!</strong> <?php echo ucwords($this->session->userdata('task_status')); ?>
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-        </button>
-    </div>
-<?php $this->session->unset_userdata('task_status');
-} ?>
-
 <div class="main-content app-content mt-0">
     <div class="side-app">
         <!-- CONTAINER -->
@@ -74,34 +5,20 @@ if ($this->session->userdata('task_status')) {
             <!-- AGE-HEADER -->
             <div class="page-header">
                 <div>
-                    <h1 class="page-title">
-                        Intern  Task List</h1>
+                    <h1 class="page-title"> Intern  Task Report</h1>
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item"><a href="admin-dashboard">Home</a></li>
-                        <li class="breadcrumb-item active text-warning" aria-current="page">  Intern  Task List</li>
+                        <li class="breadcrumb-item active text-warning" aria-current="page">  Intern  Task Report</li>
                     </ol>
                 </div>
-                <!-- <div class="ms-auto pageheader-btn">
-                    <a href="<?php echo base_url(); ?>add-task" class="btn btn-warning btn-icon text-white me-2">
-                        <span>
-                            <i class="fe fe-plus"></i>
-                        </span> Create Task
-                    </a>
-
-                </div> -->
+                
             </div>
-            <?php echo $this->session->userdata('master_insert_message'); ?>
-            <style>
-                ul#menu li {
-                    display: inline;
-                }
-            </style>
 
             <div class="row row-sm">
                 <div class="col-lg-12">
                     <div class="card">
 
-                        <form action="task-list" method="post">
+                        <form action="#" method="post">
                             <div class="card-header">
                                 <div class="col-md-2">
                                     <input type="hidden" name="regionId" value="<?php $regionId = $this->session->userdata('region_id'); ?>">
@@ -166,13 +83,6 @@ if ($this->session->userdata('task_status')) {
                         </form>
 
                         <div class="card-body">
-                            <div>
-                                <ul id="menu" class="list-inline ml-3 lp-5 font-medium font-12">
-                                    <li><i class="fa fa-circle m-r-5 f-10 text-primary"></i> New</li>
-                                    <li><i class="fa fa-circle m-r-5 f-10 text-warning"></i> In process</li>
-                                    <li><i class="fa fa-circle m-r-5 f-10 text-success"></i> Done</li>
-                                </ul>
-                            </div>
                             <div class="table-responsive">
                                 <table id="example" class="display nowrap" style="width:100%">
                                     <thead>
@@ -183,31 +93,18 @@ if ($this->session->userdata('task_status')) {
                                             <th>Task Name</th>
                                             <th>Task Brif</th>
                                             <th>Status</th>
-                                            <!-- <th>Task Status</th> -->
-                                            <th>Action</th>
-
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <?php
-                                        $count = 1;
-                                        foreach ($taskData as $taskdataBydate) {
+                                        $i = 1;
+                                        foreach ($interntaskData as $taskdataBydate) {
                                             $value = $taskdataBydate['task_status'];
                                             $task_id = $taskdataBydate['task_id'];
                                             $encode_taskID = rtrim(strtr(base64_encode($task_id), '+/', '-_'), '=');
                                         ?>
                                             <tr>
-                                                <td>
-                                                    <ul class="list-inline  text-uppercase m-0 font-medium font-12">
-                                                        <li><i class="fa fa-circle f-10  <?php if ($value == 0) {
-                                                                                                echo 'text-primary';
-                                                                                            } elseif ($value == 1) {
-                                                                                                echo 'text-warning';
-                                                                                            } elseif ($value == 2) {
-                                                                                                echo 'text-success';
-                                                                                            } ?>"></i></li>
-                                                    </ul>
-                                                </td>
+                                                <td><?php echo $i++; ?></td>
                                                 <td><?php echo $taskdataBydate['creation_date']; ?></td>
                                                 <td>
                                                     <?php echo wordwrap(ucwords($taskdataBydate['keyword']), 30, "<br>\n"); ?>
@@ -223,14 +120,6 @@ if ($this->session->userdata('task_status')) {
                                                 <?php } else { ?>
                                                     <td><span class="badge rounded-pill bg-danger me-1 mb-1 mt-1">Unpublished</span></td>
                                                 <?php } ?>
-                                                <td class="text-light-blue"><a href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
-                                                    <div class="dropdown-menu">
-                                                        <a href="view-task/<?php echo $encode_taskID; ?>" class="dropdown-item" href="#">View</a>
-
-                                                        <a href="edit-task/<?php echo $encode_taskID; ?>" class="dropdown-item" href="#" onClick="javascript:if(confirm('Do You Want to Edit Task ?')){return true;}else{return false}">Edit</a>
-                                                    </div>
-                                                </td>
-
                                             </tr>
                                         <?php
                                         } ?>
@@ -297,17 +186,4 @@ if ($this->session->userdata('task_status')) {
             });
         });
     });
-</script>
-<script>
-    function add_edit_cause(taskStatus, taskID) {
-        // alert(title);
-        // $('#modal_title').html(title);
-        // $('#cause').val(causeName);
-        // $('#oldimage').val(causeImage);
-        $('#taskID').val(taskID);
-        $('#ts0').removeAttr('selected');
-        $('#ts1').removeAttr('selected');
-        $('#ts1').removeAttr('selected');
-        $('#ts' + taskStatus).attr('selected', 'selected');
-    }
 </script>

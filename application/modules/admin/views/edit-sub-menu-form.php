@@ -54,10 +54,10 @@
                                         <label for="validationCustom04">Status</label>
                                         <select class="form-control form-select select2" name="status" required id="scoree">
                                             <option value="">Select Status</option>
-                                            <option value="" <?php if ($sub_menu[0]['status'] == 1) {
+                                            <option value="1" <?php if ($sub_menu[0]['status'] == 1) {
                                                                     echo  "selected";
                                                                 } ?>>Active</option>
-                                            <option value="" <?php if ($sub_menu[0]['status'] == 2) {
+                                            <option value="2" <?php if ($sub_menu[0]['status'] == 2) {
                                                                     echo  "selected";
                                                                 } ?>>Deactive</option>
                                         </select>

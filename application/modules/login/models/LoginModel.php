@@ -122,7 +122,7 @@ class LoginModel extends CI_Model
     public function allDataintern($where)
     {
         $this->db->initialize();
-        $this->db->select('i.,i.intern_id as internID,s.state_name,c.city_name,id.');
+        $this->db->select('i.*,i.intern_id as internID,s.state_name,c.city_name,id.*');
         $this->db->from('interns i');
         $this->db->join('interns_data id', 'i.intern_id = id.intern_id', 'left');
         $this->db->join('states s', 's.state_id = i.state_id', 'left');
@@ -165,10 +165,10 @@ class LoginModel extends CI_Model
         $this->db->join('cities c', 'c.city_id = i.city_id', 'left');
         $this->db->where('i.status =1');
         $this->db->where('i.state_id', $cityID);
-        // $this->db->where_in('i.vol_type_id', $itype, false);
         $this->db->order_by('i.intern_id   DESC');
         $query = $this->db->get();
-        //echo $this->db->last_query(); die;
+        // echo $this->db->last_query();
+        // die;
         $result = $query->result_array();
         $this->db->close();
         return $result;
@@ -179,12 +179,8 @@ class LoginModel extends CI_Model
         $this->db->initialize();
         $this->db->select('as.volunteer_id');
         $this->db->from('assigning_task as');
-        // $this->db->join('task t', 't.task_id = as.assigned_task_id', 'left');
-        // $this->db->join('volunteer v', 'v.volunteer_id = as.volunteer_id', 'left');
-        // $this->db->where('v.status =5');
         $this->db->where('as.volunteer_id', $volunteer_id);
         $this->db->where('as.task_id', $taskID);
-        // $this->db->where('t.task_id = as.assigned_task_id');
         $this->db->order_by('as.assigned_task_id   DESC');
         $query = $this->db->get();
         //  echo $this->db->last_query();
@@ -199,12 +195,8 @@ class LoginModel extends CI_Model
         $this->db->initialize();
         $this->db->select('iast.intern_id');
         $this->db->from('intern_assigning_task iast');
-        // $this->db->join('task t', 't.task_id = as.assigned_task_id', 'left');
-        // $this->db->join('volunteer v', 'v.volunteer_id = as.volunteer_id', 'left');
-        // $this->db->where('v.status =5');
         $this->db->where('iast.intern_id', $intern_id);
         $this->db->where('iast.intern_task_id', $taskID);
-        // $this->db->where('t.task_id = as.assigned_task_id');
         $this->db->order_by('iast.intern_assigned_task_id   DESC');
         $query = $this->db->get();
         //  echo $this->db->last_query();
@@ -222,7 +214,6 @@ class LoginModel extends CI_Model
         $this->db->join('states s', 's.state_id = pv.program_state', 'left');
         $this->db->join('cities c', 'c.city_id = pv.program_city', 'left');
         $this->db->join('regions r', 'r.region_id = pv.program_region', 'left');
-        //$this->db->join('master_role mr', 'mr.role_id  = e.role_id', 'left');
         $this->db->where('pv.status !=0');
         $this->db->order_by('pv.program_id    DESC');
         $query = $this->db->get();

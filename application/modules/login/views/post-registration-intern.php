@@ -137,39 +137,39 @@
                                                         <div class="row">
                                                             <div class="control-group form-group col-md-6 mb-0">
                                                                 <label class="form-label fw-bold">First Name</label>
-                                                                <input type="text" value="<?php echo $allinternData['first_name']; ?>" id="firstName" name="firstName" class="form-control" placeholder="Name" required>
+                                                                <input type="text" value="<?php echo $allinternData['first_name']; ?>" id="firstName" name="firstName" class="form-control" placeholder="Name" required readonly>
                                                             </div>
                                                             <div class="control-group form-group col-md-6 mb-0">
                                                                 <label class="form-label fw-bold">Last Name</label>
-                                                                <input type="text" value="<?php echo $allinternData['last_name']; ?>" id="lastName" name="lastName" class="form-control" placeholder="Name" required>
+                                                                <input type="text" value="<?php echo $allinternData['last_name']; ?>" id="lastName" name="lastName" class="form-control" placeholder="Name" required readonly>
                                                             </div>
                                                             <div class="control-group form-group col-md-6 mb-0">
                                                                 <label class="form-label fw-bold">Email id
                                                                 </label>
-                                                                <input type="email" name="email" value="<?php echo $allinternData['email']; ?>" class="form-control" id="email" placeholder="Email id" required>
+                                                                <input type="email" name="email" value="<?php echo $allinternData['email']; ?>" class="form-control" id="email" placeholder="Email id" required readonly>
                                                             </div>
                                                             <div class="control-group form-group col-md-6 mb-0">
                                                                 <label class="form-label fw-bold">Phone No.</label>
-                                                                <input type="text" value="<?php echo $allinternData['mobile']; ?>" name="mobile" id="mobile" class="form-control" placeholder="Phone No." required>
+                                                                <input type="text" value="<?php echo $allinternData['mobile']; ?>" name="mobile" id="mobile" class="form-control" placeholder="Phone No." required readonly>
                                                             </div>
                                                         </div>
                                                         <div class="row">
 
                                                             <div class="control-group form-group col-md-6 mb-0">
                                                                 <label class="form-label fw-bold">Date of Birth</label>
-                                                                <input type="text" value="<?php echo $allinternData['date_of_birth']; ?>" class="form-control" placeholder="Date of Birth" name="dob" id="dob" required autocomplete="off">
+                                                                <input type="text" value="<?php echo $allinternData['date_of_birth']; ?>" class="form-control" placeholder="Date of Birth" name="dob" id="dob" required autocomplete="off" readonly>
                                                                 <span id="lblError" style="color:Red"><?php echo $this->session->flashdata('dob_error'); ?></span>
                                                             </div>
                                                             <div class="control-group form-group col-md-6 mb-0">
                                                                 <label class="form-label fw-bold">Age</label>
-                                                                <input type="text" id="age" value="" name="age" class="form-control" placeholder="Age" required>
+                                                                <input type="text" id="age" value="" name="age" class="form-control" placeholder="Age" required readonly>
                                                             </div>
                                                         </div>
                                                         <div class="row">
 
                                                             <div class="control-group form-group col-md- mb-0">
                                                                 <label class="form-label fw-bold">Gender</label>
-                                                                <select class="form-select select2 form-control" id="gender" name="gender" id="validationCustom04" required>
+                                                                <select class="form-select select2 form-control" id="gender" name="gender" id="validationCustom04" required aria-readonly="">
                                                                     <option selected value="">Select Gender
                                                                     </option>
                                                                     <option value="1" <?php if ($allinternData['gender'] == '1') {
@@ -204,7 +204,7 @@
                                                             <div class="control-group form-group col-md-12 mb-0">
                                                                 <label class="form-label fw-bold">City Resindence
                                                                 </label>
-                                                                <input type="text" name="cityResindence" id="permanent_address" class="form-control" placeholder="City Resindence" required>
+                                                                <input type="text" name="cityResindence" <?php echo $allinternData['cityResindence']; ?> id="permanent_address" class="form-control" placeholder="City Resindence" required readonly>
                                                             </div>
                                                         </div>
                                                         <style>
@@ -216,7 +216,7 @@
                                                         </style>
                                                         <div class="submitbtnleft" id="step_1_submit">
                                                             <div class="control-group form-group col-md-12 mb-0 ">
-                                                                <input class="btn btn-warning mt-5 clickMe" id="step_1_submit1" type="button" value="Submit ">
+                                                                <input class="btn btn-warning mt-5 clickMe" id="step_1_submit1" type="button" value="Save and Next ">
                                                             </div>
                                                         </div>
                                                     </div>
@@ -361,10 +361,10 @@
                                                             <select class="form-control select2 form-select" name="NoOfweeks" id="NoOfweeks" data-placeholder="Select Languages" required>
                                                                 <option value="">No of weeks of internship you have been offered? *
                                                                     *</option>
-                                                                <option value="1">4 weeks</option>
-                                                                <option value="2">6 weeks</option>
-                                                                <option value="3">8 weeks</option>
-                                                                <option value="4">More then 8 weeks</option>
+                                                                <option value="4weeks">4 weeks</option>
+                                                                <option value="6weeks">6 weeks</option>
+                                                                <option value="8weeks">8 weeks</option>
+                                                                <option value="Morethen8weeks">More then 8 weeks</option>
                                                             </select>
                                                         </div>
                                                         <div class="control-group form-group col-md-6 mb-0">
@@ -706,12 +706,6 @@
         });
     </script>
 
-
-
-
-
-
-
     <script>
         $(function() {
             $("#dob").datepicker({
@@ -755,50 +749,7 @@
             return true;
         }
     </script>
-    <!-- <script>
-		$(document).ready(function() {
-			$('#cities').change(function() {
-				var name = $("#fullName").val();
-				var email = $('#email').val();
-				var mobile = $('#mobile').val();
-				var dob = $('#dob').val();
-				var age = $('#age').val();
-				var gender = $('#gender').val();
-				var present_address = $('#present_address').val();
-				var permanent_address = $('#permanent_address').val();
-				var cities = $('#cities').val();
-				var datastr = {
-					name: name,
-					mobile: email,
-					address: mobile,
-					city: dob,
-					age: age,
-					gender: gender,
-					present_address: present_address,
-					permanent_address: permanent_address,
-					cities: cities,
-				};
-
-				jQuery.ajax({
-					type: "POST",
-					url: "<?php echo base_url(); ?>update_volunteer_data",
-					data: datastr,
-					success: function(data) {
-						if (data == 1) {
-							alert('Data saved successfully');
-						} else {
-							alert('Data not saved');
-						}
-
-					},
-					error: function() {
-						alert('data not saved');
-					}
-				});
-
-			});
-		});
-	</script> -->
+  
     <!-- BACK-TO-TOP -->
     <a href="#top" id="back-to-top"><i class="fa fa-angle-up"></i></a>
 

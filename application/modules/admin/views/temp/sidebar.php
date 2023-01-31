@@ -198,12 +198,12 @@ $rid = $this->session->userdata('admin_role');
 							</a>
 						</li>
 						<li>
-							<a href="<?php echo base_url(); ?>co-volunteer-report" class="slide-item">
+							<a href="<?php echo base_url(); ?>all-onboard-intern" class="slide-item">
 							All On Board Intern Report
 							</a>
 						</li>
 						<li>
-							<a href="<?php echo base_url(); ?>intern-tast-report" class="slide-item">
+							<a href="<?php echo base_url(); ?>intern-task-report" class="slide-item">
 							Task Report
 							</a>
 						</li>

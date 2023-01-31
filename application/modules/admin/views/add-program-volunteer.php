@@ -67,7 +67,7 @@
                                         <div class="invalid-feedback">Enter URL Expire Date</div>
                                     </div>
 
-                                    <div class="col-md-6 mb-3">
+                                    <!-- <div class="col-md-6 mb-3">
                                         <label class="form-label fw-bold" for="validationCustom04">Status</label>
                                         <select class="form-control select2 form-select" name="status" id="" required>
                                             <option value="">Select status</option>
@@ -75,7 +75,7 @@
                                             <option value="2">Inactive</option>
                                         </select>
                                         <div class="invalid-feedback">Select status</div>
-                                    </div>
+                                    </div> -->
                                     <style>
                                         #programSubmit {
                                             margin-top: 35px;

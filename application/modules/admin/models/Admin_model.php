@@ -209,6 +209,7 @@ class admin_model extends CI_Model
 
 	function volunteer_enquiry_Data($where)
 	{
+
 		$this->db->initialize();
 		$this->db->select('v.volunteer_id,v.first_name,v.last_name,v.mobile,v.email,v.state_id,v.city_id,v.creation_date,s.state_name,c.city_name');
 		$this->db->from('volunteer v');
@@ -221,6 +222,56 @@ class admin_model extends CI_Model
 		$query = $this->db->get();
 		//echo $this->db->last_query(); die;
 		$result = $query->result_array();
+		$this->db->close();
+		return $result;
+	}
+
+	function intern_submission_report($where)
+	{
+		$this->db->initialize();
+		$this->db->select('ism.*,i.intern_id,i.first_name,i.last_name,i.mobile,i.email,s.state_name,c.city_name');
+		$this->db->from('intern_submission_report ism');
+		$this->db->join('interns i', 'i.intern_id = ism.intern_id');
+		$this->db->join('states s', 's.state_id = i.state_id', 'left');
+		$this->db->join('cities c', 'c.city_id = i.city_id', 'left');
+		$this->db->where($where);
+		$query = $this->db->order_by('ism.intern_id desc');
+		$query = $this->db->get();
+		//echo $this->db->last_query(); die;
+		$result = $query->result_array();
+		$this->db->close();
+		return $result;
+	}
+
+	public function submission_reportData($reportId)
+	{
+		$this->db->initialize();
+		$this->db->select('isr.*,ist.*,it.task_title');
+		$this->db->from('intern_submission_report isr');
+		$this->db->join('intern_assigning_task ist', 'ist.intern_id = isr.intern_id');
+		$this->db->join('interntask it', 'ist.intern_task_id = it.intern_task_id');
+		$this->db->where('isr.sr_id', $reportId);
+		//$query = $this->db->group_by('isr.sr_id desc');
+		$query = $this->db->get();
+		// echo $this->db->last_query();
+		// die;
+		$result = $query->result_array();
+		$this->db->close();
+		return $result;
+	}
+
+	function volunteer_enquiry_Data_count($where)
+	{
+
+		$this->db->initialize();
+		$this->db->select('v.volunteer_id,v.first_name,v.last_name,v.mobile,v.email,v.state_id,v.city_id,v.creation_date');
+		$this->db->from('volunteer v');
+		$this->db->where($where);
+		$query = $this->db->order_by('volunteer_id desc');
+		$query = $this->db->get();
+		$result = $query->num_rows();
+		// echo $this->db->last_query();
+		// die;
 		$this->db->close();
 		return $result;
 	}
@@ -347,7 +398,7 @@ class admin_model extends CI_Model
 	function intern_enquiry_Data($where)
 	{
 		$this->db->initialize();
-		$this->db->select('i.*,s.state_name,c.city_name,is.*');
+		$this->db->select('i.*,s.state_name,c.city_name,is.skill_name,is.skill_id');
 		$this->db->from('interns i');
 		$this->db->join('states s', 's.state_id = i.state_id', 'left');
 		$this->db->join('cities c', 'c.city_id = i.city_id', 'left');
@@ -361,7 +412,23 @@ class admin_model extends CI_Model
 		return $result;
 	}
 
-
+	public function get_all_intern_onlineOffline($where)
+	{
+		$this->db->initialize();
+		$this->db->select('i.*,s.state_name,c.city_name,is.*,vt.*');
+		$this->db->from('interns i');
+		$this->db->join('states s', 's.state_id = i.state_id', 'left');
+		$this->db->join('cities c', 'c.city_id = i.city_id', 'left');
+		$this->db->join('skills is', 'is.skill_id = i.skill_id', 'left');
+		$this->db->join('volunteer_type vt', 'vt.vol_type_id = i.internshipType', 'left');
+		$this->db->where($where);
+		$query = $this->db->order_by('intern_id desc');
+		$query = $this->db->get();
+		//echo $this->db->last_query(); die;
+		$result = $query->row_array();
+		$this->db->close();
+		return $result;
+	}
 
 	function get_all_employee()
 	{
@@ -477,12 +544,63 @@ class admin_model extends CI_Model
 		//$count = $querry->num_rows();
 		return true;
 	}
+	public function intern_status_update($intern_id)
+	{
+		$this->db->initialize();
+		$updateCount = "UPDATE interns SET status=6 WHERE intern_id ='" . $intern_id . "'";
+		$querry = $this->db->query($updateCount);
+		//$count = $querry->num_rows();
+		return true;
+	}
+
+
+	function check_status($status)
+	{
+	
+		switch ($status) {
+			case "1":
+				echo "Onboarding-Condidate";
+				break;
+			case "2":
+				echo "Shortlisted";
+				break;
+			case "3":
+				echo "Interview Sheduled";
+				break;
+			case "4":
+				echo "InterView Cleared";
+				break;
+			case "5":
+				echo "InterView Pending";
+				break;
+			case "6":
+				echo "Interview PostPosd";
+				break;
+			case "7":
+				echo "Post Registraion Done";
+				break;
+			case "8":
+				echo "Our Cry Members";
+				break;
+		}
+	}
 	public function count_send_maillogincredational($volunteerEmail)
 	{
 		$this->db->initialize();
 		$pass = 'volunteer12345';
 		$newpass = md5($pass);
 		$updateCount = "UPDATE volunteer SET `mail_count`=' mail_count + 1', `password`= '$newpass',`status`=5 WHERE volunteer_id ='" . $volunteerEmail . "'";
+
+		$querry = $this->db->query($updateCount);
+		//$count = $querry->num_rows();
+		return true;
+	}
+	public function intern_count_send_maillogincredational($intern_id,$creation_date)
+	{
+		$this->db->initialize();
+		$pass = 'intern12345';
+		$newpass = md5($pass);
+		$updateCount = "UPDATE interns SET  `password`= '$newpass',`status`=7,`creation_date`= '".$creation_date."' WHERE intern_id ='" . $intern_id . "'";
 
 		$querry = $this->db->query($updateCount);
 		//$count = $querry->num_rows();
@@ -808,7 +926,7 @@ class admin_model extends CI_Model
 		return $result;
 	}
 
-	public function send_offer_letter($full_path, $file_name, $data,$url)
+	public function send_offer_letter($full_path, $file_name, $data, $url)
 	{
 		$mail = new PHPMailer();
 		$full_path = (file_get_contents($full_path));
@@ -837,6 +955,25 @@ class admin_model extends CI_Model
 			return 1;
 		} else {
 			return 0;
+		}
+	}
+
+
+	public function offerLetterData($where){
+		{
+			$this->db->initialize();
+			$this->db->select('i.*,s.state_name,c.city_name,cfm.certificate_type,cfm.certificate_path');
+			$this->db->from('interns i');
+			$this->db->join('states s', 's.state_id = i.state_id', 'left');
+			$this->db->join('cities c', 'c.city_id = i.city_id', 'left');
+			$this->db->join('certificate_format_master cfm', 'cfm.certificate_id = vpu.certificate_id', 'left');
+			$this->db->where($where);
+			$query = $this->db->order_by('id desc');
+			$query = $this->db->get();
+			//echo $this->db->last_query(); die;
+			$result = $query->result_array();
+			$this->db->close();
+			return $result;
 		}
 	}
 }

@@ -1,13 +1,11 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
-
-<head>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-  <title>Welcome to Cry VMS</title>
-</head>
-
-<body style="background: #f9f9f9 url(stucco.png) repeat top left;">
-  <div class="content">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Welcome to Cry VMS</title>
+  </head>
+  <body style="background: #f9f9f9 url(stucco.png) repeat top left;">
+    <div class="content">
     <!-- Notification 1  -->
     <table width="100%" border="0" cellpadding="0" cellspacing="0" align="center" class="full" bgcolor="" c-style="bgImage" object="drag-module" style="margin-top:2%">
       <tr mc:repeatable>
@@ -38,10 +36,10 @@
                     </tr>
                   </table>
                   <!-- Start Top -->
-                  <table width="500" border="0" cellpadding="0" cellspacing="0" align="center" class="mobile" bgcolor="#112b4e" c-style="blueBG" object="drag-module-small">
+                  <table width="500" border="0" cellpadding="0" cellspacing="0" align="center" class="mobile"  bgcolor="#112b4e" c-style="blueBG" object="drag-module-small">
                     <tr>
                       <td width="500" valign="middle" align="center">
-                        <!-- Header Text -->
+                        <!-- Header Text --> 
                         <table width="400" border="0" cellpadding="0" cellspacing="0" align="center" style="text-align: center; border-collapse:collapse;" class="fullCenter">
                           <tr>
                             <td align="center" valign="middle" width="100%" style="text-align: center; font-family: Helvetica, Arial, sans-serif; font-size: 25px; color: #ffffff; line-height: 30px; font-weight: 100;" t-style="whiteText" class="fullCenter" mc:edit="1" object="text-editable">
@@ -59,7 +57,7 @@
                     </tr>
                   </table>
                   <!-- End Top -->
-                  <table width="500" border="0" cellpadding="0" cellspacing="0" align="center" class="mobile" bgcolor="#112b4e" c-style="blueBG" object="drag-module-small">
+                  <table width="500" border="0" cellpadding="0" cellspacing="0" align="center" class="mobile"  bgcolor="#112b4e" c-style="blueBG" object="drag-module-small">
                     <tr>
                       <td width="500" valign="middle" align="center">
                         <table width="300" border="0" cellpadding="0" cellspacing="0" align="center" style="text-align: center; border-collapse:collapse;" class="fullCenter">
@@ -106,29 +104,29 @@
             <tr>
               <td align="center" width="500" valign="middle" bgcolor="#ffffff" c-style="whiteBG">
                 <div class="sortable_inner">
-                  <table width="500" border="0" cellpadding="0" cellspacing="0" align="center" class="mobile" bgcolor="#ffffff" c-style="whiteBG" object="drag-module-small">
+                  <table width="500" border="0" cellpadding="0" cellspacing="0" align="center" class="mobile"  bgcolor="#ffffff" c-style="whiteBG" object="drag-module-small">
                     <tr>
                       <td width="500" valign="middle" align="center">
                         <table width="265" border="0" cellpadding="0" cellspacing="0" align="center" style="text-align: center; border-collapse:collapse;" class="fullCenter">
                           <tr>
-                            <td width="100%" height="40"><span style="color:#999999;font-size:14px; font-family:'proxima_nova_rgregular', Helvetica;"><span class="aBn" data-term="goog_1795359220" tabindex="0"><span class="aQJ"><?php echo date("F d,Y") ?></span></span></span></td>
+                            <td width="100%" height="40"><span style="color:#999999;font-size:14px; font-family:'proxima_nova_rgregular', Helvetica;"><span class="aBn" data-term="goog_1795359220" tabindex="0"><span class="aQJ"><?php echo date("F d,Y")?></span></span></span></td>
                           </tr>
                         </table>
                       </td>
                     </tr>
                   </table>
                   <!-- Start Second -->
-                  <table width="500" border="0" cellpadding="0" cellspacing="0" align="center" class="mobile" bgcolor="#ffffff" c-style="whiteBG" object="drag-module-small">
+                  <table width="500" border="0" cellpadding="0" cellspacing="0" align="center" class="mobile"  bgcolor="#ffffff" c-style="whiteBG" object="drag-module-small">
                     <tr>
                       <td width="500" valign="middle" align="left">
-                        <!-- Header Text -->
+                        <!-- Header Text --> 
                         <table width="300" border="0" cellpadding="0" cellspacing="0" align="center" style="text-align: left; border-collapse:collapse; " class="fullCenter">
                           <tr>
                             <td align="left" valign="middle" width="100%" style="text-align: left; font-family: Helvetica, Arial, sans-serif; font-size: 14px; color: #212121; line-height: 30px; font-weight: 100;" t-style="headline" class="fullCenter" mc:edit="3" object="text-editable">
                               <!--[if !mso]><!-->
                               <span style="font-family: 'proxima_novathin', Helvetica; font-weight: normal;">
                                 <!--<![endif]-->
-                                <singleline>Dear <?php echo $first_name ?>,</singleline>
+                                <singleline>Dear <?php echo $first_name?>,</singleline>
                                 <!--[if !mso]><!-->
                               </span>
                               <!--<![endif]-->
@@ -138,7 +136,7 @@
                       </td>
                     </tr>
                   </table>
-                  <table width="500" border="0" cellpadding="0" cellspacing="0" align="center" class="mobile" bgcolor="#ffffff" c-style="whiteBG" object="drag-module-small">
+                  <table width="500" border="0" cellpadding="0" cellspacing="0" align="center" class="mobile"  bgcolor="#ffffff" c-style="whiteBG" object="drag-module-small">
                     <tr>
                       <td width="500" valign="middle" align="center">
                         <table width="265" border="0" cellpadding="0" cellspacing="0" align="center" style="text-align: center; border-collapse:collapse; " class="fullCenter">
@@ -150,7 +148,7 @@
                   <table width="500" border="0" cellpadding="0" cellspacing="0" align="center" class="mobile" bgcolor="#ffffff" c-style="whiteBG" object="drag-module-small">
                     <tr>
                       <td width="500" valign="middle" align="center">
-                        <!-- Header Text -->
+                        <!-- Header Text --> 
                         <table width="300" border="0" cellpadding="0" cellspacing="0" align="center" style="text-align: center; border-collapse:collapse; " class="fullCenter">
                           <tr>
                             <td valign="middle" width="100%" style="text-align:left; font-family: Helvetica, Arial, sans-serif; font-size: 14px; color: #515151; line-height: 24px;" t-style="textColor" class="fullCenter" mc:edit="4" object="text-editable">
@@ -158,7 +156,7 @@
                               <span style="font-family: 'proxima_nova_rgregular', Helvetica; font-weight: normal; ">
                                 <!--<![endif]-->
                                 <singleline>
-                                  Congratulations on receiving an offer Letter !
+                                 Congratulations on receiving an offer Letter !
 
 
                                 </singleline>
@@ -171,12 +169,12 @@
                       </td>
                     </tr>
                   </table>
-
+                 
                   <table width="500" border="0" cellpadding="0" cellspacing="0" align="center" class="mobile" bgcolor="#ffffff" c-style="whiteBG" object="drag-module-small">
                     <tr>
 
                       <td width="500" valign="middle" align="center">
-                        <!-- Header Text -->
+                        <!-- Header Text --> 
                         <table width="300" border="0" cellpadding="0" cellspacing="0" align="center" style="text-align: center; border-collapse:collapse; " class="fullCenter">
                           <tr>
                             <td width="100%" height="20"></td>
@@ -188,7 +186,7 @@
                                 <!--<![endif]-->
                                 <singleline>
                                   Please Fill your Complate form and Download youe Offer Letter .
-                                  <a href="<?php echo $url; ?>"> Click</a> and fill your details
+								  <a href="<?php echo $url; ?>"> Click</a> and fill your details
                                 </singleline>
                                 <!--[if !mso]><!-->
                               </span>
@@ -209,7 +207,7 @@
                         </table>
                       </td>
                     </tr>
-                  </table>
+                  </table>              
                   <table width="300" border="0" cellpadding="0" cellspacing="0" align="center" style="text-align: center; border-collapse:collapse; " class="fullCenter">
                     <tbody>
                       <tr>
@@ -226,12 +224,12 @@
                           <!--<![endif]-->
                         </td>
                       </tr>
-                      <tr>
+                       <tr>
                         <td width="" height="30"></td>
                       </tr>
                     </tbody>
                   </table>
-
+                 
                 </div>
               </td>
             </tr>
@@ -258,8 +256,8 @@
                   <!--[if !mso]><!-->
                   <span style="font-family: 'proxima_nova_rgregular', Helvetica; font-weight: normal;">
                     <!--<![endif]-->
-                    www.CryVMS.com | support@CryVMS.com
-                    <br />Support : +91-9889-062374
+                   www.CryVMS.com | support@CryVMS.com 
+<br />Support : +91-9889-062374
                     <!--[if !mso]><!-->
                   </span>
                   <!--<![endif]-->
@@ -282,33 +280,33 @@
                       <td width="100%" height="60">
                         <table cellpadding="0" cellspacing="5" style="width:100%;border-collapse:collapse">
                           <tbody>
-                            <tr>
-                              <td style="width:2%">
-                                <a style="text-decoration:none;color:#053b64" href="http://www.drycoder.com/">
-                                  <img alt="MM" height="35" src="http://www.drycoder.com/assets/images/dryCodericon.png" style="border:0" width="35" class="CToWUd">
-                                </a>
-                              </td>
-                              <td style="width:2%">
-                                <a href="https://twitter.com/DryCoderPlatfrm" target="_blank">
-                                  <img alt="Twitter" height="32" src="http://www.drycoder.com/assets/images/twitter.png" style="border:0" width="32" class="CToWUd">
-                                </a>
-                              </td>
-                              <td style="width:2%">
-                                <a style="text-decoration:none;color:#053b64" href="https://www.facebook.com/drycoder.platform" target="_blank">
-                                  <img alt="Facebook" height="32" src="http://www.drycoder.com/assets/images/facebook.png" style="border:0" width="32" class="CToWUd">
-                                </a>
-                              </td>
-                              <td style="width:2%">
-                                <a style="text-decoration:none;color:#053b64" href="https://plus.google.com/u/0/115158495198920231801" target="_blank">
-                                  <img alt="Googleplus" height="32" src="http://www.drycoder.com/assets/images/googleplus.png" style="border:0" width="32" class="CToWUd">
-                                </a>
-                              </td>
-                              <td style="width:2%">
-                                <a style="text-decoration:none;color:#053b64" href="https://www.linkedin.com/in/drycoder/" target="_blank">
-                                  <img alt="Googleplus" height="32" src="http://DryCoder.com/assets/images/linkedin.png" style="border:0" width="32">
-                                </a>
-                              </td>
-                            </tr>
+              							<tr>
+                            <td style="width:2%">
+                    <a style="text-decoration:none;color:#053b64" href="http://www.drycoder.com/">
+                      <img alt="MM" height="35" src="http://www.drycoder.com/assets/images/dryCodericon.png" style="border:0" width="35" class="CToWUd">
+                    </a>
+                  </td>
+                  <td style="width:2%">
+                    <a  href="https://twitter.com/DryCoderPlatfrm" target="_blank">
+                      <img alt="Twitter" height="32" src="http://www.drycoder.com/assets/images/twitter.png" style="border:0" width="32" class="CToWUd">
+                    </a>
+                  </td>
+                  <td style="width:2%">
+                    <a style="text-decoration:none;color:#053b64" href="https://www.facebook.com/drycoder.platform" target="_blank">
+                      <img alt="Facebook" height="32" src="http://www.drycoder.com/assets/images/facebook.png" style="border:0" width="32" class="CToWUd">
+                    </a>
+                  </td>
+                  <td style="width:2%">
+                    <a style="text-decoration:none;color:#053b64" href="https://plus.google.com/u/0/115158495198920231801" target="_blank">
+                      <img alt="Googleplus" height="32" src="http://www.drycoder.com/assets/images/googleplus.png" style="border:0" width="32" class="CToWUd">
+                    </a>
+                  </td>
+                            <td style="width:2%">
+                              <a style="text-decoration:none;color:#053b64" href="https://www.linkedin.com/in/drycoder/" target="_blank">
+                                <img alt="Googleplus" height="32" src="http://DryCoder.com/assets/images/linkedin.png" style="border:0" width="32" >
+                              </a>
+                            </td>
+                          </tr>
 
                           </tbody>
                         </table>
@@ -323,7 +321,7 @@
                   <table width="300px" style="text-align:center;margin-left: 100px;">
                     <tr>
                       <td style="padding:3px 0 0 6px;  font-family: 'proxima_nova_rgregular', Helvetica;font-weight: normal;font-size: 11px;" colspan="2">
-                        Copyright © 2017 <span class="aBn" data-term="goog_2007155060" tabindex="0"><span class="aQJ">Cry VMS</span></span>
+                       Copyright © 2017 <span class="aBn" data-term="goog_2007155060" tabindex="0"><span class="aQJ">Cry VMS</span></span>							
                       </td>
                     </tr>
                     <tr>
@@ -337,7 +335,6 @@
         </td>
       </tr>
     </table>
-  </div>
-</body>
-
+    </div>
+  </body>
 </html>

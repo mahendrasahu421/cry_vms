@@ -1,4 +1,5 @@
 <?php
+ob_start();
 defined('BASEPATH') or exit('No direct script access allowed');
 
 class Intern extends MY_Controller
@@ -66,7 +67,7 @@ class Intern extends MY_Controller
                         $r_password = $results['password'];
 
                         if ($r_password == md5($password)) {
-                            if ($results['status'] == 1) {
+                            if ($results['status'] == 7) {
                                 $this->session->set_userdata('intern_id', $results['intern_id']);
                                 $this->session->set_userdata('first_name', $results['first_name']);
                                 $this->session->set_userdata('state_id', $results['state_id']);
@@ -268,7 +269,7 @@ class Intern extends MY_Controller
             $join_data = array(
                 array(
                     'table' => 'interns',
-                    'fields' => array('first_name', 'last_name', 'state_id', 'mobile'),
+                    'fields' => array('first_name', 'last_name', 'state_id', 'mobile', 'internshipDeruation', 'internshipType', 'modification_date'),
                     'joinWith' => array('intern_id'),
                     'where' => array(
                         'intern_id' => $intern_id
@@ -3552,7 +3553,7 @@ class Intern extends MY_Controller
     public function mail_send($to, $from, $msg, $msg2, $subj, $link, $btn, $html)
     {
         $mail = new PHPMailer();
-         $mail->IsSMTP();
+        $mail->IsSMTP();
         $mail->Host = 'smtp.office365.com';
         $mail->SMTPDebug = 1;
         $mail->SMTPAuth = true;
@@ -3964,63 +3965,6 @@ class Intern extends MY_Controller
         }
     }
 
-
-
-    public function donation_report()
-    {
-        $CI = &get_instance();
-        $userID = $this->session->userdata('userID');
-        $data['totaltask'] = $this->User_model->total_task_count($userID);
-        $where1['volunteer_id'] = $userID;
-        $join_data = array(
-            array(
-                'table' => 'users',
-                'fields' => array('firstName', 'lastName'),
-                'joinWith' => array('userID'),
-                'where' => array(
-                    'userID' => $userID
-                ),
-            ),
-            array(
-                'joined' => 0,
-                'table' => 'user_data',
-                'fields' => array('profile', 'dioceses_id'),
-                'joinWith' => array('userID', 'dioceses_id', 'left'),
-            ),
-            array(
-                'joined' => 1,
-                'table' => 'dioceses',
-                'fields' => array('name', 'dioceses_id'),
-                'joinWith' => array('dioceses_id', 'left'),
-            ),
-        );
-        $where = array();
-        $limit = '';
-        $order_by = '';
-        $data['userDetails'] = $this->Curl_model->fetch_data_with_joining($join_data, $limit, $order_by);
-
-        $join_data = array(
-            array(
-                'table' => 'vol_donation_data',
-                'fields' => array('vol_donation_data_id', 'first_name', 'mobile', 'email', 'my_donation', 'amount', 'status'),
-                'where' => $where1,
-                'order_by' => array('vol_donation_data_id', 'desc'),
-            ),
-
-        );
-
-        $limit = '';
-        $order_by = array('vol_donation_data_id', 'DESC');
-        $data['report'] = $this->Curl_model->fetch_data_with_joining($join_data, $limit, $order_by);
-
-        //print_r($data['report']); exit;
-
-        $this->load->view('temp/head');
-        $this->load->view('temp/header', $data);
-        $this->load->view('temp/sidebar', $data);
-        $this->load->view('donation_report', $data);
-        $this->load->view('temp/footer');
-    }
     public function certificate()
     {
         // $CI = &get_instance();
@@ -4386,6 +4330,139 @@ class Intern extends MY_Controller
             $this->load->view('temp/footer');
         } else {
             echo '<script>window.location.href = "' . base_url() . 'intern-login"</script>';
+        }
+    }
+
+    public function submission_report()
+    {
+        if ($this->session->userdata('intern_id') != "" || $this->session->userdata('intern_id') != null || $this->session->userdata('state_id') != "" || $this->session->userdata('state_id') != null || $this->session->userdata('first_name') != "" || $this->session->userdata('first_name') != null) {
+            $intern_id  = $this->session->userdata('intern_id');
+            $Where = 'intern_id = "' . $intern_id . '"';
+            $data['taskType'] = $this->Crud_modal->fetch_all_data('*', 'volunteer_type', 'status=1');
+            $data['assign_taskIntern'] = $this->Intern_model->intern_assignTask($Where);
+            // echo "<pre>";
+            // print_r($data['assign_taskIntern']);
+            // exit;
+            $this->load->view('temp/head');
+            $this->load->view('temp/header', $data);
+            $this->load->view('temp/sidebar', $data);
+            $this->load->view('submission-report', $data);
+            $this->load->view('temp/footer');
+        } else {
+            echo '<script>window.location.href = "' . base_url() . 'intern-login"</script>';
+        }
+    }
+
+    public function insert_submission_report()
+    {
+        try {
+            $intern_id = $this->session->userdata('intern_id');
+            $projectDescription = $this->input->post('projectDescription');
+            $name_of_theDepartment = $this->input->post('name_of_theDepartment');
+            $name_andAddress = $this->input->post('intern_institution');
+            $cityInternship = $this->input->post('cityInternship');
+            $natureofAssignment = $this->input->post('natureofAssignment');
+            $status = 1;
+
+            $insertData = array(
+                'intern_id' => $intern_id,
+                'description' => $projectDescription,
+                'department_intern_in' => $name_of_theDepartment,
+                'intern_institution' => $name_andAddress,
+                'intern_city' => $cityInternship,
+                'intern_assignment' => $natureofAssignment,
+                'status' => $intern_id,
+                'final_sunmission_date' => date('Y-m-d'),
+            );
+            if ($_FILES['attachment'] != "") {
+                $config['upload_path'] = './uploads/submission_report_data';
+                $config['allowed_types']  = 'gif|jpg|png|pdf';
+                $new_name = time() . $_FILES["attachment"]['name'];
+                // echo "<pre>";
+                // print_r($new_name);exit;
+                $config['file_name'] = $new_name;
+                $this->load->library('upload', $config);
+                $this->upload->initialize($config);
+                if ($this->upload->do_upload('attachment')) {
+                    $file = $this->upload->data();
+                    $insertData['attachment'] = $file['file_name'];
+                    $internDataresult =  $this->Crud_modal->intern_data_insert('intern_submission_report', $insertData);
+                    redirect(base_url() . 'feedback');
+                } else {
+    
+                    $error = array('error' => $this->upload->display_errors());
+                    print_r($error);
+                    $this->session->set_flashdata('assign_message', '<div class="danger"><strong>Oops!</strong>Error</div>');
+                }
+            }
+           
+    
+        } catch (Exception $e) {
+            echo 'Caught exception: ',  $e->getMessage(), "\n";
+        }
+    }
+
+    public function feedback()
+    {
+        $this->load->view('temp/head');
+        $this->load->view('temp/header');
+        $this->load->view('temp/sidebar');
+        $this->load->view('feedback');
+        $this->load->view('temp/footer');
+    }
+
+    public function insert_feedback()
+    {
+        try {
+            $intern_id = $this->session->userdata('intern_id');
+            $pre_internship_correspondence = $this->input->post('pre_internship_correspondence');
+            $selection_process = $this->input->post('selection_process');
+            $orientation_beginning = $this->input->post('orientation_beginning');
+            $defined_goals = $this->input->post('defined_goals');
+            $assignment_planning = $this->input->post('assignment_planning');
+            $constructive_feedback = $this->input->post('constructive_feedback');
+            $needed_support = $this->input->post('needed_support');
+            $appropriate_and_sufficient = $this->input->post('appropriate_and_sufficient');
+            $work_flow = $this->input->post('work_flow');
+            $encouraging = $this->input->post('encouraging');
+            $stimulating = $this->input->post('stimulating');
+            $contributed_cry_work = $this->input->post('contributed_cry_work');
+            $another_student = $this->input->post('another_student');
+            $continue_partner = $this->input->post('continue_partner');
+            $internship_with_cry_again = $this->input->post('internship_with_cry_again');
+            $overall_internship = $this->input->post('overall_internship');
+            $overall_experience = $this->input->post('overall_experience');
+            $any_suggestions = $this->input->post('any_suggestions');
+
+            $insertFeedbackdata = array(
+                'intern_id' => $intern_id,
+                'pre_internship_correspondence' => $pre_internship_correspondence,
+                'selection_process' => $selection_process,
+                'orientation_beginning' => $orientation_beginning,
+                'defined_goals' => $defined_goals,
+                'assignment_planning' => $assignment_planning,
+                'constructive_feedback' => $constructive_feedback,
+                'needed_support' => $needed_support,
+                'appropriate_and_sufficient' => $appropriate_and_sufficient,
+                'work_flow' => $work_flow,
+                'encouraging' => $encouraging,
+                'stimulating' => $stimulating,
+                'contributed_cry_work' => $contributed_cry_work,
+                'another_student' => $another_student,
+                'continue_partner' => $continue_partner,
+                'internship_with_cry_again' => $internship_with_cry_again,
+                'overall_internship' => $overall_internship,
+                'overall_experience' => $overall_experience,
+                'any_suggestions' => $any_suggestions,
+
+            );
+
+            $this->Crud_modal->data_insert('feedback', $insertFeedbackdata);
+            $this->session->set_flashdata('master_insert_message', '<div class="alert alert-success"><strong>Task Create Success!</strong></div>');
+            redirect(base_url() . 'intern-dashbord');
+            //redirect(base_url() . 'intern-dashbord');
+        } catch (Exception $e) {
+            echo 'Caught xeceptiom: ', $e->getMessage(), "/n";
         }
     }
 }

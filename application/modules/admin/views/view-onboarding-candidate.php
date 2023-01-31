@@ -249,7 +249,7 @@
 </div>
 </div>
 </div>
-<script>
+<!-- <script>
 	$(document).ready(function() {
 		let region_id = $('#region_id').val();
 		if (region_id == "") {
@@ -259,7 +259,7 @@
 		}
 
 	});
-</script>
+</script> -->
 <script>
     function fetch_details(id, display_id) {
         //alert(id);

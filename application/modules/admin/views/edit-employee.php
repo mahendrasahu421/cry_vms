@@ -10,7 +10,7 @@
                     <h1 class="page-title">
                         Employee Master</h1>
                     <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="<?php echo base_url(); ?>admin-dashboard">Home</a></li>
+                        <li class="breadcrumb-item"><a href="<?php echo base_url();?>admin-dashboard">Home</a></li>
                         <li class="breadcrumb-item"><a href="javascript:void(0);">Employee Master
                             </a>
                         </li>
@@ -31,11 +31,11 @@
                                     <div class="col-md-6">
                                         <label for="validationCustom04" class="form-label">Region Name</label>
                                         <select class="form-control select2-show-search form-select" name="region_id" id="validationCustom04" required>
-                                            <option value="">Choose Region </option>
-                                            <?php foreach ($employee as $empregion) { ?>
-                                                <option value="<?php echo $empregion['region_id']; ?>" <?php if ($regions['region_id'] == $empregion['region_id']) {
-                                                                                                            echo  "selected";
-                                                                                                        } ?>><?php echo $regions['region_name']; ?></option>
+                                            <option selected disabled value="">Choose Region </option>
+                                            <?php foreach ($regions as $rd) { ?>
+                                                <option value="<?php echo $rd['region_id']; ?>" <?php if ($employee[0]['region_id'] == $rd['region_id']) {
+                                                                                                    echo  "selected";
+                                                                                                } ?>><?php echo $rd['region_name']; ?></option>
 
                                             <?php } ?>
                                         </select>
@@ -74,7 +74,7 @@
                                     <div class="col-md-4">
                                         <label for="validationCustom04" class="form-label">Gender</label>
                                         <select class="form-select select2 form-control" name="emp_gender" id="validationCustom04" required>
-                                            <option value="">Select Gender</option>
+                                            <option selected disabled value="">Select Gender</option>
                                             <option value="1" <?php if ($employee[0]['emp_gender'] == '1') {
                                                                     echo  "selected";
                                                                 } ?>>

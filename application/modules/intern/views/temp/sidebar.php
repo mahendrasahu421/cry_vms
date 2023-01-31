@@ -29,12 +29,12 @@
                 <li>
                     <a class="side-menu__item" href="<?php echo base_url(); ?>intern-task"><i class="side-menu__icon fe fe-grid"></i><span class="side-menu__label">My Task</span></a>
                 </li>
-                <li>
+                <!-- <li>
                     <a class="side-menu__item" href="<?php echo base_url(); ?>intern-find-task"><i class="side-menu__icon fe fe-grid"></i><span class="side-menu__label">Find Task</span></a>
-                </li>
+                </li> -->
                 <li class="sub-category">
                     <h3>Elements</h3>
-                </li>
+                <!-- </li>
                 <li class="slide">
                     <a class="side-menu__item" data-bs-toggle="slide" href="javascript:void(0);"><i class="side-menu__icon fe fe-database"></i><span class="side-menu__label">Daily Report</span><i class="angle fa fa-angle-right"></i></a>
                     <ul class="slide-menu">
@@ -44,12 +44,12 @@
                         <li><a href="<?php echo base_url(); ?>intern-self-task-daily-report" class="slide-item"> Add Self Task Report</a></li>
                         <li><a href="<?php echo base_url(); ?>intern-self-task-view-daily-report" class="slide-item">View Self Task Daily Report</a></li>
                     </ul>
-                </li>
+                </li> -->
 
 
-                <li>
+                <!-- <li>
                     <a class="side-menu__item" href="<?php echo base_url(); ?>intern-claim-certificate"><i class="side-menu__icon fe fe-grid"></i><span class="side-menu__label">Claim Certificate</span></a>
-                </li>
+                </li> -->
 
                 <!-- <li>
                     <a class="side-menu__item" href="intern-transfer-form"><i class="side-menu__icon fe fe-grid"></i><span class="side-menu__label">Transfer Request</span></a>
