@@ -5365,7 +5365,7 @@ class Admin extends MY_Controller
         // $email_templates = $this->Crud_modal->fetch_all_data('*', 'email_templates', 'status=1 AND email_templates_id=5');
         $where = 'intern_id = "' . $intern_id . '" AND email = "' . $intern_email . '"';
         $emailData = array(
-            'offer_latter_email' => strip_tags($emialcontent),
+            'offer_latter_email' => $emialcontent,
         );
         $this->Crud_modal->update_data($where, 'interns', $emailData);
     }
@@ -7680,26 +7680,88 @@ class Admin extends MY_Controller
         $certificateLastname = $internemailData['last_name'];
         $certificateEmail = $internemailData['email'];
         $offerEmailFormat = $internemailData['offer_latter_email'];
-        $pdf = new FPDF();
+        $pdf = new MPDF();
+        // First page
         $pdf->AddPage();
-        $pdf->SetFont('Arial', 'U', 10);
-        $pdf->SetFillColor(190, 210, 240);
-        $pdf->Image(base_url() . '/uploads/Intern-offer-Letter.png', 10, 7, 185);
-        //$pdf->Image($_SERVER['DOCUMENT_ROOT'] . '/uploads/Intern-offer-Letter.png', 10, 7, 185);
-        $pdf->SetFont('Arial', '', 10);
-        $pdf->SetY(70);
-        $pdf->Cell(40, 0, $certificateFirstname . " " . $certificateLastname);
-        $pdf->Ln();
-        $pdf->multiCell(200, 6, $offerEmailFormat,'R',20);
-       // $pdf->Cell(0, 10, $offerEmailFormat, 1, 1, '', 1);
-       // $pdf->Ln(20);
-
-        //$pdf->multiCell(strip_tags($offerEmailFormat),20);
-
+        $pdf->SetFont('Arial', 'B', 16);
+        $pdf->Image(base_url() . '/uploads/Offer.png', 10, 7, 185);
+        $pdf->WriteHTML($offerEmailFormat);
         $pdf->Output();
         //return $path;
 
 
         $this->load->view('view_offer_letter');
+    }
+    function WriteHTML($html)
+    {
+        // HTML parser
+        $html = str_replace("\n", ' ', $html);
+        $a = preg_split('/<(.*)>/U', $html, -1, PREG_SPLIT_DELIM_CAPTURE);
+        foreach ($a as $i => $e) {
+            if ($i % 2 == 0) {
+                // Text
+                if ($this->HREF)
+                    $this->PutLink($this->HREF, $e);
+                else
+                    $this->Write(5, $e);
+            } else {
+                // Tag
+                if ($e[0] == '/')
+                    $this->CloseTag(strtoupper(substr($e, 1)));
+                else {
+                    // Extract attributes
+                    $a2 = explode(' ', $e);
+                    $tag = strtoupper(array_shift($a2));
+                    $attr = array();
+                    foreach ($a2 as $v) {
+                        if (preg_match('/([^=]*)=["\']?([^"\']*)/', $v, $a3))
+                            $attr[strtoupper($a3[1])] = $a3[2];
+                    }
+                    $this->OpenTag($tag, $attr);
+                }
+            }
+        }
+    }
+
+    function OpenTag($tag, $attr)
+    {
+        // Opening tag
+        if ($tag == 'B' || $tag == 'I' || $tag == 'U')
+            $this->SetStyle($tag, true);
+        if ($tag == 'A')
+            $this->HREF = $attr['HREF'];
+        if ($tag == 'BR')
+            $this->Ln(5);
+    }
+
+    function CloseTag($tag)
+    {
+        // Closing tag
+        if ($tag == 'B' || $tag == 'I' || $tag == 'U')
+            $this->SetStyle($tag, false);
+        if ($tag == 'A')
+            $this->HREF = '';
+    }
+
+    function SetStyle($tag, $enable)
+    {
+        // Modify style and select corresponding font
+        $this->$tag += ($enable ? 1 : -1);
+        $style = '';
+        foreach (array('B', 'I', 'U') as $s) {
+            if ($this->$s > 0)
+                $style .= $s;
+        }
+        $this->SetFont('', $style);
+    }
+
+    function PutLink($URL, $txt)
+    {
+        // Put a hyperlink
+        $this->SetTextColor(0, 0, 255);
+        $this->SetStyle('U', true);
+        $this->Write(5, $txt, $URL);
+        $this->SetStyle('U', false);
+        $this->SetTextColor(0);
     }
 }
