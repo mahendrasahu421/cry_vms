@@ -875,34 +875,34 @@ class Admin extends MY_Controller
                     $i++;
                     # code...
 ?>
-<div class="row form-group m-b-20">
-    <div class="col-md-3">
-        <h4 class="f-16 m-0 p-0 font-weight-bold">Task Title</h4>
-    </div>
-    <div class="col-md-9">
-        <?php echo ucwords($value['task_title']); ?>
-    </div>
-</div>
-<div class="row form-group m-b-20">
-    <div class="col-md-3">
-        <h4 class="f-16 m-0 p-0 font-weight-bold">Working Hours</h4>
-    </div>
-    <div class="col-md-9">
-        <?php
+                    <div class="row form-group m-b-20">
+                        <div class="col-md-3">
+                            <h4 class="f-16 m-0 p-0 font-weight-bold">Task Title</h4>
+                        </div>
+                        <div class="col-md-9">
+                            <?php echo ucwords($value['task_title']); ?>
+                        </div>
+                    </div>
+                    <div class="row form-group m-b-20">
+                        <div class="col-md-3">
+                            <h4 class="f-16 m-0 p-0 font-weight-bold">Working Hours</h4>
+                        </div>
+                        <div class="col-md-9">
+                            <?php
                             if (sizeof($daily_report) > 0) {
                             ?>
-        <?php echo $phours ?> Hours <?php echo $pmint ?> Mins
-        <?php } else { ?>
-        Not found
-        <?php } ?>
-    </div>
-</div>
-<div class="row form-group m-b-20">
-    <div class="col-md-3">
-        <h4 class="f-16  m-0 p-0 font-weight-bold">Start Working Date</h4>
-    </div>
-    <div class="col-md-9">
-        <?php
+                                <?php echo $phours ?> Hours <?php echo $pmint ?> Mins
+                            <?php } else { ?>
+                                Not found
+                            <?php } ?>
+                        </div>
+                    </div>
+                    <div class="row form-group m-b-20">
+                        <div class="col-md-3">
+                            <h4 class="f-16  m-0 p-0 font-weight-bold">Start Working Date</h4>
+                        </div>
+                        <div class="col-md-9">
+                            <?php
                             if (sizeof($daily_report_date) > 0) {
                                 echo date('d/m/Y', strtotime($daily_report_date[0]['dailyReportDate']));
                             } else {
@@ -910,15 +910,15 @@ class Admin extends MY_Controller
                             }
                             ?>
 
-    </div>
-</div>
-<?php
+                        </div>
+                    </div>
+                <?php
 
                 }
             } else {
                 ?>
-<center>No data found</center>
-<?php
+                <center>No data found</center>
+        <?php
             }
         }
     }
@@ -1529,25 +1529,25 @@ class Admin extends MY_Controller
         $dilyreportDetails = $this->Curl_model->fetch_data_with_joining($join_data, $limit, $order_by);
 
         ?>
-<h5 class="badge bg-warning text-black"> Name-
-    <?php echo ucwords($dilyreportDetails[0]['first_name'] . ' ' . $dilyreportDetails[0]['last_name']); ?></h5>
-<div class="row form-group m-b-20">
-    <table id="dom-table" class="table table-striped table-bordered pre-line">
-        <thead>
-            <tr class="bg-gray">
-                <th class="text-white">Sr</th>
-                <th class="text-white">Date</th>
-                <th class="text-white">Time In</th>
-                <th class="text-white">Time Out</th>
-                <th class="text-white">Activity</th>
-                <th class="text-white">Improved Msg</th>
-                <th class="text-white">Challeges Face</th>
-                <th class="text-white">Experrience Any</th>
-                <th class="text-white w-10">Total Time</th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php $i = 1;
+        <h5 class="badge bg-warning text-black"> Name-
+            <?php echo ucwords($dilyreportDetails[0]['first_name'] . ' ' . $dilyreportDetails[0]['last_name']); ?></h5>
+        <div class="row form-group m-b-20">
+            <table id="dom-table" class="table table-striped table-bordered pre-line">
+                <thead>
+                    <tr class="bg-gray">
+                        <th class="text-white">Sr</th>
+                        <th class="text-white">Date</th>
+                        <th class="text-white">Time In</th>
+                        <th class="text-white">Time Out</th>
+                        <th class="text-white">Activity</th>
+                        <th class="text-white">Improved Msg</th>
+                        <th class="text-white">Challeges Face</th>
+                        <th class="text-white">Experrience Any</th>
+                        <th class="text-white w-10">Total Time</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php $i = 1;
                     foreach ($dilyreportDetails as $key => $value) {
                         $volunteer_id = $value['volunteer_id'];
                         $encoded_id = rtrim(strtr(base64_encode($volunteer_id), '+/', '-_'), '=');
@@ -1563,36 +1563,32 @@ class Admin extends MY_Controller
                         $totalmin += $mins;
                         $total_time1 = $total . '.' . $totalmin;
                     ?>
-            <tr>
-                <td><?php echo $i; ?></td>
-                <td><?php echo date('d/m/Y', strtotime($value['dr_date'])); ?></td>
-                <td><?php echo date('h:i A', strtotime($value['dr_time_in'])); ?></td>
-                <td><?php echo date('h:i A', strtotime($value['dr_time_out'])); ?></td>
-                <td><?php echo ucwords($value['dr_activity']); ?></td>
-                <td><?php echo ucwords($value['improvement']); ?></td>
-                <td><?php echo ucwords($value['challenges']); ?></td>
-                <td><?php echo ucwords($value['experience']); ?></td>
-                <td><?php echo "<b>$hours</b> hour <b>$mins</b> mins</b>" ?></td>
-            </tr>
-            <?php $i++;
+                        <tr>
+                            <td><?php echo $i; ?></td>
+                            <td><?php echo date('d/m/Y', strtotime($value['dr_date'])); ?></td>
+                            <td><?php echo date('h:i A', strtotime($value['dr_time_in'])); ?></td>
+                            <td><?php echo date('h:i A', strtotime($value['dr_time_out'])); ?></td>
+                            <td><?php echo ucwords($value['dr_activity']); ?></td>
+                            <td><?php echo ucwords($value['improvement']); ?></td>
+                            <td><?php echo ucwords($value['challenges']); ?></td>
+                            <td><?php echo ucwords($value['experience']); ?></td>
+                            <td><?php echo "<b>$hours</b> hour <b>$mins</b> mins</b>" ?></td>
+                        </tr>
+                    <?php $i++;
                     } ?><tr>
-                <td colspan="8" class="text-end bg-gray text-white fw-bold">Total</td>
-                <td class=" bg-gray text-white bold"><?php echo "<b>$total</b> hours <b>$totalmin</b> mins</b>" ?></td>
-            </tr>
-        </tbody>
-    </table>
+                        <td colspan="8" class="text-end bg-gray text-white fw-bold">Total</td>
+                        <td class=" bg-gray text-white bold"><?php echo "<b>$total</b> hours <b>$totalmin</b> mins</b>" ?></td>
+                    </tr>
+                </tbody>
+            </table>
 
-</div>
-<div class="modal-footer">
-    <a onclick="return confirm('Do you want to approved'); "
-        href="<?php echo base_url(); ?>dailyreport-approved/<?php echo $encoded_id; ?>/<?php echo $encode_taskID; ?>/<?php echo $total_time1; ?>"><button
-            type="button" class="btn btn-rounded  btn-warning ">Approve</button></a>
-    <a href="#" data-toggle="modal" data-target=".project-details"
-        onclick="disapproved('<?php echo $volunteer_id; ?>','<?php echo $value['task_id']; ?>','<?php echo $total_time1; ?>');"><button
-            type="button" class="btn btn-rounded  btn-secondary">DisApprove</button></a>
-    <button type="button" class="btn btn-rounded  btn-default" data-dismiss="modal" aria-hidden="true">Cancel</button>
-</div>
-<?php
+        </div>
+        <div class="modal-footer">
+            <a onclick="return confirm('Do you want to approved'); " href="<?php echo base_url(); ?>dailyreport-approved/<?php echo $encoded_id; ?>/<?php echo $encode_taskID; ?>/<?php echo $total_time1; ?>"><button type="button" class="btn btn-rounded  btn-warning ">Approve</button></a>
+            <a href="#" data-toggle="modal" data-target=".project-details" onclick="disapproved('<?php echo $volunteer_id; ?>','<?php echo $value['task_id']; ?>','<?php echo $total_time1; ?>');"><button type="button" class="btn btn-rounded  btn-secondary">DisApprove</button></a>
+            <button type="button" class="btn btn-rounded  btn-default" data-dismiss="modal" aria-hidden="true">Cancel</button>
+        </div>
+    <?php
     }
 
 
@@ -1610,61 +1606,57 @@ class Admin extends MY_Controller
         // print_r($dilyreportDetails);
         // exit;
     ?>
-<h5 class="badge bg-warning text-black"> Name-
-    <?php echo ucwords($dilyreportDetails[0]['first_name'] . ' ' . $dilyreportDetails[0]['last_name']); ?></h5>
-<div class="row form-group m-b-20">
-    <table id="dom-table" class="table table-striped table-bordered pre-line">
-        <thead>
-            <tr class="bg-gray">
-                <th class="text-white">Sr</th>
-                <th class="text-white">Date</th>
-                <th class="text-white">Task</th>
+        <h5 class="badge bg-warning text-black"> Name-
+            <?php echo ucwords($dilyreportDetails[0]['first_name'] . ' ' . $dilyreportDetails[0]['last_name']); ?></h5>
+        <div class="row form-group m-b-20">
+            <table id="dom-table" class="table table-striped table-bordered pre-line">
+                <thead>
+                    <tr class="bg-gray">
+                        <th class="text-white">Sr</th>
+                        <th class="text-white">Date</th>
+                        <th class="text-white">Task</th>
 
 
 
-            </tr>
-        </thead>
-        <tbody>
-            <?php $i = 1;
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php $i = 1;
                     foreach ($dilyreportDetails as $key => $value) {
                         $intern_id = $value['intern_id'];
                         $sr_id = $value['sr_id'];
                         $encoded_id = rtrim(strtr(base64_encode($intern_id), '+/', '-_'), '=');
                         $submissionId = rtrim(strtr(base64_encode($sr_id), '+/', '-_'), '=');
                     ?>
-            <tr>
-                <td><?php echo $i; ?></td>
-                <!-- <td><?php echo $sr_id; ?></td>
+                        <tr>
+                            <td><?php echo $i; ?></td>
+                            <!-- <td><?php echo $sr_id; ?></td>
                             <td><?php echo $intern_id; ?></td> -->
-                <td><?php echo date('d-m-Y', strtotime($value['final_sunmission_date'])); ?></td>
-                <td><?php echo ucwords($value['task_title']); ?></td>
+                            <td><?php echo date('d-m-Y', strtotime($value['final_sunmission_date'])); ?></td>
+                            <td><?php echo ucwords($value['task_title']); ?></td>
 
 
-            </tr>
-            <?php $i++;
+                        </tr>
+                    <?php $i++;
                     } ?>
-        </tbody>
-    </table>
-    <div class="col-md-12">
-        <div class="fs4"><strong>Task Description : </strong></div><br>
-        <div class=""><?php echo ucwords($value['description']); ?></div><br>
-        <div class=""><strong>Attechments </strong></div>
-        <br>
-        <div class=""><?php echo ucwords($value['attachment']); ?></div><br>
+                </tbody>
+            </table>
+            <div class="col-md-12">
+                <div class="fs4"><strong>Task Description : </strong></div><br>
+                <div class=""><?php echo ucwords($value['description']); ?></div><br>
+                <div class=""><strong>Attechments </strong></div>
+                <br>
+                <div class=""><?php echo ucwords($value['attachment']); ?></div><br>
 
-    </div>
+            </div>
 
-</div>
-<div class="modal-footer">
-    <a onclick="return confirm('Do you want to approved'); "
-        href="<?php echo base_url(); ?>submission-approved/<?php echo $encoded_id; ?>/<?php echo $submissionId; ?>"><button
-            type="button" class="btn btn-rounded  btn-warning ">Approve</button></a>
-    <a href="#" data-toggle="modal" data-target=".project-details"
-        onclick="disapproved('<?php echo $intern_id; ?>','<?php echo $sr_id; ?>');"><button type="button"
-            class="btn btn-rounded  btn-secondary">DisApprove</button></a>
-    <button type="button" class="btn btn-rounded  btn-default" data-dismiss="modal" aria-hidden="true">Cancel</button>
-</div>
-<?php
+        </div>
+        <div class="modal-footer">
+            <a onclick="return confirm('Do you want to approved'); " href="<?php echo base_url(); ?>submission-approved/<?php echo $encoded_id; ?>/<?php echo $submissionId; ?>"><button type="button" class="btn btn-rounded  btn-warning ">Approve</button></a>
+            <a href="#" data-toggle="modal" data-target=".project-details" onclick="disapproved('<?php echo $intern_id; ?>','<?php echo $sr_id; ?>');"><button type="button" class="btn btn-rounded  btn-secondary">DisApprove</button></a>
+            <button type="button" class="btn btn-rounded  btn-default" data-dismiss="modal" aria-hidden="true">Cancel</button>
+        </div>
+    <?php
     }
 
 
@@ -1781,25 +1773,25 @@ class Admin extends MY_Controller
         $dilyreportDetails = $this->Curl_model->fetch_data_with_joining($join_data, $limit, $order_by);
 
     ?>
-<h5 class="badge bg-warning text-black"> Name-
-    <?php echo ucwords($dilyreportDetails[0]['first_name'] . ' ' . $dilyreportDetails[0]['last_name']); ?></h5>
-<div class="row form-group m-b-20">
-    <table id="dom-table" class="table table-striped table-bordered pre-line">
-        <thead>
-            <tr class="bg-gray">
-                <th class="text-white">Sr</th>
-                <th class="text-white">Date</th>
-                <th class="text-white">Time In</th>
-                <th class="text-white">Time Out</th>
-                <th class="text-white">Activity</th>
-                <th class="text-white">Improved Msg</th>
-                <th class="text-white">Challeges Face</th>
-                <th class="text-white">Experrience Any</th>
-                <th class="text-white w-10">Total Time</th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php $i = 1;
+        <h5 class="badge bg-warning text-black"> Name-
+            <?php echo ucwords($dilyreportDetails[0]['first_name'] . ' ' . $dilyreportDetails[0]['last_name']); ?></h5>
+        <div class="row form-group m-b-20">
+            <table id="dom-table" class="table table-striped table-bordered pre-line">
+                <thead>
+                    <tr class="bg-gray">
+                        <th class="text-white">Sr</th>
+                        <th class="text-white">Date</th>
+                        <th class="text-white">Time In</th>
+                        <th class="text-white">Time Out</th>
+                        <th class="text-white">Activity</th>
+                        <th class="text-white">Improved Msg</th>
+                        <th class="text-white">Challeges Face</th>
+                        <th class="text-white">Experrience Any</th>
+                        <th class="text-white w-10">Total Time</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php $i = 1;
                     foreach ($dilyreportDetails as $key => $value) {
                         $intern_id = $value['intern_id'];
                         $encoded_id = rtrim(strtr(base64_encode($intern_id), '+/', '-_'), '=');
@@ -1815,36 +1807,32 @@ class Admin extends MY_Controller
                         $totalmin += $mins;
                         $total_time1 = $total . '.' . $totalmin;
                     ?>
-            <tr>
-                <td><?php echo $i; ?></td>
-                <td><?php echo date('d/m/Y', strtotime($value['dr_date'])); ?></td>
-                <td><?php echo date('h:i A', strtotime($value['dr_time_in'])); ?></td>
-                <td><?php echo date('h:i A', strtotime($value['dr_time_out'])); ?></td>
-                <td><?php echo ucwords($value['dr_activity']); ?></td>
-                <td><?php echo ucwords($value['improvement']); ?></td>
-                <td><?php echo ucwords($value['challenges']); ?></td>
-                <td><?php echo ucwords($value['experience']); ?></td>
-                <td><?php echo "<b>$hours</b> hour <b>$mins</b> mins</b>" ?></td>
-            </tr>
-            <?php $i++;
+                        <tr>
+                            <td><?php echo $i; ?></td>
+                            <td><?php echo date('d/m/Y', strtotime($value['dr_date'])); ?></td>
+                            <td><?php echo date('h:i A', strtotime($value['dr_time_in'])); ?></td>
+                            <td><?php echo date('h:i A', strtotime($value['dr_time_out'])); ?></td>
+                            <td><?php echo ucwords($value['dr_activity']); ?></td>
+                            <td><?php echo ucwords($value['improvement']); ?></td>
+                            <td><?php echo ucwords($value['challenges']); ?></td>
+                            <td><?php echo ucwords($value['experience']); ?></td>
+                            <td><?php echo "<b>$hours</b> hour <b>$mins</b> mins</b>" ?></td>
+                        </tr>
+                    <?php $i++;
                     } ?><tr>
-                <td colspan="8" class="text-end bg-gray text-white fw-bold">Total</td>
-                <td class=" bg-gray text-white bold"><?php echo "<b>$total</b> hours <b>$totalmin</b> mins</b>" ?></td>
-            </tr>
-        </tbody>
-    </table>
+                        <td colspan="8" class="text-end bg-gray text-white fw-bold">Total</td>
+                        <td class=" bg-gray text-white bold"><?php echo "<b>$total</b> hours <b>$totalmin</b> mins</b>" ?></td>
+                    </tr>
+                </tbody>
+            </table>
 
-</div>
-<div class="modal-footer">
-    <a onclick="return confirm('Do you want to approved'); "
-        href="<?php echo base_url(); ?>interndailyreport-approved/<?php echo $encoded_id; ?>/<?php echo $encode_taskID; ?>/<?php echo $total_time1; ?>"><button
-            type="button" class="btn btn-rounded  btn-warning ">Approve</button></a>
-    <a href="#" data-toggle="modal" data-target=".project-details"
-        onclick="disapproved('<?php echo $intern_id; ?>','<?php echo $value['task_id']; ?>','<?php echo $total_time1; ?>');"><button
-            type="button" class="btn btn-rounded  btn-secondary">DisApprove</button></a>
-    <button type="button" class="btn btn-rounded  btn-default" data-dismiss="modal" aria-hidden="true">Cancel</button>
-</div>
-<?php
+        </div>
+        <div class="modal-footer">
+            <a onclick="return confirm('Do you want to approved'); " href="<?php echo base_url(); ?>interndailyreport-approved/<?php echo $encoded_id; ?>/<?php echo $encode_taskID; ?>/<?php echo $total_time1; ?>"><button type="button" class="btn btn-rounded  btn-warning ">Approve</button></a>
+            <a href="#" data-toggle="modal" data-target=".project-details" onclick="disapproved('<?php echo $intern_id; ?>','<?php echo $value['task_id']; ?>','<?php echo $total_time1; ?>');"><button type="button" class="btn btn-rounded  btn-secondary">DisApprove</button></a>
+            <button type="button" class="btn btn-rounded  btn-default" data-dismiss="modal" aria-hidden="true">Cancel</button>
+        </div>
+    <?php
     }
 
 
@@ -1916,20 +1904,20 @@ class Admin extends MY_Controller
         //print_r ($dilyreportDetails); exit;
 
     ?>
-<div class="row form-group m-b-20">
-    <table id="dom-table" class="table table-striped table-bordered pre-line">
-        <thead>
-            <tr>
-                <th>Sr.no</th>
-                <th>Date</th>
-                <th>Time In</th>
-                <th>Time Out</th>
-                <th>Activity</th>
-                <th>Total Time</th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php $i = 1;
+        <div class="row form-group m-b-20">
+            <table id="dom-table" class="table table-striped table-bordered pre-line">
+                <thead>
+                    <tr>
+                        <th>Sr.no</th>
+                        <th>Date</th>
+                        <th>Time In</th>
+                        <th>Time Out</th>
+                        <th>Activity</th>
+                        <th>Total Time</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php $i = 1;
                     foreach ($dilyreportDetails as $key => $value) {
                         $timeIn = $value['dailyReportTimeIn'];
                         $time = date('h:i A', strtotime($timeIn));
@@ -1941,21 +1929,21 @@ class Admin extends MY_Controller
                         $mins = $tmins % 60;
 
                     ?>
-            <tr>
-                <td><?php echo $i; ?></td>
-                <td><?php echo date('d/m/Y', strtotime($value['dailyReportDate'])); ?></td>
-                <td><?php echo date('h:i A', strtotime($value['dailyReportTimeIn'])); ?></td>
-                <td><?php echo date('h:i A', strtotime($value['dailyReportTimeOut'])); ?></td>
-                <td><?php echo ucwords($value['dailyReportActivity']); ?></td>
-                <td><?php echo "<b>$hours</b> hour <b>$mins</b> mins</b>" ?></td>
-            </tr>
-            <?php $i++;
+                        <tr>
+                            <td><?php echo $i; ?></td>
+                            <td><?php echo date('d/m/Y', strtotime($value['dailyReportDate'])); ?></td>
+                            <td><?php echo date('h:i A', strtotime($value['dailyReportTimeIn'])); ?></td>
+                            <td><?php echo date('h:i A', strtotime($value['dailyReportTimeOut'])); ?></td>
+                            <td><?php echo ucwords($value['dailyReportActivity']); ?></td>
+                            <td><?php echo "<b>$hours</b> hour <b>$mins</b> mins</b>" ?></td>
+                        </tr>
+                    <?php $i++;
                     } ?>
-        </tbody>
-    </table>
+                </tbody>
+            </table>
 
-</div>
-<?php
+        </div>
+        <?php
     }
 
     public function volunteer()
@@ -2320,55 +2308,53 @@ class Admin extends MY_Controller
 
             $volunteerDetails = $this->Curl_model->fetch_data_with_joining($join_data, $limit, $order_by);
         ?>
-<div class="col-md-3 m-b-20 text-center">
-    <?php if ($volunteerDetails['profile'] != '') { ?>
-    <img src='<?php $image = $volunteerDetails['profile'];
-                                echo base_url("user_profile/$image"); ?>' width="100%" height="auto"
-        class="img-fluid border p-1" />
-    <?php } else { ?>
-    <img src="<?php echo base_url("user_profile/crop.jpg"); ?>" class="img-fluid" alt="" title="">
-    <?php } ?>
-</div>
-<div class="col-md-8">
-    <h2 class="f-14 font-medium">
-        <?php echo ucwords($volunteerDetails[0]['first_name'] . ' ' . $volunteerDetails[0]['last_name']); ?></h2>
-    <div class="row mb-2">
-        <div class="col-4 font-weight-bold text-dark">Volunteer ID</div>
-        <div class="col"><?php echo $volunteerDetails[0]['volunteer_id']; ?></div>
-    </div>
-    <div class="row mb-2">
-        <div class="col-4 font-weight-bold text-dark">Phone</div>
-        <div class="col"><?php echo $volunteerDetails[0]['mobile']; ?></div>
-    </div>
-    <div class="row mb-2">
-        <div class="col-4 font-weight-bold text-dark">Email</div>
-        <div class="col"><a href="#" class="text-inverse"><span
-                    class="cf_email"><?php echo $volunteerDetails[0]['email']; ?></span></a></div>
-    </div>
-    <div class="row mb-2">
-        <div class="col-4 font-weight-bold text-dark">Date of Birth</div>
-        <div class="col"><?php if ($volunteerDetails['date_of_birth'] != '0000-00-00') {
+            <div class="col-md-3 m-b-20 text-center">
+                <?php if ($volunteerDetails['profile'] != '') { ?>
+                    <img src='<?php $image = $volunteerDetails['profile'];
+                                echo base_url("user_profile/$image"); ?>' width="100%" height="auto" class="img-fluid border p-1" />
+                <?php } else { ?>
+                    <img src="<?php echo base_url("user_profile/crop.jpg"); ?>" class="img-fluid" alt="" title="">
+                <?php } ?>
+            </div>
+            <div class="col-md-8">
+                <h2 class="f-14 font-medium">
+                    <?php echo ucwords($volunteerDetails[0]['first_name'] . ' ' . $volunteerDetails[0]['last_name']); ?></h2>
+                <div class="row mb-2">
+                    <div class="col-4 font-weight-bold text-dark">Volunteer ID</div>
+                    <div class="col"><?php echo $volunteerDetails[0]['volunteer_id']; ?></div>
+                </div>
+                <div class="row mb-2">
+                    <div class="col-4 font-weight-bold text-dark">Phone</div>
+                    <div class="col"><?php echo $volunteerDetails[0]['mobile']; ?></div>
+                </div>
+                <div class="row mb-2">
+                    <div class="col-4 font-weight-bold text-dark">Email</div>
+                    <div class="col"><a href="#" class="text-inverse"><span class="cf_email"><?php echo $volunteerDetails[0]['email']; ?></span></a></div>
+                </div>
+                <div class="row mb-2">
+                    <div class="col-4 font-weight-bold text-dark">Date of Birth</div>
+                    <div class="col"><?php if ($volunteerDetails['date_of_birth'] != '0000-00-00') {
                                             echo ucwords(date("d-m-Y", strtotime($volunteerDetails[0]['date_of_birth'])));
                                         } ?></div>
-    </div>
-    <div class="row mb-2">
-        <div class="col-4 font-weight-bold text-dark">State</div>
-        <div class="col"><?php echo $volunteerDetails[0]['state_name']; ?></div>
-    </div>
-    <div class="row mb-2">
-        <div class="col-4 font-weight-bold text-dark">City</div>
-        <div class="col"><?php echo $volunteerDetails[0]['city_name']; ?></div>
-    </div>
-    <!-- <div class="row mb-2">
+                </div>
+                <div class="row mb-2">
+                    <div class="col-4 font-weight-bold text-dark">State</div>
+                    <div class="col"><?php echo $volunteerDetails[0]['state_name']; ?></div>
+                </div>
+                <div class="row mb-2">
+                    <div class="col-4 font-weight-bold text-dark">City</div>
+                    <div class="col"><?php echo $volunteerDetails[0]['city_name']; ?></div>
+                </div>
+                <!-- <div class="row mb-2">
                     <div class="col-4 font-weight-bold text-dark">Address</div>
                     <div class="col"><?php echo $volunteerDetails[0]['present_address']; ?></div>
                 </div> -->
-    <div class="row mb-2">
-        <div class="col-4 font-weight-bold text-dark">Occupation</div>
-        <div class="col "><?php echo ucwords($volunteerDetails[0]['occupation_name']); ?></div>
-    </div>
-</div>
-<?php
+                <div class="row mb-2">
+                    <div class="col-4 font-weight-bold text-dark">Occupation</div>
+                    <div class="col "><?php echo ucwords($volunteerDetails[0]['occupation_name']); ?></div>
+                </div>
+            </div>
+        <?php
         }
     }
 
@@ -2421,55 +2407,53 @@ class Admin extends MY_Controller
             // echo '<pre>';
             // print_r($internDetails);exit;
         ?>
-<div class="col-md-3 m-b-20 text-center">
-    <?php if ($internDetails['profile'] != '') { ?>
-    <img src='<?php $image = $internDetails['profile'];
-                                echo base_url("user_profile/$image"); ?>' width="100%" height="auto"
-        class="img-fluid border p-1" />
-    <?php } else { ?>
-    <img src="<?php echo base_url("user_profile/crop.jpg"); ?>" class="img-fluid" alt="" title="">
-    <?php } ?>
-</div>
-<div class="col-md-8">
-    <h2 class="f-14 font-medium">
-        <?php echo ucwords($internDetails[0]['first_name'] . ' ' . $internDetails[0]['last_name']); ?></h2>
-    <div class="row mb-2">
-        <div class="col-4 font-weight-bold text-dark">intern ID</div>
-        <div class="col"><?php echo $internDetails[0]['intern_id']; ?></div>
-    </div>
-    <div class="row mb-2">
-        <div class="col-4 font-weight-bold text-dark">Phone</div>
-        <div class="col"><?php echo $internDetails[0]['mobile']; ?></div>
-    </div>
-    <div class="row mb-2">
-        <div class="col-4 font-weight-bold text-dark">Email</div>
-        <div class="col"><a href="#" class="text-inverse"><span
-                    class="cf_email"><?php echo $internDetails[0]['email']; ?></span></a></div>
-    </div>
-    <div class="row mb-2">
-        <div class="col-4 font-weight-bold text-dark">Date of Birth</div>
-        <div class="col"><?php if ($internDetails['date_of_birth'] != '0000-00-00') {
+            <div class="col-md-3 m-b-20 text-center">
+                <?php if ($internDetails['profile'] != '') { ?>
+                    <img src='<?php $image = $internDetails['profile'];
+                                echo base_url("user_profile/$image"); ?>' width="100%" height="auto" class="img-fluid border p-1" />
+                <?php } else { ?>
+                    <img src="<?php echo base_url("user_profile/crop.jpg"); ?>" class="img-fluid" alt="" title="">
+                <?php } ?>
+            </div>
+            <div class="col-md-8">
+                <h2 class="f-14 font-medium">
+                    <?php echo ucwords($internDetails[0]['first_name'] . ' ' . $internDetails[0]['last_name']); ?></h2>
+                <div class="row mb-2">
+                    <div class="col-4 font-weight-bold text-dark">intern ID</div>
+                    <div class="col"><?php echo $internDetails[0]['intern_id']; ?></div>
+                </div>
+                <div class="row mb-2">
+                    <div class="col-4 font-weight-bold text-dark">Phone</div>
+                    <div class="col"><?php echo $internDetails[0]['mobile']; ?></div>
+                </div>
+                <div class="row mb-2">
+                    <div class="col-4 font-weight-bold text-dark">Email</div>
+                    <div class="col"><a href="#" class="text-inverse"><span class="cf_email"><?php echo $internDetails[0]['email']; ?></span></a></div>
+                </div>
+                <div class="row mb-2">
+                    <div class="col-4 font-weight-bold text-dark">Date of Birth</div>
+                    <div class="col"><?php if ($internDetails['date_of_birth'] != '0000-00-00') {
                                             echo ucwords(date("d-m-Y", strtotime($internDetails[0]['date_of_birth'])));
                                         } ?></div>
-    </div>
-    <div class="row mb-2">
-        <div class="col-4 font-weight-bold text-dark">State</div>
-        <div class="col"><?php echo $internDetails[0]['state_name']; ?></div>
-    </div>
-    <div class="row mb-2">
-        <div class="col-4 font-weight-bold text-dark">City</div>
-        <div class="col"><?php echo $internDetails[0]['city_name']; ?></div>
-    </div>
-    <div class="row mb-2">
-        <div class="col-4 font-weight-bold text-dark">Address</div>
-        <div class="col"><?php echo $internDetails[0]['present_address']; ?></div>
-    </div>
-    <div class="row mb-2">
-        <div class="col-4 font-weight-bold text-dark">Occupation</div>
-        <div class="col "><?php echo ucwords($internDetails[0]['occupation_name']); ?></div>
-    </div>
-</div>
-<?php
+                </div>
+                <div class="row mb-2">
+                    <div class="col-4 font-weight-bold text-dark">State</div>
+                    <div class="col"><?php echo $internDetails[0]['state_name']; ?></div>
+                </div>
+                <div class="row mb-2">
+                    <div class="col-4 font-weight-bold text-dark">City</div>
+                    <div class="col"><?php echo $internDetails[0]['city_name']; ?></div>
+                </div>
+                <div class="row mb-2">
+                    <div class="col-4 font-weight-bold text-dark">Address</div>
+                    <div class="col"><?php echo $internDetails[0]['present_address']; ?></div>
+                </div>
+                <div class="row mb-2">
+                    <div class="col-4 font-weight-bold text-dark">Occupation</div>
+                    <div class="col "><?php echo ucwords($internDetails[0]['occupation_name']); ?></div>
+                </div>
+            </div>
+        <?php
         }
     }
 
@@ -3273,20 +3257,20 @@ class Admin extends MY_Controller
         //print_r ($dilyreportDetails); exit;
 
         ?>
-<div class="row form-group m-b-20">
-    <table id="dom-table" class="table table-striped table-bordered pre-line">
-        <thead>
-            <tr>
-                <th>Sr.no</th>
-                <th>Date</th>
-                <th>Time In</th>
-                <th>Time Out</th>
-                <th>Activity</th>
-                <th>Total Time</th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php $i = 1;
+        <div class="row form-group m-b-20">
+            <table id="dom-table" class="table table-striped table-bordered pre-line">
+                <thead>
+                    <tr>
+                        <th>Sr.no</th>
+                        <th>Date</th>
+                        <th>Time In</th>
+                        <th>Time Out</th>
+                        <th>Activity</th>
+                        <th>Total Time</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php $i = 1;
                     foreach ($dilyreportDetails as $key => $value) {
                         $timeIn = $value['dailyReportTimeIn'];
                         $time = date('h:i A', strtotime($timeIn));
@@ -3298,21 +3282,21 @@ class Admin extends MY_Controller
                         $mins = $tmins % 60;
 
                     ?>
-            <tr>
-                <td><?php echo $i; ?></td>
-                <td><?php echo date('d/m/Y', strtotime($value['dailyReportDate'])); ?></td>
-                <td><?php echo date('h:i A', strtotime($value['dailyReportTimeIn'])); ?></td>
-                <td><?php echo date('h:i A', strtotime($value['dailyReportTimeOut'])); ?></td>
-                <td><?php echo ucwords($value['dailyReportActivity']); ?></td>
-                <td><?php echo "<b>$hours</b> hour <b>$mins</b> mins</b>" ?></td>
-            </tr>
-            <?php $i++;
+                        <tr>
+                            <td><?php echo $i; ?></td>
+                            <td><?php echo date('d/m/Y', strtotime($value['dailyReportDate'])); ?></td>
+                            <td><?php echo date('h:i A', strtotime($value['dailyReportTimeIn'])); ?></td>
+                            <td><?php echo date('h:i A', strtotime($value['dailyReportTimeOut'])); ?></td>
+                            <td><?php echo ucwords($value['dailyReportActivity']); ?></td>
+                            <td><?php echo "<b>$hours</b> hour <b>$mins</b> mins</b>" ?></td>
+                        </tr>
+                    <?php $i++;
                     } ?>
-        </tbody>
-    </table>
+                </tbody>
+            </table>
 
-</div>
-<?php
+        </div>
+        <?php
     }
 
     public function export()
@@ -3331,42 +3315,42 @@ class Admin extends MY_Controller
                 $user_data = $this->db->get();
                 $excel_row = 2;
         ?>
-<table class="table table-bordered">
-    <thead>
-        <tr>
-            <th scope="col"><b>#</b></th>
-            <th scope="col"><b>Registration Date</b></th>
-            <th scope="col"><b>Name</b></th>
-            <th scope="col"><b>Email</b></th>
-            <th scope="col"><b>Mobile No.</b></th>
-            <th scope="col"><b>Region</b></th>
-        </tr>
-    </thead>
-    <tbody>
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th scope="col"><b>#</b></th>
+                            <th scope="col"><b>Registration Date</b></th>
+                            <th scope="col"><b>Name</b></th>
+                            <th scope="col"><b>Email</b></th>
+                            <th scope="col"><b>Mobile No.</b></th>
+                            <th scope="col"><b>Region</b></th>
+                        </tr>
+                    </thead>
+                    <tbody>
 
-        <?php
+                        <?php
                         $c = 1;
                         foreach ($user_data->result() as $key => $value) {
                         ?>
-        <tr>
-            <th scope="row"><b><?php echo $c++; ?></b></th>
-            <td><?php echo date('d-m-Y', strtotime($value->creation_date)); ?></td>
-            <td><?php echo ucwords($value->name); ?></td>
-            <td><?php echo $value->email; ?></td>
-            <td><?php $mobile = str_replace(',', '/', trim($value->mobile));
+                            <tr>
+                                <th scope="row"><b><?php echo $c++; ?></b></th>
+                                <td><?php echo date('d-m-Y', strtotime($value->creation_date)); ?></td>
+                                <td><?php echo ucwords($value->name); ?></td>
+                                <td><?php echo $value->email; ?></td>
+                                <td><?php $mobile = str_replace(',', '/', trim($value->mobile));
                                     $mobile = str_replace(' ', '/', $mobile);
                                     $mobile = str_replace('//', '/', $mobile);
                                     echo $mobile; ?></td>
-            <td><?php echo $value->region_name; ?></td>
-        </tr>
-        <?php // print_r($value); 
+                                <td><?php echo $value->region_name; ?></td>
+                            </tr>
+                            <?php // print_r($value); 
                             ?>
-        <?php } ?>
-    </tbody>
-</table>
-<button onclick="exportTableToCSV('members.csv')" id="csbbtn">Export HTML Table To CSV File</button>
+                        <?php } ?>
+                    </tbody>
+                </table>
+                <button onclick="exportTableToCSV('members.csv')" id="csbbtn">Export HTML Table To CSV File</button>
 
-<?php
+        <?php
             } else {
                 redirect('admin');
             }
@@ -5056,25 +5040,25 @@ class Admin extends MY_Controller
         //print_r ($dilyreportDetails); exit;
 
         ?>
-<h5 class="badge badge-primary"> Name-
-    <?php echo ucwords($dilyreportDetails[0]['firstName'] . ' ' . $dilyreportDetails[0]['lastName']); ?></h5>
-<div class="row form-group m-b-20">
-    <table id="dom-table" class="table table-striped table-bordered pre-line">
-        <thead>
-            <tr>
-                <th>Sr</th>
-                <th>Date</th>
-                <th>Time In</th>
-                <th>Time Out</th>
-                <th>Activity</th>
-                <th>Improved Msg</th>
-                <th>Challeges Face</th>
-                <th>Experrience Any</th>
-                <!--<th>Total Time</th>-->
-            </tr>
-        </thead>
-        <tbody>
-            <?php $i = 1;
+        <h5 class="badge badge-primary"> Name-
+            <?php echo ucwords($dilyreportDetails[0]['firstName'] . ' ' . $dilyreportDetails[0]['lastName']); ?></h5>
+        <div class="row form-group m-b-20">
+            <table id="dom-table" class="table table-striped table-bordered pre-line">
+                <thead>
+                    <tr>
+                        <th>Sr</th>
+                        <th>Date</th>
+                        <th>Time In</th>
+                        <th>Time Out</th>
+                        <th>Activity</th>
+                        <th>Improved Msg</th>
+                        <th>Challeges Face</th>
+                        <th>Experrience Any</th>
+                        <!--<th>Total Time</th>-->
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php $i = 1;
                     foreach ($dilyreportDetails as $key => $value) {
                         $timeIn = $value['dailyReportTimeIn'];
                         $time = date('h:i A', strtotime($timeIn));
@@ -5086,23 +5070,23 @@ class Admin extends MY_Controller
                         $mins = $tmins % 60;
 
                     ?>
-            <tr>
-                <td><?php echo $i; ?></td>
-                <td><?php echo date('d/m/Y', strtotime($value['dailyReportDate'])); ?></td>
-                <td><?php echo date('h:i A', strtotime($value['dailyReportTimeIn'])); ?></td>
-                <td><?php echo date('h:i A', strtotime($value['dailyReportTimeOut'])); ?></td>
-                <td><?php echo ucwords($value['dailyReportActivity']); ?></td>
-                <td><?php echo ucwords($value['improved_msg']); ?></td>
-                <td><?php echo ucwords($value['challeges_face']); ?></td>
-                <td><?php echo ucwords($value['experrience_any']); ?></td>
-                <!--<td><?php echo "<b>$hours</b> hour <b>$mins</b> mins</b>" ?></td>-->
-            </tr>
-            <?php $i++;
+                        <tr>
+                            <td><?php echo $i; ?></td>
+                            <td><?php echo date('d/m/Y', strtotime($value['dailyReportDate'])); ?></td>
+                            <td><?php echo date('h:i A', strtotime($value['dailyReportTimeIn'])); ?></td>
+                            <td><?php echo date('h:i A', strtotime($value['dailyReportTimeOut'])); ?></td>
+                            <td><?php echo ucwords($value['dailyReportActivity']); ?></td>
+                            <td><?php echo ucwords($value['improved_msg']); ?></td>
+                            <td><?php echo ucwords($value['challeges_face']); ?></td>
+                            <td><?php echo ucwords($value['experrience_any']); ?></td>
+                            <!--<td><?php echo "<b>$hours</b> hour <b>$mins</b> mins</b>" ?></td>-->
+                        </tr>
+                    <?php $i++;
                     } ?>
-        </tbody>
-    </table>
+                </tbody>
+            </table>
 
-</div>
+        </div>
 <?php
     }
 
@@ -5379,12 +5363,11 @@ class Admin extends MY_Controller
         $val =  rtrim(strtr(base64_encode($intern_id), '+/', '-_'), '=');
         $intern = $this->Crud_modal->fetch_single_data('*', 'interns', "intern_id=$intern_id");
         // $email_templates = $this->Crud_modal->fetch_all_data('*', 'email_templates', 'status=1 AND email_templates_id=5');
-        $where = 'intern_id = "'.$intern_id.'" AND email = "'.$intern_email.'"';
+        $where = 'intern_id = "' . $intern_id . '" AND email = "' . $intern_email . '"';
         $emailData = array(
-            'offer_latter_email'=>$emialcontent,
+            'offer_latter_email' => strip_tags($emialcontent),
         );
-        $this->Crud_modal->update_data($where,'interns',$emailData);
-        
+        $this->Crud_modal->update_data($where, 'interns', $emailData);
     }
 
 
@@ -6981,8 +6964,8 @@ class Admin extends MY_Controller
             }
         }
     }
-    
-function confirm_joining()
+
+    function confirm_joining()
     {
         $creation_date = $this->input->post("creation_date");
         $intern_id = $this->input->post("intern_id");
@@ -7015,12 +6998,12 @@ function confirm_joining()
                 echo "Message could not be sent. <p>";
                 echo "Mailer Error: " . $mail->ErrorInfo;
             } else {
-                $this->Admin_model->intern_count_send_maillogincredational($intern_id,$creation_date);
+                $this->Admin_model->intern_count_send_maillogincredational($intern_id, $creation_date);
             }
         }
     }
 
-   
+
 
     // function confirm_joining()
     // {
@@ -7687,37 +7670,36 @@ function confirm_joining()
         }
     }
 
-    public function view_offer_letter(){
+    public function view_offer_letter()
+    {
         $intern_id = $this->uri->segment(2);
         $val = base64_decode(str_pad(strtr($intern_id, '-_', '+/'), strlen($intern_id) % 4, '=', STR_PAD_RIGHT));
-        $where = 'intern_id = "'.$val.'"';
-        
-       $inrernemailData= $this->Crud_modal->fetch_single_data('*','interns',$where);
-     
-           $certificateFirstname = $inrernemailData['first_name'];
-           $certificateLastname = $inrernemailData['last_name'];
-           $certificateEmail = $inrernemailData['email'];
-           $offerEmailFormat = $inrernemailData['offer_latter_email'];
-           
-   
-           $pdf = new FPDF();
-           $pdf->AddPage();
-           $pdf->SetFont('Arial', '', 12);
-           $pdf->SetFillColor(190, 210, 240);
-           $pdf->Image(base_url() . '/uploads/Intern-offer-Letter.png', 10, 7, 185);
-           //$pdf->Image($_SERVER['DOCUMENT_ROOT'] . '/uploads/Intern-offer-Letter.png', 10, 7, 185);
-           $pdf->SetFont('Arial', 'B', 15);
-           $pdf->SetX(60);
-           $pdf->MultiCell(10, 100, $certificateFirstname . $certificateLastname);
-           $pdf->MultiCell(10, 100, $offerEmailFormat);
-           $pdf->MultiCell(1, 190, date('d-m-Y'));
-   
-           //$pdf->Output();
-           $path = 'users/' . rand() . '.pdf';
-           $pdf->Output();
-           //return $path;
-      
-     
-           $this->load->view('view_offer_letter');
-        }
+        $where = 'intern_id = "' . $val . '"';
+        $internemailData = $this->Crud_modal->fetch_single_data('*', 'interns', $where);
+        $certificateFirstname = $internemailData['first_name'];
+        $certificateLastname = $internemailData['last_name'];
+        $certificateEmail = $internemailData['email'];
+        $offerEmailFormat = $internemailData['offer_latter_email'];
+        $pdf = new FPDF();
+        $pdf->AddPage();
+        $pdf->SetFont('Arial', 'U', 10);
+        $pdf->SetFillColor(190, 210, 240);
+        $pdf->Image(base_url() . '/uploads/Intern-offer-Letter.png', 10, 7, 185);
+        //$pdf->Image($_SERVER['DOCUMENT_ROOT'] . '/uploads/Intern-offer-Letter.png', 10, 7, 185);
+        $pdf->SetFont('Arial', '', 10);
+        $pdf->SetY(70);
+        $pdf->Cell(40, 0, $certificateFirstname . " " . $certificateLastname);
+        $pdf->Ln();
+        $pdf->multiCell(200, 6, $offerEmailFormat,'R',20);
+       // $pdf->Cell(0, 10, $offerEmailFormat, 1, 1, '', 1);
+       // $pdf->Ln(20);
+
+        //$pdf->multiCell(strip_tags($offerEmailFormat),20);
+
+        $pdf->Output();
+        //return $path;
+
+
+        $this->load->view('view_offer_letter');
+    }
 }
