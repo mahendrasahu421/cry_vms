@@ -520,6 +520,7 @@ $route['mail_interview_data'] = 'admin/Admin/mail_interview_data';
 $route['interview_final_mail'] = 'admin/Admin/interview_final_mail';
 $route['send_offer_to_user'] = 'admin/Admin/send_offer_to_user';
 $route['shortlist_mail'] = 'admin/Admin/shortlist_mail';
+$route['send_offerLetter_emails/(:any)'] = 'admin/Admin/send_offerLetter_emails';
 $route['confirm_joining'] = 'admin/Admin/confirm_joining';
 $route['view_offer_letter/(:any)'] = 'admin/Admin/view_offer_letter';
 // =================Route by Amisha Singh <!---29/12/2022-->==============================

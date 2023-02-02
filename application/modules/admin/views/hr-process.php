@@ -18,7 +18,7 @@
                         <div class="col-md-12 " style="text-align: left;">
                             <div class="col-md-3" style="padding-left: 1%;">
                                 <h4 style=" font-weight: 600;margin-top: 20px;">
-                                    <?php echo $interuser['first_name'] . $interuser['last_name'] ?></h4>
+                                    <?php echo $interuser['first_name'] ." ". $interuser['last_name'] ?></h4>
                             </div>
                             <div class="col-md-9">
                                 <?php if ($interuser['cv_file'] == NULL) { ?>
@@ -382,42 +382,42 @@
                                                 <!-- ###########    submission div     ###########  -->
                                                 <?php $intern_id = $interuser['intern_id']; ?>
                                                 <?php
-                                                if ($process_step_short[0] <= 1) {
-                                                    $bnt_disable = '';
-                                                    if ($process_step_short[0] == 0) {
-                                                        $bnt_color = ($process_step_short[1] == 0 ? "btn-info" : "");
-                                                        $bnt_disable = ($process_step_short[1] == 0 ? "" : "disabled");
-                                                    } else {
-                                                        $bnt_color = "btn-danger";
-                                                        $bnt_disable = "disabled";
-                                                    }
-                                                } else {
-                                                    $bnt_color = "btn-success";
-                                                    $bnt_disable = "disabled";
-                                                }
-                                                ?>
+													if($process_step_short[0]<=1){
+													   $bnt_disable=''; 
+													   if($process_step_short[0]==0){
+														  $bnt_color= ($process_step_short[1]==0 ? "btn-info" : "");
+														  $bnt_disable=($process_step_short[1]==0 ? "" : "disabled");
+													   }else{
+														  $bnt_color="btn-danger";
+														   $bnt_disable="disabled";
+													   }
+													}else{
+													   $bnt_color="btn-success";
+													   $bnt_disable="disabled";
+													}                            
+												 ?>
                                                 <div class="process-step" style="width: 20%;">
                                                     <button type="button"
-                                                        class="btn btn-circle process_btn <?php echo $bnt_color ?>"><i
+                                                        class="btn btn-circle process_btn <?php echo $bnt_color?>"><i
                                                             class="fa fa-check fa-3x"></i></button>
                                                     <p>
                                                         <small><strong>Shortlist</strong></small>
-                                                        <?php $can = $this->Crud_modal->check_numrow("interns", "intern_id='$intern_id'");
-                                                        $disabl = '';
-                                                        if ($can > 0) {
-                                                            $disabl = 'disabled';
-                                                        }
-                                                        ?>
+                                                        <?php $can=$this->Crud_modal->check_numrow("interns","intern_id='$intern_id'");
+														   $disabl='';
+														   if($can>0){
+															  $disabl='disabled';
+														   }
+														?>
                                                         <br>
                                                         <input type="radio" class="demo4 me-1" name="short_radio"
-                                                            <?php echo ($interuser['status'][0] > 1 ? "checked=checked" : '');  ?>
+                                                            <?php echo ($interuser['status']>2 ? "checked=checked" : 'checked' );  ?>
                                                             value="Shortlisted">Shortlisted
                                                         <input type="radio" class="demo4 me-1" name="short_radio"
-                                                            <?php echo ($interuser['status'][0] == 0 ? "checked=checked" : '');  ?>
+                                                            <?php echo ($interuser['status']==0 ? "checked=checked" : '' );  ?>
                                                             value="Not Shortlisted">Not Shortlisted
                                                     </p>
-                                                    <button class="btn btn-info shortlist_email" <?php echo ($interuser['status'][0] > 1 ? ($interuser['status'][0] > 1 ? 'disabled' : '') : '');
-                                                                                                    echo $disabl; ?>
+                                                    <button class="btn btn-info shortlist_email"
+                                                        <?php echo($interuser['status']>1 ? ($interuser['status']>1 ?'disabled' : '') : '' ); echo $disabl; ?>
                                                         title="Email"><i class="fa fa-paper-plane"
                                                             aria-hidden="true"></i></button>
                                                 </div>
@@ -646,10 +646,10 @@
                                         </script>
 
                                         <div class="modal" role="dialog" id="exampleModaleditor">
-                                            <div class="modal-dialog" role="document">
+                                            <div class="modal-dialog modal-xl" role="document" style="width:690px;">
                                                 <form action="offer_lattersend_orientation_emails" method="">
 
-                                                    <div class="modal-content modal-lg">
+                                                    <div class="modal-content ">
                                                         <div class="modal-header bg-warning">
                                                             <h5 class="modal-title">Generate Offer Letter</h5>
                                                             <button type="button" class="close" data-dismiss="modal"
@@ -673,20 +673,23 @@
                                                                                 name="example"><?php echo $final_offerdata; ?></textarea>
                                                                         </div>
                                                                     </div>
-                                                                    <div class="modal-footer">
-                                                                    </div>
+
                                                                 </div>
                                                             </div>
                                                         </div>
                                                         <div class="modal-footer">
-
+                                                            <button type="button" id="saveOfferLatter"
+                                                            class="btn btn-secondary" data-dismiss="modal">Save
+                                                        </button>
                                                             <button type="button" class="btn btn-warning">
                                                                 <a href="<?php echo base_url()?>view_offer_letter/<?php echo $encoded_id;?>"
-                                                                    target="_blank">Preview </a>
+                                                                target="_blank">Preview </a>
                                                             </button>
-                                                            <button type="button" id="saveOfferLatter"
-                                                                class="btn btn-secondary" data-dismiss="modal">Save
-                                                            </button>
+                                                        <button type="button" class="btn btn-warning">
+                                                            <a
+                                                                href="<?php echo base_url()?>send_offerLetter_emails/<?php echo $encoded_id;?>">Send
+                                                            </a>
+                                                        </button>
                                                         </div>
                                                     </div>
                                                 </form>
@@ -1078,9 +1081,10 @@
                         });
                     });
                     // conformation of shortlist is confirm
+                    // conformation of shortlist is confirm
                     $("#confirm_short").click(function() {
                         $.post("<?php echo base_url(); ?>shortlist_status_update", {
-                            intern_id: "<?php echo $interuser['intern_id'] ?>",
+                            intern_id: "<?php echo $interuser['intern_id']?>",
                             status: 2
                         }, function(data) {
                             if (data == false) {
@@ -1097,7 +1101,7 @@
                     });
                     $("#confirm_reject").click(function() {
                         $.post("<?php echo base_url(); ?>shortlist_status_update", {
-                            intern_id: "<?php echo $interuser['intern_id'] ?>",
+                            intern_id: "<?php echo $interuser['intern_id']?>",
                             status: 0
                         }, function(data) {
                             if (data == false) {
@@ -1538,6 +1542,7 @@
                         });
                     }
                     // open popup for Shortlisted  and Not Shortlisted
+                    // open popup for Shortlisted  and Not Shortlisted
                     $("input:radio[name=short_radio]").change(function() {
                         if ($(this).val() == "Shortlisted") {
                             $('#myModal').modal('show');
@@ -1552,7 +1557,7 @@
                     $(".shortlist_email").click(function() {
                         if ($("input[name=short_radio][value='Shortlisted']").prop("checked")) {
                             $.post("<?php echo base_url(); ?>shortlist_mail", {
-                                'intern_id': <?php echo $interuser['intern_id'] ?>,
+                                'intern_id': <?php echo $interuser['intern_id']?>,
                             }, function(data) {
                                 if (data == false) {
                                     alert("Something went wrong");
@@ -1573,12 +1578,12 @@
                             intern_id: "<?php echo $interuser['intern_id'] ?>"
                         }, function(data) {
                             if (data == false) {
-                                alert("11Something went wrong");
+                                alert("Something went wrong");
                             } else {
                                 alert("Mail Send");
                             }
                         }).fail(function(data) {
-                            alert("22Something went wrong");
+                            alert("Something went wrong");
 
                         });
                     });

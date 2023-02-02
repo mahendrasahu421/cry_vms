@@ -204,7 +204,7 @@
                                                             <div class="control-group form-group col-md-12 mb-0">
                                                                 <label class="form-label fw-bold">City Resindence
                                                                 </label>
-                                                                <input type="text" name="cityResindence" <?php echo $allinternData['cityResindence']; ?> id="permanent_address" class="form-control" placeholder="City Resindence" required readonly>
+                                                                <input type="text" name="cityResindence" <?php echo $allinternData['city_name']; ?> id="permanent_address" class="form-control" placeholder="City Resindence" required>
                                                             </div>
                                                         </div>
                                                         <style>
