@@ -261,21 +261,43 @@ class admin_model extends CI_Model
 		return $result;
 	}
 
-	function volunteer_enquiry_Data_count($where)
+	function get_all_volunteer_count($limit = NULL, $start = NULL)
 	{
 
-		$this->db->initialize();
-		$this->db->select('v.volunteer_id,v.first_name,v.last_name,v.mobile,v.email,v.state_id,v.city_id,v.creation_date');
-		$this->db->from('volunteer v');
+		$date_from = Date('Y-m-d', strtotime('-24 days'));
+		$date_to = Date('Y-m-d');
+		$where = "v.creation_date>='" . $date_from . "' and v.creation_date<='" . $date_to . "'";
+		$this->db->select('v.*,s.state_name as state_name, c.city_name as city_name');
+		$this->db->limit($limit, $start)->from('volunteer v');
+		$this->db->join('states s', 's.state_id = v.state_id', 'left');
+		$this->db->join('cities c', 'c.city_id = v.city_id', 'left');
 		$this->db->where($where);
-		$query = $this->db->order_by('volunteer_id desc');
+		$this->db->order_by('v.volunteer_id  DESC');
 		$query = $this->db->get();
 		$result = $query->num_rows();
-		// echo $this->db->last_query();
-		// die;
+		//echo $this->db->last_query();die();
 		$this->db->close();
 		return $result;
 	}
+
+	function get_all_volunteer($limit = NULL, $start = NULL)
+	{
+
+		$date_from = Date('Y-m-d', strtotime('-24 days'));
+		$date_to = Date('Y-m-d');
+		$where = "v.creation_date>='" . $date_from . "' and v.creation_date<='" . $date_to . "'";
+		$this->db->select('v.*,s.state_name as state_name, c.city_name as city_name');
+		$this->db->limit($limit, $start)->from('volunteer v');
+		$this->db->join('states s', 's.state_id = v.state_id', 'left');
+		$this->db->join('cities c', 'c.city_id = v.city_id', 'left');
+		$this->db->where($where);
+		$this->db->order_by('v.volunteer_id  DESC');
+		$query = $this->db->get();
+		$result = $query->result_array();
+		$this->db->close();
+		return $result;
+	}
+
 	function volunteer_enquiry_Datalimit5($where, $limit)
 	{
 
@@ -557,7 +579,7 @@ class admin_model extends CI_Model
 
 	function check_status($status)
 	{
-	
+
 		switch ($status) {
 			case "1":
 				echo "Onboarding-Condidate";
@@ -596,12 +618,12 @@ class admin_model extends CI_Model
 		//$count = $querry->num_rows();
 		return true;
 	}
-	public function intern_count_send_maillogincredational($intern_id,$creation_date)
+	public function intern_count_send_maillogincredational($intern_id, $creation_date)
 	{
 		$this->db->initialize();
 		$pass = 'intern12345';
 		$newpass = md5($pass);
-		$updateCount = "UPDATE interns SET  `password`= '$newpass',`status`=7,`creation_date`= '".$creation_date."' WHERE intern_id ='" . $intern_id . "'";
+		$updateCount = "UPDATE interns SET  `password`= '$newpass',`status`=7,`creation_date`= '" . $creation_date . "' WHERE intern_id ='" . $intern_id . "'";
 
 		$querry = $this->db->query($updateCount);
 		//$count = $querry->num_rows();
@@ -960,8 +982,8 @@ class admin_model extends CI_Model
 	}
 
 
-	public function offerLetterData($where){
-		{
+	public function offerLetterData($where)
+	{ {
 			$this->db->initialize();
 			$this->db->select('i.*,s.state_name,c.city_name,cfm.certificate_type,cfm.certificate_path');
 			$this->db->from('interns i');
@@ -976,7 +998,6 @@ class admin_model extends CI_Model
 			$this->db->close();
 			return $result;
 		}
-
 	}
 
 	function rate_and_reviewData($where)
@@ -997,7 +1018,8 @@ class admin_model extends CI_Model
 	}
 
 
-	public function get_all_feedback($where){
+	public function get_all_feedback($where)
+	{
 		$this->db->initialize();
 		$this->db->select('fd.*,i.intern_id,i.first_name,i.last_name,i.mobile,i.email,');
 		$this->db->from('feedback fd');
@@ -1011,7 +1033,8 @@ class admin_model extends CI_Model
 		return $result;
 	}
 
-	public function submission_report_attecment($where){
+	public function submission_report_attecment($where)
+	{
 		$this->db->initialize();
 		$this->db->select('at.attachmentName');
 		$this->db->from('attachment at');
@@ -1023,6 +1046,5 @@ class admin_model extends CI_Model
 		$result = $query->result_array();
 		$this->db->close();
 		return $result;
-
 	}
 }

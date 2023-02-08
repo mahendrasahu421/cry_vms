@@ -7388,76 +7388,6 @@ class Admin extends MY_Controller
         }
     }
 
-
-    public function onboard_volunteer()
-    {
-
-        try {
-            if (($this->session->userdata('emp_id') != "" || $this->session->userdata('emp_id') != null)) {
-                $region = $this->session->userdata('region_id');
-                $role = $this->session->userdata('role_id');
-                if ($role == 1) {
-                    $date2 = $data['date_to'] = date("Y-m-d");
-                    $data['date_from'] = date("Y-m-d", strtotime($date2 . '-7 days'));
-                    $where = 'v.status =5';
-                    if ($this->input->post('start_new') != "" && $this->input->post('end_new') != "" &&  $this->input->post('state_name') != "") {
-
-                        $config = array();
-                        $config["base_url"] = base_url() . "onboard-volunteer";
-                        $config["total_rows"] = $this->Admin_model->volunteer_enquiry_Data_count();
-                        // echo "<pre>";
-                        // print_r($config["total_rows"]);exit;
-                        $config['uri_protocol'] = 'AUTO';
-                        $config['enable_query_strings'] = TRUE;
-                        $config['reuse_query_string'] = TRUE;
-                        $config['num_links'] = 4;
-                        $config['cur_tag_open'] = '&nbsp;<a class="current">';
-                        $config['cur_tag_close'] = '</a>';
-                        $config['next_link'] = 'Next';
-                        $config['prev_link'] = 'Previous';
-                        $this->pagination->initialize($config);
-                        $data['page'] = ($this->uri->segment(2)) ? $this->uri->segment(2) : 0;
-                        $str_links  = $this->pagination->create_links();
-                        $data["links"] = explode('&nbsp;', $str_links);
-                        // echo "<pre>";
-                        // print_r($data["links"]);exit;
-                        $data['volunteer'] = $this->Admin_model->volunteer_enquiry_Data($config["per_page"], $data['page']);
-                        // $data['volunteer'] = $this->Admin_model->volunteer_enquiry_Data($where);
-                    }
-                } else {
-                    $data['rname'] = $this->Curl_model->fetch_single_data('region_name,state_id', 'regions', array('region_id' => $region));
-                    $data['states'] = $this->Crud_modal->fetch_all_data('*', 'states', 'region_id=' . $region);
-                    $date2 = $data['date_to'] = date("Y-m-d");
-                    $data['date_from'] = date("Y-m-d", strtotime($date2 . '-7 days'));
-                    'v.status =5';
-                    if ($this->input->post('start_new') != "" && $this->input->post('end_new') != "" &&  $this->input->post('state_name') != "") {
-                        $state_name = $this->input->post('state_name');
-                        $date1 = $this->input->post('start_new');
-                        $date2 = $this->input->post('end_new');
-                        $date_from = date("Y-m-d", strtotime($date1));
-                        $date_to = date("Y-m-d", strtotime($date2 . '+1 days'));
-                        $data['creation_date'] = $date1;
-                        $data['creation_date'] = $date2;
-                        $data['state_name'] = $state_name;
-                        $where = "creation_date>='" . $date_from . "' and creation_date<='" . $date_to . "' and v.state_id=" . $state_name . "  and (v.status=5)";
-                        $data['volunteer'] = $this->Admin_model->volunteer_enquiry_Data($where);
-                    }
-                }
-                $data['regions'] = $this->Crud_modal->fetch_all_data('*', 'regions', 'region_status=1');
-                $this->load->view('temp/head');
-                $this->load->view('temp/header', $data);
-                $this->load->view('temp/sidebar');
-                $this->load->view('onboard-volunteer', $data);
-                $this->load->view('temp/footer');
-            } else {
-                redirect(base_url() . 'login', 'refresh');
-            }
-        } catch (Exception $e) {
-            echo 'Caught exception: ',  $e->getMessage(), "\n";
-        }
-    }
-
-
     public function view_onboarding_candidate()
     {
 
@@ -7910,4 +7840,60 @@ class Admin extends MY_Controller
         $this->load->view('temp/footer');
  }
 
+
+ public function onboard_volunteer()
+ {
+
+     try {
+         if (($this->session->userdata('emp_id') != "" || $this->session->userdata('emp_id') != null)) {
+             $region = $this->session->userdata('region_id');
+             $role = $this->session->userdata('role_id');
+             if ($role == 1) {
+                 $date2 = $data['date_to'] = date("Y-m-d");
+                 $data['date_from'] = date("Y-m-d", strtotime($date2 . '-7 days'));
+                 $where = 'v.status =5';
+                 if ($this->input->post('start_new') != "" && $this->input->post('end_new') != "" &&  $this->input->post('state_name') != "") {
+
+                    $config = array();
+					$config["per_page"] = 10;
+					$config["uri_segment"] = 2;
+                     $config["base_url"] = base_url() . "onboard-volunteer";
+                     $config["total_rows"] = $this->Admin_model->get_all_volunteer_count();
+                     $this->pagination->initialize($config);
+					$data['page'] = ($this->uri->segment(2)) ? $this->uri->segment(2) : 0;
+					$data['volunteer'] = $this->Admin_model->get_all_volunteer($config["per_page"], $data['page']);
+					$data["links"] = $this->pagination->create_links();
+                 }
+             } else {
+                 $data['rname'] = $this->Curl_model->fetch_single_data('region_name,state_id', 'regions', array('region_id' => $region));
+                 $data['states'] = $this->Crud_modal->fetch_all_data('*', 'states', 'region_id=' . $region);
+                 $date2 = $data['date_to'] = date("Y-m-d");
+                 $data['date_from'] = date("Y-m-d", strtotime($date2 . '-7 days'));
+                 'v.status =5';
+                 if ($this->input->post('start_new') != "" && $this->input->post('end_new') != "" &&  $this->input->post('state_name') != "") {
+                     $state_name = $this->input->post('state_name');
+                     $date1 = $this->input->post('start_new');
+                     $date2 = $this->input->post('end_new');
+                     $date_from = date("Y-m-d", strtotime($date1));
+                     $date_to = date("Y-m-d", strtotime($date2 . '+1 days'));
+                     $data['creation_date'] = $date1;
+                     $data['creation_date'] = $date2;
+                     $data['state_name'] = $state_name;
+                     $where = "creation_date>='" . $date_from . "' and creation_date<='" . $date_to . "' and v.state_id=" . $state_name . "  and (v.status=5)";
+                     $data['volunteer'] = $this->Admin_model->volunteer_enquiry_Data($where);
+                 }
+             }
+             $data['regions'] = $this->Crud_modal->fetch_all_data('*', 'regions', 'region_status=1');
+             $this->load->view('temp/head');
+             $this->load->view('temp/header', $data);
+             $this->load->view('temp/sidebar');
+             $this->load->view('onboard-volunteer', $data);
+             $this->load->view('temp/footer');
+         } else {
+             redirect(base_url() . 'login', 'refresh');
+         }
+     } catch (Exception $e) {
+         echo 'Caught exception: ',  $e->getMessage(), "\n";
+     }
+ }
 }
