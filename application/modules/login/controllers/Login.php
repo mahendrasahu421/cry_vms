@@ -27,6 +27,7 @@ class Login extends MY_Controller
 
     public function login()
     {
+        //echo "work";exit;
         $res['email'] = "";
         $res['password'] = "";
         if ($this->input->post()) {
@@ -629,6 +630,7 @@ class Login extends MY_Controller
             $whatyou_aim = $this->input->post('whatyou_aim');
             $internshipType = $this->input->post('internshipType');
             $internshipDeruation = $this->input->post('internshipDeruation');
+          
 
             if ($looking_for == 'volunteering') {
                 $volunteerData = array(
@@ -673,9 +675,7 @@ class Login extends MY_Controller
                     'creation_date' => date('Y-m-d'),
                     'status' => 1,
                 );
-                // echo "<pre>";
-                // print_r($internData);
-                // exit;
+               
                 $config['upload_path'] = './uploads/';
                 $config['allowed_types']  = 'gif|jpg|png|pdf';
                 $new_name = time() . $_FILES["Uploade_file"]['name'];
@@ -686,9 +686,6 @@ class Login extends MY_Controller
                     $file = $this->upload->data();
                     $internData['cv_file'] = $file['file_name'];
                     $internDataresult =  $this->Crud_modal->intern_data_insert('interns', $internData);
-                    //    echo "<pre>";
-                    //    print_r($internDataresult);exit;
-                    //$this->session->set_flashdata('master_insert_message', '<div class="alert alert-warning"><strong>Registration Success!</strong> We Are Contact Soon.</div>');
                     redirect(base_url() . 'thank-you');
                 } else {
 
@@ -1121,8 +1118,8 @@ class Login extends MY_Controller
         for ($i = 0; $i < $length; $i++) {
             $key .= $keys[mt_rand(0, count($keys) - 1)];
         }
-        // print_r($key);
-        // exit;
+        print_r($key);
+        exit;
         echo  $this->preregistration_sendMail($key, $to);
     }
 
@@ -1546,26 +1543,23 @@ class Login extends MY_Controller
         $taskType = $this->input->post('taskType');
         $taskID = $this->input->post('taskName');
         $cityID = $this->input->post('stateName');
-        // print_r($taskID);exit;
         if ($this->input->post('stateName') != 0) {
             $internDetails = $this->LoginModel->assign_task_intern($cityID, $taskID);
-            // print_r($internDetails);
-            // exit;
 ?>
-            <div id="tb<?php echo $cityID; ?>">
-                <table class="table table-bordered">
-                    <thead class="bg-gray">
-                        <tr>
-                            <th class="text-white"></th>
-                            <th class="text-white">Name</th>
-                            <th class="text-white">Mobile</th>
-                            <th class="text-white">Email</th>
-                            <th class="text-white">City</th>
-                            <th class="text-white">Status</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php
+<div id="tb<?php echo $cityID; ?>">
+    <table class="table table-bordered">
+        <thead class="bg-gray">
+            <tr>
+                <th class="text-white"></th>
+                <th class="text-white">Name</th>
+                <th class="text-white">Mobile</th>
+                <th class="text-white">Email</th>
+                <th class="text-white">City</th>
+                <th class="text-white">Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php
                         $count = 1;
                         foreach ($internDetails as $value) {
                             $checked = '';
@@ -1580,46 +1574,50 @@ class Login extends MY_Controller
                                 $checked = 'name="interns[]"';
                             }
                         ?>
-                            <tr>
-                                <td>
-                                    <input type="checkbox" class="largerCheckbox" <?php echo $checked; ?> value="<?php echo $value['intern_id']; ?>" id="intern<?php echo $value['intern_id']; ?>" />
-                                </td>
-                                <!-- <td><?php //echo $count++; 
+            <tr>
+                <td>
+                    <input type="checkbox" class="largerCheckbox" <?php echo $checked; ?>
+                        value="<?php echo $value['intern_id']; ?>" id="intern<?php echo $value['intern_id']; ?>" />
+                </td>
+                <!-- <td><?php //echo $count++; 
                                             ?></td> -->
-                                <td>
-                                    <?php if ($value['gender'] == 1) {
+                <td>
+                    <?php if ($value['gender'] == 1) {
                                         echo "Mr.";
                                     } elseif ($value['gender'] == 2) {
                                         echo "Mrs.";
                                     } ?> <?php echo ucwords($value['first_name'] . ' ' . $value['last_name']); ?>
-                                    <br>
-                                    <a href="#" data-toggle="modal" data-target=".profile-details" onclick="fetch_details('<?php echo $encode_intern_id; ?>','profile_details');">
-                                        <small class="text-primary">(View Profile)</small></a>
-                                </td>
-                                <td><?php echo $value['mobile']; ?></td>
-                                <td><?php echo $value['email']; ?></td>
-                                <td><?php echo $value['city_name']; ?></td>
-                                <?php
+                    <br>
+                    <a href="#" data-toggle="modal" data-target=".profile-details"
+                        onclick="fetch_details('<?php echo $encode_intern_id; ?>','profile_details');">
+                        <small class="text-primary">(View Profile)</small></a>
+                </td>
+                <td><?php echo $value['mobile']; ?></td>
+                <td><?php echo $value['email']; ?></td>
+                <td><?php echo $value['city_name']; ?></td>
+                <?php
                                 if (sizeof($assigning_task) > 0) {
                                 ?>
-                                    <td>
-                                        <span class="badge bg-success  me-1 mb-1 mt-1">Assigned</span><br>
-                                        <small data-toggle="modal" data-target=".project-details" class="text-primary" onclick="fetch_task_details('<?php echo $encode_intern_id; ?>','project-details');">&nbsp;View Task</small>
-                                    </td>
-                                <?php } else { ?>
-                                    <td><span class="badge bg-danger  me-1 mb-1 mt-1">Not Assigned</span></td>
-                                <?php } ?>
-                            </tr>
-                        <?php } ?>
-                    </tbody>
-                </table>
-                <script>
-                    function checked(id) {
-                        alert(id);
-                    }
-                </script>
-            </div>
-        <?php
+                <td>
+                    <span class="badge bg-success  me-1 mb-1 mt-1">Assigned</span><br>
+                    <small data-toggle="modal" data-target=".project-details" class="text-primary"
+                        onclick="fetch_task_details('<?php echo $encode_intern_id; ?>','project-details');">&nbsp;View
+                        Task</small>
+                </td>
+                <?php } else { ?>
+                <td><span class="badge bg-danger  me-1 mb-1 mt-1">Not Assigned</span></td>
+                <?php } ?>
+            </tr>
+            <?php } ?>
+        </tbody>
+    </table>
+    <script>
+    function checked(id) {
+        alert(id);
+    }
+    </script>
+</div>
+<?php
 
         }
     }
@@ -1635,20 +1633,20 @@ class Login extends MY_Controller
             // print_r($volunteerDetails);
             // exit;
         ?>
-            <div id="tb<?php echo $cityID; ?>">
-                <table class="table table-bordered">
-                    <thead class="bg-gray">
-                        <tr>
-                            <th class="text-white"></th>
-                            <th class="text-white">Name</th>
-                            <th class="text-white">Mobile</th>
-                            <th class="text-white">Email</th>
-                            <th class="text-white">City</th>
-                            <th class="text-white">Status</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php
+<div id="tb<?php echo $cityID; ?>">
+    <table class="table table-bordered">
+        <thead class="bg-gray">
+            <tr>
+                <th class="text-white"></th>
+                <th class="text-white">Name</th>
+                <th class="text-white">Mobile</th>
+                <th class="text-white">Email</th>
+                <th class="text-white">City</th>
+                <th class="text-white">Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php
                         $count = 1;
                         foreach ($volunteerDetails as $value) {
                             $checked = '';
@@ -1664,45 +1662,50 @@ class Login extends MY_Controller
                                 $checked = 'name="valunteers[]"';
                             }
                         ?>
-                            <tr>
-                                <td>
-                                    <input type="checkbox" class="largerCheckbox" <?php echo $checked; ?> value="<?php echo $value['volunteer_id']; ?>" id="valunteer<?php echo $value['volunteer_id']; ?>" />
-                                </td>
-                                <!-- <td><?php //echo $count++; 
+            <tr>
+                <td>
+                    <input type="checkbox" class="largerCheckbox" <?php echo $checked; ?>
+                        value="<?php echo $value['volunteer_id']; ?>"
+                        id="valunteer<?php echo $value['volunteer_id']; ?>" />
+                </td>
+                <!-- <td><?php //echo $count++; 
                                             ?></td> -->
-                                <td>
-                                    <?php if ($value['gender'] == 1) {
+                <td>
+                    <?php if ($value['gender'] == 1) {
                                         echo "Mr.";
                                     } elseif ($value['gender'] == 2) {
                                         echo "Mrs.";
                                     } ?> <?php echo ucwords($value['first_name'] . ' ' . $value['last_name']); ?>
-                                    <br>
-                                    <a href="#" data-toggle="modal" data-target=".profile-details" onclick="fetch_details('<?php echo $encode_volunteerID; ?>','profile_details');">
-                                        <small class="text-primary">(View Profile)</small></a>
-                                </td>
-                                <td><?php echo $value['mobile']; ?></td>
-                                <td><?php echo $value['email']; ?></td>
-                                <td><?php echo $value['city_name']; ?></td>
-                                <?php
+                    <br>
+                    <a href="#" data-toggle="modal" data-target=".profile-details"
+                        onclick="fetch_details('<?php echo $encode_volunteerID; ?>','profile_details');">
+                        <small class="text-primary">(View Profile)</small></a>
+                </td>
+                <td><?php echo $value['mobile']; ?></td>
+                <td><?php echo $value['email']; ?></td>
+                <td><?php echo $value['city_name']; ?></td>
+                <?php
                                 if (sizeof($assigning_task) > 0) {
                                 ?>
-                                    <td>
-                                        <span class="badge bg-success  me-1 mb-1 mt-1">Assigned</span><br>
-                                        <small data-toggle="modal" data-target=".project-details" class="text-primary" onclick="fetch_task_details('<?php echo $encode_volunteerID; ?>','project-details');">&nbsp;View Task</small>
-                                    </td>
-                                <?php } else { ?>
-                                    <td><span class="badge bg-danger  me-1 mb-1 mt-1">Not Assigned</span></td>
-                                <?php } ?>
-                            </tr>
-                        <?php } ?>
-                    </tbody>
-                </table>
-                <script>
-                    function checked(id) {
-                        alert(id);
-                    }
-                </script>
-            </div>
+                <td>
+                    <span class="badge bg-success  me-1 mb-1 mt-1">Assigned</span><br>
+                    <small data-toggle="modal" data-target=".project-details" class="text-primary"
+                        onclick="fetch_task_details('<?php echo $encode_volunteerID; ?>','project-details');">&nbsp;View
+                        Task</small>
+                </td>
+                <?php } else { ?>
+                <td><span class="badge bg-danger  me-1 mb-1 mt-1">Not Assigned</span></td>
+                <?php } ?>
+            </tr>
+            <?php } ?>
+        </tbody>
+    </table>
+    <script>
+    function checked(id) {
+        alert(id);
+    }
+    </script>
+</div>
 <?php
 
         }

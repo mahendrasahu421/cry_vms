@@ -4356,6 +4356,8 @@ class Intern extends MY_Controller
     public function insert_submission_report()
     {
         try {
+            $data = array(); 
+        $errorUploadType = $statusMsg = ''; 
             $intern_id = $this->session->userdata('intern_id');
             $projectDescription = $this->input->post('projectDescription');
             $name_of_theDepartment = $this->input->post('name_of_theDepartment');
@@ -4363,7 +4365,7 @@ class Intern extends MY_Controller
             $cityInternship = $this->input->post('cityInternship');
             $natureofAssignment = $this->input->post('natureofAssignment');
             $status = 1;
-
+            $uploadData = array();
             $insertData = array(
                 'intern_id' => $intern_id,
                 'description' => $projectDescription,
@@ -4371,32 +4373,66 @@ class Intern extends MY_Controller
                 'intern_institution' => $name_andAddress,
                 'intern_city' => $cityInternship,
                 'intern_assignment' => $natureofAssignment,
-                'status' => $intern_id,
+                'status' => 1,
                 'final_sunmission_date' => date('Y-m-d'),
             );
-            if ($_FILES['attachment'] != "") {
-                $config['upload_path'] = './uploads/submission_report_data';
-                $config['allowed_types']  = 'gif|jpg|png|pdf';
-                $new_name = time() . $_FILES["attachment"]['name'];
-                // echo "<pre>";
-                // print_r($new_name);exit;
-                $config['file_name'] = $new_name;
-                $this->load->library('upload', $config);
-                $this->upload->initialize($config);
-                if ($this->upload->do_upload('attachment')) {
-                    $file = $this->upload->data();
-                    $insertData['attachment'] = $file['file_name'];
-                    $internDataresult =  $this->Crud_modal->intern_data_insert('intern_submission_report', $insertData);
-                    redirect(base_url() . 'feedback');
-                } else {
-    
-                    $error = array('error' => $this->upload->display_errors());
-                    print_r($error);
-                    $this->session->set_flashdata('assign_message', '<div class="danger"><strong>Oops!</strong>Error</div>');
-                }
-            }
            
-    
+                // If files are selected to upload 
+                if(!empty($_FILES['attecment']['name']) && count(array_filter($_FILES['attecment']['name'])) > 0){ 
+                    $filesCount = count($_FILES['attecment']['name']); 
+                   
+                    for($i = 0; $i < $filesCount; $i++){ 
+                        $_FILES['file']['name'] = $_FILES['attecment']['name'][$i]; 
+                        $_FILES['file']['type']   = $_FILES['attecment']['type'][$i]; 
+                        $_FILES['file']['tmp_name'] = $_FILES['attecment']['tmp_name'][$i]; 
+                        $_FILES['file']['error']     = $_FILES['attecment']['error'][$i]; 
+                        $_FILES['file']['size']     = $_FILES['attecment']['size'][$i]; 
+                         
+                        // File upload configuration 
+                        $uploadPath = './uploads/submission_report_data'; 
+                        $config['upload_path'] = $uploadPath; 
+                        $config['allowed_types'] = 'jpg|jpeg|png|gif|pdf'; 
+                        //$config['max_size']    = '100'; 
+                        //$config['max_width'] = '1024'; 
+                        //$config['max_height'] = '768'; 
+                         
+                        // Load and initialize upload library 
+                        $this->load->library('upload', $config); 
+                        $this->upload->initialize($config); 
+                         
+                        // Upload file to server 
+                        if($this->upload->do_upload('file')){ 
+                            // Uploaded file data 
+                            $fileData = $this->upload->data(); 
+                            $uploadData[$i]['attachmentName'] = $fileData['file_name']; 
+                            $uploadData[$i]['intern_id'] = $intern_id; 
+                            $uploadData[$i]['status'] = 1; 
+                           
+                        }else{  
+                            $errorUploadType .= $_FILES['file']['name'].' | ';  
+                        } 
+                    } 
+                     
+                    $errorUploadType = !empty($errorUploadType)?'<br/>File Type Error: '.trim($errorUploadType, ' | '):''; 
+                    if(!empty($uploadData)){ 
+                     $insert = $this->Crud_modal->intern_data_insert('intern_submission_report', $insertData); 
+                     for($k=0; $k < $filesCount; $k++){
+                        $uploadData[$k]['sr_id'] = $insert;
+                     
+                   }
+                   
+                     $internDataresult=  $this->Crud_modal->insert_batch('attachment', $uploadData);
+                     redirect(base_url() . 'feedback');
+                  // Upload status message 
+                        $statusMsg = $insert?'Files uploaded successfully!'.$errorUploadType:'Some problem occurred, please try again.'; 
+                    }else{ 
+                        $statusMsg = "Sorry, there was an error uploading your file.".$errorUploadType; 
+                    } 
+                }else{ 
+                    $statusMsg = 'Please select image files to upload.'; 
+                
+           
+            }
         } catch (Exception $e) {
             echo 'Caught exception: ',  $e->getMessage(), "\n";
         }
@@ -4433,6 +4469,7 @@ class Intern extends MY_Controller
             $overall_internship = $this->input->post('overall_internship');
             $overall_experience = $this->input->post('overall_experience');
             $any_suggestions = $this->input->post('any_suggestions');
+            $status = 1;
 
             $insertFeedbackdata = array(
                 'intern_id' => $intern_id,
@@ -4454,6 +4491,7 @@ class Intern extends MY_Controller
                 'overall_internship' => $overall_internship,
                 'overall_experience' => $overall_experience,
                 'any_suggestions' => $any_suggestions,
+                'status' =>$status,
 
             );
 

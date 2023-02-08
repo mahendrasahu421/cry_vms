@@ -236,7 +236,6 @@
                                             } ?>
                                         </tbody>
                                     </table>
-                                    <!-- <input type="botton" id="submit3" value="Send Login Credentional" class="mt-5 btn btn-warning  pull-right" id="map_button" style="padding: 1% 2% 1% 2%;"> -->
                                 </div>
                             </div>
                         </form>
@@ -249,32 +248,22 @@
 </div>
 </div>
 </div>
-<!-- <script>
-	$(document).ready(function() {
-		let region_id = $('#region_id').val();
-		if (region_id == "") {
 
-		} else {
-			$('#region_id option:not(:selected)').attr('disabled', true);
-		}
 
-	});
-</script> -->
 <script>
     function fetch_details(id, display_id) {
         //alert(id);
-        $('#' + display_id).html('<div class="text-center" style="color:red;margin:10 auto;"><i class="fa fa-spinner fa-pulse fa-4x"></i><p>Fetching Data</p></div>');
+        $('#' + display_id).html(
+            '<div class="text-center" style="color:red;margin:10 auto;"><i class="fa fa-spinner fa-pulse fa-4x"></i><p>Fetching Data</p></div>'
+        );
         var request = $.ajax({
-            url: '<?php echo base_url("fetch-user-info"); ?>',
+            url: '<?php echo base_url("fetch-user-info-intern"); ?>',
             method: "POST",
             data: {
                 intern_id: id
             },
             success: function(results) {
-                // console.log(results);
-                //alert(results);
                 $('#' + display_id).html(results);
-
             }
         });
     }

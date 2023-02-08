@@ -98,6 +98,7 @@
                                 </center>
                             <?php $this->session->unset_userdata('error');
                             } ?>
+                         
                             <form class="login100-form validate-form" action="#" method="post">
                                 <span class="login100-form-title">
                                     Login
@@ -124,25 +125,11 @@
                                     </p>
                                 </div>
                                 <button class="btn btn-block btn-warning mb-4 rounded-pill" type="submit" name="signin" value="signin">Login</button>
-                                <!-- <div class="text-center pt-3">
-                                    <p class="text-dark mb-0">Not a member?<a href="preregistration" class="text-warning ms-1">Create an Account</a></p>
-                                </div> -->
+                               
                             </form>
 
                         </div>
-                        <!-- <div class="card-footer">
-							<div class="d-flex justify-content-center my-3">
-								<a href="" class="social-login  text-center me-4">
-									<i class="fa fa-google"></i>
-								</a>
-								<a href="" class="social-login  text-center me-4">
-									<i class="fa fa-facebook"></i>
-								</a>
-								<a href="" class="social-login  text-center">
-									<i class="fa fa-twitter"></i>
-								</a>
-							</div>
-						</div> -->
+                        
                     </div>
                 </div>
                 <!-- CONTAINER CLOSED -->

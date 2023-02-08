@@ -701,33 +701,81 @@ class Admin extends MY_Controller
 
     public function getTaskstate()
     {
-        $region = $this->session->userdata('region_id');
-        $taskName = $this->input->post('taskName');
-        $states = $this->Admin_model->select_all_states_by_task($taskName);
-        if (empty($states[0]['state_id'])) {
-            $states = $this->Crud_modal->fetch_all_data('*', 'states', 'region_id=' . $region);
-        }
-        echo '<option value="">---Select State---</option>';
-        foreach ($states as $stateskData) {
-            $state_id = $stateskData['state_id'];
-            $state_name = $stateskData['state_name'];
-            echo '<option value="' . $state_id . '">' . rtrim($state_name, ' ') . '</option>';
+        try {
+            if (($this->session->userdata('emp_id') != "" || $this->session->userdata('emp_id') != null)) {
+                $region = $this->session->userdata('region_id');
+                $sid = $this->session->userdata('sid');
+                $role = $this->session->userdata('role_id');
+                if ($role == 1) {
+                    $taskName = $this->input->post('taskName');
+                    $states = $this->Admin_model->select_all_states_by_task($taskName);
+                    if (empty($states[0]['state_id'])) {
+                        $states = $this->Crud_modal->fetch_all_data('*', 'states','status = 1');
+                    }
+                    echo '<option value="">---Select State---</option>';
+                    foreach ($states as $stateskData) {
+                        $state_id = $stateskData['state_id'];
+                        $state_name = $stateskData['state_name'];
+                        echo '<option value="' . $state_id . '">' . rtrim($state_name, ' ') . '</option>';
+                    }
+                } else {
+                   $taskName = $this->input->post('taskName');
+                    $states = $this->Admin_model->select_all_states_by_task($taskName);
+                    if (empty($states[0]['state_id'])) {
+                        $states = $this->Crud_modal->fetch_all_data('*', 'states', 'region_id=' . $region);
+                    }
+                    echo '<option value="">---Select State---</option>';
+                    foreach ($states as $stateskData) {
+                        $state_id = $stateskData['state_id'];
+                        $state_name = $stateskData['state_name'];
+                        echo '<option value="' . $state_id . '">' . rtrim($state_name, ' ') . '</option>';
+                    }
+                }
+            } else {
+                redirect(base_url() . 'login', 'refresh');
+            }
+        } catch (Exception $e) {
+            echo 'Caught exception: ',  $e->getMessage(), "\n";
         }
     }
 
     public function interngetTaskstate()
     {
-        $region = $this->session->userdata('region_id');
-        $taskName = $this->input->post('taskName');
-        $states = $this->Admin_model->internselect_all_states_by_task($taskName);
-        if (empty($states[0]['state_id'])) {
-            $states = $this->Crud_modal->fetch_all_data('*', 'states', 'region_id=' . $region);
-        }
-        echo '<option value="">---Select State---</option>';
-        foreach ($states as $stateskData) {
-            $state_id = $stateskData['state_id'];
-            $state_name = $stateskData['state_name'];
-            echo '<option value="' . $state_id . '">' . rtrim($state_name, ' ') . '</option>';
+        try {
+            if (($this->session->userdata('emp_id') != "" || $this->session->userdata('emp_id') != null)) {
+                $region = $this->session->userdata('region_id');
+                $sid = $this->session->userdata('sid');
+                $role = $this->session->userdata('role_id');
+                if ($role == 1) {
+                    $taskName = $this->input->post('taskName');
+                    $states = $this->Admin_model->internselect_all_states_by_task($taskName);
+                    if (empty($states[0]['state_id'])) {
+                        $states = $this->Crud_modal->fetch_all_data('*', 'states', 'status=1');
+                    }
+                    echo '<option value="">---Select State---</option>';
+                    foreach ($states as $stateskData) {
+                        $state_id = $stateskData['state_id'];
+                        $state_name = $stateskData['state_name'];
+                        echo '<option value="' . $state_id . '">' . rtrim($state_name, ' ') . '</option>';
+                    }
+                } else {
+                   $taskName = $this->input->post('taskName');
+                    $states = $this->Admin_model->internselect_all_states_by_task($taskName);
+                    if (empty($states[0]['state_id'])) {
+                        $states = $this->Crud_modal->fetch_all_data('*', 'states', 'region_id=' . $region);
+                    }
+                    echo '<option value="">---Select State---</option>';
+                    foreach ($states as $stateskData) {
+                        $state_id = $stateskData['state_id'];
+                        $state_name = $stateskData['state_name'];
+                        echo '<option value="' . $state_id . '">' . rtrim($state_name, ' ') . '</option>';
+                    }
+                }
+            } else {
+                redirect(base_url() . 'login', 'refresh');
+            }
+        } catch (Exception $e) {
+            echo 'Caught exception: ',  $e->getMessage(), "\n";
         }
     }
 
@@ -1606,9 +1654,8 @@ class Admin extends MY_Controller
         $limit = '';
         $order_by = array('sr_id', 'DESC');
         $dilyreportDetails = $this->Admin_model->submission_reportData($reportId);
-        // echo "<pre>";
-        // print_r($dilyreportDetails);
-        // exit;
+        $where = 'at.sr_id = "'.$sr_id.'" AND at.intern_id = "'.$reportId.'" AND status = 1';
+        $viewAttech = $this->Admin_model->submission_report_attecment($where);
     ?>
 <h5 class="badge bg-warning text-black"> Name-
     <?php echo ucwords($dilyreportDetails[0]['first_name'] . ' ' . $dilyreportDetails[0]['last_name']); ?></h5>
@@ -1650,7 +1697,11 @@ class Admin extends MY_Controller
         <div class=""><?php echo ucwords($value['description']); ?></div><br>
         <div class=""><strong>Attechments </strong></div>
         <br>
-        <div class=""><?php echo ucwords($value['attachment']); ?></div><br>
+        <?php $i = 1; foreach($viewAttech as $attech){?>
+        <a href="<?php echo base_url(); ?>uploads/submission_report_data/<?php echo $attech['attachmentName']; ?>"
+            target="_blank"> View Attechment <?php echo $i++;?></a> <b>,</b>
+
+        <?php }?>
 
     </div>
 
@@ -5594,14 +5645,16 @@ class Admin extends MY_Controller
 
     public function volenteership()
     {
+       
         try {
             if (($this->session->userdata('emp_id') != "" || $this->session->userdata('emp_id') != null)) {
                 $region = $this->session->userdata('region_id');
                 $role = $this->session->userdata('role_id');
+              
                 if ($role == 1) {
                     $date2 = $data['date_to'] = date("Y-m-d");
                     $data['date_from'] = date("Y-m-d", strtotime($date2 . '-7 days'));
-                    $where = 'v.status =4 OR v.status =5';
+                   // $where = 'v.status =4 OR v.status =5';
                     if ($this->input->post('start_new') != "" && $this->input->post('end_new') != "" &&  $this->input->post('state_name') != "") {
                         $data['state'] =  $state_name = $this->input->post('state_name');
                         $date1 = $this->input->post('start_new');
@@ -5611,8 +5664,11 @@ class Admin extends MY_Controller
                         $data['creation_date'] = $date1;
                         $data['creation_date'] = $date2;
                         $data['state_name'] = $state_name;
-                        $where = "creation_date>='" . $date_from . "' and creation_date<='" . $date_to . "' and v.state_id=" . $state_name . "  and (v.status=2 OR v.status=3)";
+                        $where = "creation_date>='" . $date_from . "' and creation_date<='" . $date_to . "' and v.state_id=" . $state_name . "  and (v.status = 4 OR v.status=5)";
                         $data['volunteer'] = $this->Admin_model->volunteer_enquiry_Data($where);
+                        // echo "<pre>";
+                        // print_r($data['volunteer']);exit;
+
                     }
                 } else {
                     $data['rname'] = $this->Curl_model->fetch_single_data('region_name,state_id', 'regions', array('region_id' => $region));
@@ -6689,7 +6745,8 @@ class Admin extends MY_Controller
                     $internuser_id = $this->uri->segment(2);
                     $val = base64_decode(str_pad(strtr($internuser_id, '-_', '+/'), strlen($internuser_id) % 4, '=', STR_PAD_RIGHT));
                     $where = "intern_id = '$val'";
-                    $data['interuser'] = $this->Admin_model->get_all_intern_onlineOffline($where);
+                    //$data['interuser'] = $this->Admin_model->get_all_intern_onlineOffline($where);
+                    $data['interuser'] = $this->Crud_modal->fetch_single_data('*', 'interns', $where);
                     // echo "<pre>";
                     // print_r($data['interuser']);exit;
                     $data['user_schedule'] = $this->Crud_modal->all_data_select("*", "interview_schedule_detail", "intern_id='$val'", "schedule_id asc");
@@ -6700,18 +6757,19 @@ class Admin extends MY_Controller
                     $internuser_id = $this->uri->segment(2);
                     $val = base64_decode(str_pad(strtr($internuser_id, '-_', '+/'), strlen($internuser_id) % 4, '=', STR_PAD_RIGHT));
                     $where = "intern_id = '$val'";
-                    $data['interuser'] = $this->Admin_model->get_all_intern_onlineOffline($where);
+                    //$data['interuser'] = $this->Admin_model->get_all_intern_onlineOffline($where);
+                    $data['interuser'] = $this->Crud_modal->fetch_single_data('*', 'interns', $where);
                     $data['user_schedule'] = $this->Crud_modal->all_data_select("*", "interview_schedule_detail", "intern_id='$val'", "schedule_id asc");
                     $data['step_name'] = $this->Crud_modal->all_data_select("*", "interview_process_step", "1=1", "step_id asc");
                 }
                 
                 $data['email_templates'] = $this->Crud_modal->fetch_single_data('email_templates_id,body_content', 'email_templates', 'status=1 AND email_templates_id=8');
                // $internCity = $data['interuser']['city_name'];
-                $searchArray = array("online", "7-8", "...............................","Mahendra Sahu",'Kanpur Uttar Pradesh');
+                $searchArray = array("online", "7-8", "September , 2022.","Mahendra Sahu",'Kanpur Uttar Pradesh');
                 $latsarrayTemplate = array(
                     $data['interuser']['vol_type_name'],
                     $data['interuser']['internshipDeruation'],
-                    date('d M Y', strtotime($data['interuser']['creation_date'])),
+                    date('d M Y', strtotime($data['interuser']['creation_date'])).'.',
                     $data['interuser']['first_name']." ".$data['interuser']['last_name'],
                     trim($data['interuser']['city_name']," ").",".$data['interuser']['state_name'],
                 );
@@ -7020,28 +7078,6 @@ class Admin extends MY_Controller
             }
         }
     }
-
-
-
-    // function confirm_joining()
-    // {
-    //     if ($this->session->userdata('emp_id') != "" || $this->session->userdata('emp_id') != null) {
-    //         $join = $this->input->post("join");
-    //         $intern_id = $this->input->post("intern_id");
-
-    //         if ($join == "join") {
-    //             $data['job_process_step'] = '6-0';
-    //             $data['status'] = '7';
-    //         } else if ($join == "not join") {
-    //             $data['job_process_step'] = '5-1';
-    //         }
-    //         if ($this->Crud_modal->update_data("intern_id='$intern_id'", "interns", $data)) {
-    //             echo true;
-    //         } else {
-    //             echo false;
-    //         }
-    //     }
-    // }
 
     public function intern_task_report()
     {
@@ -7610,7 +7646,7 @@ class Admin extends MY_Controller
                     $data['date_from'] = date("Y-m-d", strtotime($date2 . '-7 days'));
                     $where = 'status =1';
                     if ($this->input->post('start_new') != "" && $this->input->post('end_new') != "" &&  $this->input->post('state_name') != "" && $this->input->post('region_id') != "") {
-                        $data['state'] =  $state_name = $this->input->post('state_name');
+                        $data['states'] =  $state_name = $this->input->post('state_name');
                         $data['region_id'] =  $region_id = $this->input->post('region_id');
                         $date1 = $this->input->post('start_new');
                         $date2 = $this->input->post('end_new');
@@ -7743,7 +7779,7 @@ class Admin extends MY_Controller
         $pdf->AddPage();
         $pdf->SetFont('Arial', '', 9);
        $pdf->Image(base_url() . '/uploads/offer.png', 10, 8, 185);
-       // $pdf->Image($_SERVER['DOCUMENT_ROOT'] . '/uploads/offer.png', 10, 8, 185);
+      //  $pdf->Image($_SERVER['DOCUMENT_ROOT'] . '/uploads/offer.png', 10, 8, 185);
         $pdf->SetY(38.6);
         $pdf->SetX(147);
         $pdf->Cell(10,5,$date,0,'R');
@@ -7787,7 +7823,7 @@ class Admin extends MY_Controller
         $mail->addBCC("ravishankar.k@neuralinfo.org", "Ravi");
         $mail->FromName = 'cry Vms';
         $mail->IsHTML(true);
-        $mail->Subject = 'certificate From CRY VMS ';
+        $mail->Subject = 'Cry Offer Letter';
         $mail->Body = 'Please Fill Your Basic Details And Accept Your Offer Letter' . ' ' . $url;
         if (!$mail->Send()) {
             echo "Message could not be sent. <p>";
@@ -7798,4 +7834,80 @@ class Admin extends MY_Controller
             redirect(base_url() . 'hr-process/'.$intern_id);
         }
     }
+
+    public function rate_and_review(){
+        {
+            try {
+                if (($this->session->userdata('emp_id') != "" || $this->session->userdata('emp_id') != null)) {
+                    $region = $this->session->userdata('region_id');
+                    $role = $this->session->userdata('role_id');
+                    if ($role == 1) {
+                        $date2 = $data['date_to'] = date("Y-m-d");
+                        $data['date_from'] = date("Y-m-d", strtotime($date2 . '-7 days'));
+                        $where = 'status =1';
+                        if ($this->input->post('start_new') != "" && $this->input->post('end_new') != "" &&  $this->input->post('state_name') != "" && $this->input->post('region_id') != "") {
+                            $data['states'] =  $state_name = $this->input->post('state_name');
+                            $data['region_id'] =  $region_id = $this->input->post('region_id');
+                            $date1 = $this->input->post('start_new');
+                            $date2 = $this->input->post('end_new');
+                            $date_from = date("Y-m-d", strtotime($date1));
+                            $date_to = date("Y-m-d", strtotime($date2 . '+1 days'));
+                            $data['creation_date'] = $date1;
+                            $data['creation_date'] = $date2;
+                            $data['state_name'] = $state_name;
+                            $where = "i.state_id = '" . $state_name . "' AND fd.creation_date>='" . $date_from . "' and fd.creation_date<='" . $date_to . "' AND (fd.status=1)";
+                            $data['rateingData'] = $this->Admin_model->rate_and_reviewData($where);
+                            
+                        }
+                    } else {
+                        $data['rname'] = $this->Curl_model->fetch_single_data('region_name,state_id', 'regions', array('region_id' => $region));
+                        $data['states'] = $this->Crud_modal->fetch_all_data('*', 'states', 'region_id=' . $region);
+                        $date2 = $data['date_to'] = date("Y-m-d");
+                        $data['date_from'] = date("Y-m-d", strtotime($date2 . '-7 days'));
+                        $where = 'v.status =1 OR v.status =2';
+                        if ($this->input->post('start_new') != "" && $this->input->post('end_new') != "" &&  $this->input->post('state_name') != "" && $this->input->post('region_id') != "") {
+                            $data['state'] =  $state_name = $this->input->post('state_name');
+                            $data['region_id'] =  $region_id = $this->input->post('region_id');
+                            $date1 = $this->input->post('start_new');
+                            $date2 = $this->input->post('end_new');
+                            $date_from = date("Y-m-d", strtotime($date1));
+                            $date_to = date("Y-m-d", strtotime($date2 . '+1 days'));
+                            $data['final_sunmission_date'] = $date1;
+                            $data['final_sunmission_date'] = $date2;
+                            $data['state_name'] = $state_name;
+                            $where = "i.state_id = '" . $state_name . "' AND fd.creation_date>='" . $date_from . "' and fd.creation_date<='" . $date_to . "' AND (fd.status=1)";
+                            $data['rateingData'] = $this->Admin_model->rate_and_reviewData($where);
+
+                        }
+                    }
+    
+                    $data['regions'] = $this->Crud_modal->fetch_all_data('*', 'regions', 'region_status=1');
+                    $this->load->view('temp/head');
+                    $this->load->view('temp/header', $data);
+                    $this->load->view('temp/sidebar');
+                    $this->load->view('rate_and_review', $data);
+                    $this->load->view('temp/footer');
+                } else {
+                    redirect(base_url() . 'login', 'refresh');
+                }
+            } catch (Exception $e) {
+                echo 'Caught exception: ',  $e->getMessage(), "\n";
+            }
+        }
+    
+    }
+
+    public function view_rating(){
+        $intern_id = $this->uri->segment(2);
+        $val = base64_decode(str_pad(strtr($intern_id, '-_', '+/'), strlen($intern_id) % 4, '=', STR_PAD_RIGHT));
+        $where = 'intern_id = "' . $val . '"';
+        $data['feedbackData'] = $this->Admin_model->get_all_feedback($where);
+        
+        $this->load->view('temp/head');
+        $this->load->view('temp/header', $data);
+        $this->load->view('temp/sidebar');
+        $this->load->view('view_rating', $data);
+        $this->load->view('temp/footer');
+ }
+
 }

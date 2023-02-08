@@ -544,3 +544,5 @@ $route['feedback'] = 'intern/Intern/feedback';
 $route['insert_submission_report'] = 'intern/Intern/insert_submission_report';
 $route['insert_feedback'] = 'intern/Intern/insert_feedback';
 $route['all-onboard-intern'] = 'admin/Admin/all_onboard_intern';
+$route['rate_and_review'] = 'admin/Admin/rate_and_review';
+$route['view_rating/(:any)'] = 'admin/Admin/view_rating';

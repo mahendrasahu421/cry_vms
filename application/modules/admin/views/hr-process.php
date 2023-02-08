@@ -55,10 +55,10 @@
                                         <tr>
                                             <td class="tdhead">Skill</td>
                                             <?php
-                                            if ($interuser['skill_id'] != '') {
-                                                $skill_name = explode(',', $interuser['skill_id']);
+                                            if ($interuser['skill_id']!='') {
+                                                $skill_name = explode(',',$interuser['skill_id']);
                                                 for ($i = 0; $i < sizeof($skill_name); $i++) {
-                                                    $assig_name = $this->Crud_modal->fetch_single_data("(skill_name) as name", "skills", "skill_id='$skill_name[$i]'"); ?>
+                                                    $assig_name = $this->Crud_modal->fetch_single_data("(skill_name) as name", "skills", "skill_id='$skill_name[$i]'");?>
                                             <td><?php echo $assig_name['name'] . (($i + 1) < sizeof($skill_name) ? ", " : ""); ?>
                                             </td>
                                             <?php }
@@ -410,8 +410,7 @@
 														?>
                                                         <br>
                                                         <input type="radio" class="demo4 me-1" name="short_radio"
-                                                            <?php echo ($interuser['status']>2 ? "checked=checked" : 'checked' );  ?>
-                                                            value="Shortlisted">Shortlisted
+                                                            <?php echo ($interuser['status']==2 ? "checked=checked" : '' );  ?> value="Shortlisted">Shortlisted
                                                         <input type="radio" class="demo4 me-1" name="short_radio"
                                                             <?php echo ($interuser['status']==0 ? "checked=checked" : '' );  ?>
                                                             value="Not Shortlisted">Not Shortlisted
@@ -452,7 +451,7 @@
                                                             class="fa fa-paper-plane" aria-hidden="true"></i></button>
 
                                                 </div>
-                                                <?php echo $intern_id = $interuser['intern_id']; 
+                                                <?php  $intern_id = $interuser['intern_id']; 
                                                  $encoded_id = rtrim(strtr(base64_encode($intern_id), '+/', '-_'), '=');
                                                 ?>
                                                 <!-- ##################################################      Interview div     #####################################################  -->

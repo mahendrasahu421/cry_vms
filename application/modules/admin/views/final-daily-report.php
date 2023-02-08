@@ -1,22 +1,41 @@
 <?php $date = date("Y/m/d"); ?>
+
 <!--- Reject Model Popup----->
-<div class="modal fade project-details" role="dialog" aria-hidden="true" style="z-index:99999;">
+
+<div class="modal fade project-details"  role="dialog" aria-hidden="true" style="z-index:99999;">
+
 	<div class="modal-dialog modal-lg">
+
 		<div class="modal-content">
+
 			<div class="modal-header bg-warning">
+
 				<h4 class="modal-title text-uppercase fw-bold">Daily Report Reject</h4>
+
 				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+
 			</div>
+
 			<form method="post" action="disapproved-report" id="disaprovedReport">
+
 				<div class="modal-body">
+
 					<div class="row form-group">
+
 						<div class="col-md-12">
-							<!--<input ype="text" class="form-control" required name="dr_date" id="dr_date" value="" style="display:none;" />-->
+
+							<!--<input type="text" class="form-control" required name="dr_date" id="dr_date" value="" style="display:none;" />-->
+
 							<input type="text" class="form-control" value="" required name="volunteer_id" id="volunteer_id" style="display:none;" />
+
 							<input type="text" class="form-control" value="" required name="task_id" id="task_id" style="display:none;" />
+
 						</div>
+
 					</div>
+
 					<div class="row form-group">
+
 						<div class="col-md-4">
 
 							<h4 class="">Volunteers Working Hours</h4>
@@ -24,11 +43,13 @@
 						</div>
 
 						<style>
+
 							.input-group-text {
 
 								padding: 0.7rem 0.75rem;
 
 							}
+
 						</style>
 
 						<div class="col-md-12">
@@ -151,11 +172,11 @@
 
 			<div class="modal-body" id="daily-report">
 
-
+				
 
 			</div>
 
-
+			
 
 		</div>
 
@@ -341,11 +362,11 @@
 
 											$mins = $tmins % 60;
 
-											$total += $hours;
+												$total += $hours; 
 
-											$totalmin += $mins;
+												$totalmin += $mins; 								
 
-											$total_time1 = $total . '.' . $totalmin;
+												$total_time1 = $total . '.' . $totalmin;
 
 										?>
 
@@ -422,25 +443,11 @@
 </div>
 
 </div>
-<script>
-	function fetch_details(id, userid, display_id) {
-		//alert(id);
-		$('#' + display_id).html('<div class="text-center" style="color:red;margin:10 auto;"><i class="fa fa-spinner fa-pulse fa-4x"></i><p>Fetching Data</p></div>');
-		var request = $.ajax({
-			url: '<?php echo base_url("fetch-daily-report-info"); ?>',
-			method: "POST",
-			data: {
-				task_id: id,
-				volunteer_id: userid,
-			},
-			success: function(results) {
-				$('#' + display_id).html(results);
-			}
-		});
-	}
-</script>
+
+
 
 <script>
+
 	function disapproved(volunteer_id, task_id, time) {
 
 		$('#volunteer_id').val(volunteer_id);
@@ -503,60 +510,182 @@
 
 			$(id).val('0' + hours);
 
+
+
 		}
+
 	}
+
 </script>
 
+
+
 <script>
+
 	$("#disaproved").click(function(ev) {
+
 		var form = $("#disaprovedReport");
+
 		var url = '<?php echo base_url() . 'disapproved-report' ?>';
+
+
+
 		$.ajax({
+
 			type: "POST",
+
 			url: url,
+
 			data: form.serialize(),
+
 			success: function(data) {
+
 				$('#success_msg').html('Your Registration Complete We Will Contact Soon!');
+
+				//window.location.href = "<?php echo base_url() ?>post-registration-volunteer/".volunteer_id;
+
 			},
-			error: function(data) {}
+
+			error: function(data) {
+
+
+
+				// Some error in ajax call
+
+				//alert("some Error");
+
+			}
+
 		});
+
 	});
+
 </script>
 
+
+
+
+
 <script>
+
 	$(document).ready(function() {
+
 		$("#region_id").change(function() {
+
 			var region_id = $(this).val();
+
 			datastr = {
+
 				region_id: region_id
+
 			};
+
 			$.ajax({
+
 				url: '<?php echo base_url() ?>get-states-admin',
+
 				type: 'post',
+
 				data: datastr,
+
 				success: function(response) {
+
 					$("#state_name").html(response);
+
+					// $('select').selectpicker('refresh');
+
 				}
+
 			});
+
 		});
+
+
+
 	});
+
 </script>
 
+
+
 <script>
+
 	$(document).ready(function() {
+
 		$('#state_name').change(function() {
+
 			var stateName = $(this).val();
+
 			datastr = {
+
 				stateName: stateName
+
 			};
+
 			$.ajax({
+
 				url: '<?php echo base_url() ?>getStatetask',
+
 				type: 'post',
+
 				data: datastr,
+
 				success: function(response) {
+
 					$("#taskName").html(response);
+
+					// $('select').selectpicker('refresh');
+
 				}
+
 			});
+
 		});
+
 	});
+
 </script>
+
+
+
+<script>
+
+	function fetch_details(id, userid,  display_id) {
+
+		//alert(id);
+
+		$('#' + display_id).html('<div class="text-center" style="color:red;margin:10 auto;"><i class="fa fa-spinner fa-pulse fa-4x"></i><p>Fetching Data</p></div>');
+
+		var request = $.ajax({
+
+			url: '<?php echo base_url("fetch-daily-report-info"); ?>',
+
+			method: "POST",
+
+			data: {
+
+				task_id: id,
+
+				volunteer_id: userid,
+
+				//dr_date: date
+
+			},
+
+			success: function(results) {
+
+				//console.log(results);
+
+				//alert(results);
+
+				$('#' + display_id).html(results);
+
+
+
+			}
+
+		});
+
+	}
+
+</script> 

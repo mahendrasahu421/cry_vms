@@ -246,10 +246,11 @@ class admin_model extends CI_Model
 	public function submission_reportData($reportId)
 	{
 		$this->db->initialize();
-		$this->db->select('isr.*,ist.*,it.task_title');
+		$this->db->select('isr.*,ist.*,it.task_title,i.first_name,i.last_name');
 		$this->db->from('intern_submission_report isr');
 		$this->db->join('intern_assigning_task ist', 'ist.intern_id = isr.intern_id');
 		$this->db->join('interntask it', 'ist.intern_task_id = it.intern_task_id');
+		$this->db->join('interns i', 'i.intern_id = isr.intern_id');
 		$this->db->where('isr.sr_id', $reportId);
 		//$query = $this->db->group_by('isr.sr_id desc');
 		$query = $this->db->get();
@@ -853,7 +854,7 @@ class admin_model extends CI_Model
 	{
 		$mail = new PHPMailer();
 		$to = $data['user_email'];
-		$subject = 'shotlisted';
+		$subject = 'Interview Process';
 		$message = $this->load->view('admin/interview_final_mail_to_user', $data, true);
 		$mail->IsSMTP();
 		$mail->Host = 'smtp.office365.com';
@@ -948,7 +949,7 @@ class admin_model extends CI_Model
 		$mail->AddAddress($to);
 		$mail->IsHTML(true);
 		$mail->Subject = $subject;
-		$mail->addBCC('ravishankar.k@neuralinfo.org');
+		$mail->addBCC('pransi.g@neuralinfo.org');
 		$mail->addstringAttachment($full_path, $file_name);
 		$mail->Body = $message;
 		if ($mail->Send()) {
@@ -975,5 +976,53 @@ class admin_model extends CI_Model
 			$this->db->close();
 			return $result;
 		}
+
+	}
+
+	function rate_and_reviewData($where)
+	{
+		$this->db->initialize();
+		$this->db->select('fd.intern_id,i.intern_id,i.first_name,i.last_name,i.mobile,i.email,s.state_name,c.city_name');
+		$this->db->from('feedback fd');
+		$this->db->join('interns i', 'i.intern_id = fd.intern_id');
+		$this->db->join('states s', 's.state_id = i.state_id', 'left');
+		$this->db->join('cities c', 'c.city_id = i.city_id', 'left');
+		$this->db->where($where);
+		$query = $this->db->order_by('fd.intern_id desc');
+		$query = $this->db->get();
+		//echo $this->db->last_query(); die;
+		$result = $query->result_array();
+		$this->db->close();
+		return $result;
+	}
+
+
+	public function get_all_feedback($where){
+		$this->db->initialize();
+		$this->db->select('fd.*,i.intern_id,i.first_name,i.last_name,i.mobile,i.email,');
+		$this->db->from('feedback fd');
+		$this->db->join('interns i', 'i.intern_id = fd.intern_id');
+		//$this->db->where($where);
+		$query = $this->db->order_by('fd.intern_id desc');
+		$query = $this->db->get();
+		//echo $this->db->last_query(); die;
+		$result = $query->row_array();
+		$this->db->close();
+		return $result;
+	}
+
+	public function submission_report_attecment($where){
+		$this->db->initialize();
+		$this->db->select('at.attachmentName');
+		$this->db->from('attachment at');
+		$this->db->join('interns i', 'i.intern_id = at.intern_id');
+		$this->db->join('intern_submission_report isr', 'isr.sr_id = at.sr_id');
+		$query = $this->db->order_by('at.attachmentID desc');
+		$query = $this->db->get();
+		//echo $this->db->last_query(); die;
+		$result = $query->result_array();
+		$this->db->close();
+		return $result;
+
 	}
 }

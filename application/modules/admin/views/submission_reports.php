@@ -160,7 +160,7 @@
 										<option selected disabled value="">Select Region</option>
 										<?php foreach ($regions as $rd) {
 										?>
-											<option value="<?php echo $rd['region_id']; ?>" <?php if ($regionId == $rd['region_id']) {
+											<option value="<?php echo $rd['region_id']; ?>" <?php if ($region_id == $rd['region_id']) {
 																								echo "selected";
 																							} ?>><?php echo $rd['region_name'] ?></option>
 										<?php } ?>
@@ -170,7 +170,7 @@
 									<select class="form-control select2-show-search form-select" name="state_name" id="state_name">
 										<option value="">Select State</option>
 										<?php foreach ($states as $sd) { ?>
-											<option value="<?php echo $sd['state_id']; ?>" <?php echo $state == $sd['state_id'] ? "selected" : ""; ?>>
+											<option value="<?php echo $sd['state_id']; ?>" <?php echo $states == $sd['state_id'] ? "selected" : ""; ?>>
 												<?php echo $sd['state_name']; ?>
 											</option>
 
@@ -252,7 +252,7 @@
 														</button>
 														<ul class="dropdown-menu">
 															<li><a href="#" data-toggle="modal" data-target=".daily-report" onclick="fetch_report('<?php echo $encoded_sr_id; ?>','<?php echo $encoded_id; ?>','daily-report');"><small class="text-primary">(View details)</small></a></li>
-															<li><a href="#">Disapprove </a></li>
+											
 															<li><a href="#" data-toggle="modal" data-target=".bd-example-modal-lg">View Feedback
 																</a></li>
 														</ul>
@@ -379,17 +379,15 @@
 	});
 </script>
 
-<script>
+<!-- <script>
 	$(document).ready(function() {
 		let region_id = $('#region_id').val();
-		if (region_id == null) {
-
-		} else {
+		
 			$('#region_id option:not(:selected)').attr('disabled', true);
-		}
+	
 
 	});
-</script>
+</script> -->
 <script>
 	let example = $('#example').DataTable({
 		columnDefs: [{
