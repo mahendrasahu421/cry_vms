@@ -236,6 +236,118 @@ class Login extends MY_Controller
         $this->load->view('reset');
     }
 
+    public function preregistration()
+    {
+        try {
+            $data['occupation'] = $this->Crud_modal->fetch_all_data('*', 'occupation', 'status= 1', 'occupation_name ASC');
+            $data['opportunity'] = $this->Crud_modal->fetch_all_data('*', 'opportunity', 'opportunity_status= 1', 'opportunity_name ASC');
+            $data['skills'] = $this->Crud_modal->fetch_all_data('*', 'skills', 'status= 1', 'skill_name ASC');
+            $data['countries'] = $this->Crud_modal->fetch_all_data('*', 'countries', 'status= 1', 'Name ASC');
+            $data['state'] = $this->Crud_modal->all_data_select('*', 'states', 'status=1 and state_id !=45', 'state_name ASC');
+            $data['taskType'] = $this->Crud_modal->fetch_all_data('*', 'volunteer_type', 'status = 1');
+            $this->load->view('preregistration', $data);
+        } catch (Exception $e) {
+            echo 'Caught exception: ',  $e->getMessage(), "\n";
+        }
+    }
+    
+    public function insert_preregistration_data()
+    {
+        try {
+
+            $looking_for = $this->input->post('looking_for');
+            $name = $this->input->post('first_name');
+            $lname = $this->input->post('last_name');
+            $dob = date('Y-m-d', strtotime($this->input->post('dob')));
+            $gender = $this->input->post('gender');
+            $email = $this->input->post('email');
+            $mobile_number = $this->input->post('mobile_number');
+            $encoded_mob = rtrim(strtr(base64_encode($mobile_number), '+/', '-_'), '=');
+            $county = $this->input->post('county');
+            $state_id = $this->input->post('state_id');
+            $city_name = $this->input->post('city_name');
+            $occupation = $this->input->post('occupation');
+            $volunteering_type = $this->input->post('volunteering_type');
+            $where_know_opportunity = $this->input->post('where_know_opportunity');
+            $volunteerSkill = $this->input->post('skill_id');
+            $internskill_id = $this->input->post('internskill_id');
+            $Uploade_file = $this->input->post('Uploade_file');
+            $mention_past = $this->input->post('mention_past');
+            $whatyou_aim = $this->input->post('whatyou_aim');
+            $internshipType = $this->input->post('internshipType');
+            $internshipDeruation = $this->input->post('internshipDeruation');
+
+
+            if ($looking_for == 'volunteering') {
+                $volunteerData = array(
+                    'first_name' => $name,
+                    'last_name' => $lname,
+                    'date_of_birth' => $dob,
+                    'gender' => $gender,
+                    'email' => $email,
+                    'mobile' => $mobile_number,
+                    'country_id' => $county,
+                    'state_id' => $state_id,
+                    'city_id ' => $city_name,
+                    'occupation_id' => $occupation,
+                    'vol_type_id' => $volunteering_type,
+                    'volunteer_skill' => implode(",", $volunteerSkill),
+                    'where_did_u_know' => implode(",", $where_know_opportunity),
+                    'creation_date' => date('Y-m-d'),
+                    'status' => 1,
+                );
+
+                $this->Crud_modal->user_data_insert('volunteer', $volunteerData);
+                $this->session->set_flashdata('master_insert_message', '<div class="alert alert-warning"><strong>Registration Success!</strong> We Are Contact Soon.</div>');
+                redirect(base_url() . 'thank-you');
+            } else {
+                $internData = array(
+                    'first_name' => $name,
+                    'last_name' => $lname,
+                    'date_of_birth' => $dob,
+                    'gender' => $gender,
+                    'email' => $email,
+                    'mobile' => $mobile_number,
+                    'country_id' => $county,
+                    'state_id' => $state_id,
+                    'city_id ' => $city_name,
+                    'occupation_id' => $occupation,
+                    'skill_id' => implode(",", $internskill_id),
+                    'past_volunteering' => $mention_past,
+                    'internshipType' => $internshipType,
+                    'internshipDeruation' => $internshipDeruation,
+                    'what_you_aim' => $whatyou_aim,
+                    'creation_date' => date('Y-m-d'),
+                    'status' => 1,
+                );
+                $config['upload_path'] = './uploads/';
+                $config['allowed_types']  = 'doc|docx|pdf';
+                $config['max_size']    = '2048'; 
+                $new_name = time() . $_FILES["Uploade_file"]['name'];
+                $config['file_name'] = $new_name;
+                $this->load->library('upload', $config);
+                $this->upload->initialize($config);
+                if ($this->upload->do_upload('Uploade_file')) {
+                    $file = $this->upload->data();
+                    $internData['cv_file'] = $file['file_name'];
+                    $internDataresult =  $this->Crud_modal->intern_data_insert('interns', $internData);
+                    redirect(base_url() . 'thank-you');
+                } else {
+
+                    $message = 'This is a message.';
+
+                    echo "<SCRIPT> //not showing me this
+                        alert('$message')
+                        window.location.('url of the page');
+                    </SCRIPT>";
+                    $this->session->set_flashdata('assign_message', '<div class="danger"><strong>Oops!</strong>Error</div>');
+                }
+            }
+        } catch (Exception $e) {
+            echo 'Caught exception: ',  $e->getMessage(), "\n";
+        }
+    }
+
     function get_states()
     {
         $stat = $this->input->post('country_id');
@@ -262,20 +374,7 @@ class Login extends MY_Controller
         }
     }
 
-    public function preregistration()
-    {
-        try {
-            $data['occupation'] = $this->Crud_modal->fetch_all_data('*', 'occupation', 'status= 1', 'occupation_name ASC');
-            $data['opportunity'] = $this->Crud_modal->fetch_all_data('*', 'opportunity', 'opportunity_status= 1', 'opportunity_name ASC');
-            $data['skills'] = $this->Crud_modal->fetch_all_data('*', 'skills', 'status= 1', 'skill_name ASC');
-            $data['countries'] = $this->Crud_modal->fetch_all_data('*', 'countries', 'status= 1', 'Name ASC');
-            $data['state'] = $this->Crud_modal->all_data_select('*', 'states', 'status=1 and state_id !=45', 'state_name ASC');
-            $data['taskType'] = $this->Crud_modal->fetch_all_data('*', 'volunteer_type', 'status = 1');
-            $this->load->view('preregistration', $data);
-        } catch (Exception $e) {
-            echo 'Caught exception: ',  $e->getMessage(), "\n";
-        }
-    }
+   
 
 
     public function intern_insertoccupationDetails()
@@ -605,102 +704,7 @@ class Login extends MY_Controller
         }
     }
 
-    public function insert_preregistration_data()
-    {
-        try {
-
-            $looking_for = $this->input->post('looking_for');
-            $name = $this->input->post('first_name');
-            $lname = $this->input->post('last_name');
-            $dob = date('Y-m-d', strtotime($this->input->post('dob')));
-            $gender = $this->input->post('gender');
-            $email = $this->input->post('email');
-            $mobile_number = $this->input->post('mobile_number');
-            $encoded_mob = rtrim(strtr(base64_encode($mobile_number), '+/', '-_'), '=');
-            $county = $this->input->post('county');
-            $state_id = $this->input->post('state_id');
-            $city_name = $this->input->post('city_name');
-            $occupation = $this->input->post('occupation');
-            $volunteering_type = $this->input->post('volunteering_type');
-            $where_know_opportunity = $this->input->post('where_know_opportunity');
-            $volunteerSkill = $this->input->post('skill_id');
-            $internskill_id = $this->input->post('internskill_id');
-            $Uploade_file = $this->input->post('Uploade_file');
-            $mention_past = $this->input->post('mention_past');
-            $whatyou_aim = $this->input->post('whatyou_aim');
-            $internshipType = $this->input->post('internshipType');
-            $internshipDeruation = $this->input->post('internshipDeruation');
-          
-
-            if ($looking_for == 'volunteering') {
-                $volunteerData = array(
-                    'first_name' => $name,
-                    'last_name' => $lname,
-                    'date_of_birth' => $dob,
-                    'gender' => $gender,
-                    'email' => $email,
-                    'mobile' => $mobile_number,
-                    'country_id' => $county,
-                    'state_id' => $state_id,
-                    'city_id ' => $city_name,
-                    'occupation_id' => $occupation,
-                    'vol_type_id' => $volunteering_type,
-                    'volunteer_skill' => implode(",", $volunteerSkill),
-                    'where_did_u_know' => implode(",", $where_know_opportunity),
-                    'creation_date' => date('Y-m-d'),
-                    'status' => 1,
-                );
-
-                $this->Crud_modal->user_data_insert('volunteer', $volunteerData);
-                $this->session->set_flashdata('master_insert_message', '<div class="alert alert-warning"><strong>Registration Success!</strong> We Are Contact Soon.</div>');
-                redirect(base_url() . 'thank-you');
-            } else {
-
-                $internData = array(
-                    'first_name' => $name,
-                    'last_name' => $lname,
-                    'date_of_birth' => $dob,
-                    'gender' => $gender,
-                    'email' => $email,
-                    'mobile' => $mobile_number,
-                    'country_id' => $county,
-                    'state_id' => $state_id,
-                    'city_id ' => $city_name,
-                    'occupation_id' => $occupation,
-                    'skill_id' => implode(",", $internskill_id),
-                    'past_volunteering' => $mention_past,
-                    'internshipType' => $internshipType,
-                    'internshipDeruation' => $internshipDeruation,
-                    'what_you_aim' => $whatyou_aim,
-                    'creation_date' => date('Y-m-d'),
-                    'status' => 1,
-                );
-               
-                $config['upload_path'] = './uploads/';
-                $config['allowed_types']  = 'gif|jpg|png|pdf';
-                $new_name = time() . $_FILES["Uploade_file"]['name'];
-                $config['file_name'] = $new_name;
-                $this->load->library('upload', $config);
-                $this->upload->initialize($config);
-                if ($this->upload->do_upload('Uploade_file')) {
-                    $file = $this->upload->data();
-                    $internData['cv_file'] = $file['file_name'];
-                    $internDataresult =  $this->Crud_modal->intern_data_insert('interns', $internData);
-                    redirect(base_url() . 'thank-you');
-                } else {
-
-                    $error = array('error' => $this->upload->display_errors());
-                    print_r($error);
-                    $this->session->set_flashdata('assign_message', '<div class="danger"><strong>Oops!</strong>Error</div>');
-                }
-            }
-
-            $this->session->set_flashdata('volunteer_sing_up_msg', '<div class="alert alert-info"><strong>Success!</strong>  Migrant //sign up successfully.</div>');
-            redirect(base_url() . 'thank-you/');
-        } catch (Exception $e) {
-            echo 'Caught exception: ',  $e->getMessage(), "\n";
-        }
-    }
+  
 
     public function secondinsertBasicdata()
     {

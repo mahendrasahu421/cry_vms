@@ -157,13 +157,13 @@ class LoginModel extends CI_Model
 
     function assign_task_intern($cityID)
     {
-        // $itype='3,'.$taskType;
+        
         $this->db->initialize();
         $this->db->select('i.*,s.state_name,c.city_name');
         $this->db->from('interns i');
         $this->db->join('states s', 's.state_id = i.state_id', 'left');
         $this->db->join('cities c', 'c.city_id = i.city_id', 'left');
-        $this->db->where('i.status =1');
+        $this->db->where('i.status =7');
         $this->db->where('i.state_id', $cityID);
         $this->db->order_by('i.intern_id   DESC');
         $query = $this->db->get();

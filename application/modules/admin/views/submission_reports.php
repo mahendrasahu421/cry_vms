@@ -253,8 +253,7 @@
 														<ul class="dropdown-menu">
 															<li><a href="#" data-toggle="modal" data-target=".daily-report" onclick="fetch_report('<?php echo $encoded_sr_id; ?>','<?php echo $encoded_id; ?>','daily-report');"><small class="text-primary">(View details)</small></a></li>
 											
-															<li><a href="#" data-toggle="modal" data-target=".bd-example-modal-lg">View Feedback
-																</a></li>
+															<li><a href="<?php echo base_url() ?>view_rating/<?php echo $encoded_id;?>">View FeedBack</a></li>
 														</ul>
 													</div>
 												</td>

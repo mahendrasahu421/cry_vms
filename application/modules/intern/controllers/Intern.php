@@ -255,21 +255,14 @@ class Intern extends MY_Controller
                     'joinWith' => array('task_type_id', 'left'),
                 ),
             );
-            // echo "<pre>";
-            // print_r($join_data);
-            // exit;
             $limit = '';
-
             $order_by = '';
 
             $data['find_task_offline'] = $this->Curl_model->fetch_data_with_joining($join_data, $limit, $order_by);
-            // echo "<pre>";
-            // print_r($data['find_task_offline']);
-            // exit;
             $join_data = array(
                 array(
                     'table' => 'interns',
-                    'fields' => array('first_name', 'last_name', 'state_id', 'mobile', 'internshipDeruation', 'internshipType', 'modification_date'),
+                    'fields' => array('first_name', 'last_name', 'state_id', 'mobile','creation_date', 'internshipDeruation', 'internshipType', 'modification_date'),
                     'joinWith' => array('intern_id'),
                     'where' => array(
                         'intern_id' => $intern_id
@@ -298,7 +291,8 @@ class Intern extends MY_Controller
             $limit = '';
             $order_by = '';
             $data['internDetails'] = $this->Curl_model->fetch_data_with_joining($join_data, $limit, $order_by);
-            // echo '<pre>'.$data['volunteerDetails']. '</pre>'; exit();
+            // echo '<pre>';
+            // print_r($data['internDetails']);exit;
 
             $this->load->view('temp/head');
             $this->load->view('temp/header', $data);

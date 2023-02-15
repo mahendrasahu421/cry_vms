@@ -617,15 +617,7 @@
             });
         });
     </script>
-    <!-- <script>
-        $('document').ready(function() {
-            $('#step2').click(function() {
-               
 
-
-            });
-        });
-    </script> -->
     <script>
         $('document').ready(function() {
             var dob = $('#dob').val();

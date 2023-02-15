@@ -187,7 +187,8 @@
                                    <strong>Format:</strong> <?php echo $mode ?><br>
                                    <?php echo($mode=="Face to Face" ? "<strong>Venue: </strong>".$venue."<br>" : "")?>
                                   <strong>Date:</strong> <?php echo date("F d,Y",strtotime($schedule_date)) ?><br> 
-                                  <strong>Time:</strong> <?php echo  date("h:i A",strtotime($schedule_time));?>                                 
+                                  <strong>Time:</strong> <?php echo  date("h:i A",strtotime($schedule_time));?> <br>
+                                   <strong>Description:</strong> <?php echo $hr_description;?> 
                                 </singleline>
                                 <!--[if !mso]><!-->
                               </span>
@@ -294,65 +295,10 @@
               </tr>
             </table>
             <!-- End CopyRight -->
-            <table width="500" border="0" cellpadding="0" cellspacing="0" align="center" class="mobile" object="drag-module-small">
-              <tr>
-                <td align="center" width="352" valign="middle">
-                  <table width="180" border="0" cellpadding="0" cellspacing="0" align="center" style="text-align: center; border-collapse:collapse; " class="fullCenter">
-                    <tr>
-                      <td width="100%" height="60">
-                        <table cellpadding="0" cellspacing="5" style="width:100%;border-collapse:collapse">
-                          <tbody>
-              							<tr>
-                            <td style="width:2%">
-                    <a style="text-decoration:none;color:#053b64" href="http://www.drycoder.com/">
-                      <img alt="MM" height="35" src="http://www.drycoder.com/assets/images/dryCodericon.png" style="border:0" width="35" class="CToWUd">
-                    </a>
-                  </td>
-                  <td style="width:2%">
-                    <a  href="https://twitter.com/DryCoderPlatfrm" target="_blank">
-                      <img alt="Twitter" height="32" src="http://www.drycoder.com/assets/images/twitter.png" style="border:0" width="32" class="CToWUd">
-                    </a>
-                  </td>
-                  <td style="width:2%">
-                    <a style="text-decoration:none;color:#053b64" href="https://www.facebook.com/drycoder.platform" target="_blank">
-                      <img alt="Facebook" height="32" src="http://www.drycoder.com/assets/images/facebook.png" style="border:0" width="32" class="CToWUd">
-                    </a>
-                  </td>
-                  <td style="width:2%">
-                    <a style="text-decoration:none;color:#053b64" href="https://plus.google.com/u/0/115158495198920231801" target="_blank">
-                      <img alt="Googleplus" height="32" src="http://www.drycoder.com/assets/images/googleplus.png" style="border:0" width="32" class="CToWUd">
-                    </a>
-                  </td>
-                            <td style="width:2%">
-                              <a style="text-decoration:none;color:#053b64" href="https://www.linkedin.com/in/drycoder/" target="_blank">
-                                <img alt="Googleplus" height="32" src="http://DryCoder.com/assets/images/linkedin.png" style="border:0" width="32" >
-                              </a>
-                            </td>
-                          </tr>
-
-                          </tbody>
-                        </table>
-                      </td>
-                    </tr>
-                    </tbody>
-                  </table>
+           
                 </td>
               </tr>
-              <tr>
-                <td width="100%" height="20px" style="font-size: 1px; line-height: 14px;">
-                  <table width="300px" style="text-align:center;margin-left: 100px;">
-                    <tr>
-                      <td style="padding:3px 0 0 6px;  font-family: 'proxima_nova_rgregular', Helvetica;font-weight: normal;font-size: 11px;" colspan="2">
-                       Copyright © 2017 <span class="aBn" data-term="goog_2007155060" tabindex="0"><span class="aQJ">Cry Vms</span></span>							
-                      </td>
-                    </tr>
-                    <tr>
-                      <td width="100%" height="20px" style="font-size: 1px; line-height: 14px;">
-                      </td>
-                    </tr>
-                  </table>
-                </td>
-              </tr>
+            
             </table>
         </td>
       </tr>

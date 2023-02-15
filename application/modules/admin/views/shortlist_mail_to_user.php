@@ -46,7 +46,7 @@
                               <!--[if !mso]><!-->
                               <span style="font-family: 'proxima_novathin', Helvetica; font-weight: normal;">
                                 <!--<![endif]-->
-                                <singleline>Welcome to cryvms.com</singleline>
+                                <singleline>Welcome to cryvms</singleline>
                                 <!--[if !mso]><!-->
                               </span>
                               <!--<![endif]-->

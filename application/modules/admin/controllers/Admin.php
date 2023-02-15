@@ -586,14 +586,6 @@ class Admin extends MY_Controller
         $this->load->view('temp/footer');
     }
 
-    public function intern_request_certificate()
-    {
-        $this->load->view('temp/head');
-        $this->load->view('temp/header');
-        $this->load->view('temp/sidebar');
-        $this->load->view('intern-request-certificate');
-        $this->load->view('temp/footer');
-    }
 
 
     public function add_task()
@@ -1161,9 +1153,7 @@ class Admin extends MY_Controller
                     $data['taskId'] =  $task_id = $this->input->post('task_id');
                     $where  = 'sr.task_id=' . $task_id . '';
                     $data['requetedtask'] = $this->Admin_model->request_task_volunteer($where);
-                    echo "<pre>";
-                    print_r($data['requetedtask']);
-                    exit;
+                   
                 } else {
                     $data['taskId'] =  $task_id = $this->input->post('task_id');
                     $where  = 'sr.task_id=' . $task_id . '';
@@ -2384,38 +2374,38 @@ class Admin extends MY_Controller
     <h2 class="f-14 font-medium">
         <?php echo ucwords($volunteerDetails[0]['first_name'] . ' ' . $volunteerDetails[0]['last_name']); ?></h2>
     <div class="row mb-2">
-        <div class="col-4 font-weight-bold text-dark">Volunteer ID</div>
+        <div class="col-4 "><b></b>Volunteer ID</div>
         <div class="col"><?php echo $volunteerDetails[0]['volunteer_id']; ?></div>
     </div>
     <div class="row mb-2">
-        <div class="col-4 font-weight-bold text-dark">Phone</div>
+        <div class="col-4 "><b></b>Phone</div>
         <div class="col"><?php echo $volunteerDetails[0]['mobile']; ?></div>
     </div>
     <div class="row mb-2">
-        <div class="col-4 font-weight-bold text-dark">Email</div>
+        <div class="col-4 "><b></b>Email</div>
         <div class="col"><a href="#" class="text-inverse"><span
                     class="cf_email"><?php echo $volunteerDetails[0]['email']; ?></span></a></div>
     </div>
     <div class="row mb-2">
-        <div class="col-4 font-weight-bold text-dark">Date of Birth</div>
+        <div class="col-4 "><b></b>Date of Birth</div>
         <div class="col"><?php if ($volunteerDetails['date_of_birth'] != '0000-00-00') {
                                             echo ucwords(date("d-m-Y", strtotime($volunteerDetails[0]['date_of_birth'])));
                                         } ?></div>
     </div>
     <div class="row mb-2">
-        <div class="col-4 font-weight-bold text-dark">State</div>
+        <div class="col-4 "><b></b>State</div>
         <div class="col"><?php echo $volunteerDetails[0]['state_name']; ?></div>
     </div>
     <div class="row mb-2">
-        <div class="col-4 font-weight-bold text-dark">City</div>
+        <div class="col-4 "><b></b>City</div>
         <div class="col"><?php echo $volunteerDetails[0]['city_name']; ?></div>
     </div>
     <!-- <div class="row mb-2">
-                    <div class="col-4 font-weight-bold text-dark">Address</div>
+                    <div class="col-4 "><b></b>Address</div>
                     <div class="col"><?php echo $volunteerDetails[0]['present_address']; ?></div>
                 </div> -->
     <div class="row mb-2">
-        <div class="col-4 font-weight-bold text-dark">Occupation</div>
+        <div class="col-4 "><b></b>Occupation</div>
         <div class="col "><?php echo ucwords($volunteerDetails[0]['occupation_name']); ?></div>
     </div>
 </div>
@@ -2433,7 +2423,7 @@ class Admin extends MY_Controller
             $join_data = array(
                 array(
                     'table' => 'interns',
-                    'fields' => array('intern_id', 'first_name', 'last_name', 'mobile', 'email', 'date_of_birth', 'state_id', 'city_id', 'occupation_id'),
+                    'fields' => array('intern_id', 'first_name', 'last_name', 'mobile', 'email', 'date_of_birth', 'state_id', 'city_id', 'occupation_id','past_volunteering','what_you_aim'),
                     'joinWith' => array('intern_id'),
                     'where' => array(
                         'intern_id' => $intern_id
@@ -2485,39 +2475,45 @@ class Admin extends MY_Controller
     <h2 class="f-14 font-medium">
         <?php echo ucwords($internDetails[0]['first_name'] . ' ' . $internDetails[0]['last_name']); ?></h2>
     <div class="row mb-2">
-        <div class="col-4 font-weight-bold text-dark">intern ID</div>
+        <div class="col-4 "><b>intern ID</b></div>
         <div class="col"><?php echo $internDetails[0]['intern_id']; ?></div>
     </div>
     <div class="row mb-2">
-        <div class="col-4 font-weight-bold text-dark">Phone</div>
+        <div class="col-4 "><b>Phone</b></div>
         <div class="col"><?php echo $internDetails[0]['mobile']; ?></div>
     </div>
     <div class="row mb-2">
-        <div class="col-4 font-weight-bold text-dark">Email</div>
+        <div class="col-4 "><b>Email</b></div>
         <div class="col"><a href="#" class="text-inverse"><span
                     class="cf_email"><?php echo $internDetails[0]['email']; ?></span></a></div>
     </div>
     <div class="row mb-2">
-        <div class="col-4 font-weight-bold text-dark">Date of Birth</div>
+        <div class="col-4 "><b>Date of Birth</b></div>
         <div class="col"><?php if ($internDetails['date_of_birth'] != '0000-00-00') {
                                             echo ucwords(date("d-m-Y", strtotime($internDetails[0]['date_of_birth'])));
                                         } ?></div>
     </div>
     <div class="row mb-2">
-        <div class="col-4 font-weight-bold text-dark">State</div>
+        <div class="col-4 "><b>State</b></div>
         <div class="col"><?php echo $internDetails[0]['state_name']; ?></div>
     </div>
     <div class="row mb-2">
-        <div class="col-4 font-weight-bold text-dark">City</div>
+        <div class="col-4 "><b>City</b></div>
         <div class="col"><?php echo $internDetails[0]['city_name']; ?></div>
     </div>
+
     <div class="row mb-2">
-        <div class="col-4 font-weight-bold text-dark">Address</div>
-        <div class="col"><?php echo $internDetails[0]['present_address']; ?></div>
+        <div class="col-4 "><b>Occupation</b></div>
+        <div class="col "><?php echo ucwords($internDetails[0]['occupation_name']); ?></div>
     </div>
     <div class="row mb-2">
-        <div class="col-4 font-weight-bold text-dark">Occupation</div>
-        <div class="col "><?php echo ucwords($internDetails[0]['occupation_name']); ?></div>
+        <div class="col-12 fs-6"><b>Question : Mention past volunteering and Internships you may have done?</b></div>
+        <div class="col "><?php echo ucwords($internDetails[0]['past_volunteering']); ?></div>
+    </div>
+    <div class="row mb-2">
+        <div class="col-12 fs-6"><b>Question : What you aim to value add on if chosen for an Internship with CRY ?</b>
+        </div>
+        <div class="col "><?php echo ucwords($internDetails[0]['what_you_aim']); ?></div>
     </div>
 </div>
 <?php
@@ -4925,7 +4921,7 @@ class Admin extends MY_Controller
     {
         try {
             if (($this->session->userdata('emp_id') != "" || $this->session->userdata('emp_id') != null)) {
-                $region = $this->session->userdata('region_id');
+               $data['regionData']= $region = $this->session->userdata('region_id');
                 $role = $this->session->userdata('role_id');
                 if ($role == 1) {
                     $date2 = $data['date_to'] = date("Y-m-d");
@@ -5204,9 +5200,9 @@ class Admin extends MY_Controller
                 }
 
                 $data['email_templates'] = $this->Crud_modal->fetch_single_data('email_templates_id,body_content', 'email_templates', 'status=1 AND email_templates_id=4');
-                // echo "<pre>";
-                // print_r($email_templates);exit;
+             
                 $data['regions'] = $this->Crud_modal->fetch_all_data('*', 'regions', 'region_status=1');
+                
                 $this->load->view('temp/head');
                 $this->load->view('temp/header', $data);
                 $this->load->view('temp/sidebar');
@@ -5985,8 +5981,6 @@ class Admin extends MY_Controller
                     $data['rname'] = $this->Curl_model->fetch_single_data('region_name,state_id', 'regions', array('region_id' => $region));
                     $data['states'] = $this->Crud_modal->fetch_all_data('*', 'states', 'region_id=' . $region);
                     $data['volunteer_programs'] = $this->Crud_modal->all_data_select('*', 'program_volunteer', $where, 'program_id desc');
-                    // echo "<pre>";
-                    // print_r($data['volunteer_programs']);exit;
                     $data['regions'] = $this->Crud_modal->fetch_all_data('*', 'regions', 'region_status=1');
                     $data['states'] = $this->Crud_modal->fetch_all_data('*', 'states', 'status=1');
                     $data['cities'] = $this->Crud_modal->fetch_all_data('*', 'cities', 'status=1');
@@ -6012,8 +6006,6 @@ class Admin extends MY_Controller
 
             if (($this->session->userdata('emp_id') != "" || $this->session->userdata('emp_id') != null)) {
                 $regionName = $this->input->post('region_id');
-                // $state_name = $this->input->post('state_name');
-                // $districtName = $this->input->post('districtName');
                 $programName = $this->input->post('programName');
                 $programstart = $this->input->post('program_start_date');
                 $programend = $this->input->post('program_end_date');
@@ -6022,8 +6014,6 @@ class Admin extends MY_Controller
                 $status = 2;
                 $insertData = array(
                     'program_region' => $regionName,
-                    //'program_state' => $state_name,
-                    // 'program_city' => $districtName,
                     'program_name' => $programName,
                     'programstart_date' => $programstart,
                     'programend_date' => $programend,
@@ -6032,9 +6022,6 @@ class Admin extends MY_Controller
                     'creation_date' => date('Y-m-d'),
                     'status' => $status,
                 );
-                // echo "<pre>";
-                // print_r($insertData);
-                // exit;
                 $this->Crud_modal->data_insert('program_volunteer', $insertData);
                 $this->session->set_flashdata('master_insert_message', '<div class="alert alert-info"><strong>Success!</strong> Template has Created.</div>');
                 redirect(base_url() . 'program-volunteer-list');
@@ -6092,8 +6079,6 @@ class Admin extends MY_Controller
                 $data['ProgramVolunteer'] = $ProgramVolunteer_id = $this->input->post('ProgramVolunteer_id');
                 $certificateId = $this->input->post('certificateId');
                 $status = 1;
-                // $programVolunteer = implode(",", $ProgramVolunteer_id);
-                // $volunteerassignTask = array();
                 for ($i = 0; $i < count($ProgramVolunteer_id); $i++) {
                     $result = $this->db->where(['id' => $ProgramVolunteer_id[$i]])
                         ->update('volunteer_program_users', [
@@ -6220,8 +6205,7 @@ class Admin extends MY_Controller
                         $data['state_name'] = $state_name;
                         $where = "it.creation_date>='" . $date_from . "' and it.creation_date<='" . $date_to . "' and it.current_state=" . $state_name . "  and (it.status=1)";
                         $data['internTransfer'] = $this->Admin_model->intern_transferRequest($where);
-                        // echo "<pre>";
-                        // print_r($data['internTransfer']);exit;
+
                     }
                 } else {
                     $data['rname'] = $this->Curl_model->fetch_single_data('region_name,state_id', 'regions', array('region_id' => $region));
@@ -6240,13 +6224,9 @@ class Admin extends MY_Controller
                         $data['state_name'] = $state_name;
                         $where = "it.creation_date>='" . $date_from . "' and it.creation_date<='" . $date_to . "' and it.current_state=" . $state_name . "  and (it.status=1)";
                         $data['internTransfer'] = $this->Admin_model->intern_transferRequest($where);
-                        // echo "<pre>";
-                        // print_r($data['internTransfer']);exit;
                     }
                 }
                 $data['states'] = $this->Crud_modal->fetch_all_data('*', 'states', 'status=1');
-                // echo "<pre>";
-                // print_r($data['states']);exit;
                 $data['regions'] = $this->Crud_modal->fetch_all_data('*', 'regions', 'region_status=1');
                 $this->load->view('temp/head');
                 $this->load->view('temp/header', $data);
@@ -6282,9 +6262,6 @@ class Admin extends MY_Controller
                         $data['state_name'] = $state_name;
                         $where = "vt.creation_date>='" . $date_from . "' and vt.creation_date<='" . $date_to . "' and vt.current_state=" . $state_name . "  and (vt.status=1)";
                         $data['volunteerTransfer'] = $this->Admin_model->volunteer_transferRequest($where);
-                        // echo "<pre>";
-                        // print_r($data['volunteerTransfer']);
-                        // exit;
                     }
                 } else {
                     $data['rname'] = $this->Curl_model->fetch_single_data('region_name,state_id', 'regions', array('region_id' => $region));
@@ -6302,12 +6279,9 @@ class Admin extends MY_Controller
                         $data['creation_date'] = $date2;
                         $data['state_name'] = $state_name;
                         $where = "vt.creation_date>='" . $date_from . "' and vt.creation_date<='" . $date_to . "' and vt.relocate_state=" . $state_name . "  and (vt.status=1)";
-                        // echo "<pre>";
-                        // print_r($where);exit;
+
                         $data['volunteerTransfer'] = $this->Admin_model->volunteer_transferRequest($where);
-                        // echo "<pre>";
-                        // print_r($data['volunteerTransfer']);
-                        // exit;
+
                     }
                 }
                 // $data['states'] = $this->Crud_modal->fetch_all_data('*', 'states', 'status=1');
@@ -6329,14 +6303,17 @@ class Admin extends MY_Controller
     public function volunteer_list()
     {
         try {
+          
             if (($this->session->userdata('emp_id') != "" || $this->session->userdata('emp_id') != null)) {
                 $region = $this->session->userdata('region_id');
                 $role = $this->session->userdata('role_id');
+               
                 if ($role == 1) {
                     if ($this->input->post('programName') != "") {
                         $programName = $this->input->post('programName');
-                        $where = 'vpu.status =1 AND volunteer_programs = ' . $programName;
+                        $where = 'vpu.status =0 AND volunteer_programs = ' . $programName;
                         $data['programData'] = $this->Admin_model->programvolunteer_enquiry_Data($where);
+                        
                     }
                 } else {
                     $data['rname'] = $this->Curl_model->fetch_single_data('region_name,state_id', 'regions', array('region_id' => $region));
@@ -6349,8 +6326,10 @@ class Admin extends MY_Controller
                     }
                 }
                 $where = 'pv.program_region = ' . $region . ' AND pv.status=1';
-                $data['volunteer_programs'] = $this->Admin_model->get_all_program($where);
                 $data['certificateFormat'] = $this->Crud_modal->fetch_all_data('*', 'certificate_format_master', 'status=1');
+                $data['volunteer_programs'] = $this->Crud_modal->fetch_all_data('*','program_volunteer','status=1');
+                // echo "<pre>";
+                // print_r($data['volunteer_programs']);exit;
                 $this->load->view('temp/head');
                 $this->load->view('temp/header', $data);
                 $this->load->view('temp/sidebar');
@@ -6555,15 +6534,14 @@ class Admin extends MY_Controller
         $certificateprogram_name = $sendCertificate[0]['program_name'];
         $certificatecertificate_type = $sendCertificate[0]['certificate_type'];
         $certificatecertificate_path = $sendCertificate[0]['certificate_path'];
-
         $pdf = new FPDF();
         $pdf->AddPage();
-        $pdf->SetFont('Arial', '', 12);
-        $pdf->SetFillColor(190, 210, 240);
-        //$pdf->Image(base_url() . 'uploads/certificate/' . $certificatecertificate_path, 10, 7, 185);
-        $pdf->Image($_SERVER['DOCUMENT_ROOT'] . '/uploads/certificate/' . $certificatecertificate_path, 10, 7, 185);
-        $pdf->SetFont('Arial', 'B', 15);
-        $pdf->SetX(60);
+        $pdf->SetFont('Arial', '', 10);
+        $pdf->SetFillColor(190, 210, 2400);
+        $pdf->Image(base_url() . 'uploads/certificate/' . $certificatecertificate_path, 10, 7, 185);
+       // $pdf->Image($_SERVER['DOCUMENT_ROOT'] . '/uploads/certificate/' . $certificatecertificate_path, 10, 7, 185);
+        $pdf->SetFont('Arial', 'B', 10);
+        $pdf->SetX(40);
         $pdf->Cell(10, 100, $certificateFirstname . $certificateLastname);
         $pdf->Cell(10, 100, $certificateprogram_name);
         $pdf->Cell(1, 190, date('d-m-Y'));
@@ -6854,6 +6832,7 @@ class Admin extends MY_Controller
             }
         }
     }
+
     function clear_interview()
     {
         if ($this->session->userdata('emp_id') != "" || $this->session->userdata('emp_id') != null) {
@@ -6942,13 +6921,15 @@ class Admin extends MY_Controller
             $round = intval($this->input->post('round')) - 1;
             $emp_id = $this->session->userdata('emp_id');
             $intern_id = $this->input->post('intern_id');
-            $user_data = $this->Crud_modal->fetch_single_data("first_name,last_name", "interns", "intern_id='$intern_id'");
+            $user_data = $this->Crud_modal->fetch_single_data("first_name,last_name, email ", "interns", "intern_id='$intern_id'");
             $data['mode'] = $this->input->post('mode');
             $data['schedule_date'] = $this->input->post('schedule_date');
             $data['schedule_time'] = $this->input->post('schedule_time');
             $data['venue'] = $this->input->post('venue');
+            $data['hr_description'] = $this->input->post('hr_description');
             $data['first_name'] = $user_data['first_name'];
             $data['last_name'] = $user_data['last_name'];
+            $data['user_email'] = $user_data['email'];
             if ($this->input->post('data_action') == '') {
                 if ($this->Admin_model->schedule_mail_to_user($data)) {
                     echo true;
@@ -7067,8 +7048,7 @@ class Admin extends MY_Controller
             $mail->addBCC("ravishankar.k@neuralinfo.org", "Ravi");
             $mail->FromName = 'cry Vms';
             $mail->IsHTML(true);
-            $mail->Subject = 'Post Registration form
-            CRY VMS ';
+            $mail->Subject = 'Joining Letter';
             $mail->Body = "" . "<br>" . 'Your Login Credentials,' . " " . "<br>" . "Link:" . " " . $url . "<br><br>" . "Your Email:" . " " . $intern['email'] . '<br>' . "Your Password:" . "  " . $password . "<br><br>" . "Thank you for being a intern with CRY.";
             if (!$mail->Send()) {
                 echo "Message could not be sent. <p>";
@@ -7350,9 +7330,6 @@ class Admin extends MY_Controller
                         $data['taskType'] = $taskType;
                         $where = "creation_date>='" . $date_from . "' and creation_date<='" . $date_to . "' and task_id=" . $taskName . "  and (status=1)";
                         $data['volunteerDetails'] = $this->Admin_model->assign_task_volunteer_taskType($where);
-                        // echo "<pre>";
-                        // print_r($data['volunteerDetails']);
-                        // exit;
                     }
                 } else {
                     $data['rname'] = $this->Curl_model->fetch_single_data('region_name,state_id', 'regions', array('region_id' => $region));
@@ -7409,8 +7386,6 @@ class Admin extends MY_Controller
                         $data['creation_date'] = $date2;
                         $data['state_name'] = $state_name;
                         $where = "creation_date>='" . $date_from . "' and creation_date<='" . $date_to . "' and i.state_id=" . $state_name . "  and (i.status=7)";
-                        // echo "<pre>";
-                        // print_r($where);exit;
                         $data['intern'] = $this->Admin_model->intern_enquiry_Data($where);
                     }
                 } else {
@@ -7429,8 +7404,6 @@ class Admin extends MY_Controller
                         $data['creation_date'] = $date2;
                         $data['state_name'] = $state_name;
                         $where = "creation_date>='" . $date_from . "' and creation_date<='" . $date_to . "' and i.state_id=" . $state_name . "  and (i.status=7)";
-                        // echo "<pre>";
-                        // print_r($where);exit;
                         $data['intern'] = $this->Admin_model->intern_enquiry_Data($where);
                     }
                 }
@@ -7448,8 +7421,6 @@ class Admin extends MY_Controller
         }
     }
 
-
-
     public function volunteer_certificate_report()
     {
         $this->load->view('temp/head');
@@ -7458,6 +7429,7 @@ class Admin extends MY_Controller
         $this->load->view('volunteer-certificate-report');
         $this->load->view('temp/footer');
     }
+
     public function volunteer_self_task_daily_report()
     {
         $this->load->view('temp/head');
@@ -7525,10 +7497,8 @@ class Admin extends MY_Controller
                         $data['creation_date'] = $date2;
                         $data['taskType'] = $taskType;
                         $data['region_id'] = $region_id;
-                        //  $data['state_name'] = $state_name;
                         $where = "creation_date>='" . $date_from . "' and creation_date<='" . $date_to . "' and task_type_id=" . $taskType . " and region_id =" . $region_id . " and status =1 and task_for=2";
-                        // echo "<pre>";
-                        // print_r($where);exit;
+
                         $data['interntaskData'] = $this->Admin_model->intern_task_Data($where);
                     } else if ($this->input->post('start_new') != "" && $this->input->post('end_new') != "" &&  $this->input->post('taskType') != "" &&  $this->input->post('region_id') != "" &&  $this->input->post('state_name') != "") {
                         $date1 = $this->input->post('start_new');
@@ -7544,8 +7514,6 @@ class Admin extends MY_Controller
                         $data['region_id'] = $region_id;
                         $data['state_name'] = $state_name;
                         $where = "creation_date>='" . $date_from . "' and creation_date<='" . $date_to . "' and task_type_id=" . $taskType . " and region_id =" . $region_id . " and status =1 and task_for=2";
-                        // echo "<pre>";
-                        // print_r($where);exit;
                         $data['interntaskData'] = $this->Admin_model->intern_task_Data($where);
                     } else {
                     }
@@ -7588,8 +7556,6 @@ class Admin extends MY_Controller
                         $where = "i.state_id = '" . $state_name . "' AND ism.final_sunmission_date>='" . $date_from . "' and ism.final_sunmission_date<='" . $date_to . "' AND (ism.status=1)";
 
                         $data['submissionReports'] = $this->Admin_model->intern_submission_report($where);
-                        // echo "<pre>";
-                        // print_r($data['submissionReports']);exit;
                     }
                 } else {
                     $data['rname'] = $this->Curl_model->fetch_single_data('region_name,state_id', 'regions', array('region_id' => $region));
@@ -7608,10 +7574,7 @@ class Admin extends MY_Controller
                         $data['final_sunmission_date'] = $date2;
                         $data['state_name'] = $state_name;
                         $where = "i.state_id = '" . $state_name . "' AND ism.final_sunmission_date>='" . $date_from . "' and ism.final_sunmission_date<='" . $date_to . "' AND (ism.status=1)";
-
                         $data['submissionReports'] = $this->Admin_model->intern_submission_report($where);
-                        // echo "<pre>";
-                        // print_r($data['submissionReports']);exit;
                     }
                 }
 
@@ -7659,16 +7622,12 @@ class Admin extends MY_Controller
         $intern_id = $this->uri->segment(2);
         $val = base64_decode(str_pad(strtr($intern_id, '-_', '+/'), strlen($intern_id) % 4, '=', STR_PAD_RIGHT));
         $where = 'intern_id = "' . $val . '"';
-
         $internemailData = $this->Crud_modal->fetch_single_data('*', 'interns', $where);
-        // echo "<pre>";
-        // print_r($internemailData);exit;
         $certificateFirstname = $internemailData['first_name'];
         $certificateLastname = $internemailData['last_name'];
         $certificateEmail = $internemailData['email'];
         $offerEmailFormat = $internemailData['offer_latter_email'];
         $date= date('d-m-Y');
-
         $pdf = new FPDF();
         $pdf->AddPage();
         $pdf->SetFont('Arial', '', 9);
@@ -7677,16 +7636,11 @@ class Admin extends MY_Controller
         $pdf->SetY(38.6);
         $pdf->SetX(147);
         $pdf->Cell(10,5,$date,0,'R');
-       
         $pdf->SetY(60);
         $pdf->Ln(5);
         $pdf->SetX(20);
         $pdf->multiCell(170, 4, strip_tags($offerEmailFormat),5);
-        //$path = 'offeremail/' . rand() . '.pdf';
         $pdf->Output();
-        //return $path;
-
-
         $this->load->view('view_offer_letter');
     }
 
@@ -7695,16 +7649,12 @@ class Admin extends MY_Controller
         $intern_id = $this->uri->segment(2);
         $val = base64_decode(str_pad(strtr($intern_id, '-_', '+/'), strlen($intern_id) % 4, '=', STR_PAD_RIGHT));
         $where = 'intern_id = "' . $val . '"';
-
         $internemailData = $this->Crud_modal->fetch_single_data('*', 'interns', $where);
-        // echo "<pre>";
-        // print_r($internemailData);exit;
         $certificateFirstname = $internemailData['first_name'];
         $certificateLastname = $internemailData['last_name'];
         $certificateEmail = $internemailData['email'];
         $offerEmailFormat = $internemailData['offer_latter_email'];
         $date= date('d-m-Y');
-
         $pdf = new FPDF();
         $pdf->AddPage();
         $pdf->SetFont('Arial', '', 9);
@@ -7713,7 +7663,6 @@ class Admin extends MY_Controller
         $pdf->SetY(38.6);
         $pdf->SetX(147);
         $pdf->Cell(10,5,$date,0,'R');
-       
         $pdf->SetY(60);
         $pdf->Ln(5);
         $pdf->SetX(20);
@@ -7721,9 +7670,6 @@ class Admin extends MY_Controller
         $path = 'offeremail/' . rand() . '.pdf';
         $pdf->Output($path, 'F');
         return $path;
-       
-
-
         $this->load->view('view_offer_letter');
     }
     
@@ -7765,7 +7711,8 @@ class Admin extends MY_Controller
         }
     }
 
-    public function rate_and_review(){
+    public function rate_and_review()
+    {
         {
             try {
                 if (($this->session->userdata('emp_id') != "" || $this->session->userdata('emp_id') != null)) {
@@ -7896,4 +7843,69 @@ class Admin extends MY_Controller
          echo 'Caught exception: ',  $e->getMessage(), "\n";
      }
  }
+
+ 
+ public function intern_request_certificate()
+ {
+     try {
+         if (($this->session->userdata('emp_id') != "" || $this->session->userdata('emp_id') != null)) {
+             $region = $this->session->userdata('region_id');
+             $role = $this->session->userdata('role_id');
+             if ($role == 1) {
+                 $date2 = $data['date_to'] = date("Y-m-d");
+                 $data['date_from'] = date("Y-m-d", strtotime($date2 . '-7 days'));
+                 $where = 'i.status =7 AND isr.status = 2 AND fd.status=1';
+                 if ($this->input->post('start_new') != "" && $this->input->post('end_new') != "" &&  $this->input->post('state_name') != "" && $this->input->post('region_id') != "") {
+                     $data['state'] =  $state_name = $this->input->post('state_name');
+                     $data['region_id'] =  $region_id = $this->input->post('region_id');
+                     $date1 = $this->input->post('start_new');
+                     $date2 = $this->input->post('end_new');
+                     $date_from = date("Y-m-d", strtotime($date1));
+                     $date_to = date("Y-m-d", strtotime($date2 . '+1 days'));
+                     $data['creation_date'] = $date1;
+                     $data['creation_date'] = $date2;
+                     $data['state_name'] = $state_name;
+                     $where = "creation_date>='" . $date_from . "' and creation_date<='" . $date_to . "' and v.state_id=" . $state_name . "  and (i.status =7 AND isr.status = 2 AND fd.status=1)";
+                     $data['feedbackCertifecate'] = $this->Admin_model->send_certificate_by_feedback($where);
+                          
+                 }
+             } else {
+                 $data['rname'] = $this->Curl_model->fetch_single_data('region_name,state_id', 'regions', array('region_id' => $region));
+                 $data['states'] = $this->Crud_modal->fetch_all_data('*', 'states', 'region_id=' . $region);
+                 $date2 = $data['date_to'] = date("Y-m-d");
+                 $data['date_from'] = date("Y-m-d", strtotime($date2 . '-7 days'));
+                 $where = 'i.status =7';
+                 if ($this->input->post('start_new') != "" && $this->input->post('end_new') != "" &&  $this->input->post('state_name') != "") {
+                     $data['state'] =   $state_name = $this->input->post('state_name');
+                     $date1 = $this->input->post('start_new');
+                     $date2 = $this->input->post('end_new');
+                     $date_from = date("Y-m-d", strtotime($date1));
+                     $date_to = date("Y-m-d", strtotime($date2 . '+1 days'));
+                     $data['creation_date'] = $date1;
+                     $data['creation_date'] = $date2;
+                     $data['state_name'] = $state_name;
+                     $where = "creation_date>='" . $date_from . "' and creation_date<='" . $date_to . "' and v.state_id=" . $state_name . "  and (v.status=1 OR v.status=2)";
+                     $data['volunteer'] = $this->Admin_model->volunteer_enquiry_Data($where);
+                 }
+             }
+
+             $data['email_templates'] = $this->Crud_modal->fetch_single_data('email_templates_id,body_content', 'email_templates', 'status=1 AND email_templates_id=9');
+          
+             $data['regions'] = $this->Crud_modal->fetch_all_data('*', 'regions', 'region_status=1');
+             
+             $this->load->view('temp/head');
+             $this->load->view('temp/header', $data);
+             $this->load->view('temp/sidebar');
+             $this->load->view('intern-request-certificate', $data);
+             $this->load->view('temp/footer');
+         } else {
+             redirect(base_url() . 'login', 'refresh');
+         }
+     } catch (Exception $e) {
+         echo 'Caught exception: ',  $e->getMessage(), "\n";
+     }
+ }
+
+
+
 }

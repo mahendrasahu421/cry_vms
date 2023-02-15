@@ -457,24 +457,23 @@ select.form-control:not([size]):not([multiple]) {
                                                             <label class="form-label fw-bold">No of weeks of internship
                                                                 you have been offered?
                                                                 *</label>
-                                                            <select class="form-control select2 form-select"
+                                                                <select class="form-control select2 form-select"
                                                                 name="NoOfweeks" id="NoOfweeks"
                                                                 data-placeholder="Select Languages" required>
-                                                                <option value="">No of weeks of internship you have been
-                                                                    offered? *
-                                                                    *</option>
-                                                                <option value="4weeks">4 weeks</option>
-                                                                <option value="6weeks">6 weeks</option>
-                                                                <option value="8weeks">8 weeks</option>
-                                                                <option value="Morethen8weeks">More then 8 weeks
-                                                                </option>
-                                                            </select>
+
+                                                                        <?php for ($i = 4; $i <= 12; $i++) { ?>
+                                                                        <option value="<?php echo $i; ?>"
+                                                                            <?php echo $i == $interuser['internshipDeruation'] ? 'selected' : ''; ?>>
+                                                                            <?php echo $i . " Weeks"; ?>
+                                                                        </option>
+                                                                        <?php } ?>
+                                                                    </select>
                                                         </div>
                                                         <div class="control-group form-group col-md-6 mb-0">
                                                             <label class="form-label fw-bold">Start date of internship
                                                                 *</label>
                                                             <input type="date"
-                                                                value="<?php echo $allinternData['start_date_internship']; ?>"
+                                                                value="<?php echo $allinternData['creation_date']; ?>"
                                                                 class="form-control" name="Startdate_internship">
                                                         </div>
                                                         <div class="control-group form-group col-md-6 mb-0">
@@ -513,11 +512,23 @@ select.form-control:not([size]):not([multiple]) {
                                                             <select class="form-control select2 form-select"
                                                                 name="youInternship" data-placeholder=" Your Answer"
                                                                 required id="youInternship">
-                                                                <option value="">You internship will be</option>
-                                                                <option value="1">Online</option>
-                                                                <option value="2">Offline</option>
-                                                                <option value="3">Hybrid</option>
-                                                            </select>
+
+                                                                        <option value="1" <?php if ($allinternData['internshipType'] == 1) {
+                                                                                                echo  "selected";
+                                                                                            } ?>>
+                                                                            Online
+                                                                        </option>
+                                                                        <option value="2" <?php if ($allinternData['internshipType'] == 2) {
+                                                                                                echo  "selected";
+                                                                                            } ?>>
+                                                                            Offline
+                                                                        </option>
+                                                                        <option value="3" <?php if ($allinternData['internshipType'] == 3) {
+                                                                                                echo  "selected";
+                                                                                            } ?>>
+                                                                            Hybrid
+                                                                        </option>
+                                                                    </select>
                                                         </div>
 
                                                     </div>

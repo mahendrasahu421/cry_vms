@@ -46,7 +46,7 @@
                               <!--[if !mso]><!-->
                               <span style="font-family: 'proxima_novathin', Helvetica; font-weight: normal;">
                                 <!--<![endif]-->
-                                <singleline>Welcome to DryCoder.com</singleline>
+                                <singleline>Welcome to CRY VMS</singleline>
                                 <!--[if !mso]><!-->
                               </span>
                               <!--<![endif]-->
@@ -126,7 +126,7 @@
                               <!--[if !mso]><!-->
                               <span style="font-family: 'proxima_novathin', Helvetica; font-weight: normal;">
                                 <!--<![endif]-->
-                                <singleline>Dear <?php echo $user_name?>,</singleline>
+                                <singleline>Dear <?php echo $first_name?> <?php echo $last_name?>,</singleline>
                                 <!--[if !mso]><!-->
                               </span>
                               <!--<![endif]-->
@@ -187,7 +187,8 @@
                                    <strong>Format:</strong> <?php echo $mode ?><br>
                                    <?php echo($mode=="Face to Face" ? "<strong>Venue: </strong>".$venue."<br>" : "")?>
                                   <strong>Date:</strong> <?php echo date("F d,Y",strtotime($schedule_date)) ?><br> 
-                                  <strong>Time:</strong> <?php echo  date("h:i A",strtotime($schedule_time));?>                                 
+                                  <strong>Time:</strong> <?php echo  date("h:i A",strtotime($schedule_time));?> <br>
+                                  <strong>Description:</strong> <?php echo  $hr_description;?> 
                                 </singleline>
                                 <!--[if !mso]><!-->
                               </span>
@@ -241,7 +242,7 @@
                           <span style="font-family: 'proxima_nova_rgregular', Helvetica; font-weight: normal;">
                             <!--<![endif]-->
                             Warm regards,<br />
-                            DryCoder Team<!--[if !mso]><!-->
+                            CRY VMS Team<!--[if !mso]><!-->
                           </span>
                           <!--<![endif]-->
                         </td>

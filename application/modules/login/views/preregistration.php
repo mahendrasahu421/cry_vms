@@ -338,17 +338,16 @@ select.form-control:not([size]):not([multiple]) {
                                                 <?php echo $skillsData['skill_name']; ?></option>
                                             <?php } ?>
                                         </select>
-                                        <!-- <div class="form-group" id="cv">
-                                            <label class="form-label fw-bold">Upload Your CV</label>
-                                            <input class="form-control btn-warning" type="file" name="Uploade_file" id="Uploade_file">
-                                        </div> -->
+                                       
                                     </div>
                                     <div class="form-group col-md-12 mb-0 select-dropdown1" id="">
                                         <div class="form-group" id="cv">
                                             <label class="form-label fw-bold">Upload Your CV <small><b>(Only
                                                         PDF)</b></small></label>
-                                            <input class="form-control btn-warning" type="file" name="Uploade_file"
-                                                id="Uploade_file" accept=".pdf">
+                                            <div><input type="file" name="Uploade_file" id="file" class="demoInputBox"
+                                                    accept=".pdf" onchange="return validate();"  /> <span
+                                                    id="file_error"><b></b></span></div>
+
                                         </div>
                                     </div>
                                     <div class="col-lg-12 mb-0" id="textarea1">
@@ -358,7 +357,7 @@ select.form-control:not([size]):not([multiple]) {
                                             <textarea class="form-control mb-4" name="mention_past"
                                                 id="pastVolunteering"
                                                 placeholder="Mention past volunteering and Internships you may have done?"
-                                                rows="3" maxlength="300"></textarea>
+                                                rows="3" maxlength="250"></textarea>
                                         </div>
                                     </div>
                                     <div class="col-lg-12 mb-0" id="textarea2">
@@ -367,7 +366,7 @@ select.form-control:not([size]):not([multiple]) {
                                         <div class="">
                                             <textarea class="form-control mb-4" name="whatyou_aim" id="youAim"
                                                 placeholder="What you aim to value add on if chosen for an Internship with CRY ?"
-                                                rows="3" maxlength="300"></textarea>
+                                                rows="3" maxlength="250"></textarea>
                                         </div>
                                     </div>
                                     <div class="container-login100-form-btn">
@@ -388,7 +387,22 @@ select.form-control:not([size]):not([multiple]) {
     <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js" type="text/javascript"></script>
     <link href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="Stylesheet"
         type="text/css" />
+    <script>
+    function validate() {
+        $("#file_error").html("");
+        $(".demoInputBox").css("border-color", "#F0F0F0");
+        var file_size = $('#file')[0].files[0].size;
+        if (file_size > 2097152) {
+            $('#file').val('');
+            $("#file_error").html("File size is greater than 2MB");
+            $(".demoInputBox").css("border-color", "#FF0000");
+            return false;
+        } else {
+            return true;
+        }
 
+    }
+    </script>
     <script>
     $("document").ready(function() {
         // $('#cv').hide();
@@ -451,6 +465,7 @@ select.form-control:not([size]):not([multiple]) {
                 //$('#internSkill_id').addAttr("required");
                 $('#where_know_opportunity').removeAttr("required");
                 $('#inputState').removeAttr("required");
+                $('#file').attr("required");
             }
         });
     });
