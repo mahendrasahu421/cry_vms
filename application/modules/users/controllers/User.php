@@ -3297,66 +3297,6 @@ class User extends MY_Controller
 
     }
 
-
-
-    public function uploadProfile()
-
-    {
-
-        // if (($this->session->userdata('userID') != "")) {
-
-        //     $userID = $this->session->userdata('userID');
-
-        //     $this->load->library('image_lib');
-
-        //     $imageName = time() . $_FILES['profile']['name'];
-
-        //echo $imageName; exit;
-
-        //         $image = str_replace(" ", "_", $imageName);
-
-        //         $config = array();
-
-        //         $config['upload_path'] = './user_profile/';
-
-        //         $config['allowed_types'] = 'jpg|png|jpeg';
-
-        //         $config['file_name'] = $image;
-
-        //         $this->load->library('upload', $config);
-
-        //         if ($this->upload->do_upload("profile")) {
-
-        //             $success = $this->User_model->userimg_file($image, $userID);
-
-        //             if ($success != FALSE) {
-
-        //                 echo 1;
-
-        //             } else {
-
-        //                 echo 2;
-
-        //             }
-
-        //         } else {
-
-        //             print_r($this->upload->display_errors());
-
-        //             exit;
-
-        //         }
-
-        //     } else {
-
-        //         echo '<script>window.location.href = "' . base_url() . 'login"</script>';
-
-        //     }
-
-    }
-
-
-
     public function search_filter_task()
     {
         if (($this->session->userdata('userID') != "")) {

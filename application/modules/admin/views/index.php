@@ -135,7 +135,7 @@
                                     </div>
                                     <div class="col-8">
                                         <div class="card-body p-4">
-                                            <h2 class="mb-2 fw-normal mt-2"><?php echo $internTaskcount;; ?></h2>
+                                            <h2 class="mb-2 fw-normal mt-2"><?php echo $totaltaskintern; ?></h2>
                                             <h5 class="fw-normal mb-0">Intern Task</h5>
                                         </div>
                                     </div>
@@ -170,6 +170,7 @@
                                             <th>Email</th>
                                             <th>Mobile</th>
                                             <th>Date of Birth</th>
+                                            <th>Action</th>
                                             
                                             
 
@@ -186,6 +187,7 @@
                                                 <td><?php echo $value['email']; ?></td>
                                                 <td><?php echo $value['mobile']; ?></td>
                                                 <td><?php echo $value['date_of_birth']; ?></td>
+                                                <td><a href="<?php echo base_url();?>enquiry"><span class="badge bg-warning  me-1 mb-1 mt-1">Enquiry Volunteer</span></a></td>
                                                 
                                                 
                                             </tr>

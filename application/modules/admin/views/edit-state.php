@@ -36,7 +36,7 @@
 									</div>
 									<div class="col-md-12 mb-3">
 										<label for="validationCustom04" class="form-label">Abbreviation Name</label>
-										<input type="text" class="form-control" id="validationCustom02" value="<?php echo $state[0]['code']; ?>" placeholder="Abbreviation Name" required>
+										<input type="text" class="form-control" id="validationCustom02" value="<?php echo $state[0]['code']; ?>" placeholder="Abbreviation Name" required name="code">
 										<div class="valid-feedback">Looks good!</div>
 									</div>
 									<div class="col-xl-12 col-lg-12 mb-3">

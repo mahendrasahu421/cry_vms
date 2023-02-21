@@ -63,7 +63,7 @@
                                         </select>
                                     </div>
                                 </div>
-                                <button class="btn btn-warning mt-3" type="submit">Submit</button>
+                                <button class="btn btn-warning mt-3" type="submit">Update</button>
                             </form>
                         </div>
                     </div>

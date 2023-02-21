@@ -173,7 +173,7 @@ $route['tast-report'] = 'admin/Admin/tast_report';
 $route['tast-report/(:any)'] = 'admin/Admin/tast_report';
 $route['admin-final-daily-report'] = 'admin/Admin/final_daily_report';
 $route['admin-intern-daily-report'] = 'admin/Admin/intern_daily_report';
-$route['admin-final-daily-report/(:any)'] = 'admin/Admin/final_daily_report';
+//$route['admin-final-daily-report/(:any)'] = 'admin/Admin/final_daily_report';
 $route['volunteer'] = 'admin/Admin/volunteer';
 $route['volunteer/(:any)'] = 'admin/Admin/volunteer';
 $route['co-volunteer-report'] = 'admin/Admin/co_volunteer_report';
@@ -329,9 +329,10 @@ $route['account-deactive'] = 'users/User/account_deactive';
 $route['requested-task'] = 'admin/Admin/requested_task';
 $route['intern-requested-task'] = 'admin/Admin/intern_requested_task';
 
-$route['send-reminder-for-assigned-task/(:any)'] = 'admin/Admin/send_reminder';
-
+$route['send-reminder-for-assigned-task_intern/(:any)/(:any)/(:any)'] = 'admin/Admin/send_reminder_intern';
+$route['send-reminder-for-assigned-task/(:any)/(:any)/(:any)'] = 'admin/Admin/send_reminder';
 $route['cancel-assined-task/(:any)'] = 'admin/Admin/cancel_assined_task';
+$route['cancel-assined-task-intern/(:any)'] = 'admin/Admin/cancel_assined_task_intern';
 
 $route['inquiry'] = 'login/Login/inquiry';
 
@@ -521,8 +522,11 @@ $route['interview_final_mail'] = 'admin/Admin/interview_final_mail';
 $route['send_offer_to_user'] = 'admin/Admin/send_offer_to_user';
 $route['shortlist_mail'] = 'admin/Admin/shortlist_mail';
 $route['send_offerLetter_emails/(:any)'] = 'admin/Admin/send_offerLetter_emails';
+$route['send_certificate_on_mail/(:any)'] = 'admin/Admin/send_certificate_on_mail';
 $route['confirm_joining'] = 'admin/Admin/confirm_joining';
 $route['view_offer_letter/(:any)'] = 'admin/Admin/view_offer_letter';
+$route['view_certificate/(:any)'] = 'admin/Admin/view_certificate';
+
 // =================Route by Amisha Singh <!---29/12/2022-->==============================
 $route['pre-registration-intern-report'] = 'admin/Admin/pre_registration_intern_report';
 $route['post-registration-intern-report'] = 'admin/Admin/post_registration_intern_report';
@@ -546,3 +550,4 @@ $route['insert_feedback'] = 'intern/Intern/insert_feedback';
 $route['all-onboard-intern'] = 'admin/Admin/all_onboard_intern';
 $route['rate_and_review'] = 'admin/Admin/rate_and_review';
 $route['view_rating/(:any)'] = 'admin/Admin/view_rating';
+$route['update_certificate_data'] = 'admin/Admin/update_certificate_data';

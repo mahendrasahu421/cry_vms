@@ -47,15 +47,22 @@
                     <div class="card  bg-info img-card box-info-shadow">
                         <div class="card-body">
                             <div class="d-flex">
+                                
                                 <div class="text-white">
                                     <!-- <p class="text-white mb-0"><strong>Joining Date</strong>:&nbsp;11/01/2023</p> -->
-                                    <p class="text-white mb-0"><strong>Joining
-                                            Date</strong>:&nbsp;<?php echo date('d-m-Y',strtotime($internDetails[0]['creation_date'])); ?>
+                                    <p class="text-white mb-0">Joining
+                                            Date:&nbsp;<?php echo date('d-m-Y',strtotime($internDetails[0]['creation_date'])); ?>
                                         &nbsp; &nbsp;
-                                        <strong>Duration</strong>:&nbsp;<?php echo $internDetails[0]['internshipDeruation'] ?>&nbsp;Weeks
+                                        Duration:&nbsp;<?php echo $internDetails[0]['internshipDeruation']; ?>&nbsp;Weeks
                                     </p>
+                                    <?php 
+                                    $start_date = $internDetails[0]['creation_date'];  
+                                    $date = strtotime($start_date);
+                                    $date = strtotime("+".$internDetails[0]['internshipDeruation']." week", $date);
+                                    
+                                     ?>
                                     <!-- <p class="text-white mb-0"><strong>Duration</strong>:&nbsp;8 WK</p> -->
-                                    <p class="text-white mb-0"><strong>End Date</strong>:19-12-2023&nbsp;</p>
+                                    <p class="text-white mb-0">End Date: <?php echo date('d-m-Y', $date); ?>&nbsp;</p>
                                     <!-- <h3 class="mb-0 number-font">20 Hrs 15 Min</h3> -->
                                 </div>
                             </div>
@@ -189,7 +196,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script>
     // Set the date we're counting down to
-    var countDownDate = new Date("Jan 25, 2023 15:37:25").getTime();
+    var countDownDate = new Date("<?php echo date('Y-m-d', $date); ?>").getTime();
 
     // Update the count down every 1 second
     var x = setInterval(function() {

@@ -4486,6 +4486,7 @@ class Intern extends MY_Controller
                 'overall_experience' => $overall_experience,
                 'any_suggestions' => $any_suggestions,
                 'status' =>$status,
+                'creation_date'=>date('Y-m-d'),
 
             );
 

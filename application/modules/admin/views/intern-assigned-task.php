@@ -182,10 +182,10 @@
 		//alert(id);
 		$('#' + display_id).html('<div class="text-center" style="color:red;margin:10 auto;"><i class="fa fa-spinner fa-pulse fa-4x"></i><p>Fetching Data</p></div>');
 		var request = $.ajax({
-			url: '<?php echo base_url("fetch-user-info"); ?>',
+			url: '<?php echo base_url("fetch-user-info-intern"); ?>',
 			method: "POST",
 			data: {
-				volunteer_id: id
+				intern_id: id
 			},
 			success: function(results) {
 				// console.log(results);

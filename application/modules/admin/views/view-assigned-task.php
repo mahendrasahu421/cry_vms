@@ -21,66 +21,6 @@
 	</div>
 </div>
 
-<div class="modal fade" id="exampleModal3" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-	<div class="modal-dialog" role="document">
-		<div class="modal-content">
-			<div class="modal-header">
-				<h5 class="modal-title" id="exampleModalLabel">
-					Profile Details
-				</h5>
-				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-					<span aria-hidden="true">×</span>
-				</button>
-			</div>
-			<div class="modal-body">
-				<div class="modal-body row" id="profile_details">
-					<div class="col-md-3 m-b-20 text-center">
-						<img src="<?php echo base_url('admin/'); ?>assets/images/crop.jpg" class="img-fluid" alt="" title="">
-					</div>
-					<div class="col-md-8">
-						<h2 class="">Ravi Sharma</h2>
-						<div class="row mb-2">
-							<div class="col-4 font-weight-bold text-dark">Volunteer ID</div>
-							<div class="col">CS/DL/21/78</div>
-						</div>
-						<div class="row mb-2">
-							<div class="col-4 font-weight-bold text-dark">Phone</div>
-							<div class="col">88747574748</div>
-						</div>
-						<div class="row mb-2">
-							<div class="col-4 font-weight-bold text-dark">Email</div>
-							<div class="col"><a href="#" class="text-inverse"><span class="_cf_email_">ravi.s1234@gmail.com</span></a></div>
-						</div>
-						<div class="row mb-2">
-							<div class="col-4 font-weight-bold text-dark">Date of Birth</div>
-							<div class="col">25-02-1998</div>
-						</div>
-
-
-						<div class="row mb-2">
-							<div class="col-4 font-weight-bold text-dark">State</div>
-							<div class="col">Delhi</div>
-						</div>
-						<div class="row mb-2">
-							<div class="col-4 font-weight-bold text-dark">City</div>
-							<div class="col"></div>
-						</div>
-						<div class="row mb-2">
-							<div class="col-4 font-weight-bold text-dark">Address</div>
-							<div class="col"></div>
-						</div>
-
-					</div>
-				</div>
-			</div>
-			<div class="modal-footer">
-				<button type="button" class="btn btn-secondary" data-dismiss="modal">
-					Close
-				</button>
-			</div>
-		</div>
-	</div>
-</div>
 <div class="main-content app-content mt-0">
 	<div class="side-app">
 		<!-- CONTAINER -->
@@ -95,7 +35,17 @@
 					</ol>
 				</div>
 			</div>
-
+<?php
+if($this->session->userdata('task_reminder'))
+{
+?>
+<div class="alert alert-success alert-dismissible fade show" role="alert">
+  <strong>Successfull! </strong><?php echo $this->session->userdata('task_reminder'); ?> Reminder send.
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<?php $this->session->unset_userdata('task_reminder'); } ?>
 			<div class="row row-sm">
 				<div class="col-lg-12">
 					<div class="card">
@@ -104,13 +54,10 @@
 							<div class="card-header">
 								<div class="col-md-6">
 									<select class="form-control select2-show-search form-select" name="task_id">
-										<option value="">Select Task</option>
 										<?php
-										foreach ($task as $value) {
+										foreach ($task as $t) {
 										?>
-											<option value="<?php echo $value['task_id']; ?>" <?php if ($taskID == $value['task_id']) {
-																									echo "selected";
-																								} ?>><?php echo ucwords($value['task_title']); ?></option>
+											<option value="<?php echo $t['task_id']; ?>"><?php echo $t['task_title']; ?></option>
 										<?php
 										}
 										?>
@@ -124,9 +71,7 @@
 								</div>
 							</div>
 						</form>
-						<?php
-						if (sizeof($assigned_task) > 0) {
-						?>
+						
 							<div class="card-body">
 								<div class="table-responsive">
 									<table id="example" class="display nowrap" style="width:100%">
@@ -143,10 +88,10 @@
 										<tbody>
 											<?php
 											$i = 1;
-											foreach ($assigned_task as $key => $value) {
+											foreach ($assignTaskdata as $key => $value) {
 												$encode_assigningTaskID = rtrim(strtr(base64_encode($value['assigned_task_id']), "+/", "-_"), "=");
 												$encode_userID = rtrim(strtr(base64_encode($value['volunteer_id']), "+/", "-_"), "=");
-												$encode_taskID = rtrim(strtr(base64_encode($taskID), "+/", "-_"), "=");
+												$encode_taskID = rtrim(strtr(base64_encode($value['task_id']), "+/", "-_"), "=");
 											?>
 												<tr>
 													<td><?php echo $i++; ?></td>
@@ -154,7 +99,7 @@
 															<small class="text-primary">(View Profile)</small></a></td>
 													<td><?php echo $value['mobile']; ?></td>
 													<td><?php echo $value['email']; ?></td>
-													<td><?php echo date("d/m/Y", strtotime($value['assigned_date'])); ?></td>
+													<td><?php echo date("d-m-Y", strtotime($value['assigned_date'])); ?></td>
 													<?php
 													if ($value['accepted_date'] != '0000-00-00') {
 														echo '<td><span class="badge bg-success  me-1 mb-1 mt-1">Accept</span></td>';
@@ -171,10 +116,10 @@
 														if ($value['reminder'] <= 2) {
 															$count = $value['reminder'];
 															echo '<td><span class="badge bg-info  me-1 mb-1 mt-1">Pending</span>
-		<br><a href="' . base_url('send-reminder-for-assigned-task/') . $encode_userID . '/' . $encode_taskID . '/' . $encode_assigningTaskID . '"><small class="text-primary">(Send Reminder) </small></a>(' . $i . '/3)</td>';
+		<br><a href="'.base_url('send-reminder-for-assigned-task/').$encode_userID.'/'.$encode_taskID.'/'.$encode_assigningTaskID.'"><small class="text-primary">(Send Reminder) </small></a>(' . $count . '/3)</td>';
 														} else {
 															$txt = "'Do you want to cancel it.'";
-															echo '<td><a onclick="return confirm(' . $txt . ');" href="' . base_url('cancel-assined-task/') . $encode_assigningTaskID . '"><span class="badge badge-danger">Cancel</span></a></td>';
+															echo '<td><a onclick="return confirm(' . $txt . ');" href="' . base_url('cancel-assined-task/') . $encode_assigningTaskID . '"><span class="badge bg-danger ">Cancel</span></a></td>';
 														}
 													}
 													?>
@@ -185,7 +130,7 @@
 									</table>
 								</div>
 							</div>
-						<?php } ?>
+						
 					</div>
 				</div>
 			</div>

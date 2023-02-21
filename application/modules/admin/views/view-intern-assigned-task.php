@@ -106,7 +106,7 @@
 									<select class="form-control select2-show-search form-select" name="intern_task_id">
 										<option value="">Select Task</option>
 										<?php
-										foreach ($interntask as $value) {
+										foreach ($internAssigntask as $value) {
 										?>
 											<option value="<?php echo $value['intern_task_id']; ?>" <?php if ($taskID == $value['intern_task_id']) {
 																									echo "selected";
@@ -124,9 +124,7 @@
 								</div>
 							</div>
 						</form>
-						<?php
-						if (sizeof($assigned_task) > 0) {
-						?>
+						
 							<div class="card-body">
 								<div class="table-responsive">
 									<table id="example" class="display nowrap" style="width:100%">
@@ -143,10 +141,10 @@
 										<tbody>
 											<?php
 											$i = 1;
-											foreach ($assigned_task as $key => $value) {
+											foreach ($internAssignTaskdata as $key => $value) {
 												$encode_assigningTaskID = rtrim(strtr(base64_encode($value['intern_assigned_task_id']), "+/", "-_"), "=");
 												$encode_userID = rtrim(strtr(base64_encode($value['intern_id']), "+/", "-_"), "=");
-												$encode_taskID = rtrim(strtr(base64_encode($taskID), "+/", "-_"), "=");
+												$encode_taskID = rtrim(strtr(base64_encode($value['intern_task_id']), "+/", "-_"), "=");
 											?>
 												<tr>
 													<td><?php echo $i++; ?></td>
@@ -154,7 +152,7 @@
 															<small class="text-primary">(View Profile)</small></a></td>
 													<td><?php echo $value['mobile']; ?></td>
 													<td><?php echo $value['email']; ?></td>
-													<td><?php echo date("d/m/Y", strtotime($value['assigned_date'])); ?></td>
+													<td><?php echo date("d-m-Y", strtotime($value['assigned_date'])); ?></td>
 													<?php
 													if ($value['accepted_date'] != '0000-00-00') {
 														echo '<td><span class="badge bg-success  me-1 mb-1 mt-1">Accept</span></td>';
@@ -171,10 +169,10 @@
 														if ($value['reminder'] <= 2) {
 															$count = $value['reminder'];
 															echo '<td><span class="badge bg-info  me-1 mb-1 mt-1">Pending</span>
-		<br><a href="' . base_url('send-reminder-for-assigned-task/') . $encode_userID . '/' . $encode_taskID . '/' . $encode_assigningTaskID . '"><small class="text-primary">(Send Reminder) </small></a>(' . $i . '/3)</td>';
+		<br><a href="' . base_url('send-reminder-for-assigned-task_intern/') . $encode_userID . '/' . $encode_taskID . '/' . $encode_assigningTaskID . '"><small class="text-primary">(Send Reminder) </small></a>(' . $i . '/3)</td>';
 														} else {
 															$txt = "'Do you want to cancel it.'";
-															echo '<td><a onclick="return confirm(' . $txt . ');" href="' . base_url('cancel-assined-task/') . $encode_assigningTaskID . '"><span class="badge badge-danger">Cancel</span></a></td>';
+															echo '<td><a onclick="return confirm(' . $txt . ');" href="' . base_url('cancel-assined-task-intern/') . $encode_assigningTaskID . '"><span class="badge badge-danger">Cancel</span></a></td>';
 														}
 													}
 													?>
@@ -185,7 +183,7 @@
 									</table>
 								</div>
 							</div>
-						<?php } ?>
+						
 					</div>
 				</div>
 			</div>
@@ -201,10 +199,10 @@
 	//	alert(id);
 		$('#' + display_id).html('<div class="text-center" style="color:red;margin:10 auto;"><i class="fa fa-spinner fa-pulse fa-4x"></i><p>Fetching Data</p></div>');
 		var request = $.ajax({
-			url: '<?php echo base_url("fetch-user-info"); ?>',
+			url: '<?php echo base_url("fetch-user-info-intern"); ?>',
 			method: "POST",
 			data: {
-				volunteer_id: id
+				intern_id: id
 			},
 			success: function(results) {
 				// console.log(results);

@@ -1122,8 +1122,8 @@ class Login extends MY_Controller
         for ($i = 0; $i < $length; $i++) {
             $key .= $keys[mt_rand(0, count($keys) - 1)];
         }
-        print_r($key);
-        exit;
+        // print_r($key);
+        // exit;
         echo  $this->preregistration_sendMail($key, $to);
     }
 
