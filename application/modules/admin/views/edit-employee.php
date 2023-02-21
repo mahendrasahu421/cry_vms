@@ -68,6 +68,21 @@
                                             required>
                                         <div class="invalid-feedback">Enter Employee Name</div>
                                     </div>
+                                    <div class="col-md-6">
+                                        <label for="validationCustom04" class="form-label">Employee Name</label>
+                                        <select class="form-control select2-show-search form-select" name="designation" id="designation" required>
+                                            <?php foreach ($designationData as $dd) { ?>
+                                                
+                                                <option value="<?php echo $dd['des_id']; ?>" <?php if ($dd['des_id'] == $designation) {
+                                                                                                    echo "selected";
+                                                                                                } ?>>
+                                                    <?php echo $dd['des_name']; ?>
+                                                </option>
+
+                                            <?php } ?>
+                                        </select>
+                                        <div class="invalid-feedback">Enter Employee Name</div>
+                                    </div>
 
                                     <div class="col-md-6">
                                         <label for="validationCustom04" class="form-label">Mobile Number</label>

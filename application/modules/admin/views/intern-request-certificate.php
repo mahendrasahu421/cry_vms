@@ -69,7 +69,7 @@
                             </div>
 
                             <div class="col-md-12 mt-3"><textarea class="content" id="emialcontent"
-                                    name="example"><?php echo $email_templates['body_content'] ?></textarea></div>
+                                    name="example"><?php echo $final_offerdata; ?></textarea></div>
                             <div class="modal-footer">
 
                             </div>
@@ -205,17 +205,25 @@
                                                 <td><?php echo $internData['city_name']; ?></td>
                                                 <td><?php echo $internEmail; ?></td>
                                                 <td>
+                                                    <button type="button" class="btn btn-warning" id="preview">
+                                                        <a href="<?php echo base_url() ?>view_certificate/<?php echo $encoded_id; ?>"
+                                                            target="_blank">Preview </a>
+                                                    </button>
+                                                    <button type="button" class="btn btn-primary pull-right"
+                                                        data-toggle="modal" data-target=".bd-example-modal-lg"
+                                                        style="padding: 1% 2% 1% 2%;">Edit And
+                                                        Update</button>
                                                     <?php if ($internData['status'] == 3) { ?>
-                                                    <button type='button' class='badge bg-warning  me-1 mb-1 mt-1'> <a
-                                                            href="<?php echo base_url() ?>send_certificate_on_mail/<?php echo $encoded_id; ?>">Already Send Certificate
+                                                    <button type='button' class='badge bg-warning  me-1 mb-1 '> <a
+                                                            href="<?php echo base_url() ?>send_certificate_on_mail/<?php echo $encoded_id; ?>">Already
+                                                            Send Certificate
                                                         </a></button>
                                                     <?php } else { ?>
-                                                    <button type='button'
-
-                                                        class='badge bg-info  me-1 mb-1 mt-1'><a
-                                                            href="<?php echo base_url() ?>send_certificate_on_mail/<?php echo $encoded_id; ?>">Send Certificate
+                                                    <button type='button' class='badge bg-info  me-1 mb-1'><a
+                                                            href="<?php echo base_url() ?>send_certificate_on_mail/<?php echo $encoded_id; ?>">Send
+                                                            Certificate
                                                         </a>
-                                                        </button>
+                                                    </button>
 
                                                     <?php } ?>
                                                 </td>
@@ -227,15 +235,8 @@
 
 
                                     <input type="hidden" name="emailContentValue" id="emailContentValue">
-                                    <!-- <input type="botton" id="submit3" value="Invite For Orientation" class="mt-5 btn btn-warning  pull-right" id="map_button" style="padding: 1% 2% 1% 2%;"> -->
-                                    <button type="button" class="btn btn-primary pull-right mt-3" data-toggle="modal"
-                                        data-target=".bd-example-modal-lg" style="padding: 1% 2% 1% 2%;">Edit And
-                                        Update</button>
-                                    <button type="button" class="btn btn-warning" id="preview">
-                                        <a href="<?php echo base_url() ?>view_certificate/<?php echo $encoded_id; ?>"
-                                            target="_blank">Preview </a>
-                                    </button>
-                                 
+
+
 
                                 </div>
                             </div>

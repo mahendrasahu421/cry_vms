@@ -70,6 +70,21 @@
                                         <input type="text" name="emp_name" class="form-control" id="emp_name" value="" placeholder="Employee Name " required>
                                         <div class="invalid-feedback">Select Employee Name</div>
                                     </div>
+                                    <div class="col-md-6">
+                                        <label for="emp_name" class="form-label">Designation</label>
+                                        <select class="form-control select2-show-search form-select" name="designation" id="designation" required>
+                                            <?php foreach ($designationData as $dd) { ?>
+                                                
+                                                <option value="<?php echo $dd['des_id']; ?>" <?php if ($dd['des_id'] == $designation) {
+                                                                                                    echo "selected";
+                                                                                                } ?>>
+                                                    <?php echo $dd['des_name']; ?>
+                                                </option>
+
+                                            <?php } ?>
+                                        </select>
+                                        <div class="invalid-feedback">Select Employee Name</div>
+                                    </div>
 
                                     <div class="col-md-6">
                                         <label for="mobile_number" class="form-label">Mobile Number</label>

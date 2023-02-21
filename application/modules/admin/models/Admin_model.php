@@ -1034,15 +1034,19 @@ class admin_model extends CI_Model
 		return $result;
 	}
 
-	public function send_certificate_by_feedback($where)
+	public function send_certificate_by_feedback($where,$empId,$role)
 	{
 		$this->db->initialize();
-		$this->db->select('fd.status,fd.intern_id,fd.creation_date,i.status,i.first_name,i.last_name,i.email,i.state_id,i.city_id,i.mobile,isr.status,s.state_name,c.city_name');
+		$this->db->select('fd.status,emp.emp_name,emp.emp_email,mr.role_name,fd.intern_id,fd.creation_date,id.*,i.certificate_email,i.status,i.skill_id,sk.skill_name,i.first_name,i.last_name,i.email,i.state_id,i.city_id,i.mobile,isr.status,s.state_name,c.city_name');
 		$this->db->from('feedback fd');
 		$this->db->join('intern_submission_report isr', 'isr.intern_id = fd.intern_id');
 		$this->db->join('interns i', 'i.intern_id = fd.intern_id');
+		$this->db->join('interns_data id', 'id.intern_id = fd.intern_id');
 		$this->db->join('states s', 's.state_id = i.state_id', 'left');
 		$this->db->join('cities c', 'c.city_id = i.city_id', 'left');
+		$this->db->join('employee emp', 'emp.emp_id = "'.$empId.'"');
+		$this->db->join('master_role mr', 'mr.role_id = "'.$role.'"');
+		$this->db->join('skills sk', 'sk.skill_id = i.skill_id');
 		$this->db->where($where);
 		$query = $this->db->order_by('fd.feedback_id desc');
 		$query = $this->db->get();

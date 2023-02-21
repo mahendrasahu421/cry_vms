@@ -4834,6 +4834,7 @@ class Admin extends MY_Controller
         try {
             if (($this->session->userdata('emp_id') != "" || $this->session->userdata('emp_id') != null)) {
                 //$data['state'] = $this->Crud_modal->fetch_all_data('*', 'states', '1=1');
+                $data['designationData'] =$designation= $this->Crud_modal->fetch_all_data('*', 'designation', 'status=1');
                 $data['regions'] = $this->Crud_modal->fetch_all_data('*', 'regions', 'region_status=1');
                 $data['master_role'] = $this->Crud_modal->fetch_all_data('*', 'master_role', 'status=1');
                 // echo "<pre>";
@@ -4883,6 +4884,7 @@ class Admin extends MY_Controller
                 'region_id' => $this->input->post('region_id'),
                 'role_id' => $this->input->post('role_id'),
                 'emp_name' => $this->input->post('emp_name'),
+                'des_id' => $this->input->post('designation'),
                 'sid' => implode(',', $this->input->post('state_name')),
                 'emp_contact' => $this->input->post('mobile_number'),
                 'emp_email' => $this->input->post('email'),
@@ -7864,68 +7866,6 @@ class Admin extends MY_Controller
  }
 
  
- public function intern_request_certificate()
- {
-     try {
-         if (($this->session->userdata('emp_id') != "" || $this->session->userdata('emp_id') != null)) {
-             $region = $this->session->userdata('region_id');
-             $role = $this->session->userdata('role_id');
-             if ($role == 1) {
-                 $date2 = $data['date_to'] = date("Y-m-d");
-                 $data['date_from'] = date("Y-m-d", strtotime($date2 . '-7 days'));
-                 $where = 'i.status =7 AND isr.status = 2 AND fd.status=1';
-                 if ($this->input->post('start_new') != "" && $this->input->post('end_new') != "" &&  $this->input->post('state_name') != "" && $this->input->post('region_id') != "") {
-                     $data['state'] =  $state_name = $this->input->post('state_name');
-                     $data['region_id'] =  $region_id = $this->input->post('region_id');
-                     $date1 = $this->input->post('start_new');
-                     $date2 = $this->input->post('end_new');
-                     $date_from = date("Y-m-d", strtotime($date1));
-                     $date_to = date("Y-m-d", strtotime($date2 . '+1 days'));
-                     $data['creation_date'] = $date1;
-                     $data['creation_date'] = $date2;
-                     $data['state_name'] = $state_name;
-                     $where = "fd.creation_date>='" . $date_from . "' and fd.creation_date<='" . $date_to . "' and i.state_id=" . $state_name . "  and (i.status =7 AND isr.status = 2 AND fd.status=1)";
-                     $data['feedbackCertifecate'] = $this->Admin_model->send_certificate_by_feedback($where);
-                     
-                    
-                          
-                 }
-             } else {
-                 $data['rname'] = $this->Curl_model->fetch_single_data('region_name,state_id', 'regions', array('region_id' => $region));
-                 $data['states'] = $this->Crud_modal->fetch_all_data('*', 'states', 'region_id=' . $region);
-                 $date2 = $data['date_to'] = date("Y-m-d");
-                 $data['date_from'] = date("Y-m-d", strtotime($date2 . '-7 days'));
-                 $where = 'i.status =7';
-                 if ($this->input->post('start_new') != "" && $this->input->post('end_new') != "" &&  $this->input->post('state_name') != "") {
-                     $data['state'] =   $state_name = $this->input->post('state_name');
-                     $date1 = $this->input->post('start_new');
-                     $date2 = $this->input->post('end_new');
-                     $date_from = date("Y-m-d", strtotime($date1));
-                     $date_to = date("Y-m-d", strtotime($date2 . '+1 days'));
-                     $data['creation_date'] = $date1;
-                     $data['creation_date'] = $date2;
-                     $data['state_name'] = $state_name;
-                     $where = "creation_date>='" . $date_from . "' and creation_date<='" . $date_to . "' and v.state_id=" . $state_name . "  and (v.status=1 OR v.status=2)";
-                     $data['volunteer'] = $this->Admin_model->volunteer_enquiry_Data($where);
-                 }
-             }
-
-             $data['email_templates'] = $this->Crud_modal->fetch_single_data('email_templates_id,body_content', 'email_templates', 'status=1 AND email_templates_id=9');
-             $data['regions'] = $this->Crud_modal->fetch_all_data('*', 'regions', 'region_status=1');
-             
-             $this->load->view('temp/head');
-             $this->load->view('temp/header', $data);
-             $this->load->view('temp/sidebar');
-             $this->load->view('intern-request-certificate', $data);
-             $this->load->view('temp/footer');
-         } else {
-             redirect(base_url() . 'login', 'refresh');
-         }
-     } catch (Exception $e) {
-         echo 'Caught exception: ',  $e->getMessage(), "\n";
-     }
- }
-
 
  public function view_assigned_task_intern()
     {
