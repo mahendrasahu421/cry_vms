@@ -37,7 +37,6 @@ class Admin extends MY_Controller
         date_default_timezone_set('Asia/Kolkata');
     }
 
-
     public function dashboard()
     {
         if (($this->session->userdata('emp_id') != "" || $this->session->userdata('emp_id') != null)) {
@@ -96,8 +95,6 @@ class Admin extends MY_Controller
         }
     }
 
-   
-
     public function interninsert_add_task()
     {
         try {
@@ -142,7 +139,6 @@ class Admin extends MY_Controller
             echo 'Caught exception: ',  $e->getMessage(), "\n";
         }
     }
-
 
     public function intern_task_view()
     {
@@ -382,7 +378,6 @@ class Admin extends MY_Controller
         $this->load->view('temp/footer');
     }
 
-    
 
     public function getonline_offlineTask()
     {
@@ -732,8 +727,6 @@ class Admin extends MY_Controller
         }
     }
 
-   
-
     public function intern_assigned_task()
     {
         try {
@@ -797,12 +790,9 @@ class Admin extends MY_Controller
         $programName = $this->input->post('programName');
         $where = 'vpu.status =1 AND volunteer_programs = ' . $programName;
         $programData = $this->Admin_model->programvolunteer_enquiry_Data($where);
-        // print_r($programData);
-        // exit;
+        
     }
 
-
-       
     public function requested_task()
     {
         try {
@@ -836,7 +826,6 @@ class Admin extends MY_Controller
         }
     }
 
-  
 
     public function change_password()
     {
@@ -942,8 +931,6 @@ class Admin extends MY_Controller
 
         $this->load->view('temp/footer');
     }
-
-
 
     public function daily_report_approved()
     {
@@ -2545,6 +2532,7 @@ class Admin extends MY_Controller
             }
         }
     }
+
     public function cancel_assined_task_intern()
     {
         $encode_assigned_taskID = $this->uri->segment(2);
@@ -4983,6 +4971,7 @@ class Admin extends MY_Controller
             echo 'Caught exception: ',  $e->getMessage(), "\n";
         }
     }
+
     public function send_orientation_emails()
     {
         $volunteerEmail = $this->input->post('volunteer_sendId');
@@ -5017,7 +5006,6 @@ class Admin extends MY_Controller
         }
     }
 
-
     public function offer_lattersend_orientation_emails()
     {
         $intern_id = $this->input->post('intern_id');
@@ -5034,8 +5022,6 @@ class Admin extends MY_Controller
         );
         $this->Crud_modal->update_data($where, 'interns', $emailData);
     }
-
-
 
     public function send_loginCredntional_emails()
     {
@@ -6217,7 +6203,8 @@ class Admin extends MY_Controller
 
     function confirm_joining()
     {
-        $creation_date = $this->input->post("creation_date");
+      if ($this->session->userdata('emp_id') != "" || $this->session->userdata('emp_id') != null) {
+        $creation_date = date('Y-m-d'); 
         $intern_id = $this->input->post("intern_id");
         $internEmail = $this->input->post('email');
         $val =  rtrim(strtr(base64_encode($intern_id), '+/', '-_'), '=');
@@ -6249,6 +6236,7 @@ class Admin extends MY_Controller
             } else {
                 $this->Admin_model->intern_count_send_maillogincredational($intern_id, $creation_date);
             }
+          }
         }
     }
 
