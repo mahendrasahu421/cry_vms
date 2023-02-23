@@ -214,45 +214,46 @@ class Program_volunteer extends MY_Controller
     public function volunteer_list()
     {
         try {
-          
             if (($this->session->userdata('emp_id') != "" || $this->session->userdata('emp_id') != null)) {
                 $region = $this->session->userdata('region_id');
                 $role = $this->session->userdata('role_id');
-               
-                if ($role == 1) {
+                if($role==1){
                     if ($this->input->post('programName') != "") {
                         $programName = $this->input->post('programName');
                         $where = 'vpu.status =0 AND volunteer_programs = ' . $programName;
                         $data['programData'] = $this->Admin_model->programvolunteer_enquiry_Data($where);
                         
                     }
-                } else {
+                }else{
                     $data['rname'] = $this->Curl_model->fetch_single_data('region_name,state_id', 'regions', array('region_id' => $region));
+                    $where = 'pv.program_region = ' . $region . ' AND pv.status=1';
+                    $data['certificateFormat'] = $this->Crud_modal->fetch_all_data('*', 'certificate_format_master', 'status=1');
+                    $data['volunteer_programs'] = $this->Crud_modal->fetch_all_data('*','program_volunteer','status=1');
                     if ($this->input->post('programName') != "") {
-                        $data['program']  = $programName = $this->input->post('programName');
-                        $where = 'vpu.status =1 OR 2 AND  volunteer_programs = ' . $programName;
+                        $programName = $this->input->post('programName');
+                        $where = 'vpu.status =0 AND volunteer_programs = ' . $programName;
                         $data['programData'] = $this->Admin_model->programvolunteer_enquiry_Data($where);
-                        // echo "<pre>";
-                        // print_r($data['programData']);exit;
+                        
                     }
                 }
-                $where = 'pv.program_region = ' . $region . ' AND pv.status=1';
+                $where = 'pv.program_region = ' . $region . ' OR pv.status=1';
                 $data['certificateFormat'] = $this->Crud_modal->fetch_all_data('*', 'certificate_format_master', 'status=1');
                 $data['volunteer_programs'] = $this->Crud_modal->fetch_all_data('*','program_volunteer','status=1');
-                // echo "<pre>";
-                // print_r($data['volunteer_programs']);exit;
                 $this->load->view('temp/head');
                 $this->load->view('temp/header', $data);
                 $this->load->view('temp/sidebar');
                 $this->load->view('volunteer-list', $data);
                 $this->load->view('temp/footer');
-            } else {
+            }else{
                 redirect(base_url() . 'login', 'refresh');
             }
+          
         } catch (Exception $e) {
             echo 'Caught exception: ',  $e->getMessage(), "\n";
         }
     }
+
+
     public function issue_certificate()
     {
         try {
@@ -262,14 +263,21 @@ class Program_volunteer extends MY_Controller
                 $data['certificateId'] = $certificate = $this->input->post('certificate');
                 $data['program'] = $programName = $this->input->post('programName');
                 if ($role == 1) {
-                    if ($this->input->post('programName') != "") {
+                    if ($programName != "" && $certificate == "") {
                         $programName = $this->input->post('programName');
-
-                        $where = 'vpu.status =2 AND volunteer_programs = ' . $programName;
+                        $where = 'vpu.status =2 AND volunteer_programs = "' . $programName . '"';
                         $data['programData'] = $this->Admin_model->programvolunteer_enquiry_Data($where);
+                    } else if ($programName != "" && $certificate != "") {
+                        $where = 'vpu.status =2 AND vpu.volunteer_programs = "' . $programName . '" AND vpu.certificate_id = "' . $certificate . '"';
+                        $data['programData'] = $this->Admin_model->programvolunteer_enquiry_Data($where);
+                    } else {
                     }
                 } else {
+                   
                     $data['rname'] = $this->Curl_model->fetch_single_data('region_name,state_id', 'regions', array('region_id' => $region));
+                    $where = 'pv.program_region = ' . $region . ' AND pv.status=1';
+                    $data['volunteer_programs'] = $this->Admin_model->get_all_program($where);
+                    $data['certificateFormat'] = $this->Crud_modal->fetch_all_data('*', 'certificate_format_master', 'status=1');
                     if ($programName != "" && $certificate == "") {
                         $programName = $this->input->post('programName');
                         $where = 'vpu.status =2 AND volunteer_programs = "' . $programName . '"';
@@ -280,7 +288,7 @@ class Program_volunteer extends MY_Controller
                     } else {
                     }
                 }
-                $where = 'pv.program_region = ' . $region . ' AND pv.status=1';
+                $where = 'pv.program_region = ' . $region . ' OR pv.status=1';
                 $data['volunteer_programs'] = $this->Admin_model->get_all_program($where);
                 $data['certificateFormat'] = $this->Crud_modal->fetch_all_data('*', 'certificate_format_master', 'status=1');
                 $this->load->view('temp/head');

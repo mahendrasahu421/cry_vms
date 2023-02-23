@@ -212,8 +212,6 @@
                                                 <td>
                                                     <?php echo ucwords($volunteerData['first_name'] . ' ' . $volunteerData['last_name']); ?>
                                                     <br>
-                                                    <!-- <a href="#" data-toggle="modal" data-target=".profile-details" onclick="fetch_details('<?php echo $encoded_id; ?>','profile_details');">
-															<small class="text-primary">(View Profile)</small></a> -->
                                                 </td>
                                                 <td><?php echo $volunteerData['mobile']; ?>
                                                 </td>
