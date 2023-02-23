@@ -6201,6 +6201,8 @@ class Admin extends MY_Controller
         }
     }
 
+
+    
     function confirm_joining()
     {
       if ($this->session->userdata('emp_id') != "" || $this->session->userdata('emp_id') != null) {
