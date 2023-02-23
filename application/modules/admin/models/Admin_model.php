@@ -480,7 +480,7 @@ class admin_model extends CI_Model
 	public function count_send_mail($val)
 	{
 		$this->db->initialize();
-		$updateCount = "UPDATE intern_submission_report SET status = 3  WHERE intern_id ='" . $val . "'";
+		$updateCount = "UPDATE intern_submission_report SET `status` = 3  WHERE intern_id ='" . $val . "'";
 		$querry = $this->db->query($updateCount);
 		//$count = $querry->num_rows();
 		return true;
@@ -1037,7 +1037,7 @@ class admin_model extends CI_Model
 	public function send_certificate_by_feedback($where,$empId,$role)
 	{
 		$this->db->initialize();
-		$this->db->select('fd.status,emp.emp_name,emp.emp_email,mr.role_name,fd.intern_id,fd.creation_date,id.*,i.certificate_email,i.status,i.skill_id,sk.skill_name,i.first_name,i.last_name,i.email,i.state_id,i.city_id,i.mobile,isr.status,s.state_name,c.city_name');
+		$this->db->select('fd.status,emp.emp_name,emp.emp_email,emp.des_id,mr.role_name,fd.intern_id,fd.creation_date,id.name_of_school,i.certificate_email,i.status,i.skill_id,sk.skill_name,i.first_name,i.last_name,i.email,i.state_id,i.city_id,i.mobile,isr.status,s.state_name,c.city_name,d.des_name');
 		$this->db->from('feedback fd');
 		$this->db->join('intern_submission_report isr', 'isr.intern_id = fd.intern_id');
 		$this->db->join('interns i', 'i.intern_id = fd.intern_id');
@@ -1046,6 +1046,7 @@ class admin_model extends CI_Model
 		$this->db->join('cities c', 'c.city_id = i.city_id', 'left');
 		$this->db->join('employee emp', 'emp.emp_id = "'.$empId.'"');
 		$this->db->join('master_role mr', 'mr.role_id = "'.$role.'"');
+		$this->db->join('designation d', 'd.des_id = emp.des_id');
 		$this->db->join('skills sk', 'sk.skill_id = i.skill_id');
 		$this->db->where($where);
 		$query = $this->db->order_by('fd.feedback_id desc');
@@ -1093,7 +1094,7 @@ class admin_model extends CI_Model
 		$this->db->from('intern_assigning_task iast');
 		$this->db->join('interntask it','it.intern_task_id = iast.intern_task_id');
 		$this->db->where($where);
-		$query = $this->db->group_by('iast.intern_task_id','desc');
+		$query = $this->db->group_by('iast.intern_task_id');
 		$query = $this->db->get();
 		//echo $this->db->last_query(); die;
 		$result = $query->result_array();

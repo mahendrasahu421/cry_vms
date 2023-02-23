@@ -507,7 +507,8 @@ fieldset[disabled] .btn-default:hover {
                                                     <p>
                                                         <strong>Placed</strong>
                                                     </p>
-                                                    <input type="radio" name="Join_radio" value="Join">Join
+                                                     <input type="radio" name="Join_radio" value="Join">Join
+                                                      <input type="hidden" class="form-control" value="<?php echo $interuser['creation_date']; ?>" name="Join_radio" />
                                                     <input type="radio" name="Join_radio" value="Not Join">Not Join
                                                 </div>
                                             </div>
@@ -1522,10 +1523,11 @@ function join_function(join) {
         url: "<?php echo base_url(); ?>confirm_joining",
         data: {
             "join": join,
-            'creation_date': <?php echo $interuser['creation_date'] ?>,
+            //'creation_date': <?php echo $interuser['creation_date']; ?>,
             'intern_id': <?php echo $interuser['intern_id'] ?>,
         },
         success: function(datas) {
+           // return false;
             if (datas) {
                 window.location.reload();
             } else {

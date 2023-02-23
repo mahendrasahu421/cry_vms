@@ -334,11 +334,11 @@ class Login extends MY_Controller
                     redirect(base_url() . 'thank-you');
                 } else {
 
-                    $message = 'This is a message.';
+                    $message = 'file size should not be more then 2MB.';
 
                     echo "<SCRIPT> //not showing me this
                         alert('$message')
-                        window.location.('url of the page');
+                        window.location.('preregistration');
                     </SCRIPT>";
                     $this->session->set_flashdata('assign_message', '<div class="danger"><strong>Oops!</strong>Error</div>');
                 }

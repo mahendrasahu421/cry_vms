@@ -140,13 +140,13 @@
                                                     title="Reject">Reject</a></td>
 
                                             <?php } else if ($value['status'] == 1) { ?>
-                                            <td colspan="2" class="text-center"><span
-                                                    class="badge bg-info  me-1 mb-1 mt-1">Accepted </span></td>
+                                            <!-- <td colspan="2" class="text-center"><span
+                                                    class="badge bg-info  me-1 mb-1 mt-1">Accepted </span></td> -->
 
                                             <?php } else if ($value['status'] == 2) { ?>
 
-                                            <td colspan="2" class="text-center"><span
-                                                    class="badge bg-danger  me-1 mb-1 mt-1">Rejected </span></td>
+                                            <!-- <td colspan="2" class="text-center"><span
+                                                    class="badge bg-danger  me-1 mb-1 mt-1">Rejected </span></td> -->
 
                                             <?php } ?>
                                         </tr>

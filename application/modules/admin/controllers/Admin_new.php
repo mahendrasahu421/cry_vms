@@ -194,20 +194,24 @@ class Admin_new extends MY_Controller
                      $data['creation_date'] = $date2;
                      $data['state_name'] = $state_name;
                      $where = "fd.creation_date>='" . $date_from . "' and fd.creation_date<='" . $date_to . "' and i.state_id=" . $state_name . "  and (i.status =7 AND isr.status = 2 AND fd.status=1)";
-                    
-                    
                      $data['feedbackCertifecate'] = $this->Admin_model->send_certificate_by_feedback($where,$empId,$role);
-                     echo "<pre>";
-                     print_r($data['feedbackCertifecate']);exit;
+                     $skillId = $data['feedbackCertifecate'][0]['skill_id'];
+                     $skill_name = explode (",",$skillId);
+                     $skils="";
+                    for ($i = 0; $i < sizeof($skill_name); $i++) {
+                     $assig_name = $this->Crud_modal->fetch_single_data("skill_name", "skills", "skill_id= '".$skill_name[$i]."'");      
+                              $skils .= $assig_name['skill_name'].","." " ;
+                              
+                    }
                      $data['email_templates'] = $this->Crud_modal->fetch_single_data('email_templates_id,body_content', 'email_templates', 'status=1 AND email_templates_id=9');
-                      $searchArray = array("Mr. Deepanshu Mittal","Hindi College, Delhi","Bitapi Baruah","Senior Manager","Deepanshu");
+                      $searchArray = array("Mr. Deepanshu Mittal","Hindi College, Delhi","Bitapi Baruah","Senior Manager","Deepanshu","a Data Analysis and documentation");
                       $latsarrayTemplate = array(
                           "Dear" ." ".$data['feedbackCertifecate'][0]['first_name']." ".$data['feedbackCertifecate'][0]['last_name'],
                           $data['feedbackCertifecate'][0]['name_of_school'],
                           $data['feedbackCertifecate'][0]['emp_name'],
-                          $data['feedbackCertifecate'][0]['role_name'],
+                          $data['feedbackCertifecate'][0]['des_name'],
                           $data['feedbackCertifecate'][0]['first_name'],
-                        
+                          rtrim($skils,", "),
                       );
                       $lasttemplate = str_replace($searchArray, $latsarrayTemplate, $data['email_templates']['body_content'], $count);
                       $data['final_offerdata'] = $lasttemplate;
@@ -290,7 +294,7 @@ class Admin_new extends MY_Controller
     public function send_certificate_letter( $internemailData)
     {
  
-         $offerEmailFormat = $internemailData['offer_latter_email'];
+         $offerEmailFormat = $internemailData['certificate_email'];
         $date= date('d-m-Y');
         $pdf = new FPDF();
         $pdf->AddPage();
@@ -334,18 +338,16 @@ class Admin_new extends MY_Controller
         $mail->addBCC("ravishankar.k@neuralinfo.org", "Ravi");
         $mail->FromName = 'cry Vms';
         $mail->IsHTML(true);
-        $mail->Subject = 'Cry Offer Letter';
+        $mail->Subject = 'Cry Certificate';
         $mail->Body = 'Certificate';
         if (!$mail->Send()) {
             echo "Message could not be sent. <p>";
             echo "Mailer Error: " . $mail->ErrorInfo;
         } else {
 
-            $this->Admin_model->update_send_certificate_mail($val);
-            redirect(base_url() . 'intern-request-certificate/');
+            $this->Admin_model->count_send_mail($val);
+            redirect(base_url() . 'intern-request-certificate');
         }
     }
 
 }
-
-?>

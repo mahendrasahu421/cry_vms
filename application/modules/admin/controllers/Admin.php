@@ -96,47 +96,7 @@ class Admin extends MY_Controller
         }
     }
 
-    public function insert_add_task()
-    {
-        try {
-            $task_for = 1;
-            $task_type = $this->input->post('task_type');
-            $region_id = $this->input->post('region_id');
-            $state_name = $this->input->post('state_name');
-            $city = $this->input->post('city');
-            $sdate = $this->input->post('sdate');
-            $edate = $this->input->post('edate');
-            $volunteer_required = $this->input->post('volunteer_required');
-            $keyword = $this->input->post('keywords');
-            $title = $this->input->post('title');
-            $what_to_do = $this->input->post('what_to_do');
-            $status = $this->input->post('status');
-            $creation_date = $this->input->post('creation_date');
-            $volunteerData = array(
-                'task_type_id' => $task_type,
-                'task_for' => $task_for,
-                'region_id' => $region_id,
-                'task_state_id' => $state_name,
-                'city_id' => $city,
-                'start_date' => $sdate,
-                'expected_end_date' => $edate,
-                'volunteer_required' => $volunteer_required,
-                'keyword' => $keyword,
-                'task_title' => $title,
-                'task_brief' => $what_to_do,
-                'creation_date' => date('Y-m-d'),
-                'status' => $status,
-
-            );
-            // echo "<pre>";
-            // print_r($volunteerData);exit;
-            $this->Crud_modal->data_insert('task', $volunteerData);
-            $this->session->set_flashdata('master_insert_message', '<div class="alert alert-success"><strong>Task Create Success!</strong></div>');
-            redirect(base_url() . 'task-list');
-        } catch (Exception $e) {
-            echo 'Caught exception: ',  $e->getMessage(), "\n";
-        }
-    }
+   
 
     public function interninsert_add_task()
     {
@@ -183,89 +143,7 @@ class Admin extends MY_Controller
         }
     }
 
-    public function edit_task()
-    {
-        try {
-            if (($this->session->userdata('emp_id') != "" || $this->session->userdata('emp_id') != null)) {
 
-                $region = $this->session->userdata('region_id');
-                $role = $this->session->userdata('role_id');
-                if($role==1){
-                    $task_id = $this->uri->segment(2);
-                    $val = base64_decode(str_pad(strtr($task_id, '-_', '+/'), strlen($task_id) % 4, '=', STR_PAD_RIGHT));
-                    $where = "task_id = '$val'";
-                    $data['task_type'] = $this->Crud_modal->fetch_all_data('*', 'task_type', 'status=1');
-                    $data['regions'] = $this->Crud_modal->fetch_all_data('*', 'regions', 'region_status=1');
-                    $data['states'] = $this->Crud_modal->fetch_all_data('*', 'states', 'status=1');
-                    $data['cities'] = $this->Crud_modal->fetch_all_data('*', 'cities', 'status=1');
-                    $data['taskData'] = $this->Crud_modal->all_data_select('*', 'task', $where, 'task_id desc');
-                }else{
-                    $data['rname'] = $this->Curl_model->fetch_single_data('region_name,state_id', 'regions', array('region_id' => $region));
-                    $data['states'] = $this->Crud_modal->fetch_all_data('*', 'states', 'region_id=' . $region);
-                    $task_id = $this->uri->segment(2);
-                    $val = base64_decode(str_pad(strtr($task_id, '-_', '+/'), strlen($task_id) % 4, '=', STR_PAD_RIGHT));
-                    $where = "task_id = '$val'";
-                    $data['task_type'] = $this->Crud_modal->fetch_all_data('*', 'task_type', 'status=1');
-                    $data['regions'] = $this->Crud_modal->fetch_all_data('*', 'regions', 'region_status=1');
-                    $data['states'] = $this->Crud_modal->fetch_all_data('*', 'states', 'status=1');
-                    $data['cities'] = $this->Crud_modal->fetch_all_data('*', 'cities', 'status=1');
-                    $data['taskData'] = $this->Crud_modal->all_data_select('*', 'task', $where, 'task_id desc');
-                }
-                $task_id = $this->uri->segment(2);
-                $val = base64_decode(str_pad(strtr($task_id, '-_', '+/'), strlen($task_id) % 4, '=', STR_PAD_RIGHT));
-                $where = "task_id = '$val'";
-                $data['task_type'] = $this->Crud_modal->fetch_all_data('*', 'task_type', 'status=1');
-                $data['regions'] = $this->Crud_modal->fetch_all_data('*', 'regions', 'region_status=1');
-                $data['states'] = $this->Crud_modal->fetch_all_data('*', 'states', 'status=1');
-                $data['cities'] = $this->Crud_modal->fetch_all_data('*', 'cities', 'status=1');
-                $data['taskData'] = $this->Crud_modal->all_data_select('*', 'task', $where, 'task_id desc');
-                $this->load->view('temp/head');
-                $this->load->view('temp/header', $data);
-                $this->load->view('temp/sidebar');
-                $this->load->view('edit-task', $data);
-                $this->load->view('temp/footer');
-            } else {
-
-                redirect(base_url() . 'login', 'refresh');
-            }
-        } catch (Exception $e) {
-
-            echo 'Caught exception: ',  $e->getMessage(), "\n";
-        }
-    }
-
-    public function view_task()
-    {
-        try {
-            if (($this->session->userdata('emp_id') != "" || $this->session->userdata('emp_id') != null)) {
-                $region = $this->session->userdata('region_id');
-                $role = $this->session->userdata('role_id');
-                if ($role == 1) {
-                    $task_id = $this->uri->segment(2);
-                    $val = base64_decode(str_pad(strtr($task_id, '-_', '+/'), strlen($task_id) % 4, '=', STR_PAD_RIGHT));
-                    $where = "task_id = '$val'";
-                    $data['taskData'] = $this->Crud_modal->fetch_single_data('*', 'task', $where, 'task_id desc');
-                } else {
-                    $task_id = $this->uri->segment(2);
-                    $val = base64_decode(str_pad(strtr($task_id, '-_', '+/'), strlen($task_id) % 4, '=', STR_PAD_RIGHT));
-                    $where = "task_id = '$val'";
-                    $data['rname'] = $this->Curl_model->fetch_single_data('region_name,state_id', 'regions', array('region_id' => $region));
-                    $data['states'] = $this->Crud_modal->fetch_all_data('*', 'states', 'region_id=' . $region);
-                    $data['taskData'] = $this->Crud_modal->fetch_single_data('*', 'task', $where, 'task_id desc');
-                }
-                $data['taskData'] = $this->Crud_modal->fetch_single_data('*', 'task', $where, 'task_id desc');
-                $this->load->view('temp/head');
-                $this->load->view('temp/header', $data);
-                $this->load->view('temp/sidebar');
-                $this->load->view('view-task', $data);
-                $this->load->view('temp/footer');
-            } else {
-                redirect(base_url() . 'login', 'refresh');
-            }
-        } catch (Exception $e) {
-            echo 'Caught exception: ',  $e->getMessage(), "\n";
-        }
-    }
     public function intern_task_view()
     {
         try {
@@ -348,48 +226,6 @@ class Admin extends MY_Controller
             echo 'Caught exception: ',  $e->getMessage(), "\n";
         }
     }
-
-    public function update_task()
-    {
-        $task_id = $this->input->post('task_id');
-        $task_type = $this->input->post('task_type_id');
-        $task_for = 1;
-        $region_id = $this->input->post('region_id');
-        $state_name = $this->input->post('state_name');
-        $sdate = $this->input->post('sdate');
-        $edate = $this->input->post('edate');
-        $volunteer_required = $this->input->post('volunteer_required');
-        $title = $this->input->post('title');
-        $what_to_do = $this->input->post('what_to_do');
-        $status = $this->input->post('status');
-
-        $updatetasData = array(
-            'task_id' => $task_id,
-            'task_type_id' => $task_type,
-            'task_for' => 1,
-            'region_id' => $region_id,
-            'task_state_id' => $state_name,
-            'start_date' => $sdate,
-            'expected_end_date' => $edate,
-            'volunteer_required' => $volunteer_required,
-            'task_title' => $title,
-            'task_brief' => $what_to_do,
-            'status' => $status,
-
-        );
-        // echo "<pre>";
-        // print_r( $updatetasData);exit;
-        $where = "task_id = '$task_id'";
-        if ($this->Crud_modal->update_data($where, 'task', $updatetasData)) {
-            $this->session->set_flashdata('master_district', '<div class="alert alert-warning"><strong>Success!</strong> District Data has Updated.</div>');
-            redirect(base_url() . 'task-list');
-        } else {
-            $this->session->set_flashdata('master_district', '<div class="alert alert-danger"><strong>Failed!</strong> to Updated Data</div>');
-
-            redirect(base_url() . 'task-list');
-        }
-    }
-
 
     public function intern_update_task()
     {
@@ -536,94 +372,6 @@ class Admin extends MY_Controller
         }
     }
 
-    public function task_list()
-    {
-        try {
-            if (($this->session->userdata('emp_id') != "" || $this->session->userdata('emp_id') != null)) {
-                $region = $this->session->userdata('region_id');
-                $role = $this->session->userdata('role_id');
-                if ($role == 1) {
-                    $date2 = $data['date_to'] = date("Y-m-d");
-                    $data['date_from'] = date("Y-m-d", strtotime($date2 . '-10 days'));
-                    $where = '1 =1';
-
-                    if ($this->input->post('start_new') != "" && $this->input->post('end_new') != "" &&  $this->input->post('taskType') != "") {
-                        $data['Tstate_name'] = $state_name = $this->input->post('state_name');
-                        $data['task_regionName'] = $region_id = $this->input->post('region_id');
-                        $taskType = $this->input->post('taskType');
-                        $date1 = $this->input->post('start_new');
-                        $date2 = $this->input->post('end_new');
-                        $date_from = date("Y-m-d", strtotime($date1));
-                        $date_to = date("Y-m-d", strtotime($date2 . '+1 days'));
-                        $data['creation_date'] = $date1;
-                        $data['creation_date'] = $date2;
-                        $data['taskType'] = $taskType;
-                        $where = "creation_date>='" . $date_from . "' and creation_date<='" . $date_to . "' and task_type_id=" . $taskType . "  and status=1 and task_for=1 and task_state_id = '" . $state_name . "' and region_id = " . $region_id . "";
-                        $data['taskData'] = $this->Admin_model->volunteer_task_Data($where);
-                        // echo "<pre>";
-                        // print_r($data['taskData']);exit;
-                    } else {
-                        $date_to = date("Y-m-d");
-                        $date_from = date("Y-m-d", strtotime($date2 . '-10 days'));
-                        $data['creation_date'] = $date_from;
-                        $data['creation_date'] = $date2;
-                        $where = "creation_date>='" . $date_from . "' and creation_date<='" . $date_to . "' and status = 1";
-                        $data['taskData'] = $this->Admin_model->volunteer_task_Data($where);
-                    }
-                } else {
-                    $data['rname'] = $this->Curl_model->fetch_single_data('region_name,state_id', 'regions', array('region_id' => $region));
-                    $data['states'] = $this->Crud_modal->fetch_all_data('*', 'states', 'region_id=' . $region);
-                    $date2 = $data['date_to'] = date("Y-m-d");
-                    $data['date_from'] = date("Y-m-d", strtotime($date2 . '-7 days'));
-                    $where = '1 =1';
-                    if ($this->input->post('start_new') != "" && $this->input->post('end_new') != "" &&  $this->input->post('taskType') != "" &&  $this->input->post('region_id') != "") {
-                        $date1 = $this->input->post('start_new');
-                        $date2 = $this->input->post('end_new');
-                        $data['StaskType'] = $taskType = $this->input->post('taskType');
-                        $region_id = $this->input->post('region_id');
-                        $data['Tstate_name'] = $state_name = $this->input->post('state_name');
-                        $data['date_from'] = $date_from = date("Y-m-d", strtotime($date1));
-                        $data['date_to'] =     $date_to = date("Y-m-d", strtotime($date2));
-                        $data['creation_date'] = $date1;
-                        $data['creation_date'] = $date2;
-                        $data['taskType'] = $taskType;
-                        $data['region_id'] = $region_id;
-                        //  $data['state_name'] = $state_name;
-                        $where = "creation_date>='" . $date_from . "' and creation_date<='" . $date_to . "' and task_type_id=" . $taskType . " and region_id =" . $region_id . " and status =1 and task_for=1";
-                        $data['taskData'] = $this->Admin_model->volunteer_task_Data($where);
-                    } else if ($this->input->post('start_new') != "" && $this->input->post('end_new') != "" &&  $this->input->post('taskType') != "" &&  $this->input->post('region_id') != "" &&  $this->input->post('state_name') != "") {
-                        $date1 = $this->input->post('start_new');
-                        $date2 = $this->input->post('end_new');
-                        $data['StaskType'] = $taskType = $this->input->post('taskType');
-                        $region_id = $this->input->post('region_id');
-                        $data['Tstate_name']  = $state_name = $this->input->post('state_name');
-                        $data['date_from'] = $date_from = date("Y-m-d", strtotime($date1));
-                        $data['date_to'] =     $date_to = date("Y-m-d", strtotime($date2));
-                        $data['creation_date'] = $date1;
-                        $data['creation_date'] = $date2;
-                        $data['taskType'] = $taskType;
-                        $data['region_id'] = $region_id;
-                        $data['state_name'] = $state_name;
-                        $where = "creation_date>='" . $date_from . "' and creation_date<='" . $date_to . "' and task_type_id=" . $taskType . " and region_id =" . $region_id . " and status =1 and task_for=1";
-                        $data['taskData'] = $this->Admin_model->volunteer_task_Data($where);
-                    } else {
-                        //  $data['taskData'] = $this->Admin_model->volunteer_task_Data($where);
-                    }
-                }
-                $data['taskType'] = $this->Crud_modal->fetch_all_data('*', 'task_type', 'status = 1');
-                $data['regions'] = $this->Crud_modal->fetch_all_data('*', 'regions', 'region_status=1');
-                $this->load->view('temp/head');
-                $this->load->view('temp/header', $data);
-                $this->load->view('temp/sidebar');
-                $this->load->view('task-list', $data);
-                $this->load->view('temp/footer');
-            } else {
-                redirect(base_url() . 'login', 'refresh');
-            }
-        } catch (Exception $e) {
-            echo 'Caught exception: ',  $e->getMessage(), "\n";
-        }
-    }
 
     public function request_certificate()
     {
@@ -634,33 +382,7 @@ class Admin extends MY_Controller
         $this->load->view('temp/footer');
     }
 
-
-
-    public function add_task()
-    {
-        try {
-            if (($this->session->userdata('emp_id') != "" || $this->session->userdata('emp_id') != null)) {
-                $region = $this->session->userdata('region_id');
-                $role = $this->session->userdata('role_id');
-                if ($role == 1) {
-                } else {
-                    $data['rname'] = $this->Curl_model->fetch_single_data('region_name,state_id', 'regions', array('region_id' => $region));
-                    $data['states'] = $this->Crud_modal->fetch_all_data('*', 'states', 'region_id=' . $region);
-                }
-                $data['taskType'] = $this->Crud_modal->fetch_all_data('*', 'task_type', 'status = 1');
-                $data['regions'] = $this->Crud_modal->fetch_all_data('*', 'regions', 'region_status=1');
-                $this->load->view('temp/head');
-                $this->load->view('temp/header', $data);
-                $this->load->view('temp/sidebar');
-                $this->load->view('add-task', $data);
-                $this->load->view('temp/footer');
-            } else {
-                redirect(base_url() . 'login', 'refresh');
-            }
-        } catch (Exception $e) {
-            echo 'Caught exception: ',  $e->getMessage(), "\n";
-        }
-    }
+    
 
     public function getonline_offlineTask()
     {
@@ -847,7 +569,6 @@ class Admin extends MY_Controller
         }
     }
 
-
     public function getTaskcity()
     {
         $stateID = $this->input->post('stateName');
@@ -898,30 +619,30 @@ class Admin extends MY_Controller
             $order_by = '';
 
             $taskDetails = $this->Curl_model->fetch_data_with_joining($join_data, $limit, $order_by);
-            //print_r($taskDetails);
+           
             $i = 0;
             if (sizeof($taskDetails) > 0) {
                 foreach ($taskDetails as $key => $value) {
                     $fields = array(
-                        'dailyReportDate',
+                        'dr_date',
                     );
-                    $where = array('taskID' => $value['taskID'], 'userID' => $userID);
+                    $where = array('task_id' => $value['task_id'], 'volunteer_id' => $userID);
                     $limit = 1;
-                    $order_by = array('dailyReportCreationDate', 'DESC');
+                    $order_by = array('creation_date', 'DESC');
                     $daily_report_date = $this->Curl_model->fetch_data_in_many_array('daily_report', $fields, $where, $limit, $order_by);
                     $join_data = array(
                         array(
                             'table' => 'daily_report',
-                            'fields' => array('dailyReportID', 'dailyReportTimeIn', 'userID', 'taskID', 'dailyReportTimeOut', 'dailyReportDate', 'dailyReportActivity'),
-                            'joinWith' => array('userID'),
+                            'fields' => array('dr_id', 'dr_time_in', 'volunteer_id', 'task_id', 'dr_time_out', 'dr_date', 'dr_activity'),
+                            'joinWith' => array('volunteer_id'),
                             'where' => array(
                                 'status' => 1,
-                                'taskID' => $value['taskID'],
-                                'userID' => $userID,
+                                'task_id' => $value['task_id'],
+                                'volunteer_id' => $userID,
                                 'approved_status !' => 0,
                                 'approveddaily_ID !' => 0,
                             ),
-                            'order_by' => array('dailyReportID', 'ASC'),
+                            'order_by' => array('dr_id', 'ASC'),
                             'group_by' => array('approveddaily_ID'),
                             // 'function'=>array('SUM','dailyReportTimeIn'),
                         ),
@@ -1011,52 +732,7 @@ class Admin extends MY_Controller
         }
     }
 
-    public function assigned_task()
-    {
-
-        try {
-            if (($this->session->userdata('emp_id') != "" || $this->session->userdata('emp_id') != null)) {
-                $emp_id = $this->session->userdata('emp_id');
-                $region = $this->session->userdata('region_id');
-                $taskType = $this->input->post('taskType');
-                if (!empty($this->input->post('assignTask'))) {
-                    $task = $this->input->post('taskName');
-                    // echo "<pre>";
-                    // print_r($task);exit;
-                    $state = $this->input->post('stateName');
-                    $assignDate = date("Y-m-d", strtotime($this->input->post('assignDate')));
-                    $volunteerId = $this->input->post('valunteers');
-                    $volunteerassignTask = array();
-                    for ($i = 0; $i < count($volunteerId); $i++) {
-                        $assignTask = array(
-                            'volunteer_id' => $volunteerId[$i],
-                            'task_id' => $task,
-                            'assigned_date' => $assignDate,
-                            'status' => 0,
-                            'assign_by'=> $emp_id,
-                        );
-                        array_push($volunteerassignTask, $assignTask);
-                    }
-                    $this->Crud_modal->insert_batch('assigning_task', $volunteerassignTask);
-                    $this->session->set_flashdata('master_insert_message', '<div class="alert alert-warning"><strong>You Assign a task!</strong></div>');
-                    redirect(base_url() . 'assigned-task');
-                }
-                $data['rname'] = $this->Curl_model->fetch_single_data('region_name,state_id', 'regions', array('region_id' => $region));
-                $data['taskType'] = $this->Crud_modal->fetch_all_data('*', 'task_type', 'status = 1');
-                $data['regions'] = $this->Crud_modal->fetch_all_data('*', 'regions', 'region_status=1');
-                $this->load->view('temp/head');
-                $this->load->view('temp/header', $data);
-                $this->load->view('temp/sidebar');
-                $this->load->view('assigned-task', $data);
-                $this->load->view('temp/footer');
-            } else {
-                redirect(base_url() . 'login', 'refresh');
-            }
-        } catch (Exception $e) {
-
-            echo 'Caught exception: ',  $e->getMessage(), "\n";
-        }
-    }
+   
 
     public function intern_assigned_task()
     {
@@ -1077,7 +753,7 @@ class Admin extends MY_Controller
                             'intern_task_id' => $task,
                             'assigned_date' => $assignDate,
                             'assign_by_task'=>$emp,
-                            'status' => 0,
+                            'status' => 1,
                         );
                         array_push($volunteerassignTask, $assignTask);
                     }
@@ -1126,50 +802,6 @@ class Admin extends MY_Controller
     }
 
 
-    public function view_assigned_task()
-{
-    try{
-
-        if(($this->session->userdata('emp_id') != "" || $this->session->userdata('emp_id') != null)){
-            $region = $this->session->userdata('region_id');
-            $role = $this->session->userdata('role_id');
-           
-            if($role == 1){
-                if($this->input->post('task_id')!=""){
-                    $assignTaskid = $this->input->post('task_id');
-                    $where = 'as.status = 0 OR as. status = 1 OR as.status = 2 And v.status = 5 AND as.task_id = "'.$assignTaskid.'"';
-                    $data['assignTaskdata'] = $this->Admin_model->volunteer_by_assign_task($where);
-                }
-                
-               
-            }else{
-                if($this->input->post('task_id')!="" || $this->session->userdata('emp_id')!=""){
-                    $data['rname'] = $this->Curl_model->fetch_single_data('region_name,state_id', 'regions', array('region_id' => $region));
-                     $data['states'] = $this->Crud_modal->fetch_all_data('*', 'states', 'region_id=' . $region);
-                    $assignTaskid = $this->input->post('task_id');
-                    $emp = $this->session->userdata('emp_id');
-                    $where = 'as.status in (0,1,2) And v.status = 5 AND as.task_id = "'.$assignTaskid.'" AND as.assign_by = "'.$emp.'"';
-                    //echo $where;exit;
-                    $data['assignTaskdata'] = $this->Admin_model->volunteer_by_assign_task($where);
-                   
-                }
-
-            }
-            $where = 'ast.status=0';
-            $data['task'] = $this->Admin_model->all_assign_task($where);
-            $this->load->view('temp/head');
-            $this->load->view('temp/header', $data);
-            $this->load->view('temp/sidebar');
-            $this->load->view('view-assigned-task', $data);
-            $this->load->view('temp/footer');
-
-        }else {
-                redirect(base_url() . 'login', 'refresh');
-            }
-    }catch (Exception $e) {
-            echo 'Caught exception: ',  $e->getMessage(), "\n";
-        }
-}
        
     public function requested_task()
     {
@@ -5184,68 +4816,7 @@ class Admin extends MY_Controller
 <?php
     }
 
-    public function enquiry()
-    {
-        try {
-            if (($this->session->userdata('emp_id') != "" || $this->session->userdata('emp_id') != null)) {
-                $region = $this->session->userdata('region_id');
-                $role = $this->session->userdata('role_id');
-                if ($role == 1) {
-                    $date2 = $data['date_to'] = date("Y-m-d");
-                    $data['date_from'] = date("Y-m-d", strtotime($date2 . '-7 days'));
-                    $where = 'v.status =1 OR v.status =2';
-                    if ($this->input->post('start_new') != "" && $this->input->post('end_new') != "" &&  $this->input->post('state_name') != "" && $this->input->post('region_id') != "") {
-                        $data['state'] =  $state_name = $this->input->post('state_name');
-                        $data['region_id'] =  $region_id = $this->input->post('region_id');
-                        $date1 = $this->input->post('start_new');
-                        $date2 = $this->input->post('end_new');
-                        $date_from = date("Y-m-d", strtotime($date1));
-                        $date_to = date("Y-m-d", strtotime($date2 . '+1 days'));
-                        $data['creation_date'] = $date1;
-                        $data['creation_date'] = $date2;
-                        $data['state_name'] = $state_name;
-                        //$data['region_id'] = $region_id;
-                        $where = "creation_date>='" . $date_from . "' and creation_date<='" . $date_to . "' and v.state_id=" . $state_name . "  and (v.status=1 OR v.status=2)";
-                        $data['volunteer'] = $this->Admin_model->volunteer_enquiry_Data($where);
-                        // echo "<pre>";
-                        // print_r($data['volunteer']);exit;
-                    }
-                } else {
-                    $data['rname'] = $this->Curl_model->fetch_single_data('region_name,state_id', 'regions', array('region_id' => $region));
-                    $data['states'] = $this->Crud_modal->fetch_all_data('*', 'states', 'region_id=' . $region);
-                    $date2 = $data['date_to'] = date("Y-m-d");
-                    $data['date_from'] = date("Y-m-d", strtotime($date2 . '-7 days'));
-                    $where = 'v.status =1 OR v.status =2';
-                    if ($this->input->post('start_new') != "" && $this->input->post('end_new') != "" &&  $this->input->post('state_name') != "") {
-                        $data['state'] =   $state_name = $this->input->post('state_name');
-                        $date1 = $this->input->post('start_new');
-                        $date2 = $this->input->post('end_new');
-                        $date_from = date("Y-m-d", strtotime($date1));
-                        $date_to = date("Y-m-d", strtotime($date2 . '+1 days'));
-                        $data['creation_date'] = $date1;
-                        $data['creation_date'] = $date2;
-                        $data['state_name'] = $state_name;
-                        $where = "creation_date>='" . $date_from . "' and creation_date<='" . $date_to . "' and v.state_id=" . $state_name . "  and (v.status=1 OR v.status=2)";
-                        $data['volunteer'] = $this->Admin_model->volunteer_enquiry_Data($where);
-                    }
-                }
-
-                $data['email_templates'] = $this->Crud_modal->fetch_single_data('email_templates_id,body_content', 'email_templates', 'status=1 AND email_templates_id=4');
-             
-                $data['regions'] = $this->Crud_modal->fetch_all_data('*', 'regions', 'region_status=1');
-                
-                $this->load->view('temp/head');
-                $this->load->view('temp/header', $data);
-                $this->load->view('temp/sidebar');
-                $this->load->view('enquiry', $data);
-                $this->load->view('temp/footer');
-            } else {
-                redirect(base_url() . 'login', 'refresh');
-            }
-        } catch (Exception $e) {
-            echo 'Caught exception: ',  $e->getMessage(), "\n";
-        }
-    }
+   
 
     public function all_onboard_intern()
     {
@@ -5613,125 +5184,6 @@ class Admin extends MY_Controller
             }
         }
     }
-
-    public function ragistration_volunteer()
-    {
-        try {
-            if (($this->session->userdata('emp_id') != "" || $this->session->userdata('emp_id') != null)) {
-                $region = $this->session->userdata('region_id');
-                $role = $this->session->userdata('role_id');
-                if ($role == 1) {
-                    $date2 = $data['date_to'] = date("Y-m-d");
-                    $data['date_from'] = date("Y-m-d", strtotime($date2 . '-7 days'));
-                    $where = 'v.status =2 OR v.status =3';
-                    if ($this->input->post('start_new') != "" && $this->input->post('end_new') != "" &&  $this->input->post('state_name') != "") {
-                        $data['state'] =  $state_name = $this->input->post('state_name');
-                        $date1 = $this->input->post('start_new');
-                        $date2 = $this->input->post('end_new');
-                        $date_from = date("Y-m-d", strtotime($date1));
-                        $date_to = date("Y-m-d", strtotime($date2 . '+1 days'));
-                        $data['creation_date'] = $date1;
-                        $data['creation_date'] = $date2;
-                        $data['state_name'] = $state_name;
-                        $where = "creation_date>='" . $date_from . "' and creation_date<='" . $date_to . "' and v.state_id=" . $state_name . "  and (v.status=2 OR v.status=3)";
-                        $data['volunteer'] = $this->Admin_model->volunteer_enquiry_Data($where);
-                    }
-                } else {
-                    $data['rname'] = $this->Curl_model->fetch_single_data('region_name,state_id', 'regions', array('region_id' => $region));
-                    $data['states'] = $this->Crud_modal->fetch_all_data('*', 'states', 'region_id=' . $region);
-                    $date2 = $data['date_to'] = date("Y-m-d");
-                    $data['date_from'] = date("Y-m-d", strtotime($date2 . '-7 days'));
-                    $where = 'v.status =2 OR v.status =3';
-                    if ($this->input->post('start_new') != "" && $this->input->post('end_new') != "" &&  $this->input->post('state_name') != "") {
-                        $data['state'] = $state_name = $this->input->post('state_name');
-                        $date1 = $this->input->post('start_new');
-                        $date2 = $this->input->post('end_new');
-                        $date_from = date("Y-m-d", strtotime($date1));
-                        $date_to = date("Y-m-d", strtotime($date2 . '+1 days'));
-                        $data['creation_date'] = $date1;
-                        $data['creation_date'] = $date2;
-                        $data['state_name'] = $state_name;
-                        $where = "creation_date>='" . $date_from . "' and creation_date<='" . $date_to . "' and v.state_id=" . $state_name . "  and (v.status=2 OR v.status=3)";
-                        $data['volunteer'] = $this->Admin_model->volunteer_enquiry_Data($where);
-                    }
-                }
-                $data['email_templates'] = $this->Crud_modal->fetch_single_data('email_templates_id,body_content', 'email_templates', 'status=1 AND email_templates_id=5');
-                $data['regions'] = $this->Crud_modal->fetch_all_data('*', 'regions', 'region_status=1');
-                $this->load->view('temp/head');
-                $this->load->view('temp/header', $data);
-                $this->load->view('temp/sidebar');
-                $this->load->view('ragistration-volunteer', $data);
-                $this->load->view('temp/footer');
-            } else {
-                redirect(base_url() . 'login', 'refresh');
-            }
-        } catch (Exception $e) {
-            echo 'Caught exception: ',  $e->getMessage(), "\n";
-        }
-    }
-
-    public function volenteership()
-    {
-       
-        try {
-            if (($this->session->userdata('emp_id') != "" || $this->session->userdata('emp_id') != null)) {
-                $region = $this->session->userdata('region_id');
-                $role = $this->session->userdata('role_id');
-              
-                if ($role == 1) {
-                    $date2 = $data['date_to'] = date("Y-m-d");
-                    $data['date_from'] = date("Y-m-d", strtotime($date2 . '-7 days'));
-                   // $where = 'v.status =4 OR v.status =5';
-                    if ($this->input->post('start_new') != "" && $this->input->post('end_new') != "" &&  $this->input->post('state_name') != "") {
-                        $data['state'] =  $state_name = $this->input->post('state_name');
-                        $date1 = $this->input->post('start_new');
-                        $date2 = $this->input->post('end_new');
-                        $date_from = date("Y-m-d", strtotime($date1));
-                        $date_to = date("Y-m-d", strtotime($date2 . '+1 days'));
-                        $data['creation_date'] = $date1;
-                        $data['creation_date'] = $date2;
-                        $data['state_name'] = $state_name;
-                        $where = "creation_date>='" . $date_from . "' and creation_date<='" . $date_to . "' and v.state_id=" . $state_name . "  and (v.status = 4 OR v.status=5)";
-                        $data['volunteer'] = $this->Admin_model->volunteer_enquiry_Data($where);
-                        // echo "<pre>";
-                        // print_r($data['volunteer']);exit;
-
-                    }
-                } else {
-                    $data['rname'] = $this->Curl_model->fetch_single_data('region_name,state_id', 'regions', array('region_id' => $region));
-                    $data['states'] = $this->Crud_modal->fetch_all_data('*', 'states', 'region_id=' . $region);
-                    $date2 = $data['date_to'] = date("Y-m-d");
-                    $data['date_from'] = date("Y-m-d", strtotime($date2 . '-7 days'));
-                    $where = 'v.status =4 OR v.status =5';
-                    if ($this->input->post('start_new') != "" && $this->input->post('end_new') != "" &&  $this->input->post('state_name') != "") {
-                        $data['state'] = $state_name = $this->input->post('state_name');
-                        $date1 = $this->input->post('start_new');
-                        $date2 = $this->input->post('end_new');
-                        $date_from = date("Y-m-d", strtotime($date1));
-                        $date_to = date("Y-m-d", strtotime($date2 . '+1 days'));
-                        $data['creation_date'] = $date1;
-                        $data['creation_date'] = $date2;
-                        $data['state_name'] = $state_name;
-                        $where = "creation_date>='" . $date_from . "' and creation_date<='" . $date_to . "' and v.state_id=" . $state_name . "  and (v.status=4 OR v.status=5)";
-                        $data['volunteer'] = $this->Admin_model->volunteer_enquiry_Data($where);
-                    }
-                }
-                $data['emailData'] = $this->Crud_modal->fetch_single_data('email_templates_id,body_content', 'email_templates', 'status=1 AND email_templates_id=6');
-                $data['regions'] = $this->Crud_modal->fetch_all_data('*', 'regions', 'region_status=1');
-                $this->load->view('temp/head');
-                $this->load->view('temp/header', $data);
-                $this->load->view('temp/sidebar');
-                $this->load->view('volenteership', $data);
-                $this->load->view('temp/footer');
-            } else {
-                redirect(base_url() . 'login', 'refresh');
-            }
-        } catch (Exception $e) {
-            echo 'Caught exception: ',  $e->getMessage(), "\n";
-        }
-    }
-
-
 
     function get_states()
     {
@@ -7878,12 +7330,11 @@ class Admin extends MY_Controller
                 if($role == 1){
                     if($this->input->post('intern_task_id')!=""){
                         $assignTaskid = $this->input->post('intern_task_id');
-                      
                         $where = 'iast.status = 0 OR iast. status = 1 OR iast.status = 2 And i.status = 7 AND iast.intern_task_id = "'.$assignTaskid.'"';
                         $data['internAssignTaskdata'] = $this->Admin_model->intern_by_assign_task($where);
                     }
                     
-                   
+
                 }else{
 
                     if($this->input->post('intern_task_id')!=""  || $this->session->userdata('emp_id') != null){
@@ -7897,7 +7348,7 @@ class Admin extends MY_Controller
                         
                     }
                 }
-                $where = 'iast.status=0';
+                $where = 'iast.status=1';
                 $data['internAssigntask'] = $this->Admin_model->all_assign_task_intern($where);
                 
                 $this->load->view('temp/head');
