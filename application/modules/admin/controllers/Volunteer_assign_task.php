@@ -33,7 +33,7 @@ class Volunteer_assign_task extends MY_Controller
         date_default_timezone_set('Asia/Kolkata');
     }
 
-    public function assigned_task()
+ public function assigned_task()
     {
 
         try {
@@ -78,7 +78,6 @@ class Volunteer_assign_task extends MY_Controller
         }
     }
 
-    
     public function view_assigned_task()
 {
     try{

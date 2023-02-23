@@ -98,7 +98,7 @@ $rid = $this->session->userdata('admin_role');
 					<ul class="slide-menu">
 						<li class="side-menu-label1"><a href="javascript:void(0)">Settings</a></li>
 						<li>
-							<a href="<?php echo base_url(); ?>program-volunteer-list" class="slide-item">
+							<a href="<?php echo base_url(); ?>program-list" class="slide-item">
 								Add Program
 							</a>
 						</li>

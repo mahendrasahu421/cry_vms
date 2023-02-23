@@ -10,7 +10,7 @@
                     </ol>
                 </div>
                 <div class="ms-auto pageheader-btn">
-                    <a href="add-program-volunteer" class="btn btn-warning btn-icon text-white me-2">
+                    <a href="<?php echo base_url('create-program')?>" class="btn btn-warning btn-icon text-white me-2">
                         <span>
                             <i class="fe fe-plus"></i>
                         </span>Create Program
@@ -58,7 +58,7 @@
                                                     <?php } else { ?>
                                                         <td><span class="badge rounded-pill bg-secondary me-1 mb-1 mt-1">Deactive</span></td>
                                                     <?php } ?>
-                                                    <td><a href="<?php echo base_url() ?>edit-program-volunteer/<?php echo $encoded_id; ?>" onClick="javascript:if(confirm('Do You Want to Edit Program ?')){return true;}else{return false}"><i class="fa fa-edit"></i></a></td>
+                                                    <td><a href="<?php echo base_url() ?>edit-created-program/<?php echo $encoded_id; ?>" onClick="javascript:if(confirm('Do You Want to Edit Program ?')){return true;}else{return false}"><i class="fa fa-edit"></i></a></td>
                                                 </tr>
                                             <?php } ?>
                                         </tbody>
