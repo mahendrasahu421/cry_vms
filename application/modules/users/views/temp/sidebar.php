@@ -45,7 +45,7 @@
                 </li>
 
                 <li>
-                    <a class="side-menu__item" href="<?php echo base_url(); ?>certificate"><i class="side-menu__icon fe fe-grid"></i><span class="side-menu__label"> Certificate</span></a>
+                    <a class="side-menu__item" href="<?php echo base_url(); ?>certificatenew"><i class="side-menu__icon fe fe-grid"></i><span class="side-menu__label"> Certificate</span></a>
                 </li>
                 <li class="slide">
                     <a class="side-menu__item" data-bs-toggle="slide" href="javascript:void(0);"><i class="side-menu__icon fe fe-grid"></i><span class="side-menu__label">Transfer Request</span><i class="angle fa fa-angle-right"></i></a>

@@ -1,11 +1,13 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Welcome to DryCoder</title>
-  </head>
-  <body style="background: #f9f9f9 url(stucco.png) repeat top left;">
-    <div class="content">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>Welcome to DryCoder</title>
+</head>
+
+<body style="background: #f9f9f9 url(stucco.png) repeat top left;">
+  <div class="content">
     <!-- Notification 1  -->
     <table width="100%" border="0" cellpadding="0" cellspacing="0" align="center" class="full" bgcolor="" c-style="bgImage" object="drag-module" style="margin-top:2%">
       <tr mc:repeatable>
@@ -36,10 +38,10 @@
                     </tr>
                   </table>
                   <!-- Start Top -->
-                  <table width="500" border="0" cellpadding="0" cellspacing="0" align="center" class="mobile"  bgcolor="#112b4e" c-style="blueBG" object="drag-module-small">
+                  <table width="500" border="0" cellpadding="0" cellspacing="0" align="center" class="mobile" bgcolor="#112b4e" c-style="blueBG" object="drag-module-small">
                     <tr>
                       <td width="500" valign="middle" align="center">
-                        <!-- Header Text --> 
+                        <!-- Header Text -->
                         <table width="400" border="0" cellpadding="0" cellspacing="0" align="center" style="text-align: center; border-collapse:collapse;" class="fullCenter">
                           <tr>
                             <td align="center" valign="middle" width="100%" style="text-align: center; font-family: Helvetica, Arial, sans-serif; font-size: 25px; color: #ffffff; line-height: 30px; font-weight: 100;" t-style="whiteText" class="fullCenter" mc:edit="1" object="text-editable">
@@ -57,7 +59,7 @@
                     </tr>
                   </table>
                   <!-- End Top -->
-                  <table width="500" border="0" cellpadding="0" cellspacing="0" align="center" class="mobile"  bgcolor="#112b4e" c-style="blueBG" object="drag-module-small">
+                  <table width="500" border="0" cellpadding="0" cellspacing="0" align="center" class="mobile" bgcolor="#112b4e" c-style="blueBG" object="drag-module-small">
                     <tr>
                       <td width="500" valign="middle" align="center">
                         <table width="300" border="0" cellpadding="0" cellspacing="0" align="center" style="text-align: center; border-collapse:collapse;" class="fullCenter">
@@ -104,29 +106,29 @@
             <tr>
               <td align="center" width="500" valign="middle" bgcolor="#ffffff" c-style="whiteBG">
                 <div class="sortable_inner">
-                  <table width="500" border="0" cellpadding="0" cellspacing="0" align="center" class="mobile"  bgcolor="#ffffff" c-style="whiteBG" object="drag-module-small">
+                  <table width="500" border="0" cellpadding="0" cellspacing="0" align="center" class="mobile" bgcolor="#ffffff" c-style="whiteBG" object="drag-module-small">
                     <tr>
                       <td width="500" valign="middle" align="center">
                         <table width="265" border="0" cellpadding="0" cellspacing="0" align="center" style="text-align: center; border-collapse:collapse;" class="fullCenter">
                           <tr>
-                            <td width="100%" height="40"><span style="color:#999999;font-size:14px; font-family:'proxima_nova_rgregular', Helvetica;"><span class="aBn" data-term="goog_1795359220" tabindex="0"><span class="aQJ"><?php echo date("F d,Y")?></span></span></span></td>
+                            <td width="100%" height="40"><span style="color:#999999;font-size:14px; font-family:'proxima_nova_rgregular', Helvetica;"><span class="aBn" data-term="goog_1795359220" tabindex="0"><span class="aQJ"><?php echo date("F d,Y") ?></span></span></span></td>
                           </tr>
                         </table>
                       </td>
                     </tr>
                   </table>
                   <!-- Start Second -->
-                  <table width="500" border="0" cellpadding="0" cellspacing="0" align="center" class="mobile"  bgcolor="#ffffff" c-style="whiteBG" object="drag-module-small">
+                  <table width="500" border="0" cellpadding="0" cellspacing="0" align="center" class="mobile" bgcolor="#ffffff" c-style="whiteBG" object="drag-module-small">
                     <tr>
                       <td width="500" valign="middle" align="left">
-                        <!-- Header Text --> 
+                        <!-- Header Text -->
                         <table width="300" border="0" cellpadding="0" cellspacing="0" align="center" style="text-align: left; border-collapse:collapse; " class="fullCenter">
                           <tr>
                             <td align="left" valign="middle" width="100%" style="text-align: left; font-family: Helvetica, Arial, sans-serif; font-size: 14px; color: #212121; line-height: 30px; font-weight: 100;" t-style="headline" class="fullCenter" mc:edit="3" object="text-editable">
                               <!--[if !mso]><!-->
                               <span style="font-family: 'proxima_novathin', Helvetica; font-weight: normal;">
                                 <!--<![endif]-->
-                                <singleline>Dear <?php echo $first_name?> <?php echo $last_name?>,</singleline>
+                                <singleline>Dear <?php echo $first_name ?> <?php echo $last_name ?>,</singleline>
                                 <!--[if !mso]><!-->
                               </span>
                               <!--<![endif]-->
@@ -136,7 +138,7 @@
                       </td>
                     </tr>
                   </table>
-                  <table width="500" border="0" cellpadding="0" cellspacing="0" align="center" class="mobile"  bgcolor="#ffffff" c-style="whiteBG" object="drag-module-small">
+                  <table width="500" border="0" cellpadding="0" cellspacing="0" align="center" class="mobile" bgcolor="#ffffff" c-style="whiteBG" object="drag-module-small">
                     <tr>
                       <td width="500" valign="middle" align="center">
                         <table width="265" border="0" cellpadding="0" cellspacing="0" align="center" style="text-align: center; border-collapse:collapse; " class="fullCenter">
@@ -148,7 +150,7 @@
                   <table width="500" border="0" cellpadding="0" cellspacing="0" align="center" class="mobile" bgcolor="#ffffff" c-style="whiteBG" object="drag-module-small">
                     <tr>
                       <td width="500" valign="middle" align="center">
-                        <!-- Header Text --> 
+                        <!-- Header Text -->
                         <table width="300" border="0" cellpadding="0" cellspacing="0" align="center" style="text-align: center; border-collapse:collapse; " class="fullCenter">
                           <tr>
                             <td valign="middle" width="100%" style="text-align:left; font-family: Helvetica, Arial, sans-serif; font-size: 14px; color: #515151; line-height: 24px;" t-style="textColor" class="fullCenter" mc:edit="4" object="text-editable">
@@ -156,7 +158,7 @@
                               <span style="font-family: 'proxima_nova_rgregular', Helvetica; font-weight: normal; ">
                                 <!--<![endif]-->
                                 <singleline>
-                                  We would like to notify you that your interview scheduled on <?php echo $old_schedule_date.' at '.$old_schedule_time?> with <?php echo $emp_name.' from '.$emp_compnay?> has been rescheduled. 
+                                  We would like to notify you that your interview scheduled on <?php echo $old_schedule_date . ' at ' . $old_schedule_time ?> with <?php echo $emp_name . ' from ' . $emp_compnay ?> has been rescheduled.
                                 </singleline>
                                 <!--[if !mso]><!-->
                               </span>
@@ -167,12 +169,12 @@
                       </td>
                     </tr>
                   </table>
-                 
+
                   <table width="500" border="0" cellpadding="0" cellspacing="0" align="center" class="mobile" bgcolor="#ffffff" c-style="whiteBG" object="drag-module-small">
                     <tr>
 
                       <td width="500" valign="middle" align="center">
-                        <!-- Header Text --> 
+                        <!-- Header Text -->
                         <table width="300" border="0" cellpadding="0" cellspacing="0" align="center" style="text-align: center; border-collapse:collapse; " class="fullCenter">
                           <tr>
                             <td width="100%" height="20"></td>
@@ -184,11 +186,11 @@
                                 <!--<![endif]-->
                                 <singleline>
                                   Here are your updated interview details:<br>
-                                   <strong>Format:</strong> <?php echo $mode ?><br>
-                                   <?php echo($mode=="Face to Face" ? "<strong>Venue: </strong>".$venue."<br>" : "")?>
-                                  <strong>Date:</strong> <?php echo date("F d,Y",strtotime($schedule_date)) ?><br> 
-                                  <strong>Time:</strong> <?php echo  date("h:i A",strtotime($schedule_time));?> <br>
-                                  <strong>Description:</strong> <?php echo  $hr_description;?> 
+                                  <strong>Format:</strong> <?php echo $mode ?><br>
+                                  <?php echo ($mode == "Face to Face" ? "<strong>Venue: </strong>" . $venue . "<br>" : "") ?>
+                                  <strong>Date:</strong> <?php echo date("F d,Y", strtotime($schedule_date)) ?><br>
+                                  <strong>Time:</strong> <?php echo  date("h:i A", strtotime($schedule_time)); ?> <br>
+                                  <strong>Description:</strong> <?php echo  $hr_description; ?>
                                 </singleline>
                                 <!--[if !mso]><!-->
                               </span>
@@ -247,12 +249,12 @@
                           <!--<![endif]-->
                         </td>
                       </tr>
-                       <tr>
+                      <tr>
                         <td width="" height="30"></td>
                       </tr>
                     </tbody>
                   </table>
-                 
+
                 </div>
               </td>
             </tr>
@@ -279,8 +281,8 @@
                   <!--[if !mso]><!-->
                   <span style="font-family: 'proxima_nova_rgregular', Helvetica; font-weight: normal;">
                     <!--<![endif]-->
-                     www.DryCoder.com | support@DryCoder.com 
-<br />Support : +91-9889-062374
+                    www.DryCoder.com | support@DryCoder.com
+                    <br />Support : +91-9889-062374
                     <!--[if !mso]><!-->
                   </span>
                   <!--<![endif]-->
@@ -295,10 +297,11 @@
               </tr>
             </table>
             <!-- End CopyRight -->
-            
+
         </td>
       </tr>
     </table>
-    </div>
-  </body>
+  </div>
+</body>
+
 </html>

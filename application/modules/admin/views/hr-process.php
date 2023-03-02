@@ -29,7 +29,7 @@
 }
 
 .process-step .btn:focus {
-    outline: none
+    outline: none;
 }
 
 .process {
@@ -385,6 +385,16 @@ fieldset[disabled] .btn-default:hover {
                                                     $bnt_disable = "disabled";
                                                 }
                                                 ?>
+                                                <?php if( $interuser['status']==7){ ?>
+                                                <div class="process-step" style="width: 20%;">
+                                                    <button type="button"
+                                                        class="btn btn-circle process_btn <?php echo $bnt_color ?>"><i
+                                                            class="fa fa-check fa-3x"></i></button>
+                                                    <p>
+                                                        <small><strong>Shortlist</strong></small>
+                                                    </p>
+                                                </div>
+                                                <?php } else { ?>
                                                 <div class="process-step" style="width: 20%;">
                                                     <button type="button"
                                                         class="btn btn-circle process_btn <?php echo $bnt_color ?>"><i
@@ -412,7 +422,9 @@ fieldset[disabled] .btn-default:hover {
                                                         title="Email"><i class="fa fa-paper-plane"
                                                             aria-hidden="true"></i></button>
                                                 </div>
+                                                <?php } ?>
                                                 <!-- ############   End Shortlisted div     ################## -->
+                                                <?php  if($interuser['status']==2 ){  ?>
                                                 <div class="process-step" style="width: 20%;">
                                                     <?php
                                                     if ($process_step[0] <= 3) {
@@ -443,10 +455,26 @@ fieldset[disabled] .btn-default:hover {
                                                             class="fa fa-paper-plane" aria-hidden="true"></i></button>
 
                                                 </div>
+                                                <?php } else { ?>
+                                                
+                                                     <div class="process-step" style="width: 20%;">
+                                                         <button type="button"
+                                                        class="btn <?php echo $bnt_color ?> btn-circle process_btn"
+                                                        <?php echo $bnt_disable ?>><i
+                                                            class="fa fa-calendar fa-3x"></i></button>
+                                                    <p>
+                                                        <strong>Interview</strong>
+
+                                                        <br>
+                                                    </p>
+                                                    </div>
+                                                <?php } ?>
+                                                
                                                 <?php $intern_id = $interuser['intern_id'];
                                                 $encoded_id = rtrim(strtr(base64_encode($intern_id), '+/', '-_'), '=');
                                                 ?>
                                                 <!-- ##################################################      Interview div     #####################################################  -->
+                                                <?php  if($interuser['status']==5 ){  ?>
                                                 <div class="process-step" style="width: 20%;">
                                                     <?php
                                                     if ($process_step[0] <= 4) {
@@ -477,7 +505,21 @@ fieldset[disabled] .btn-default:hover {
                                                         data-target="#exampleModaleditor">Edit Offer</button>
 
                                                 </div>
+                                                <?php } else{?>
+                                                <div class="process-step" style="width: 20%;">
+                                                    
+                                                    <button type="button"
+                                                        class="btn <?php echo $bnt_color ?> btn-circle process_btn"
+                                                        <?php echo $bnt_disable ?>><i
+                                                            class="fa fa-file-text-o fa-3x"></i></button>
+                                                    <p>
+                                                        <strong>Offer Letter</strong>
+
+                                                    </p>
+                                                </div>
+                                                <?php } ?>
                                                 <!-- ##################################################      Placed  div     #####################################################  -->
+                                                <?php if( $interuser['status']==6){ ?>
                                                 <div class="process-step">
                                                     <?php
                                                     if ($process_step[0] <= 5) {
@@ -500,17 +542,24 @@ fieldset[disabled] .btn-default:hover {
 
 
                                                     ?>
-                                                    <button type="button"
-                                                        class="btn <?php echo $bnt_color ?> btn-circle"
-                                                        <?php echo $bnt_disable ?>><i
-                                                            class="fa fa-industry fa-3x"></i></button>
+                                                   <button type="button" class="btn <?php echo $bnt_color?> btn-circle" <?php echo $bnt_disable ?> ><i class="fa fa-industry fa-3x"></i></button>
                                                     <p>
                                                         <strong>Placed</strong>
                                                     </p>
-                                                     <input type="radio" name="Join_radio" value="Join">Join
-                                                      <input type="hidden" class="form-control" value="<?php echo $interuser['creation_date']; ?>" name="Join_radio" />
-                                                    <input type="radio" name="Join_radio" value="Not Join">Not Join
+                                                     <input type="radio" name="Join_radio" <?php if($process_step[0]==6){ echo ($process_step[1]==1 ? "checked" : "") ;}  ?> value="Join">Join
+                                                      <input type="hidden" class="form-control Join_date"  value="<?php echo $interuser['creation_date']; ?>" name="Join_date" />
+                                                    <input type="radio" name="Join_radio"  <?php if($process_step[0]==6){ echo ($process_step[1]==1 ? "checked" : "") ;}  ?> value="Not Join">Not Join
                                                 </div>
+                                                <?php  }else{ ?>
+                                                <div class="process-step">
+                                                 <button type="button" class="btn <?php echo $bnt_color?> btn-circle" <?php echo $bnt_disable ?> ><i class="fa fa-industry fa-3x"></i></button>
+                                                    <p>
+                                                        <strong>Placed</strong>
+                                                    </p>
+                                                    
+                                                    </div>
+                                               <?php } ?>
+                                                
                                             </div>
                                         </div>
                                     </div>
@@ -642,7 +691,8 @@ fieldset[disabled] .btn-default:hover {
                                             </div>
                                         </div>
 
-                                        <div class="row row-sm">
+                                    <?php  if($interuser['status']==2 || $interuser['status']==5|| $interuser['status']==6 || $interuser['status']==7){  ?>
+                                        <div class="row row-sm" style="<?php echo ($process_step[0]>=3 ? 'display: block;' : '')?> ">
                                             <div class="col-lg-12 card">
 
                                                 <div class="">
@@ -714,11 +764,12 @@ fieldset[disabled] .btn-default:hover {
                                                                             <!--  <span class="input-group-addon"><span class="fa fa-clock-o"></span></span> -->
                                                                         </div>
                                                                     </td>
-                                                                    <td>
+                                                                    <td><!--
                                                                         <textarea style="color:#000;" name="venue"
                                                                             class="form-control venue"
                                                                             placeholder="Venue"
-                                                                            disabled>  <?php echo "City: " . $cityi['city_name'] . "   State: " . $statei['state_name'] ?></textarea>
+                                                                            disabled>  <?php echo "City: " . $cityi['city_name'] . "   State: " . $statei['state_name'] ?></textarea>-->
+                                                                         <textarea style="color:#000;" name="venue" class="form-control venue" placeholder="Venue"></textarea>
                                                                     </td>
                                                                     <td>
                                                                         <textarea name="hr_description"
@@ -795,15 +846,17 @@ fieldset[disabled] .btn-default:hover {
                                                                         </div>
                                                                     </td>
                                                                     <td>
-                                                                        <textarea style="color:#000;" name="venue"
+                                                                       <!-- <textarea style="color:#000;" name="venue"
                                                                             class="form-control venue"
                                                                             placeholder="Venue"
-                                                                            disabled><?php if ($u_schedule['venue'] == '') {
-                                                                                                                                                                                        echo "City: " . $cityi['city_name'] . "State: " . $statei['state_name'];
-                                                                                                                                                                                    } else {
-                                                                                                                                                                                        echo $u_schedule['venue'];
-                                                                                                                                                                                    }
-                                                                                                                                                                                    ?></textarea>
+                                                                            disabled><?php// if ($u_schedule['venue'] == '') {
+                                                                            //echo "City: " . $cityi['city_name'] . "State: " . $statei['state_name'];
+                                                                       // } else {
+                                                                       //     echo $u_schedule['venue'];
+                                                                       // }
+                                                                        ?></textarea>-->
+                                                                        
+                                                                        <textarea style="color:#000;" name="venue" class="form-control venue" placeholder="Venue"></textarea>
                                                                     </td>
                                                                     <td>
 
@@ -897,6 +950,8 @@ fieldset[disabled] .btn-default:hover {
                                                 </div>
                                             </div>
                                         </div>
+                                        
+                                        <?php } else { echo ""; } ?>
                                     </div>
                                 </div>
                             </div>
@@ -1165,8 +1220,7 @@ $(document).on("click", ".save_schedule", function() {
     }
     var con = confirm("Are you want to schedule the interview");
     if (con) {
-        if (mode != '' && schedule_date != '' && schedule_time != '' && hr_description !=
-            '' && venue_cout == 0) {
+        if (mode != '' && schedule_date != '' && schedule_time != '' && hr_description != '' && venue_cout == 0) {
             //alert('hello');
             $.ajax({
                 method: "post",
@@ -1268,7 +1322,8 @@ $(document).on("click", ".save_btn_action", function() {
                 var in_data = {
                     "comment": comment_object.val(),
                     "status": interview_status_object.val(),
-                    "schedule_id": schedule_id
+                    "schedule_id": schedule_id,
+                    'intern_id': <?php echo $interuser['intern_id'] ?>,
                 };
                 var link = '<?php echo base_url(); ?>clear_interview';
                 ajax_function(in_data, link);
@@ -1404,8 +1459,8 @@ function ajax_function(in_data, link) {
 // mail send functionality
 $(document).on("click", ".mail_btn_action", function(event) {
     var parentid = $(this).parents("tr");
-    if (parentid.find(".interview_status").val() != 1 && parentid.find(".interview_status")
-        .val() != 3) {
+   // if (parentid.find(".interview_status").val() != 1 && parentid.find(".interview_status").val() != 3) {
+        var interview_status_object = $(this).parents("tr").find(".interview_status");
         var mode_id = parentid.find(".mode");
         var attr = mode_id.attr('disabled');
         if (typeof attr !== typeof undefined && attr !== false) {
@@ -1455,9 +1510,9 @@ $(document).on("click", ".mail_btn_action", function(event) {
         } else {
             alert("Please save the schedule and then send mail");
         }
-    } else {
-        alert("Error in status");
-    }
+    //} else {
+     //   alert("Error in status");
+   // }
 });
 
 // send offer letter to user  
@@ -1523,7 +1578,7 @@ function join_function(join) {
         url: "<?php echo base_url(); ?>confirm_joining",
         data: {
             "join": join,
-            //'creation_date': <?php echo $interuser['creation_date']; ?>,
+            //'creation_date': <?php echo $interuser['creation_date'] ?>,
             'intern_id': <?php echo $interuser['intern_id'] ?>,
         },
         success: function(datas) {

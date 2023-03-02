@@ -171,6 +171,7 @@ class Admin_new extends MY_Controller
 			echo 'Caught exception: ',  $e->getMessage(), "\n";
 		}
 	}
+    
  public function intern_request_certificate()
  {
      try {
@@ -220,11 +221,13 @@ class Admin_new extends MY_Controller
              } else {
                  $data['rname'] = $this->Curl_model->fetch_single_data('region_name,state_id', 'regions', array('region_id' => $region));
                  $data['states'] = $this->Crud_modal->fetch_all_data('*', 'states', 'region_id=' . $region);
-                 $date2 = $data['date_to'] = date("Y-m-d");
+                  $date2 = $data['date_to'] = date("Y-m-d");
                  $data['date_from'] = date("Y-m-d", strtotime($date2 . '-7 days'));
-                 $where = 'i.status =7';
-                 if ($this->input->post('start_new') != "" && $this->input->post('end_new') != "" &&  $this->input->post('state_name') != "") {
-                     $data['state'] =   $state_name = $this->input->post('state_name');
+                 $where = 'i.status =7 AND isr.status = 2 AND fd.status=1 AND';
+                 if ($this->input->post('start_new') != "" && $this->input->post('end_new') != "" &&  $this->input->post('state_name') != "" && $this->input->post('region_id') != "") {
+                    $empId = $this->session->userdata('emp_id');
+                     $data['state'] =  $state_name = $this->input->post('state_name');
+                     $data['region_id'] =  $region_id = $this->input->post('region_id');
                      $date1 = $this->input->post('start_new');
                      $date2 = $this->input->post('end_new');
                      $date_from = date("Y-m-d", strtotime($date1));
@@ -232,8 +235,29 @@ class Admin_new extends MY_Controller
                      $data['creation_date'] = $date1;
                      $data['creation_date'] = $date2;
                      $data['state_name'] = $state_name;
-                     $where = "creation_date>='" . $date_from . "' and creation_date<='" . $date_to . "' and v.state_id=" . $state_name . "  and (v.status=1 OR v.status=2)";
-                     $data['volunteer'] = $this->Admin_model->volunteer_enquiry_Data($where);
+                     $where = "fd.creation_date>='" . $date_from . "' and fd.creation_date<='" . $date_to . "' and i.state_id=" . $state_name . "  and (i.status =7 AND isr.status = 2 AND fd.status=1)";
+                     $data['feedbackCertifecate'] = $this->Admin_model->send_certificate_by_feedback($where,$empId,$role);
+                     $skillId = $data['feedbackCertifecate'][0]['skill_id'];
+                     $skill_name = explode (",",$skillId);
+                     $skils="";
+                    for ($i = 0; $i < sizeof($skill_name); $i++) {
+                     $assig_name = $this->Crud_modal->fetch_single_data("skill_name", "skills", "skill_id= '".$skill_name[$i]."'");      
+                              $skils .= $assig_name['skill_name'].","." " ;
+                              
+                    }
+                     $data['email_templates'] = $this->Crud_modal->fetch_single_data('email_templates_id,body_content', 'email_templates', 'status=1 AND email_templates_id=9');
+                      $searchArray = array("Mr. Deepanshu Mittal","Hindi College, Delhi","Bitapi Baruah","Senior Manager","Deepanshu","a Data Analysis and documentation");
+                      $latsarrayTemplate = array(
+                          "Dear" ." ".$data['feedbackCertifecate'][0]['first_name']." ".$data['feedbackCertifecate'][0]['last_name'],
+                          $data['feedbackCertifecate'][0]['name_of_school'],
+                          $data['feedbackCertifecate'][0]['emp_name'],
+                          $data['feedbackCertifecate'][0]['des_name'],
+                          $data['feedbackCertifecate'][0]['first_name'],
+                          rtrim($skils,", "),
+                      );
+                      $lasttemplate = str_replace($searchArray, $latsarrayTemplate, $data['email_templates']['body_content'], $count);
+                      $data['final_offerdata'] = $lasttemplate;
+                        
                  }
              }
 
@@ -252,7 +276,6 @@ class Admin_new extends MY_Controller
          echo 'Caught exception: ',  $e->getMessage(), "\n";
      }
  }
-
 
     public function update_certificate_data(){
         $intern_id =$this->input->post('intern_id');
@@ -345,7 +368,8 @@ class Admin_new extends MY_Controller
             echo "Mailer Error: " . $mail->ErrorInfo;
         } else {
 
-            $this->Admin_model->count_send_mail($val);
+            $this->Admin_model->certificate_send($val);
+          //  $this->Admin_model->count_send_mail($val);
             redirect(base_url() . 'intern-request-certificate');
         }
     }

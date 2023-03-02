@@ -205,21 +205,22 @@
                                                 <td><?php echo $internData['city_name']; ?></td>
                                                 <td><?php echo $internEmail; ?></td>
                                                 <td>
+                                                <button type="button" class="btn btn-primary"
+                                                        data-toggle="modal" data-target=".bd-example-modal-lg"
+                                                        style="padding: 1% 2% 1% 2%;">Edit And
+                                                        Update</button>
                                                     <button type="button" class="btn btn-warning" id="preview">
                                                         <a href="<?php echo base_url() ?>view_certificate/<?php echo $encoded_id; ?>"
                                                             target="_blank">Preview </a>
                                                     </button>
-                                                    <button type="button" class="btn btn-primary pull-right"
-                                                        data-toggle="modal" data-target=".bd-example-modal-lg"
-                                                        style="padding: 1% 2% 1% 2%;">Edit And
-                                                        Update</button>
+                                                  
                                                     <?php if ($internData['status'] == 3) { ?>
-                                                    <button type='button' class='badge bg-warning  me-1 mb-1 '> <a
+                                                    <button type='button' class='badge bg-warning '> <a
                                                             href="<?php echo base_url() ?>send_certificate_on_mail/<?php echo $encoded_id; ?>">Already
                                                             Send Certificate
                                                         </a></button>
                                                     <?php } else { ?>
-                                                    <button type='button' class='badge bg-info  me-1 mb-1'><a
+                                                    <button type='button' class='badge bg-info'><a
                                                             href="<?php echo base_url() ?>send_certificate_on_mail/<?php echo $encoded_id; ?>">Send
                                                             Certificate
                                                         </a>
@@ -251,7 +252,6 @@
 </div>
 </div>
 
-
 <script>
 $('#saveOfferLatter').click(function() {
     var intern_id = $('#intern_id').val();
@@ -280,7 +280,7 @@ $('#saveOfferLatter').click(function() {
 
 });
 </script>
-<script>
+<!-- <script>
 $(document).ready(function() {
     let region_id = $('#region_id').val();
     if (region_id == null) {
@@ -290,7 +290,7 @@ $(document).ready(function() {
     }
 
 });
-</script>
+</script> -->
 
 
 <script>

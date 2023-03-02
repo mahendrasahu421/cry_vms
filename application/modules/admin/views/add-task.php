@@ -100,18 +100,16 @@ echo $today;
 								</div>
 								<div class="col-md-4">
 									<label for="validationCustom02" class="form-label">Keywords<sup>*</sup></label>
-									<select class="form-control select2-show-search form-select" name="keywords" id="city" required>
-										<option value="">Select Keywords</option>
-										<option value="Research">Research</option>
-										<option value="Documentation">Documentation</option>
-										<option value="Data Analysis">Data Analysis</option>
-										<option value="Layout and design">Layout and design</option>
-										<option value="Direct work with children">Direct work with children</option>
-										<option value="Awareness campaigns">Awareness campaigns</option>
-										<option value="Fundraising">Fundraising</option>
-										<option value="Video/film making">Video/film making</option>
+									<select class="form-control select2 form-select" name="skill_id[]" multiple
+                                            required id="skill_id">
+											<option  disabled value="">Select Task Type</option>
+											
+                                            <?php foreach ($skills as $skillsData) { ?>
+                                            <option value="<?php echo $skillsData['skill_id']; ?>">
+                                                <?php echo $skillsData['skill_name']; ?></option>
 
-									</select>
+                                            <?php } ?>
+                                        </select>
 									<div class="invalid-feedback">Select Keywords</div>
 								</div>
 								<div class="col-md-4">

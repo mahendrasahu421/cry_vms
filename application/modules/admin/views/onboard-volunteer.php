@@ -118,9 +118,9 @@
 							<i class="fe fe-plus"></i>
 						</span> View Filters -->
                     </a>
-                    <div class="count-checkboxes-wrapper fs-6">
+                    <!-- <div class="count-checkboxes-wrapper fs-6">
                         <span id="count-checked-checkboxes">0</span> checked
-                    </div>
+                    </div> -->
                 </div>
             </div>
             <style>
@@ -211,7 +211,7 @@
                                                 <th>State</th>
                                                 <th>Districts</th>
                                                 <th>Email</th>
-                                                <th>Status</th>
+                                                <!-- <th>Status</th> -->
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -239,7 +239,7 @@
                                                 <td><?php echo $volunteerData['city_name']; ?></td>
                                                 <td><?php echo $volunteerEmail; ?></td>
 
-                                                <td>
+                                                <!-- <td>
                                                     <?php if ($volunteerData['status'] == 4) { ?>
                                                     <button type='button' class='badge bg-success  me-1 mb-1 mt-1'>Post
                                                         Registration </button>
@@ -248,14 +248,13 @@
                                                         Registration Complete</button>
 
                                                     <?php } ?>
-                                                </td>
+                                                </td> -->
                                             </tr>
                                             <?php
                                             } ?>
                                         </tbody>
                                     </table>
-                                    <p>
-                                        <?php echo $links; ?></p>
+                                   
                                     <!-- <input type="botton" id="submit3" value="Send Login Credentional" class="mt-5 btn btn-warning  pull-right" id="map_button" style="padding: 1% 2% 1% 2%;"> -->
                                 </div>
                             </div>

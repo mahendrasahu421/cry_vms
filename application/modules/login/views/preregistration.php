@@ -280,7 +280,6 @@ select.form-control:not([size]):not([multiple]) {
                                         <label class="form-label fw-bold">Volunteership Skills</label>
                                         <select class="form-control select2 form-select" name="skill_id[]" multiple
                                             required id="skill_id">
-                                            <option value=""> Select Volunteership Skills</option>
                                             <?php foreach ($skills as $skillsData) { ?>
                                             <option value="<?php echo $skillsData['skill_id']; ?>">
                                                 <?php echo $skillsData['skill_name']; ?></option>
@@ -332,7 +331,7 @@ select.form-control:not([size]):not([multiple]) {
                                         <label class="form-label fw-bold">Internship Skills</label>
                                         <select class="form-control select2" name="internskill_id[]"
                                             data-placeholder="Internship Skills" multiple id="internSkill_id">
-                                            <option value="0">Internship Skills</option>
+                                          
                                             <?php foreach ($skills as $skillsData) { ?>
                                             <option value="<?php echo $skillsData['skill_id']; ?>">
                                                 <?php echo $skillsData['skill_name']; ?></option>

@@ -1122,8 +1122,8 @@ class Login extends MY_Controller
         for ($i = 0; $i < $length; $i++) {
             $key .= $keys[mt_rand(0, count($keys) - 1)];
         }
-        // print_r($key);
-        // exit;
+        print_r($key);
+        exit;
         echo  $this->preregistration_sendMail($key, $to);
     }
 
@@ -1140,11 +1140,121 @@ class Login extends MY_Controller
         $mail->Password = "^%n7wh#m7_2k";
         $mail->setFrom('noreply@crymail.org');
         $mail->AddAddress($to);
-        $mail->addBCC("ravishankar.k@neuralinfo.org", "Ravi");
+        $mail->addBCC("mahendra.s@neuralinfo.org", "Mahendra sahu");
         $mail->FromName = 'cry Vms';
         $mail->IsHTML(true);
         $mail->Subject = 'OTP From CRY VMS ';
-        $mail->Body = 'Hello User Your One Time Password is' . ' ' . $otp;
+        $html = '<div style="margin:0;padding:0" bgcolor="#FFFFFF">
+
+
+
+        <table style="min-width:348px" width="100%" lang="en" height="100%" cellspacing="0" cellpadding="0" border="0">
+
+            <tbody>
+
+                <tr style="height:32px" height="32">
+
+                    <td>
+
+                    </td>
+
+                </tr>
+
+                <tr align="center">
+
+                    <td>
+
+                        <div>
+
+                            <div>
+
+                            </div>
+
+                        </div>
+
+                        <table style="padding-bottom:20px;max-width:516px;min-width:220px" cellspacing="0" cellpadding="0" border="0">
+
+                            <tbody>
+
+                                <tr>
+
+                                    <td style="width:8px" width="8">
+
+                                    </td>
+
+                                    <td>
+
+                                        <div style="border-style:solid;border-width:thin;border-color:#dadce0;border-radius:8px;padding:40px 20px" class="m_-3835115663774870952mdv2rw" align="center">
+
+                                        <img src="https://mgracesolution.com/cryvms/users/assets/images/brand/ezgif.com-gif-maker.gif" style="border-radius: 10px;" class="" alt="">
+
+                                            <div style="border-bottom:thin solid #dadce0;color:rgba(0,0,0,0.87);line-height:32px;padding-bottom:24px;text-align:center;word-break:break-word">
+
+                                            <div style="font-size:18px">
+
+                                                ' . 'Your One Time OTP is' . '
+
+                                            </div>
+
+                                                
+
+                                            </div>
+
+                                            <div style="font-family:Roboto-Regular,Helvetica,Arial,sans-serif;font-size:14px;color:rgba(0,0,0,0.87);line-height:20px;padding-top:20px;text-align:center">
+
+                                            <div style="padding-top:32px;text-align:center">
+
+                                            <a href="" 
+
+                                            style="line-height:16px;color:#0a0909;font-weight:400;text-decoration:none;font-size:14px;display:inline-block;padding:10px 24px;background-color:#ffd942;border-radius:5px;min-width:90px" 
+
+                                            target="_blank" 
+
+                                            data-saferedirecturl="">
+
+                                            ' . $otp . '  </a>
+
+                                            </div>
+
+                                            </div>
+
+                                        </div>
+
+                                        
+
+                                    </td>
+
+                                    <td style="width:8px" width="8">
+
+                                    </td>
+
+                                </tr>
+
+                            </tbody>
+
+                        </table>
+
+                    </td>
+
+                </tr>
+
+                <tr style="height:32px" height="32">
+
+                    <td>
+
+                    </td>
+
+                </tr>
+
+            </tbody>
+
+        </table>
+
+        </div>';
+
+      //  return $html;
+        //die();
+        $mail->Body = $html;
         if (!$mail->Send()) {
             echo "Message could not be sent. <p>";
             echo "Mailer Error: " . $mail->ErrorInfo;
@@ -1626,14 +1736,18 @@ class Login extends MY_Controller
         }
     }
 
+
+
     public function all_valunteers()
     {
         $taskType = $this->input->post('taskType');
         $taskID = $this->input->post('taskName');
         $cityID = $this->input->post('stateName');
-        //print_r($taskType);exit;
+        $skill =  $this->Crud_modal->fetch_single_data('keyword','task','task_id="'.$taskID.'"');
+       $skills = $skill['keyword'];
         if ($this->input->post('stateName') != 0) {
-            $volunteerDetails = $this->LoginModel->assign_task_volunteer($cityID, $taskType, $taskID);
+            $volunteerDetails = $this->LoginModel->assign_task_volunteer($cityID, $taskType, $skills);
+            // echo "<pre>";
             // print_r($volunteerDetails);
             // exit;
         ?>
@@ -1645,6 +1759,7 @@ class Login extends MY_Controller
                 <th class="text-white">Name</th>
                 <th class="text-white">Mobile</th>
                 <th class="text-white">Email</th>
+                <th class="text-white">Skills</th>
                 <th class="text-white">City</th>
                 <th class="text-white">Status</th>
             </tr>
@@ -1687,6 +1802,7 @@ class Login extends MY_Controller
                 </td>
                 <td><?php echo $value['mobile']; ?></td>
                 <td><?php echo $value['email']; ?></td>
+                <td><?php echo $value['volunteer_skill']; ?></td>
                 <td><?php echo $value['city_name']; ?></td>
                 <?php
                                 if (sizeof($assigning_task) > 0) {

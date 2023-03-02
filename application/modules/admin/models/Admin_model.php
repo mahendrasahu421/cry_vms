@@ -21,6 +21,22 @@ class admin_model extends CI_Model
 		$count = $querry->result_array();
 		return $count;
 	}
+
+	public function total_task_for_volunteer_region_wise($region)
+	{
+		$sql = $region == 0 ? "SELECT * FROM task WHERE status=1" : "SELECT * FROM task WHERE region_id = '".$region."'AND status=1";
+		$querry = $this->db->query($sql);
+		$count = $querry->result_array();
+		return $count;
+	}
+	public function total_task_count_intern_region_wise($region)
+	{
+		$sql = $region == 0 ? "SELECT * FROM interntask WHERE status=1" : "SELECT * FROM interntask WHERE region_id = '".$region."'AND status=1";
+		$querry = $this->db->query($sql);
+		$count = $querry->num_rows();
+		return $count;
+	}
+
 	public function total_task_count_intern_state($statesID = 0)
 	{
 		$sql = $statesID == 0 ? "SELECT * FROM interntask WHERE status=1" : "SELECT * FROM interntask WHERE task_state_id IN ($statesID) AND status=1";
@@ -128,9 +144,26 @@ class admin_model extends CI_Model
 		return $count;
 	}
 
+	
 	public function total_volunteer($statesID = 0)
 	{
 		$sql = $statesID == 0 ? "SELECT * FROM volunteer WHERE status=5" : "SELECT * FROM volunteer WHERE state_id IN ($statesID) AND status=5";
+		$querry = $this->db->query($sql);
+		$count = $querry->result_array();
+		return $count;
+	}
+	
+	public function last_five_pending_volunteer($statesID = 0)
+	{
+		$sql = $statesID == 0 ? "SELECT * FROM volunteer WHERE ORDER BY volunteer_id DESC LIMIT  5 status=1 " : "SELECT * FROM volunteer WHERE state_id IN ($statesID) AND status=1 ORDER BY volunteer_id DESC LIMIT  5";
+		$querry = $this->db->query($sql);
+		$count = $querry->result_array();
+		return $count;
+	}
+
+	public function total_intern_region_wise($statesID = 0)
+	{
+		$sql = $statesID == 0 ? "SELECT * FROM interns WHERE status=7" : "SELECT * FROM interns WHERE state_id IN ($statesID) AND status=7";
 		$querry = $this->db->query($sql);
 		$count = $querry->result_array();
 		return $count;
@@ -284,7 +317,6 @@ class admin_model extends CI_Model
 		$this->db->from('volunteer v');
 		$this->db->join('states s', 's.state_id = v.state_id', 'left');
 		$this->db->join('cities c', 'c.city_id = v.city_id', 'left');
-		//$this->db->join('email_templates et', 'et.email_templates_id = et.city_id', 'left');
 		$this->db->where($where);
 		$query = $this->db->order_by('volunteer_id desc');
 		$this->db->limit($limit);
@@ -451,12 +483,13 @@ class admin_model extends CI_Model
 	function volunteer_task_Data($where)
 	{
 		$this->db->initialize();
-		$this->db->select('*');
-		$this->db->from('task');
+		$this->db->select('t.*,s.skill_name as keywords');
+		$this->db->from('task t');
+		$this->db->join('skills s', 's.skill_id  = t.keyword', 'left');
 		$this->db->where($where);
 		$query = $this->db->order_by('task_id desc');
 		$query = $this->db->get();
-		//  echo $this->db->last_query();
+		 // echo $this->db->last_query();
 		//  die;
 		$result = $query->result_array();
 		$this->db->close();
@@ -485,10 +518,39 @@ class admin_model extends CI_Model
 		//$count = $querry->num_rows();
 		return true;
 	}
+
 	public function update_send_certificate_mail($volunteerEmail)
 	{
 		$this->db->initialize();
 		$updateCount = "UPDATE volunteer SET mail_count = mail_count + 1,status=2 WHERE email ='" . $volunteerEmail . "'";
+		$querry = $this->db->query($updateCount);
+		//$count = $querry->num_rows();
+		return true;
+	}
+
+
+	public function sended_certificate_to_inters($val)
+	{
+		$this->db->initialize();
+		$updateCount = "UPDATE intern_submission_report SET status = 3 WHERE intern_id ='" . $val . "'";
+		$querry = $this->db->query($updateCount);
+		//$count = $querry->num_rows();
+		return true;
+	}
+
+
+	public function certificate_send($val)
+	{
+		$this->db->initialize();
+		$updateCount = "UPDATE intern_submission_report SET status = 3 WHERE intern_id ='" . $val . "'";
+		$querry = $this->db->query($updateCount);
+		//$count = $querry->num_rows();
+		return true;
+	}
+	public function feedbackcertificate_send($val)
+	{
+		$this->db->initialize();
+		$updateCount = "UPDATE feedback SET status = 2 creation_date = date('Y-m-d) WHERE intern_id ='" . $val . "'";
 		$querry = $this->db->query($updateCount);
 		//$count = $querry->num_rows();
 		return true;
@@ -778,7 +840,7 @@ class admin_model extends CI_Model
 		$this->db->join('states s', 's.state_id = i.state_id', 'left');
 		$this->db->join('cities c', 'c.city_id = i.city_id', 'left');
 		$this->db->where($where);
-		$query = $this->db->order_by('intern_id desc');
+		$query = $this->db->order_by('i.intern_id desc');
 		$query = $this->db->get();
 		//echo $this->db->last_query(); die;
 		$result = $query->result_array();
@@ -789,19 +851,37 @@ class admin_model extends CI_Model
 	function assign_task_volunteer_taskType($where)
 	{
 		$this->db->initialize();
-		$this->db->select('as.volunteer_id,as.assigned_date,as.creation_date,v.first_name,v.last_name,v.email,v.mobile,v.status,t.task_id,t.task_title');
+		$this->db->select('as.volunteer_id,as.assigned_date,as.task_id,v.first_name,v.last_name,v.email,v.mobile,t.task_title');
 		$this->db->from('assigning_task as');
 		$this->db->join('task t', 't.task_id = as.task_id', 'left');
 		$this->db->join('volunteer v', 'v.volunteer_id = as.volunteer_id', 'left');
 		$this->db->where($where);
 		$this->db->order_by('as.assigned_task_id   DESC');
 		$query = $this->db->get();
-		echo $this->db->last_query();
-		die;
+		// echo $this->db->last_query();
+		// die;
 		$result = $query->result_array();
 		$this->db->close();
 		return $result;
 	}
+
+	function assign_task_intern_taskType($where)
+	{
+		$this->db->initialize();
+		$this->db->select('ias.intern_id,ias.assigned_date,i.first_name,i.last_name,i.email,i.mobile,it.task_title');
+		$this->db->from('intern_assigning_task ias');
+		$this->db->join('interntask it', 'it.intern_task_id = ias.intern_task_id', 'left');
+		$this->db->join('interns i', 'i.intern_id = ias.intern_id', 'left');
+		$this->db->where($where);
+		$this->db->order_by('ias.intern_assigned_task_id   DESC');
+		$query = $this->db->get();
+		// echo $this->db->last_query();
+		// die;
+		$result = $query->result_array();
+		$this->db->close();
+		return $result;
+	}
+
 	public function reschedule_mail_to_user($data)
 	{
 		$mail = new PHPMailer();
@@ -1019,13 +1099,14 @@ class admin_model extends CI_Model
 		return $result;
 	}
 
-	public function submission_report_attecment($where)
+	public function submission_report_attecment($userID)
 	{
 		$this->db->initialize();
-		$this->db->select('at.attachmentName');
+		$this->db->select('at.attachmentName,at.intern_id');
 		$this->db->from('attachment at');
 		$this->db->join('interns i', 'i.intern_id = at.intern_id');
 		$this->db->join('intern_submission_report isr', 'isr.sr_id = at.sr_id');
+		$this->db->where('at.intern_id = "'.$userID.'"');
 		$query = $this->db->order_by('at.attachmentID desc');
 		$query = $this->db->get();
 		//echo $this->db->last_query(); die;
@@ -1126,7 +1207,7 @@ class admin_model extends CI_Model
 		$this->db->join('interns i','i.intern_id = iast.intern_id');
 		$this->db->join('interntask it','it.intern_task_id = iast.intern_task_id');
 		$this->db->where($where);
-		$query = $this->db->order_by('iast.intern_id desc');
+		$query = $this->db->order_by('iast.intern_task_id desc');
 		$query = $this->db->get();
 		//echo $this->db->last_query(); die;
 		$result = $query->result_array();
@@ -1150,5 +1231,49 @@ class admin_model extends CI_Model
 		$this->db->close();
 		return $result;
 
+	}
+
+	function full_volunteer_data_to_excel($where)
+	{
+
+		$this->db->initialize();
+		$this->db->select('v.volunteer_id,v.first_name,v.last_name,v.mobile,v.email,v.state_id,v.city_id,v.creation_date,s.state_name,c.city_name');
+		$this->db->from('volunteer v');
+		//$this->db->limit(10);  
+		$this->db->join('states s', 's.state_id = v.state_id', 'left');
+		$this->db->join('cities c', 'c.city_id = v.city_id', 'left');
+		//$this->db->join('email_templates et', 'et.email_templates_id = et.city_id', 'left');
+		$this->db->where($where);
+		$query = $this->db->order_by('volunteer_id desc');
+		$query = $this->db->get();
+		//echo $this->db->last_query(); die;
+		$result = $query->result_array();
+		$this->db->close();
+		return $result;
+	}
+
+
+
+	public function send_certificate_to_intern($where,$empId,$role)
+	{
+		$this->db->initialize();
+		$this->db->select('fd.status,emp.emp_name,emp.emp_email,emp.des_id,mr.role_name,fd.intern_id,fd.creation_date,id.name_of_school,i.certificate_email,i.status,i.skill_id,sk.skill_name,i.first_name,i.last_name,i.email,i.state_id,i.city_id,i.mobile,isr.status,s.state_name,c.city_name,d.des_name');
+		$this->db->from('feedback fd');
+		$this->db->join('intern_submission_report isr', 'isr.intern_id = fd.intern_id');
+		$this->db->join('interns i', 'i.intern_id = fd.intern_id');
+		$this->db->join('interns_data id', 'id.intern_id = fd.intern_id');
+		$this->db->join('states s', 's.state_id = i.state_id', 'left');
+		$this->db->join('cities c', 'c.city_id = i.city_id', 'left');
+		$this->db->join('employee emp', 'emp.emp_id = "'.$empId.'"');
+		$this->db->join('master_role mr', 'mr.role_id = "'.$role.'"');
+		$this->db->join('designation d', 'd.des_id = emp.des_id');
+		$this->db->join('skills sk', 'sk.skill_id = i.skill_id');
+		$this->db->where($where);
+		$query = $this->db->order_by('fd.feedback_id desc');
+		$query = $this->db->get();
+		//echo $this->db->last_query(); die;
+		$result = $query->result_array();
+		$this->db->close();
+		return $result;
 	}
 }

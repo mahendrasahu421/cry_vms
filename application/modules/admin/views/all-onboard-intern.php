@@ -187,10 +187,7 @@
 													<td><?php echo $internEmail; ?></td>
 													<td>
 														<?php if ($internData['status'] == 7) { ?>
-															<button type='button' onclick="getId_sendmail('<?php echo $internEmail; ?>')" class='badge bg-warning  me-1 mb-1 mt-1'>Already Mail Sent(<?php echo $internData['mail_count']; ?>)</button>
-														<?php } else { ?>
-															<button type='button' onclick="getId_sendmail('<?php echo $internEmail; ?>')" class='badge bg-info  me-1 mb-1 mt-1'>Send Mail(<?php echo $internData['mail_count']; ?>)</button>
-
+															<button type='button'  class='badge bg-info  me-1 mb-1 mt-1'>Onboarded Intern</button>
 														<?php } ?>
 													</td>
 												</tr>

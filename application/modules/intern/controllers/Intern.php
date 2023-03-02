@@ -3704,53 +3704,7 @@ class Intern extends MY_Controller
         return $html;
     }
 
-    public function referal_link()
-    {
-        $CI = &get_instance();
-        $userID = $this->session->userdata('userID');
-        $data['totaltask'] = $this->User_model->total_task_count($userID);
-        $join_data = array(
-            array(
-                'table' => 'users',
-                'fields' => array('firstName', 'lastName'),
-                'joinWith' => array('userID'),
-                'where' => array(
-                    'userID' => $userID
-                ),
-            ),
-            array(
-                'joined' => 0,
-                'table' => 'user_data',
-                'fields' => array('profile', 'dioceses_id'),
-                'joinWith' => array('userID', 'dioceses_id', 'left'),
-            ),
-            array(
-                'joined' => 1,
-                'table' => 'dioceses',
-                'fields' => array('name', 'dioceses_id'),
-                'joinWith' => array('dioceses_id', 'left'),
-            ),
-        );
-        $where = array();
-        $limit = '';
-        $order_by = '';
-        $data['userDetails'] = $this->Curl_model->fetch_data_with_joining($join_data, $limit, $order_by);
-        $this->load->view('temp/head');
-        $this->load->view('temp/header', $data);
-        $this->load->view('temp/sidebar', $data);
-        $this->load->view('referal_link', $data);
-        $this->load->view('temp/footer');
-    }
-
-
-    public function consultant_register()
-    {
-        try {
-            $this->load->view('consultant-register');
-        } catch (Exception $e) {
-            echo 'Caught exception: ',  $e->getMessage(), "\n";
-        }
-    }
+   
 
     public function intern_self_task_daily_report()
     {
@@ -3878,14 +3832,6 @@ class Intern extends MY_Controller
                     echo '<script>window.location.href = "' . base_url() . 'intern-dashbord"</script>';
                 }
 
-
-                //$dailyReportID = $this->Curl_model->insert_data('self_task_daily_report',$data);
-
-
-
-                //$this->session->set_flashdata('data_message','Successfully Submitted!');
-                //echo '<script>window.location.href = "'.base_url().'self-task-daily-report"</script>';
-                //exit();
             }
             $this->load->view('intern-self-task-daily-report', $data);
             $this->load->view('temp/footer');
@@ -3961,52 +3907,7 @@ class Intern extends MY_Controller
 
     public function certificate()
     {
-        // $CI = &get_instance();
-        // $userID = $this->session->userdata('userID');
-        // $data['totaltask'] = $this->User_model->total_task_count($userID);
-        // $where1['volunteer_id'] = $userID;
-        // $join_data = array(
-        //     array(
-        //         'table' => 'users',
-        //         'fields' => array('firstName', 'lastName'),
-        //         'joinWith' => array('userID'),
-        //         'where' => array(
-        //             'userID' => $userID
-        //         ),
-        //     ),
-        //     array(
-        //         'joined' => 0,
-        //         'table' => 'user_data',
-        //         'fields' => array('profile', 'dioceses_id'),
-        //         'joinWith' => array('userID', 'dioceses_id', 'left'),
-        //     ),
-        //     array(
-        //         'joined' => 1,
-        //         'table' => 'dioceses',
-        //         'fields' => array('name', 'dioceses_id'),
-        //         'joinWith' => array('dioceses_id', 'left'),
-        //     ),
-        // );
-        // $where = array();
-        // $limit = '';
-        // $order_by = '';
-        // $data['userDetails'] = $this->Curl_model->fetch_data_with_joining($join_data, $limit, $order_by);
 
-        // $join_data = array(
-        //     array(
-        //         'table' => 'vol_donation_data',
-        //         'fields' => array('vol_donation_data_id', 'first_name', 'mobile', 'email', 'my_donation', 'amount', 'status'),
-        //         'where' => $where1,
-        //         'order_by' => array('vol_donation_data_id', 'desc'),
-        //     ),
-
-        // );
-
-        // $limit = '';
-        // $order_by = array('vol_donation_data_id', 'DESC');
-        // $data['report'] = $this->Curl_model->fetch_data_with_joining($join_data, $limit, $order_by);
-
-        //print_r($data['report']); exit;
 
         $this->load->view('temp/head');
         $this->load->view('temp/header');
@@ -4260,6 +4161,7 @@ class Intern extends MY_Controller
             echo 'Caught exception: ',  $e->getMessage(), "\n";
         }
     }
+
     function transfer_city()
     {
 
@@ -4498,5 +4400,13 @@ class Intern extends MY_Controller
         } catch (Exception $e) {
             echo 'Caught xeceptiom: ', $e->getMessage(), "/n";
         }
+    }
+
+    public function user_form(){
+        $this->load->view('temp/head');
+        $this->load->view('temp/header');
+        $this->load->view('temp/sidebar');
+        $this->load->view('user-form');
+        $this->load->view('temp/footer');
     }
 }

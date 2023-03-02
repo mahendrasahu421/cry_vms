@@ -270,7 +270,7 @@
                                                 </div>
                                             </td>
                                         </tr>
-                                        <!-- <?php $i = 1;
+                                        <?php $i = 1;
                                                 foreach ($task as $key => $value) {
                                                     $publishdate = $value['taskPublishedDate'];
                                                     $encode_taskID = rtrim(strtr(base64_encode($value['taskID']), "+/", "-_"), "=");
@@ -348,7 +348,7 @@
                                             </tr>
                                         <?php $i++;
                                                 } ?>
-                                        <tr> -->
+                                        <tr>
 
                                         <th></th>
                                     </tbody>

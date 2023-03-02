@@ -136,17 +136,19 @@ class LoginModel extends CI_Model
         return $result;
     }
 
-    function assign_task_volunteer($cityID, $taskType)
+    function assign_task_volunteer($cityID, $taskType,$skills)
     {
+        //echo $taskID;exit;
         $vtype = '3,' . $taskType;
         $this->db->initialize();
-        $this->db->select('v.*,s.state_name,c.city_name');
+        $this->db->select('v.volunteer_id,v.first_name,v.last_name,v.email,v.mobile,v.volunteer_skill,s.state_name,c.city_name');
         $this->db->from('volunteer v');
         $this->db->join('states s', 's.state_id = v.state_id', 'left');
         $this->db->join('cities c', 'c.city_id = v.city_id', 'left');
         $this->db->where('v.status =5');
         $this->db->where('v.state_id', $cityID);
         $this->db->where_in('v.vol_type_id', $vtype, false);
+        $this->db->where_in('v.volunteer_skill', $skills, false);
         $this->db->order_by('v.volunteer_id   DESC');
         $query = $this->db->get();
         //echo $this->db->last_query(); die;

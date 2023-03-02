@@ -45,6 +45,7 @@ class volunteer_task extends MY_Controller
                     $data['rname'] = $this->Curl_model->fetch_single_data('region_name,state_id', 'regions', array('region_id' => $region));
                     $data['states'] = $this->Crud_modal->fetch_all_data('*', 'states', 'region_id=' . $region);
                 }
+                $data['skills'] = $this->Crud_modal->fetch_all_data('*', 'skills', 'status = 1');
                 $data['taskType'] = $this->Crud_modal->fetch_all_data('*', 'task_type', 'status = 1');
                 $data['regions'] = $this->Crud_modal->fetch_all_data('*', 'regions', 'region_status=1');
                 $this->load->view('temp/head');
@@ -204,7 +205,7 @@ class volunteer_task extends MY_Controller
                         $data['creation_date'] = $date1;
                         $data['creation_date'] = $date2;
                         $data['taskType'] = $taskType;
-                        $where = "creation_date>='" . $date_from . "' and creation_date<='" . $date_to . "' and task_type_id=" . $taskType . "  and status=1 and task_for=1 and task_state_id = '" . $state_name . "' and region_id = " . $region_id . "";
+                        $where = "creation_date>='" . $date_from . "' and creation_date<='" . $date_to . "' and task_type_id=" . $taskType . "  and t.status=1 and t.task_for=1 and task_state_id = '" . $state_name . "' and region_id = " . $region_id . "";
                         $data['taskData'] = $this->Admin_model->volunteer_task_Data($where);
                         // echo "<pre>";
                         // print_r($data['taskData']);exit;
@@ -213,8 +214,22 @@ class volunteer_task extends MY_Controller
                         $date_from = date("Y-m-d", strtotime($date2 . '-10 days'));
                         $data['creation_date'] = $date_from;
                         $data['creation_date'] = $date2;
-                        $where = "creation_date>='" . $date_from . "' and creation_date<='" . $date_to . "' and status = 1";
+                        $where = "creation_date>='" . $date_from . "' and creation_date<='" . $date_to . "' and t.status = 1";
                         $data['taskData'] = $this->Admin_model->volunteer_task_Data($where);
+                        $data['keyword_name'] = array_column($data['taskData'], 'keyword');
+                      
+                        $skillid = implode(',',$data['keyword_name']);
+                        
+
+                        $skill_name = explode (",",$skillid);
+                        
+                        $skils="";
+                       for ($i = 0; $i < sizeof($skill_name); $i++) {
+                        $assig_name = $this->Crud_modal->fetch_all_data("skill_name", "skills", "skill_id= '".$skill_name[$i]."'");      
+                                 $data['skils'] .= $assig_name[0]['skill_name'].","." " ;
+                                  
+                       }
+                     // print_r($data['skils']);exit;
                     }
                 } else {
                     $data['rname'] = $this->Curl_model->fetch_single_data('region_name,state_id', 'regions', array('region_id' => $region));
@@ -235,7 +250,7 @@ class volunteer_task extends MY_Controller
                         $data['taskType'] = $taskType;
                         $data['region_id'] = $region_id;
                         //  $data['state_name'] = $state_name;
-                        $where = "creation_date>='" . $date_from . "' and creation_date<='" . $date_to . "' and task_type_id=" . $taskType . " and region_id =" . $region_id . " and status =1 and task_for=1";
+                        $where = "creation_date>='" . $date_from . "' and creation_date<='" . $date_to . "' and task_type_id=" . $taskType . " and region_id =" . $region_id . " and t.status =1 and t.task_for=1";
                         $data['taskData'] = $this->Admin_model->volunteer_task_Data($where);
                     } else if ($this->input->post('start_new') != "" && $this->input->post('end_new') != "" &&  $this->input->post('taskType') != "" &&  $this->input->post('region_id') != "" &&  $this->input->post('state_name') != "") {
                         $date1 = $this->input->post('start_new');
@@ -250,7 +265,7 @@ class volunteer_task extends MY_Controller
                         $data['taskType'] = $taskType;
                         $data['region_id'] = $region_id;
                         $data['state_name'] = $state_name;
-                        $where = "creation_date>='" . $date_from . "' and creation_date<='" . $date_to . "' and task_type_id=" . $taskType . " and region_id =" . $region_id . " and status =1 and task_for=1";
+                        $where = "creation_date>='" . $date_from . "' and creation_date<='" . $date_to . "' and task_type_id=" . $taskType . " and region_id =" . $region_id . " and t.status =1 and t.task_for=1";
                         $data['taskData'] = $this->Admin_model->volunteer_task_Data($where);
                     } else {
                         //  $data['taskData'] = $this->Admin_model->volunteer_task_Data($where);
@@ -282,7 +297,7 @@ class volunteer_task extends MY_Controller
             $sdate = $this->input->post('sdate');
             $edate = $this->input->post('edate');
             $volunteer_required = $this->input->post('volunteer_required');
-            $keyword = $this->input->post('keywords');
+            $keyword = $this->input->post('skill_id');
             $title = $this->input->post('title');
             $what_to_do = $this->input->post('what_to_do');
             $status = $this->input->post('status');
@@ -296,7 +311,7 @@ class volunteer_task extends MY_Controller
                 'start_date' => $sdate,
                 'expected_end_date' => $edate,
                 'volunteer_required' => $volunteer_required,
-                'keyword' => $keyword,
+                'keyword' => implode(',',$keyword),
                 'task_title' => $title,
                 'task_brief' => $what_to_do,
                 'creation_date' => date('Y-m-d'),

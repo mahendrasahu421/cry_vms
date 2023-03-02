@@ -23,6 +23,7 @@ class User extends MY_Controller
         $this->load->library('Phpmailer');
         $this->load->library('session');
         date_default_timezone_set('Asia/Kolkata');
+        $this->load->library('Fpdf_gen');
     }
 
     public function volunteer_login()
@@ -3297,6 +3298,66 @@ class User extends MY_Controller
 
     }
 
+
+
+    public function uploadProfile()
+
+    {
+
+        // if (($this->session->userdata('userID') != "")) {
+
+        //     $userID = $this->session->userdata('userID');
+
+        //     $this->load->library('image_lib');
+
+        //     $imageName = time() . $_FILES['profile']['name'];
+
+        //echo $imageName; exit;
+
+        //         $image = str_replace(" ", "_", $imageName);
+
+        //         $config = array();
+
+        //         $config['upload_path'] = './user_profile/';
+
+        //         $config['allowed_types'] = 'jpg|png|jpeg';
+
+        //         $config['file_name'] = $image;
+
+        //         $this->load->library('upload', $config);
+
+        //         if ($this->upload->do_upload("profile")) {
+
+        //             $success = $this->User_model->userimg_file($image, $userID);
+
+        //             if ($success != FALSE) {
+
+        //                 echo 1;
+
+        //             } else {
+
+        //                 echo 2;
+
+        //             }
+
+        //         } else {
+
+        //             print_r($this->upload->display_errors());
+
+        //             exit;
+
+        //         }
+
+        //     } else {
+
+        //         echo '<script>window.location.href = "' . base_url() . 'login"</script>';
+
+        //     }
+
+    }
+
+
+
     public function search_filter_task()
     {
         if (($this->session->userdata('userID') != "")) {
@@ -3776,11 +3837,8 @@ class User extends MY_Controller
     }
 
     public function consultant_register()
-
     {
-
         try {
-
             $this->load->view('consultant-register');
         } catch (Exception $e) {
 
@@ -3788,12 +3846,10 @@ class User extends MY_Controller
         }
     }
 
-
-
     public function certificate()
-    {
-        if ($this->session->userdata('volunteer_id') != "" || $this->session->userdata('volunteer_id') != null) {
-            $volunteer_id = $this->session->userdata('volunteer_id');
+    { 
+        if($this->session->userdata('volunteer_id') != "" || $this->session->userdata('volunteer_id') != null) {
+          $volunteer_id = $this->session->userdata('volunteer_id');
             $join_data = array(
                 array(
                     'table' => 'daily_report',
@@ -3950,6 +4006,7 @@ class User extends MY_Controller
             echo '<script>window.location.href = "' . base_url() . 'volunteer-login"</script>';
         }
     }
+
 
 
     public function transfer_form()
@@ -4456,6 +4513,31 @@ class User extends MY_Controller
         $this->load->view('reset');
     }
 	
-	
-	
+	// public function view_bronze_certificate(){
+    //     $this->load->view('view_bronze_certificate');
+    // }
+    
+	public function view_bronze_certificate()
+    {
+        $intern_id = $this->uri->segment(2);
+        $val = base64_decode(str_pad(strtr($intern_id, '-_', '+/'), strlen($intern_id) % 4, '=', STR_PAD_RIGHT));
+        $where = 'intern_id = "' . $val . '"';
+        $internemailData = $this->Crud_modal->fetch_single_data('*', 'interns', $where);
+        $offerEmailFormat = $internemailData['offer_latter_email'];
+       // $date = date('d-m-Y');
+        $pdf = new FPDF();
+        $pdf->AddPage();
+        $pdf->SetFont('Arial', '', 9);
+        $pdf->Image(base_url() . '/users/cry-certificate.jpg', 10, 8, 185);
+        //$pdf->Image($_SERVER['DOCUMENT_ROOT'] . '/uploads/Intern-offer-Letter.png', 10, 7, 185);
+        $pdf->SetY(38.6);
+        $pdf->SetX(147);
+      //  $pdf->Cell(10, 5, $date, 0, 'R');
+        $pdf->SetY(60);
+        $pdf->Ln(5);
+        $pdf->SetX(20);
+        $pdf->multiCell(170, 4, strip_tags($offerEmailFormat), 5);
+        $pdf->Output();
+        $this->load->view('view_bronze_certificate');
+    }
 }

@@ -43,7 +43,7 @@ class Admin extends MY_Controller
             $region = $this->session->userdata('region_id');
             $role = $this->session->userdata('role_id');
             if ($role == 1) {
-                $where = 'v.status =1 OR v.status =2 And region_id = "' . $region . '"';
+                $where = 'v.status =1 OR v.status =2';
                 $limit = '5';
                 $data['totalvolunteer'] = $this->Admin_model->total_volunteer();
                 $data['totalintern'] = $this->Admin_model->total_intern();
@@ -63,15 +63,16 @@ class Admin extends MY_Controller
                 $data['volunteerTaskcount'] =  $volunteerTaskcount;
                 $data['internTaskcount'] =  $internTaskcount;
             } else {
+                $region = $this->session->userdata('region_id');
                 $where = 'v.status =1 OR v.status =2 And region_id = "' . $region . '"';
                 $limit = '5';
                 $data['rname'] = $this->Curl_model->fetch_single_data('region_name,state_id', 'regions', array('region_id' => $region));
                 $statesID =  $data['rname']['state_id'];
                 $data['totalvolunteer'] = $this->Admin_model->total_volunteer($statesID);
-                $data['totalintern'] = $this->Admin_model->total_volunteer($statesID);
-                $data['totaltask'] = $this->Admin_model->total_task_count($statesID);
-                $data['totaltaskintern'] = $this->Admin_model->total_task_count_intern_state($statesID);
-                $data['volunteer'] = $this->Admin_model->volunteer_enquiry_Datalimit5($where, $limit);
+                $data['totalintern'] = $this->Admin_model->total_intern_region_wise($statesID);
+                $data['totaltask'] = $this->Admin_model->total_task_for_volunteer_region_wise($region);
+                $data['totaltaskintern'] = $this->Admin_model->total_task_count_intern_region_wise($region);
+                $data['volunteer'] = $this->Admin_model->last_five_pending_volunteer($statesID);
                 // echo "<pre>";
                 // print_r($data['volunteer']);exit;
                 $volunteerTaskcount = 0;
@@ -177,10 +178,10 @@ class Admin extends MY_Controller
     {
         try {
             if (($this->session->userdata('emp_id') != "" || $this->session->userdata('emp_id') != null)) {
-               
+
                 $region = $this->session->userdata('region_id');
                 $role = $this->session->userdata('role_id');
-                if($role==1){
+                if ($role == 1) {
                     $task_id = $this->uri->segment(2);
                     $val = base64_decode(str_pad(strtr($task_id, '-_', '+/'), strlen($task_id) % 4, '=', STR_PAD_RIGHT));
                     $where = "intern_task_id = '$val'";
@@ -189,7 +190,7 @@ class Admin extends MY_Controller
                     $data['states'] = $this->Crud_modal->fetch_all_data('*', 'states', 'status=1');
                     $data['cities'] = $this->Crud_modal->fetch_all_data('*', 'cities', 'status=1');
                     $data['interntaskData'] = $this->Crud_modal->all_data_select('*', 'interntask', $where, 'intern_task_id desc');
-                }else{
+                } else {
                     $data['rname'] = $this->Curl_model->fetch_single_data('region_name,state_id', 'regions', array('region_id' => $region));
                     $task_id = $this->uri->segment(2);
                     $val = base64_decode(str_pad(strtr($task_id, '-_', '+/'), strlen($task_id) % 4, '=', STR_PAD_RIGHT));
@@ -390,13 +391,15 @@ class Admin extends MY_Controller
                     $taskType = $this->input->post('taskType');
                     // echo "<pre>";
                     // print_r($taskType);exit;
-                    $task = $this->Crud_modal->all_data_select('*', 'task', "task_type_id='$taskType'", 'task_title ASC');
-                    // print_r($task);exit;
+                    $task = $this->Crud_modal->all_data_select('task_id,task_title,keyword', 'task', "task_type_id='$taskType'", 'task_title ASC');
+                    // echo "<pre>";
+                    //  print_r($task);exit;
                     echo '<option value="">---Select Task---</option>';
                     foreach ($task as $taskData) {
                         $task_id = $taskData['task_id'];
                         $task_name = $taskData['task_title'];
-                        echo '<option value="' . $task_id . '">' . rtrim($task_name, ' ') . '</option>';
+                        $taskKeyword = $taskData['keyword'];
+                        echo '<option value="' . $task_id . '">' . rtrim($task_name." ".$taskKeyword, ' ') . '</option>';
                     }
                 } else {
                     $taskType = $this->input->post('taskType');
@@ -467,7 +470,7 @@ class Admin extends MY_Controller
                     $taskName = $this->input->post('taskName');
                     $states = $this->Admin_model->select_all_states_by_task($taskName);
                     if (empty($states[0]['state_id'])) {
-                        $states = $this->Crud_modal->fetch_all_data('*', 'states','status = 1');
+                        $states = $this->Crud_modal->fetch_all_data('*', 'states', 'status = 1');
                     }
                     echo '<option value="">---Select State---</option>';
                     foreach ($states as $stateskData) {
@@ -476,7 +479,7 @@ class Admin extends MY_Controller
                         echo '<option value="' . $state_id . '">' . rtrim($state_name, ' ') . '</option>';
                     }
                 } else {
-                   $taskName = $this->input->post('taskName');
+                    $taskName = $this->input->post('taskName');
                     $states = $this->Admin_model->select_all_states_by_task($taskName);
                     if (empty($states[0]['state_id'])) {
                         $states = $this->Crud_modal->fetch_all_data('*', 'states', 'region_id=' . $region);
@@ -516,7 +519,7 @@ class Admin extends MY_Controller
                         echo '<option value="' . $state_id . '">' . rtrim($state_name, ' ') . '</option>';
                     }
                 } else {
-                   $taskName = $this->input->post('taskName');
+                    $taskName = $this->input->post('taskName');
                     $states = $this->Admin_model->internselect_all_states_by_task($taskName);
                     if (empty($states[0]['state_id'])) {
                         $states = $this->Crud_modal->fetch_all_data('*', 'states', 'region_id=' . $region);
@@ -614,7 +617,7 @@ class Admin extends MY_Controller
             $order_by = '';
 
             $taskDetails = $this->Curl_model->fetch_data_with_joining($join_data, $limit, $order_by);
-           
+
             $i = 0;
             if (sizeof($taskDetails) > 0) {
                 foreach ($taskDetails as $key => $value) {
@@ -731,7 +734,7 @@ class Admin extends MY_Controller
     {
         try {
             if (($this->session->userdata('emp_id') != "" || $this->session->userdata('emp_id') != null)) {
-               $emp = $this->session->userdata('emp_id');
+                $emp = $this->session->userdata('emp_id');
                 $region = $this->session->userdata('region_id');
                 $taskType = $this->input->post('taskType');
                 if (!empty($this->input->post('assignTask'))) {
@@ -745,7 +748,7 @@ class Admin extends MY_Controller
                             'intern_id' => $volunteerId[$i],
                             'intern_task_id' => $task,
                             'assigned_date' => $assignDate,
-                            'assign_by_task'=>$emp,
+                            'assign_by_task' => $emp,
                             'status' => 1,
                         );
                         array_push($volunteerassignTask, $assignTask);
@@ -790,7 +793,6 @@ class Admin extends MY_Controller
         $programName = $this->input->post('programName');
         $where = 'vpu.status =1 AND volunteer_programs = ' . $programName;
         $programData = $this->Admin_model->programvolunteer_enquiry_Data($where);
-        
     }
 
     public function requested_task()
@@ -803,7 +805,6 @@ class Admin extends MY_Controller
                     $data['taskId'] =  $task_id = $this->input->post('task_id');
                     $where  = 'sr.task_id=' . $task_id . '';
                     $data['requetedtask'] = $this->Admin_model->request_task_volunteer($where);
-                   
                 } else {
                     $data['taskId'] =  $task_id = $this->input->post('task_id');
                     $where  = 'sr.task_id=' . $task_id . '';
@@ -948,7 +949,7 @@ class Admin extends MY_Controller
             'status' => 1,
             'user_time' => $total_time,
             'admin_time' => $total_time,
-            'approved_by'=>$empId,
+            'approved_by' => $empId,
         );
         $approveddaily_ID = $this->Curl_model->insert_data('approveddaily_report', $data);
         $where = array(
@@ -1207,13 +1208,13 @@ class Admin extends MY_Controller
         $encode_userID = $this->input->post('intern_id');
         $userID = base64_decode(str_pad(strtr($encode_userID, '-_', '+/'), strlen($encode_userID) % 4, '=', STR_PAD_RIGHT));
         $reportId = base64_decode(str_pad(strtr($sr_id, '-_', '+/'), strlen($sr_id) % 4, '=', STR_PAD_RIGHT));
-        $where = 'sr_id="'.$reportId.'"';
+        $where = 'sr_id="' . $reportId . '"';
         $limit = '';
         $order_by = array('sr_id', 'DESC');
         $dilyreportDetails = $this->Admin_model->submission_reportData($where);
-      
-        $where = 'at.sr_id = "'.$sr_id.'" AND at.intern_id = "'.$reportId.'" AND status = 1';
-        $viewAttech = $this->Admin_model->submission_report_attecment($where);
+
+        $where = 'at.sr_id = "' . $sr_id . '" AND at.intern_id = "' . $reportId . '" AND status = 1';
+        $viewAttech = $this->Admin_model->submission_report_attecment($userID);
     ?>
 <h5 class="badge bg-warning text-black"> Name-
     <?php echo ucwords($dilyreportDetails[0]['first_name'] . ' ' . $dilyreportDetails[0]['last_name']); ?></h5>
@@ -1255,11 +1256,12 @@ class Admin extends MY_Controller
         <div class=""><?php echo ucwords($value['description']); ?></div><br>
         <div class=""><strong>Attechments </strong></div>
         <br>
-        <?php $i = 1; foreach($viewAttech as $attech){?>
+        <?php $i = 1;
+                foreach ($viewAttech as $attech) { ?>
         <a href="<?php echo base_url(); ?>uploads/submission_report_data/<?php echo $attech['attachmentName']; ?>"
-            target="_blank"> View Attechment <?php echo $i++;?></a> <b>,</b>
+            target="_blank"> View Attechment <?php echo $i++; ?></a> <b>,</b>
 
-        <?php }?>
+        <?php } ?>
 
     </div>
 
@@ -1622,104 +1624,6 @@ class Admin extends MY_Controller
         }
     }
 
-    public function co_volunteer_report()
-    {
-        // $CI = &get_instance();
-        // $encode_data=$CI->get_library->encode('atif');
-        // $userID = $this->session->userdata('userID');
-        // $join_data = array(
-        //     array(
-        //         'table' => 'users',
-        //         'fields' => array('volunteerID', 'firstName', 'userID', 'lastName', 'mobile', 'email', 'usersCreationDate', 'verify', 'status'),
-        //         'joinWith' => array('userID'),
-        //         'order_by' => array('userID', 'DESC'),
-        //         'where' => array(
-        //             'roleID' => 2
-        //         ),
-        //     ),
-        //     array(
-        //         'joined' => 0,
-        //         'table' => 'user_data',
-        //         'fields' => array('dateOfBirth', 'correspontenceAddress', 'gender', 'nationalityID', 'bloodGroupID', 'educationID', 'occupationID', 'stateID', 'cityID', 'permanentState', 'permanentCity', 'permanentAddress', 'heard_us', 'staff_member'),
-        //         'joinWith' => array('userID', 'left'),
-        //     ),
-
-        //     array(
-        //         'joined' => 0,
-        //         'table' => 'position',
-        //         'fields' => array('positionName'),
-        //         'joinWith' => array('positionID', 'left'),
-        //     ),
-        //     array(
-        //         'joined' => 1,
-        //         'table' => 'education',
-        //         'fields' => array('educationName'),
-        //         'joinWith' => array('educationID', 'left'),
-        //     ),
-        //     array(
-        //         'joined' => 1,
-        //         'table' => 'occupation',
-        //         'fields' => array('occupationName'),
-        //         'joinWith' => array('occupationID', 'left'),
-        //     ),
-        //     array(
-        //         'joined' => 1,
-        //         'table' => 'states',
-        //         'fields' => array('stateName'),
-        //         'joinWith' => array('stateID', 'left'),
-        //     ),
-        //     array(
-        //         'joined' => 1,
-        //         'table' => 'cities',
-        //         'fields' => array('cityName'),
-        //         'joinWith' => array('cityID', 'left'),
-        //     ),
-        //     array(
-        //         'joined' => 1,
-        //         'table' => 'nationality',
-        //         'fields' => array('nationalityName'),
-        //         'joinWith' => array('nationalityID', 'left'),
-        //     ),
-        //     array(
-        //         'joined' => 1,
-        //         'table' => 'blood_group',
-        //         'fields' => array('bloodGroupName'),
-        //         'joinWith' => array('bloodGroupID', 'left'),
-        //     ),
-        // );
-
-        // $limit = '';
-        // $order_by = '';
-        // $res['volunteerDetails'] = $this->Curl_model->fetch_data_with_joining($join_data, $limit, $order_by);
-        // $userID = $this->session->userdata('userID');
-        // $join_data = array(
-        //     array(
-        //         'table' => 'users',
-        //         'fields' => array('volunteerID', 'firstName', 'lastName', 'mobile', 'email', 'userID'),
-        //         'joinWith' => array('userID'),
-        //         'where' => array(
-        //             'userID' => $userID
-        //         ),
-
-        //     ),
-        //     array(
-        //         'joined' => 0,
-        //         'table' => 'user_data',
-        //         'fields' => array('profile', 'correspontenceAddress'),
-        //         'joinWith' => array('userID', 'left'),
-        //     ),
-        // );
-        // $where = array();
-        // $limit = '';
-        // $order_by = '';
-        // $data['userDetails'] = $this->Curl_model->fetch_data_with_joining($join_data, $limit, $order_by);
-        $this->load->view('temp/head');
-        $this->load->view('temp/header');
-        $this->load->view('temp/sidebar');
-        $this->load->view('co-volunteer-report');
-        $this->load->view('temp/footer');
-    }
-
     public function tast_report()
     {
         try {
@@ -1808,7 +1712,6 @@ class Admin extends MY_Controller
             echo 'Caught exception: ',  $e->getMessage(), "\n";
         }
     }
-
 
     public function volenteership_verify()
     {
@@ -1991,7 +1894,7 @@ class Admin extends MY_Controller
             $join_data = array(
                 array(
                     'table' => 'interns',
-                    'fields' => array('intern_id', 'first_name', 'last_name', 'mobile', 'email', 'date_of_birth', 'state_id', 'city_id', 'occupation_id','past_volunteering','what_you_aim'),
+                    'fields' => array('intern_id', 'first_name', 'last_name', 'mobile', 'email', 'date_of_birth', 'state_id', 'city_id', 'occupation_id', 'past_volunteering', 'what_you_aim'),
                     'joinWith' => array('intern_id'),
                     'where' => array(
                         'intern_id' => $intern_id
@@ -2321,7 +2224,7 @@ class Admin extends MY_Controller
                 ),
             );
             $join_data1 = array(
-                
+
                 array(
                     'joined' => 0,
                     'table' => 'cities',
@@ -2559,7 +2462,7 @@ class Admin extends MY_Controller
 
     public function mail_send($to, $from, $msg, $msg2, $subj, $link, $btn, $html)
     {
-    
+
         $mail = new PHPMailer();
         $mail->IsSMTP();
         $mail->Host = 'smtp.office365.com';
@@ -3996,17 +3899,17 @@ class Admin extends MY_Controller
     {
         $sid = $this->input->post('state_id');
         $state_name = $this->input->post('state_name');
-       $code= $this->input->post('code');
+        $code = $this->input->post('code');
         $status = $this->input->post('status');
         $updatestate = array(
             'state_name' => $state_name,
             'status' => $status,
-            'code'=>$code,
+            'code' => $code,
         );
-        
+
         $where = "state_id = '$sid'";
 
-        if ($this->Crud_modal->update_data($where,'states',$updatestate)) {
+        if ($this->Crud_modal->update_data($where, 'states', $updatestate)) {
             $this->session->set_flashdata('master_states', '<div class="alert alert-warning"><strong>Success!</strong> State Data has Updated.</div>');
             redirect(base_url() . 'add-state-list');
         } else {
@@ -4254,7 +4157,7 @@ class Admin extends MY_Controller
         $task_location_data = $this->Curl_model->fetch_data_with_joining($join_data1, $limit, $order_by);
         //$user_data = $this->Curl_model->fetch_data('volunteer', array('email'), $where, '', '');
         $user_data = $this->Curl_model->fetch_data('volunteer', array('email'), array('volunteer_id' => $userID), '', '');
-      $email = $user_data['email'];
+        $email = $user_data['email'];
         $href = base_url() . 'login';
         //$href2 = base_url().'verify/'.md5($results);
         $to = $email;
@@ -4343,8 +4246,8 @@ class Admin extends MY_Controller
         $task_location_data = $this->Curl_model->fetch_data_with_joining($join_data1, $limit, $order_by);
         //$user_data = $this->Curl_model->fetch_data('volunteer', array('email'), $where, '', '');
         $user_data = $this->Curl_model->fetch_data('interns', array('email'), array('intern_id' => $userID), '', '');
-      $email = $user_data['email'];
-      
+        $email = $user_data['email'];
+
         $href = base_url() . 'login';
         //$href2 = base_url().'verify/'.md5($results);
         $to = $email;
@@ -4454,7 +4357,7 @@ class Admin extends MY_Controller
         try {
             if (($this->session->userdata('emp_id') != "" || $this->session->userdata('emp_id') != null)) {
                 //$data['state'] = $this->Crud_modal->fetch_all_data('*', 'states', '1=1');
-                $data['designationData'] =$designation= $this->Crud_modal->fetch_all_data('*', 'designation', 'status=1');
+                $data['designationData'] = $designation = $this->Crud_modal->fetch_all_data('*', 'designation', 'status=1');
                 $data['regions'] = $this->Crud_modal->fetch_all_data('*', 'regions', 'region_status=1');
                 $data['master_role'] = $this->Crud_modal->fetch_all_data('*', 'master_role', 'status=1');
                 // echo "<pre>";
@@ -4572,7 +4475,7 @@ class Admin extends MY_Controller
     {
         try {
             if (($this->session->userdata('emp_id') != "" || $this->session->userdata('emp_id') != null)) {
-               $data['regionData']= $region = $this->session->userdata('region_id');
+                $data['regionData'] = $region = $this->session->userdata('region_id');
                 $role = $this->session->userdata('role_id');
                 if ($role == 1) {
                     $date2 = $data['date_to'] = date("Y-m-d");
@@ -4804,72 +4707,10 @@ class Admin extends MY_Controller
 <?php
     }
 
-   
-
-    public function all_onboard_intern()
-    {
-        try {
-            if (($this->session->userdata('emp_id') != "" || $this->session->userdata('emp_id') != null)) {
-                $region = $this->session->userdata('region_id');
-                $role = $this->session->userdata('role_id');
-                if ($role == 1) {
-                    $date2 = $data['date_to'] = date("Y-m-d");
-                    $data['date_from'] = date("Y-m-d", strtotime($date2 . '-7 days'));
-                    $where = 'i.status =7';
-                    if ($this->input->post('start_new') != "" && $this->input->post('end_new') != "" &&  $this->input->post('state_name') != "" && $this->input->post('region_id') != "") {
-                        $data['state'] =  $state_name = $this->input->post('state_name');
-                        $data['region_id'] =  $region_id = $this->input->post('region_id');
-                        $date1 = $this->input->post('start_new');
-                        $date2 = $this->input->post('end_new');
-                        $date_from = date("Y-m-d", strtotime($date1));
-                        $date_to = date("Y-m-d", strtotime($date2 . '+1 days'));
-                        $data['creation_date'] = $date1;
-                        $data['creation_date'] = $date2;
-                        $data['state_name'] = $state_name;
-                        //$data['region_id'] = $region_id;
-                        $where = "creation_date>='" . $date_from . "' and creation_date<='" . $date_to . "' and i.state_id=" . $state_name . "  and (i.status=7)";
-                        $data['intern'] = $this->Admin_model->intern_enquiry_Data($where);
-                        // echo "<pre>";
-                        // print_r($data['volunteer']);exit;
-                    }
-                } else {
-                    $data['rname'] = $this->Curl_model->fetch_single_data('region_name,state_id', 'regions', array('region_id' => $region));
-                    $data['states'] = $this->Crud_modal->fetch_all_data('*', 'states', 'region_id=' . $region);
-                    $date2 = $data['date_to'] = date("Y-m-d");
-                    $data['date_from'] = date("Y-m-d", strtotime($date2 . '-7 days'));
-                    $where = 'i.status =7';
-                    if ($this->input->post('start_new') != "" && $this->input->post('end_new') != "" &&  $this->input->post('state_name') != "") {
-                        $data['state'] =   $state_name = $this->input->post('state_name');
-                        $date1 = $this->input->post('start_new');
-                        $date2 = $this->input->post('end_new');
-                        $date_from = date("Y-m-d", strtotime($date1));
-                        $date_to = date("Y-m-d", strtotime($date2 . '+1 days'));
-                        $data['creation_date'] = $date1;
-                        $data['creation_date'] = $date2;
-                        $data['state_name'] = $state_name;
-                        $where = "creation_date>='" . $date_from . "' and creation_date<='" . $date_to . "' and i.state_id=" . $state_name . "  and (i.status=7)";
-                        $data['intern'] = $this->Admin_model->intern_enquiry_Data($where);
-                    }
-                }
-
-                $data['email_templates'] = $this->Crud_modal->fetch_single_data('email_templates_id,body_content', 'email_templates', 'status=1 AND email_templates_id=4');
-                $data['regions'] = $this->Crud_modal->fetch_all_data('*', 'regions', 'region_status=1');
-                $this->load->view('temp/head');
-                $this->load->view('temp/header', $data);
-                $this->load->view('temp/sidebar');
-                $this->load->view('all-onboard-intern', $data);
-                $this->load->view('temp/footer');
-            } else {
-                redirect(base_url() . 'login', 'refresh');
-            }
-        } catch (Exception $e) {
-            echo 'Caught exception: ',  $e->getMessage(), "\n";
-        }
-    }
 
     public function final_daily_report()
     {
-        
+
         try {
             if (($this->session->userdata('emp_id') != "" || $this->session->userdata('emp_id') != null)) {
                 $region = $this->session->userdata('region_id');
@@ -4883,7 +4724,7 @@ class Admin extends MY_Controller
                         $data['dr_date'] = $date1;
                         $data['task'] = $taskName;
                         $where = "dr.dr_date>='" . $date1 . "' and dr.task_id=" . $taskName . " AND (v.status=5) and dr.approved_status=0";
-                     
+
                         $data['volunteerdailyReport'] = $this->Admin_model->volunteer_dailyReportData($where);
                     }
                 } else {
@@ -5359,13 +5200,6 @@ class Admin extends MY_Controller
         }
     }
 
-
-
-    
-
-   
-    
-    
     public function updatePresent_volunteer()
     {
 
@@ -5402,9 +5236,6 @@ class Admin extends MY_Controller
         }
     }
 
-   
-
-  
     //----------------------------UI Amisha Singh ------------------------//
 
     public function transfer_table()
@@ -5428,7 +5259,6 @@ class Admin extends MY_Controller
                         $data['state_name'] = $state_name;
                         $where = "it.creation_date>='" . $date_from . "' and it.creation_date<='" . $date_to . "' and it.current_state=" . $state_name . "  and (it.status=1)";
                         $data['internTransfer'] = $this->Admin_model->intern_transferRequest($where);
-
                     }
                 } else {
                     $data['rname'] = $this->Curl_model->fetch_single_data('region_name,state_id', 'regions', array('region_id' => $region));
@@ -5504,7 +5334,6 @@ class Admin extends MY_Controller
                         $where = "vt.creation_date>='" . $date_from . "' and vt.creation_date<='" . $date_to . "' and vt.relocate_state=" . $state_name . "  and (vt.status=1)";
 
                         $data['volunteerTransfer'] = $this->Admin_model->volunteer_transferRequest($where);
-
                     }
                 }
                 // $data['states'] = $this->Crud_modal->fetch_all_data('*', 'states', 'status=1');
@@ -5521,8 +5350,6 @@ class Admin extends MY_Controller
             echo 'Caught exception: ',  $e->getMessage(), "\n";
         }
     }
-
-
 
     public function country_master()
     {
@@ -5719,7 +5546,7 @@ class Admin extends MY_Controller
         $pdf->SetFont('Arial', '', 10);
         $pdf->SetFillColor(190, 210, 2400);
         $pdf->Image(base_url() . 'uploads/certificate/' . $certificatecertificate_path, 10, 7, 185);
-       // $pdf->Image($_SERVER['DOCUMENT_ROOT'] . '/uploads/certificate/' . $certificatecertificate_path, 10, 7, 185);
+        // $pdf->Image($_SERVER['DOCUMENT_ROOT'] . '/uploads/certificate/' . $certificatecertificate_path, 10, 7, 185);
         $pdf->SetFont('Arial', 'B', 10);
         $pdf->SetX(40);
         $pdf->Cell(10, 100, $certificateFirstname . $certificateLastname);
@@ -5905,7 +5732,7 @@ class Admin extends MY_Controller
                     $where = "intern_id = '$val'";
                     //$data['interuser'] = $this->Admin_model->get_all_intern_onlineOffline($where);
                     $data['interuser'] = $this->Crud_modal->fetch_single_data('*', 'interns', $where);
-                   
+
                     $data['user_schedule'] = $this->Crud_modal->all_data_select("*", "interview_schedule_detail", "intern_id='$val'", "schedule_id asc");
                     $data['step_name'] = $this->Crud_modal->all_data_select("*", "interview_process_step", "1=1", "step_id asc");
                 } else {
@@ -5919,16 +5746,16 @@ class Admin extends MY_Controller
                     $data['user_schedule'] = $this->Crud_modal->all_data_select("*", "interview_schedule_detail", "intern_id='$val'", "schedule_id asc");
                     $data['step_name'] = $this->Crud_modal->all_data_select("*", "interview_process_step", "1=1", "step_id asc");
                 }
-                
+
                 $data['email_templates'] = $this->Crud_modal->fetch_single_data('email_templates_id,body_content', 'email_templates', 'status=1 AND email_templates_id=8');
-               // $internCity = $data['interuser']['city_name'];
-                $searchArray = array("online", "7-8", "September , 2022.","Mahendra Sahu",'Kanpur Uttar Pradesh');
+                // $internCity = $data['interuser']['city_name'];
+                $searchArray = array("online", "7-8", "September , 2022.", "Mahendra Sahu", 'Kanpur Uttar Pradesh');
                 $latsarrayTemplate = array(
                     $data['interuser']['vol_type_name'],
                     $data['interuser']['internshipDeruation'],
-                    date('d M Y', strtotime($data['interuser']['creation_date'])).'.',
-                    $data['interuser']['first_name']." ".$data['interuser']['last_name'],
-                    trim($data['interuser']['city_name']," ").",".$data['interuser']['state_name'],
+                    date('d M Y', strtotime($data['interuser']['creation_date'])) . '.',
+                    $data['interuser']['first_name'] . " " . $data['interuser']['last_name'],
+                    trim($data['interuser']['city_name'], " ") . "," . $data['interuser']['state_name'],
                 );
                 $lasttemplate = str_replace($searchArray, $latsarrayTemplate, $data['email_templates']['body_content'], $count);
                 $data['final_offerdata'] = $lasttemplate;
@@ -6015,10 +5842,14 @@ class Admin extends MY_Controller
     function clear_interview()
     {
         if ($this->session->userdata('emp_id') != "" || $this->session->userdata('emp_id') != null) {
+            //$intern_id = $this->uri->segment(2);
+           // $val = base64_decode(str_pad(strtr($intern_id, '-_', '+/'), strlen($intern_id) % 4, '=', STR_PAD_RIGHT));
             //print_r($this->input->post());
             $data['round_status'] = $this->input->post('status');
             $data['comment'] = $this->input->post('comment');
             $schedule_id = $this->input->post('schedule_id');
+            $intern_id = $this->input->post('intern_id');
+            $this->Crud_modal->update_data("intern_id='$intern_id'", "interns", ['status' => '5']);
             if ($this->Crud_modal->update_data("schedule_id='$schedule_id'", "interview_schedule_detail", ['job_process_step' => '4-0'])) {
                 if ($this->Crud_modal->update_data("schedule_id='$schedule_id'", "interview_schedule_detail", $data)) {
                     echo true;
@@ -6202,43 +6033,43 @@ class Admin extends MY_Controller
     }
 
 
-    
+
     function confirm_joining()
     {
-      if ($this->session->userdata('emp_id') != "" || $this->session->userdata('emp_id') != null) {
-        $creation_date = date('Y-m-d'); 
-        $intern_id = $this->input->post("intern_id");
-        $internEmail = $this->input->post('email');
-        $val =  rtrim(strtr(base64_encode($intern_id), '+/', '-_'), '=');
-        $intern = $this->Crud_modal->fetch_single_data('*', 'interns', "intern_id=$intern_id");
-        // $email_templates = $this->Crud_modal->fetch_all_data('*', 'email_templates', 'status=1 AND email_templates_id=5');
-        $val = rtrim(strtr(base64_encode($intern['intern_id']), '+/', '-_'), '=');
-        $url = base_url('') . 'intern-login';
-        $password = 'intern12345';
-        $to = $intern['email']; {
-            $mail = new PHPMailer();
-            $mail->IsSMTP();
-            $mail->Host = 'smtp.office365.com';
-            $mail->SMTPDebug = 1;
-            $mail->SMTPAuth = true;
-            $mail->SMTPSecure = "tls";
-            $mail->Port = 587;
-            $mail->Username = "noreply@crymail.org";
-            $mail->Password = "^%n7wh#m7_2k";
-            $mail->setFrom('noreply@crymail.org');
-            $mail->AddAddress($to);
-            $mail->addBCC("ravishankar.k@neuralinfo.org", "Ravi");
-            $mail->FromName = 'cry Vms';
-            $mail->IsHTML(true);
-            $mail->Subject = 'Joining Letter';
-            $mail->Body = "" . "<br>" . 'Your Login Credentials,' . " " . "<br>" . "Link:" . " " . $url . "<br><br>" . "Your Email:" . " " . $intern['email'] . '<br>' . "Your Password:" . "  " . $password . "<br><br>" . "Thank you for being a intern with CRY.";
-            if (!$mail->Send()) {
-                echo "Message could not be sent. <p>";
-                echo "Mailer Error: " . $mail->ErrorInfo;
-            } else {
-                $this->Admin_model->intern_count_send_maillogincredational($intern_id, $creation_date);
+        if ($this->session->userdata('emp_id') != "" || $this->session->userdata('emp_id') != null) {
+            $creation_date = date('Y-m-d');
+            $intern_id = $this->input->post("intern_id");
+            $internEmail = $this->input->post('email');
+            $val =  rtrim(strtr(base64_encode($intern_id), '+/', '-_'), '=');
+            $intern = $this->Crud_modal->fetch_single_data('*', 'interns', "intern_id=$intern_id");
+            // $email_templates = $this->Crud_modal->fetch_all_data('*', 'email_templates', 'status=1 AND email_templates_id=5');
+            $val = rtrim(strtr(base64_encode($intern['intern_id']), '+/', '-_'), '=');
+            $url = base_url('') . 'intern-login';
+            $password = 'intern12345';
+            $to = $intern['email']; {
+                $mail = new PHPMailer();
+                $mail->IsSMTP();
+                $mail->Host = 'smtp.office365.com';
+                $mail->SMTPDebug = 1;
+                $mail->SMTPAuth = true;
+                $mail->SMTPSecure = "tls";
+                $mail->Port = 587;
+                $mail->Username = "noreply@crymail.org";
+                $mail->Password = "^%n7wh#m7_2k";
+                $mail->setFrom('noreply@crymail.org');
+                $mail->AddAddress($to);
+                $mail->addBCC("ravishankar.k@neuralinfo.org", "Ravi");
+                $mail->FromName = 'cry Vms';
+                $mail->IsHTML(true);
+                $mail->Subject = 'Joining Letter';
+                $mail->Body = "" . "<br>" . 'Your Login Credentials,' . " " . "<br>" . "Link:" . " " . $url . "<br><br>" . "Your Email:" . " " . $intern['email'] . '<br>' . "Your Password:" . "  " . $password . "<br><br>" . "Thank you for being a intern with CRY.";
+                if (!$mail->Send()) {
+                    echo "Message could not be sent. <p>";
+                    echo "Mailer Error: " . $mail->ErrorInfo;
+                } else {
+                    $this->Admin_model->intern_count_send_maillogincredational($intern_id, $creation_date);
+                }
             }
-          }
         }
     }
 
@@ -6361,192 +6192,10 @@ class Admin extends MY_Controller
         }
     }
 
-    public function post_registration_intern_report()
-    {
-        $this->load->view('temp/head');
-        $this->load->view('temp/header');
-        $this->load->view('temp/sidebar');
-        $this->load->view('post-registration-intern-report');
-        $this->load->view('temp/footer');
-    }
+    
 
-    public function intern_assign_task_report()
-    {
-        $this->load->view('temp/head');
-        $this->load->view('temp/header');
-        $this->load->view('temp/sidebar');
-        $this->load->view('intern-assign-task-report');
-        $this->load->view('temp/footer');
-    }
+  
 
-
-    public function pre_registration_volunteer_report()
-    {
-        try {
-            if (($this->session->userdata('emp_id') != "" || $this->session->userdata('emp_id') != null)) {
-                $region = $this->session->userdata('region_id');
-                $role = $this->session->userdata('role_id');
-                if ($role == 1) {
-                    $date2 = $data['date_to'] = date("Y-m-d");
-                    $data['date_from'] = date("Y-m-d", strtotime($date2 . '-7 days'));
-                    $where = 'v.status =1';
-                    if ($this->input->post('start_new') != "" && $this->input->post('end_new') != "" &&  $this->input->post('state_name') != "") {
-                        $state_name = $this->input->post('state_name');
-                        $date1 = $this->input->post('start_new');
-                        $date2 = $this->input->post('end_new');
-                        $date_from = date("Y-m-d", strtotime($date1));
-                        $date_to = date("Y-m-d", strtotime($date2 . '+1 days'));
-                        $data['creation_date'] = $date1;
-                        $data['creation_date'] = $date2;
-                        $data['state_name'] = $state_name;
-                        $where = "creation_date>='" . $date_from . "' and creation_date<='" . $date_to . "' and v.state_id=" . $state_name . "  and (v.status=1)";
-                        $data['volunteer'] = $this->Admin_model->volunteer_enquiry_Data($where);
-                    }
-                } else {
-                    $data['rname'] = $this->Curl_model->fetch_single_data('region_name,state_id', 'regions', array('region_id' => $region));
-                    $data['states'] = $this->Crud_modal->fetch_all_data('*', 'states', 'region_id=' . $region);
-                    $date2 = $data['date_to'] = date("Y-m-d");
-                    $data['date_from'] = date("Y-m-d", strtotime($date2 . '-7 days'));
-                    'v.status =1';
-                    if ($this->input->post('start_new') != "" && $this->input->post('end_new') != "" &&  $this->input->post('state_name') != "") {
-                        $state_name = $this->input->post('state_name');
-                        $date1 = $this->input->post('start_new');
-                        $date2 = $this->input->post('end_new');
-                        $date_from = date("Y-m-d", strtotime($date1));
-                        $date_to = date("Y-m-d", strtotime($date2 . '+1 days'));
-                        $data['creation_date'] = $date1;
-                        $data['creation_date'] = $date2;
-                        $data['state_name'] = $state_name;
-                        $where = "creation_date>='" . $date_from . "' and creation_date<='" . $date_to . "' and v.state_id=" . $state_name . "  and (v.status=1)";
-                        $data['volunteer'] = $this->Admin_model->volunteer_enquiry_Data($where);
-                    }
-                }
-                $data['regions'] = $this->Crud_modal->fetch_all_data('*', 'regions', 'region_status=1');
-                $this->load->view('temp/head');
-                $this->load->view('temp/header', $data);
-                $this->load->view('temp/sidebar');
-                $this->load->view('pre-registration-volunteer-report', $data);
-                $this->load->view('temp/footer');
-            } else {
-                redirect(base_url() . 'login', 'refresh');
-            }
-        } catch (Exception $e) {
-            echo 'Caught exception: ',  $e->getMessage(), "\n";
-        }
-    }
-
-    public function post_registration_volunteer_report()
-    {
-        try {
-            if (($this->session->userdata('emp_id') != "" || $this->session->userdata('emp_id') != null)) {
-                $region = $this->session->userdata('region_id');
-                $role = $this->session->userdata('role_id');
-                if ($role == 1) {
-                    $date2 = $data['date_to'] = date("Y-m-d");
-                    $data['date_from'] = date("Y-m-d", strtotime($date2 . '-7 days'));
-                    $where = 'v.status =4';
-                    if ($this->input->post('start_new') != "" && $this->input->post('end_new') != "" &&  $this->input->post('state_name') != "") {
-                        $state_name = $this->input->post('state_name');
-                        $date1 = $this->input->post('start_new');
-                        $date2 = $this->input->post('end_new');
-                        $date_from = date("Y-m-d", strtotime($date1));
-                        $date_to = date("Y-m-d", strtotime($date2 . '+1 days'));
-                        $data['creation_date'] = $date1;
-                        $data['creation_date'] = $date2;
-                        $data['state_name'] = $state_name;
-                        $where = "creation_date>='" . $date_from . "' and creation_date<='" . $date_to . "' and v.state_id=" . $state_name . "  and (v.status=4)";
-                        $data['volunteer'] = $this->Admin_model->volunteer_enquiry_Data($where);
-                    }
-                } else {
-                    $data['rname'] = $this->Curl_model->fetch_single_data('region_name,state_id', 'regions', array('region_id' => $region));
-                    $data['states'] = $this->Crud_modal->fetch_all_data('*', 'states', 'region_id=' . $region);
-                    $date2 = $data['date_to'] = date("Y-m-d");
-                    $data['date_from'] = date("Y-m-d", strtotime($date2 . '-7 days'));
-                    'v.status =4';
-                    if ($this->input->post('start_new') != "" && $this->input->post('end_new') != "" &&  $this->input->post('state_name') != "") {
-                        $state_name = $this->input->post('state_name');
-                        $date1 = $this->input->post('start_new');
-                        $date2 = $this->input->post('end_new');
-                        $date_from = date("Y-m-d", strtotime($date1));
-                        $date_to = date("Y-m-d", strtotime($date2 . '+1 days'));
-                        $data['creation_date'] = $date1;
-                        $data['creation_date'] = $date2;
-                        $data['state_name'] = $state_name;
-                        $where = "creation_date>='" . $date_from . "' and creation_date<='" . $date_to . "' and v.state_id=" . $state_name . "  and (v.status=4)";
-                        $data['volunteer'] = $this->Admin_model->volunteer_enquiry_Data($where);
-                    }
-                }
-                $data['regions'] = $this->Crud_modal->fetch_all_data('*', 'regions', 'region_status=1');
-                $this->load->view('temp/head');
-                $this->load->view('temp/header', $data);
-                $this->load->view('temp/sidebar');
-                $this->load->view('post-registration-volunteer-report', $data);
-                $this->load->view('temp/footer');
-            } else {
-                redirect(base_url() . 'login', 'refresh');
-            }
-        } catch (Exception $e) {
-            echo 'Caught exception: ',  $e->getMessage(), "\n";
-        }
-    }
-
-    public function volunteer_assign_task()
-    {
-
-        try {
-            if (($this->session->userdata('emp_id') != "" || $this->session->userdata('emp_id') != null)) {
-                $region = $this->session->userdata('region_id');
-                $role = $this->session->userdata('role_id');
-                if ($role == 1) {
-                    $date2 = $data['date_to'] = date("Y-m-d");
-                    $data['date_from'] = date("Y-m-d", strtotime($date2 . '-7 days'));
-                    $where = 'status =1';
-                    if ($this->input->post('start_new') != "" && $this->input->post('end_new') != "" &&  $this->input->post('taskType') != "") {
-                        $taskType = $this->input->post('taskType');
-                        $taskName = $this->input->post('taskName');
-                        $date1 = $this->input->post('start_new');
-                        $date2 = $this->input->post('end_new');
-                        $date_from = date("Y-m-d", strtotime($date1));
-                        $date_to = date("Y-m-d", strtotime($date2 . '+1 days'));
-                        $data['creation_date'] = $date1;
-                        $data['creation_date'] = $date2;
-                        $data['taskType'] = $taskType;
-                        $where = "creation_date>='" . $date_from . "' and creation_date<='" . $date_to . "' and task_id=" . $taskName . "  and (status=1)";
-                        $data['volunteerDetails'] = $this->Admin_model->assign_task_volunteer_taskType($where);
-                    }
-                } else {
-                    $data['rname'] = $this->Curl_model->fetch_single_data('region_name,state_id', 'regions', array('region_id' => $region));
-                    $data['states'] = $this->Crud_modal->fetch_all_data('*', 'states', 'region_id=' . $region);
-                    $date2 = $data['date_to'] = date("Y-m-d");
-                    $data['date_from'] = date("Y-m-d", strtotime($date2 . '-7 days'));
-                    'v.status =5';
-                    if ($this->input->post('start_new') != "" && $this->input->post('end_new') != "" &&  $this->input->post('state_name') != "") {
-                        $state_name = $this->input->post('state_name');
-                        $date1 = $this->input->post('start_new');
-                        $date2 = $this->input->post('end_new');
-                        $date_from = date("Y-m-d", strtotime($date1));
-                        $date_to = date("Y-m-d", strtotime($date2 . '+1 days'));
-                        $data['creation_date'] = $date1;
-                        $data['creation_date'] = $date2;
-                        $data['state_name'] = $state_name;
-                        $where = "creation_date>='" . $date_from . "' and creation_date<='" . $date_to . "' and v.state_id=" . $state_name . "  and (v.status=5)";
-                        $data['volunteer'] = $this->Admin_model->volunteer_enquiry_Data($where);
-                    }
-                }
-                $data['taskType'] = $this->Crud_modal->fetch_all_data('*', 'task_type', 'status = 1');
-                $data['regions'] = $this->Crud_modal->fetch_all_data('*', 'regions', 'region_status=1');
-                $this->load->view('temp/head');
-                $this->load->view('temp/header', $data);
-                $this->load->view('temp/sidebar');
-                $this->load->view('volunteer-assign-task', $data);
-                $this->load->view('temp/footer');
-            } else {
-                redirect(base_url() . 'login', 'refresh');
-            }
-        } catch (Exception $e) {
-            echo 'Caught exception: ',  $e->getMessage(), "\n";
-        }
-    }
 
     public function view_onboarding_candidate()
     {
@@ -6737,7 +6386,6 @@ class Admin extends MY_Controller
                         $data['final_sunmission_date'] = $date2;
                         $data['state_name'] = $state_name;
                         $where = "i.state_id = '" . $state_name . "' AND ism.final_sunmission_date>='" . $date_from . "' and ism.final_sunmission_date<='" . $date_to . "' AND (ism.status=1)";
-
                         $data['submissionReports'] = $this->Admin_model->intern_submission_report($where);
                     }
                 } else {
@@ -6745,7 +6393,7 @@ class Admin extends MY_Controller
                     $data['states'] = $this->Crud_modal->fetch_all_data('*', 'states', 'region_id=' . $region);
                     $date2 = $data['date_to'] = date("Y-m-d");
                     $data['date_from'] = date("Y-m-d", strtotime($date2 . '-7 days'));
-                    $where = 'v.status =1 OR v.status =2';
+
                     if ($this->input->post('start_new') != "" && $this->input->post('end_new') != "" &&  $this->input->post('state_name') != "" && $this->input->post('region_id') != "") {
                         $data['state'] =  $state_name = $this->input->post('state_name');
                         $data['region_id'] =  $region_id = $this->input->post('region_id');
@@ -6807,7 +6455,7 @@ class Admin extends MY_Controller
         $where = 'intern_id = "' . $val . '"';
         $internemailData = $this->Crud_modal->fetch_single_data('*', 'interns', $where);
         $offerEmailFormat = $internemailData['offer_latter_email'];
-        $date= date('d-m-Y');
+        $date = date('d-m-Y');
         $pdf = new FPDF();
         $pdf->AddPage();
         $pdf->SetFont('Arial', '', 9);
@@ -6815,38 +6463,38 @@ class Admin extends MY_Controller
         //$pdf->Image($_SERVER['DOCUMENT_ROOT'] . '/uploads/Intern-offer-Letter.png', 10, 7, 185);
         $pdf->SetY(38.6);
         $pdf->SetX(147);
-        $pdf->Cell(10,5,$date,0,'R');
+        $pdf->Cell(10, 5, $date, 0, 'R');
         $pdf->SetY(60);
         $pdf->Ln(5);
         $pdf->SetX(20);
-        $pdf->multiCell(170, 4, strip_tags($offerEmailFormat),5);
+        $pdf->multiCell(170, 4, strip_tags($offerEmailFormat), 5);
         $pdf->Output();
         $this->load->view('view_offer_letter');
     }
 
-    public function send_offer_letter( $internemailData)
+    public function send_offer_letter($internemailData)
     {
- 
-         $offerEmailFormat = $internemailData['offer_latter_email'];
-        $date= date('d-m-Y');
+
+        $offerEmailFormat = $internemailData['offer_latter_email'];
+        $date = date('d-m-Y');
         $pdf = new FPDF();
         $pdf->AddPage();
         $pdf->SetFont('Arial', '', 9);
-      $pdf->Image(base_url() . '/uploads/offer.png', 10, 8, 185);
-       //$pdf->Image($_SERVER['DOCUMENT_ROOT'] . '/uploads/offer.png', 10, 8, 185);
+        $pdf->Image(base_url() . '/uploads/offer.png', 10, 8, 185);
+        //$pdf->Image($_SERVER['DOCUMENT_ROOT'] . '/uploads/offer.png', 10, 8, 185);
         $pdf->SetY(38.6);
         $pdf->SetX(147);
-        $pdf->Cell(10,5,$date,0,'R');
+        $pdf->Cell(10, 5, $date, 0, 'R');
         $pdf->SetY(60);
         $pdf->Ln(5);
         $pdf->SetX(20);
-        $pdf->multiCell(170, 4, strip_tags($offerEmailFormat),5);
+        $pdf->multiCell(170, 4, strip_tags($offerEmailFormat), 5);
         $path = 'offeremail/' . rand() . '.pdf';
         $pdf->Output($path, 'F');
         return $path;
         $this->load->view('view_offer_letter');
     }
-    
+
 
     public function send_offerLetter_emails()
     {
@@ -6854,6 +6502,7 @@ class Admin extends MY_Controller
         $val = base64_decode(str_pad(strtr($intern_id, '-_', '+/'), strlen($intern_id) % 4, '=', STR_PAD_RIGHT));
         $where = 'intern_id = "' . $val . '"';
         $internemailData = $this->Crud_modal->fetch_single_data('first_name,last_name,email,offer_latter_email', 'interns', $where);
+        $this->Crud_modal->update_data("intern_id='$val'", "interns", ['status' => '6']);
         $internEmail = $internemailData['email'];
         $url = base_url('') . 'post-registration-intern/' . $intern_id;
         $to = $internEmail;
@@ -6879,15 +6528,13 @@ class Admin extends MY_Controller
             echo "Message could not be sent. <p>";
             echo "Mailer Error: " . $mail->ErrorInfo;
         } else {
-
-           // $this->Admin_model->updateStatus($internemailData);
-            redirect(base_url() . 'hr-process/'.$intern_id);
+           // $this->Admin_model->updateStatus_intern_offerletter($internemailData);
+            redirect(base_url() . 'hr-process/' . $intern_id);
         }
     }
 
     public function rate_and_review()
-    {
-        {
+    { {
             try {
                 if (($this->session->userdata('emp_id') != "" || $this->session->userdata('emp_id') != null)) {
                     $region = $this->session->userdata('region_id');
@@ -6908,7 +6555,6 @@ class Admin extends MY_Controller
                             $data['state_name'] = $state_name;
                             $where = "i.state_id = '" . $state_name . "' AND fd.creation_date>='" . $date_from . "' and fd.creation_date<='" . $date_to . "' AND (fd.status=1)";
                             $data['rateingData'] = $this->Admin_model->rate_and_reviewData($where);
-                            
                         }
                     } else {
                         $data['rname'] = $this->Curl_model->fetch_single_data('region_name,state_id', 'regions', array('region_id' => $region));
@@ -6928,10 +6574,9 @@ class Admin extends MY_Controller
                             $data['state_name'] = $state_name;
                             $where = "i.state_id = '" . $state_name . "' AND fd.creation_date>='" . $date_from . "' and fd.creation_date<='" . $date_to . "' AND (fd.status=1)";
                             $data['rateingData'] = $this->Admin_model->rate_and_reviewData($where);
-
                         }
                     }
-    
+
                     $data['regions'] = $this->Crud_modal->fetch_all_data('*', 'regions', 'region_status=1');
                     $this->load->view('temp/head');
                     $this->load->view('temp/header', $data);
@@ -6945,127 +6590,138 @@ class Admin extends MY_Controller
                 echo 'Caught exception: ',  $e->getMessage(), "\n";
             }
         }
-    
     }
 
-    public function view_rating(){
-        $intern_id = $this->uri->segment(2);
-        $val = base64_decode(str_pad(strtr($intern_id, '-_', '+/'), strlen($intern_id) % 4, '=', STR_PAD_RIGHT));
-        $where = 'intern_id = "' . $val . '"';
-        $data['feedbackData'] = $this->Admin_model->get_all_feedback($where);
-        
-        $this->load->view('temp/head');
-        $this->load->view('temp/header', $data);
-        $this->load->view('temp/sidebar');
-        $this->load->view('view_rating', $data);
-        $this->load->view('temp/footer');
- }
-
-
- public function onboard_volunteer()
- {
-
-     try {
-         if (($this->session->userdata('emp_id') != "" || $this->session->userdata('emp_id') != null)) {
-             $region = $this->session->userdata('region_id');
-             $role = $this->session->userdata('role_id');
-             if ($role == 1) {
-                 $date2 = $data['date_to'] = date("Y-m-d");
-                 $data['date_from'] = date("Y-m-d", strtotime($date2 . '-7 days'));
-                 $where = 'v.status =5';
-                 if ($this->input->post('start_new') != "" && $this->input->post('end_new') != "" &&  $this->input->post('state_name') != "") {
-
-                    $config = array();
-					$config["per_page"] = 10;
-					$config["uri_segment"] = 2;
-                     $config["base_url"] = base_url() . "onboard-volunteer";
-                     $config["total_rows"] = $this->Admin_model->get_all_volunteer_count();
-                     $this->pagination->initialize($config);
-					$data['page'] = ($this->uri->segment(2)) ? $this->uri->segment(2) : 0;
-					$data['volunteer'] = $this->Admin_model->get_all_volunteer($config["per_page"], $data['page']);
-					$data["links"] = $this->pagination->create_links();
-                 }
-             } else {
-                 $data['rname'] = $this->Curl_model->fetch_single_data('region_name,state_id', 'regions', array('region_id' => $region));
-                 $data['states'] = $this->Crud_modal->fetch_all_data('*', 'states', 'region_id=' . $region);
-                 $date2 = $data['date_to'] = date("Y-m-d");
-                 $data['date_from'] = date("Y-m-d", strtotime($date2 . '-7 days'));
-                 'v.status =5';
-                 if ($this->input->post('start_new') != "" && $this->input->post('end_new') != "" &&  $this->input->post('state_name') != "") {
-                     $state_name = $this->input->post('state_name');
-                     $date1 = $this->input->post('start_new');
-                     $date2 = $this->input->post('end_new');
-                     $date_from = date("Y-m-d", strtotime($date1));
-                     $date_to = date("Y-m-d", strtotime($date2 . '+1 days'));
-                     $data['creation_date'] = $date1;
-                     $data['creation_date'] = $date2;
-                     $data['state_name'] = $state_name;
-                     $where = "creation_date>='" . $date_from . "' and creation_date<='" . $date_to . "' and v.state_id=" . $state_name . "  and (v.status=5)";
-                     $data['volunteer'] = $this->Admin_model->volunteer_enquiry_Data($where);
-                 }
-             }
-             $data['regions'] = $this->Crud_modal->fetch_all_data('*', 'regions', 'region_status=1');
-             $this->load->view('temp/head');
-             $this->load->view('temp/header', $data);
-             $this->load->view('temp/sidebar');
-             $this->load->view('onboard-volunteer', $data);
-             $this->load->view('temp/footer');
-         } else {
-             redirect(base_url() . 'login', 'refresh');
-         }
-     } catch (Exception $e) {
-         echo 'Caught exception: ',  $e->getMessage(), "\n";
-     }
- }
-
- 
-
- public function view_assigned_task_intern()
+    public function view_rating()
     {
-        try{
-    
-            if(($this->session->userdata('emp_id') != "" || $this->session->userdata('emp_id') != null)){
+        try {
+            if (($this->session->userdata('emp_id') != "" || $this->session->userdata('emp_id') != null)) {
                 $region = $this->session->userdata('region_id');
                 $role = $this->session->userdata('role_id');
-               
-                if($role == 1){
-                    if($this->input->post('intern_task_id')!=""){
+                if ($role == 1) {
+                    $intern_id = $this->uri->segment(2);
+                    $val = base64_decode(str_pad(strtr($intern_id, '-_', '+/'), strlen($intern_id) % 4, '=', STR_PAD_RIGHT));
+                    $where = 'intern_id = "' . $val . '"';
+                    $data['feedbackData'] = $this->Admin_model->get_all_feedback($where);
+                } else {
+                    $region = $this->session->userdata('region_id');
+                    $data['rname'] = $this->Curl_model->fetch_single_data('region_name,state_id', 'regions', array('region_id' => $region));
+                    $data['states'] = $this->Crud_modal->fetch_all_data('*', 'states', 'region_id=' . $region);
+                    $intern_id = $this->uri->segment(2);
+                    $val = base64_decode(str_pad(strtr($intern_id, '-_', '+/'), strlen($intern_id) % 4, '=', STR_PAD_RIGHT));
+                    $where = 'intern_id = "' . $val . '"';
+                    $data['feedbackData'] = $this->Admin_model->get_all_feedback($where);
+                }
+                $this->load->view('temp/head');
+                $this->load->view('temp/header', $data);
+                $this->load->view('temp/sidebar');
+                $this->load->view('view_rating', $data);
+                $this->load->view('temp/footer');
+            } else {
+                redirect(base_url() . 'login', 'refresh');
+            }
+        } catch (Exception $e) {
+            echo 'Caught exception: ',  $e->getMessage(), "\n";
+        }
+    }
+
+
+    public function onboard_volunteer()
+    {
+
+        try {
+            if (($this->session->userdata('emp_id') != "" || $this->session->userdata('emp_id') != null)) {
+                $region = $this->session->userdata('region_id');
+                $role = $this->session->userdata('role_id');
+                if ($role == 1) {
+                    $date2 = $data['date_to'] = date("Y-m-d");
+                    $data['date_from'] = date("Y-m-d", strtotime($date2 . '-7 days'));
+                    $where = 'v.status =5';
+                    if ($this->input->post('start_new') != "" && $this->input->post('end_new') != "" &&  $this->input->post('state_name') != "") {
+
+                        $config = array();
+                        $config["per_page"] = 10;
+                        $config["uri_segment"] = 2;
+                        $config["base_url"] = base_url() . "onboard-volunteer";
+                        $config["total_rows"] = $this->Admin_model->get_all_volunteer_count();
+                        $this->pagination->initialize($config);
+                        $data['page'] = ($this->uri->segment(2)) ? $this->uri->segment(2) : 0;
+                        $data['volunteer'] = $this->Admin_model->get_all_volunteer($config["per_page"], $data['page']);
+                        $data["links"] = $this->pagination->create_links();
+                    }
+                } else {
+                    $data['rname'] = $this->Curl_model->fetch_single_data('region_name,state_id', 'regions', array('region_id' => $region));
+                    $data['states'] = $this->Crud_modal->fetch_all_data('*', 'states', 'region_id=' . $region);
+                    $date2 = $data['date_to'] = date("Y-m-d");
+                    $data['date_from'] = date("Y-m-d", strtotime($date2 . '-7 days'));
+                    'v.status =5';
+                    if ($this->input->post('start_new') != "" && $this->input->post('end_new') != "" &&  $this->input->post('state_name') != "") {
+                        $state_name = $this->input->post('state_name');
+                        $date1 = $this->input->post('start_new');
+                        $date2 = $this->input->post('end_new');
+                        $date_from = date("Y-m-d", strtotime($date1));
+                        $date_to = date("Y-m-d", strtotime($date2 . '+1 days'));
+                        $data['creation_date'] = $date1;
+                        $data['creation_date'] = $date2;
+                        $data['state_name'] = $state_name;
+                        $where = "creation_date>='" . $date_from . "' and creation_date<='" . $date_to . "' and v.state_id=" . $state_name . "  and (v.status=5)";
+                        $data['volunteer'] = $this->Admin_model->volunteer_enquiry_Data($where);
+                    }
+                }
+                $data['regions'] = $this->Crud_modal->fetch_all_data('*', 'regions', 'region_status=1');
+                $this->load->view('temp/head');
+                $this->load->view('temp/header', $data);
+                $this->load->view('temp/sidebar');
+                $this->load->view('onboard-volunteer', $data);
+                $this->load->view('temp/footer');
+            } else {
+                redirect(base_url() . 'login', 'refresh');
+            }
+        } catch (Exception $e) {
+            echo 'Caught exception: ',  $e->getMessage(), "\n";
+        }
+    }
+
+
+
+    public function view_assigned_task_intern()
+    {
+        try {
+
+            if (($this->session->userdata('emp_id') != "" || $this->session->userdata('emp_id') != null)) {
+                $region = $this->session->userdata('region_id');
+                $role = $this->session->userdata('role_id');
+
+                if ($role == 1) {
+                    if ($this->input->post('intern_task_id') != "") {
                         $assignTaskid = $this->input->post('intern_task_id');
-                        $where = 'iast.status = 0 OR iast. status = 1 OR iast.status = 2 And i.status = 7 AND iast.intern_task_id = "'.$assignTaskid.'"';
+                        $where = 'iast.status = 1  AND i.status = 7 AND iast.intern_task_id = "' . $assignTaskid . '"';
                         $data['internAssignTaskdata'] = $this->Admin_model->intern_by_assign_task($where);
                     }
-                    
+                } else {
 
-                }else{
-
-                    if($this->input->post('intern_task_id')!=""  || $this->session->userdata('emp_id') != null){
+                    if ($this->input->post('intern_task_id') != ""  || $this->session->userdata('emp_id') != null) {
                         $data['rname'] = $this->Curl_model->fetch_single_data('region_name,state_id', 'regions', array('region_id' => $region));
                         $data['states'] = $this->Crud_modal->fetch_all_data('*', 'states', 'region_id=' . $region);
                         $assignTaskid = $this->input->post('intern_task_id');
-                       $empId =  $this->session->userdata('emp_id');
-                       $where = 'iast.status in (0,1,2) And i.status = 7 AND iast.intern_task_id = "'.$assignTaskid.'" AND iast.assign_by_task = "'.$empId.'"';
+                        $empId =  $this->session->userdata('emp_id');
+                        $where = 'iast.status in (0,1,2) And i.status = 7 AND iast.intern_task_id = "' . $assignTaskid . '" AND iast.assign_by_task = "' . $empId . '"';
                         $data['internAssignTaskdata'] = $this->Admin_model->intern_by_assign_task($where);
-                        
-                        
                     }
                 }
                 $where = 'iast.status=1';
                 $data['internAssigntask'] = $this->Admin_model->all_assign_task_intern($where);
-                
+
                 $this->load->view('temp/head');
                 $this->load->view('temp/header', $data);
                 $this->load->view('temp/sidebar');
                 $this->load->view('view-intern-assigned-task', $data);
                 $this->load->view('temp/footer');
-    
-            }else {
-                    redirect(base_url() . 'login', 'refresh');
-                }
-        }catch (Exception $e) {
-                echo 'Caught exception: ',  $e->getMessage(), "\n";
+            } else {
+                redirect(base_url() . 'login', 'refresh');
             }
+        } catch (Exception $e) {
+            echo 'Caught exception: ',  $e->getMessage(), "\n";
+        }
     }
-
-    
-
 }

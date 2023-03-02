@@ -81,14 +81,14 @@ if ($this->session->userdata('task_status')) {
                         <li class="breadcrumb-item active text-warning" aria-current="page">All Task Report</li>
                     </ol>
                 </div>
-                <div class="ms-auto pageheader-btn">
+                <!-- <div class="ms-auto pageheader-btn">
                     <a href="<?php echo base_url(); ?>add-task" class="btn btn-warning btn-icon text-white me-2">
                         <span>
                             <i class="fe fe-plus"></i>
                         </span> Create Task
                     </a>
 
-                </div>
+                </div> -->
             </div>
             <?php echo $this->session->userdata('master_insert_message'); ?>
             <style>
@@ -101,7 +101,7 @@ if ($this->session->userdata('task_status')) {
                 <div class="col-lg-12">
                     <div class="card">
 
-                        <form action="tast-report" method="post">
+                        <form action="volunteer-task-report" method="post">
                             <div class="card-header">
                                 <div class="col-md-2">
                                     <input type="hidden" name="regionId" value="<?php $regionId = $this->session->userdata('region_id'); ?>">
@@ -184,7 +184,7 @@ if ($this->session->userdata('task_status')) {
                                             <th>Task Brief</th>
                                             <th>Status</th>
                                             <!-- <th>Task Status</th> -->
-                                            <th>Action</th>
+                                            <!-- <th>Action</th> -->
 
                                         </tr>
                                     </thead>
@@ -223,13 +223,13 @@ if ($this->session->userdata('task_status')) {
                                                 <?php } else { ?>
                                                     <td><span class="badge rounded-pill bg-danger me-1 mb-1 mt-1">Unpublished</span></td>
                                                 <?php } ?>
-                                                <td class="text-light-blue"><a href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
+                                                <!-- <td class="text-light-blue"><a href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
                                                     <div class="dropdown-menu">
                                                         <a href="view-task/<?php echo $encode_taskID; ?>" class="dropdown-item" href="#">View</a>
 
                                                         <a href="edit-task/<?php echo $encode_taskID; ?>" class="dropdown-item" href="#" onClick="javascript:if(confirm('Do You Want to Edit Task ?')){return true;}else{return false}">Edit</a>
                                                     </div>
-                                                </td>
+                                                </td> -->
 
                                             </tr>
                                         <?php

@@ -49,7 +49,7 @@
                                     <h3 class="mb-0 number-font">Pending</h3>
                                 </div>
                                 <div class="ms-auto">
-                                    <h2 class="text-muted m-b-0"><a href="profile"><button class="btn btn-warning pull-right up" data-toggle="tooltip" data-placement="bottom" title="Update Profile">Certificate</button></a></h2>
+                                    <h2 class="text-muted m-b-0"><a href="<?php echo base_url(); ?>certificatenew"><button class="btn btn-warning pull-right up" data-toggle="tooltip" data-placement="bottom" title="Update Profile">Certificate</button></a></h2>
                                     </i>
                                 </div>
 								

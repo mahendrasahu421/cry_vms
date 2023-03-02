@@ -1,7 +1,7 @@
 <style>
 .para {
     text-align: center;
-    font-size: 40px;
+    font-size: 30px;
     margin-top: 4px;
 }
 </style>
@@ -33,7 +33,7 @@
                                     <h3 class="mb-0 number-font"><?php echo $profile; ?>% Complete</h3>
                                 </div>
                                 <div class="ms-auto">
-                                    <h2 class="text-muted m-b-0"><a href="profile"><button
+                                    <h2 class="text-muted m-b-0"><a href="<?php echo base_url('')?>user-form"><button
                                                 class="btn btn-warning pull-right up" data-toggle="tooltip"
                                                 data-placement="bottom" title="Update Profile">Update</button></a></h2>
                                     </i>
@@ -47,11 +47,11 @@
                     <div class="card  bg-info img-card box-info-shadow">
                         <div class="card-body">
                             <div class="d-flex">
-                                
+
                                 <div class="text-white">
                                     <!-- <p class="text-white mb-0"><strong>Joining Date</strong>:&nbsp;11/01/2023</p> -->
                                     <p class="text-white mb-0">Joining
-                                            Date:&nbsp;<?php echo date('d-m-Y',strtotime($internDetails[0]['creation_date'])); ?>
+                                        Date:&nbsp;<?php echo date('d-m-Y',strtotime($internDetails[0]['creation_date'])); ?>
                                         &nbsp; &nbsp;
                                         Duration:&nbsp;<?php echo $internDetails[0]['internshipDeruation']; ?>&nbsp;Weeks
                                     </p>
@@ -83,7 +83,8 @@
                                     <h3 class="mb-0 number-font">Pending</h3>
                                 </div>
                                 <div class="ms-auto">
-                                    <h2 class="text-muted m-b-0"><a href="profile"><button
+                                    <!-- <?php echo base_url('')?>user-form" -->
+                                    <h2 class="text-muted m-b-0"><a href="#"><button
                                                 class="btn btn-warning pull-right up" data-toggle="tooltip"
                                                 data-placement="bottom" title="Update Profile">Certificate</button></a>
                                     </h2>
@@ -95,9 +96,6 @@
                         </div>
                     </div>
                 </div>
-
-
-
             </div>
 
             <div class="row row-sm">
@@ -161,27 +159,43 @@
                     <div class="card">
                         <div class="card-header bg-warning ">
                             <h3 class="card-title">Submission Report</h3>
-
                         </div>
+                        <span class="badge bg-info  me-1 mb-1 mt-1"> Your Internship Will Expire after</span>
 
-
-                        <span class="badge bg-info  me-1 mb-1 mt-1"> Your Internship Expired In</span>
                         <p class="para" id="counter"></p>
 
-                        <div class="card-body ">
-
-                            <div class="text-center">
-
-                                <a href="<?php echo base_url(); ?>submission-report">
-                                    <div class="text-center">
-                                        <button style="margin-top: -56px;" type="button"
-                                            class="btn btn-primary">Submission Report</button>
-                                    </div>
-                                </a>
-                            </div>
 
 
+                        <?php 
+                            $start_date = $internDetails[0]['creation_date'];  
+                            $date = strtotime($start_date);
+                            $enddate = strtotime("+".$internDetails[0]['internshipDeruation']." week", $date);
+                            $newenddate = strtotime("+".'20'." day", $enddate);
+                              $newexpirydate= date('d-m-Y', $newenddate);
+                             $expirydate= date('d-m-Y', $enddate);
+                             $sdate = date('d-m-Y');
+                             $Timestamp1 = strtotime($newexpirydate).",";  
+                             $Timestamp2 = strtotime($sdate).","; 
+                             $Timestamp3 = strtotime($expirydate); 
+                             if ($Timestamp1>$Timestamp2 && $Timestamp3< $Timestamp2){ ?>
+
+
+
+                        <div class="text-center mb-0">
+                            <a href="<?php echo base_url(); ?>submission-report">
+                                <div class="text-center">
+
+                                    <button style="margin-top: -56px;" type="button" class="btn btn-primary">Submission
+                                        Report</button>
+                                    <div> <span class='text-center fw-bold'>Fill Report Till :
+                                            <?php echo date('d-m-Y',strtotime($newexpirydate));?></span></div>
+                                </div>
+
+                            </a>
                         </div>
+
+                        <?php } else { echo "<span class='text-center mb-2 fw-bold'>You can fill your submission report after completing working days</span>"; } ?>
+
 
                     </div>
 
@@ -192,11 +206,12 @@
         </div>
 
     </div>
+    <div class="clearfix"></div>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script>
     // Set the date we're counting down to
-    var countDownDate = new Date("<?php echo date('Y-m-d', $date); ?>").getTime();
+    var countDownDate = new Date("<?php echo date('Y-m-d', $enddate); ?>").getTime();
 
     // Update the count down every 1 second
     var x = setInterval(function() {
@@ -210,14 +225,15 @@
         // Time calculations for days, hours, minutes and seconds
         var days = Math.floor(distance / (1000 * 60 * 60 * 24));
 
-
         // Output the result in an element with id="demo"
         document.getElementById("counter").innerHTML = days + "Days ";
+
 
         // If the count down is over, write some text 
         if (distance < 0) {
             clearInterval(x);
-            document.getElementById("counter").innerHTML = "EXPIRED";
+            document.getElementById("counter").innerHTML = "Your internship  expired";
+
         }
     }, 1000);
     </script>
