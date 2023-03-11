@@ -61,7 +61,7 @@
                                     </label>
                                     <div class="col-sm-7 field_wrapper">
                                         <input type="file" class="form-control img profileImageFormForTask"
-                                            name="attecment[]" id="#img" accept=".pdf" multiple/>
+                                            name="attecment[]" id="#img" accept=".pdf" multiple />
                                         <label for="#"></label>
 
                                     </div>
@@ -169,7 +169,7 @@ $(document).ready(function() {
     var addButton = $('.add_button'); //Add button selector
     var wrapper = $('.field_wrapper'); //Input field wrapper
     var fieldHTML =
-        '<div class="addblockclick"><br>  <input type="file" name="attecment[]" value="" placeholder="Phone"/> <a href="javascript:void(0);" class="remove_button">X</a></div>'; //New input field html 
+        '<div class="addblockclick"><br>  <input type="file" name="attecment[]" accept=".pdf" value="" placeholder="Phone"/> <a href="javascript:void(0);" class="remove_button">X</a></div>'; //New input field html 
     var x = 1; //Initial field counter is 1
 
     //Once add button is clicked

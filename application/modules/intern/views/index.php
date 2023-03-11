@@ -51,12 +51,12 @@
                                 <div class="text-white">
                                     <!-- <p class="text-white mb-0"><strong>Joining Date</strong>:&nbsp;11/01/2023</p> -->
                                     <p class="text-white mb-0">Joining
-                                        Date:&nbsp;<?php echo date('d-m-Y',strtotime($internDetails[0]['creation_date'])); ?>
+                                        Date:&nbsp;<?php echo date('d-m-Y',strtotime($internDetails[0]['joining_date'])); ?>
                                         &nbsp; &nbsp;
                                         Duration:&nbsp;<?php echo $internDetails[0]['internshipDeruation']; ?>&nbsp;Weeks
                                     </p>
                                     <?php 
-                                    $start_date = $internDetails[0]['creation_date'];  
+                                    $start_date = $internDetails[0]['joining_date'];  
                                     $date = strtotime($start_date);
                                     $date = strtotime("+".$internDetails[0]['internshipDeruation']." week", $date);
                                     
@@ -167,9 +167,9 @@
 
 
                         <?php 
-                            $start_date = $internDetails[0]['creation_date'];  
+                            $start_date = $internDetails[0]['joining_date'];  
                             $date = strtotime($start_date);
-                            $enddate = strtotime("+".$internDetails[0]['internshipDeruation']." week", $date);
+                            $enddate = strtotime("+".$internDetails[0]['internshipDeruation']." weeks", $date);
                             $newenddate = strtotime("+".'20'." day", $enddate);
                               $newexpirydate= date('d-m-Y', $newenddate);
                              $expirydate= date('d-m-Y', $enddate);
@@ -180,8 +180,9 @@
                              if ($Timestamp1>$Timestamp2 && $Timestamp3< $Timestamp2){ ?>
 
 
-
                         <div class="text-center mb-0">
+
+
                             <a href="<?php echo base_url(); ?>submission-report">
                                 <div class="text-center">
 

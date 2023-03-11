@@ -60,6 +60,7 @@ class volunteer_task extends MY_Controller
             echo 'Caught exception: ',  $e->getMessage(), "\n";
         }
     }
+
     public function view_task()
     {
         try {
@@ -92,6 +93,7 @@ class volunteer_task extends MY_Controller
             echo 'Caught exception: ',  $e->getMessage(), "\n";
         }
     }
+
     public function edit_task()
     {
         try {
@@ -142,6 +144,7 @@ class volunteer_task extends MY_Controller
             echo 'Caught exception: ',  $e->getMessage(), "\n";
         }
     }
+
     public function update_task()
     {
         $task_id = $this->input->post('task_id');
@@ -207,8 +210,7 @@ class volunteer_task extends MY_Controller
                         $data['taskType'] = $taskType;
                         $where = "creation_date>='" . $date_from . "' and creation_date<='" . $date_to . "' and task_type_id=" . $taskType . "  and t.status=1 and t.task_for=1 and task_state_id = '" . $state_name . "' and region_id = " . $region_id . "";
                         $data['taskData'] = $this->Admin_model->volunteer_task_Data($where);
-                        // echo "<pre>";
-                        // print_r($data['taskData']);exit;
+
                     } else {
                         $date_to = date("Y-m-d");
                         $date_from = date("Y-m-d", strtotime($date2 . '-10 days'));
@@ -217,19 +219,15 @@ class volunteer_task extends MY_Controller
                         $where = "creation_date>='" . $date_from . "' and creation_date<='" . $date_to . "' and t.status = 1";
                         $data['taskData'] = $this->Admin_model->volunteer_task_Data($where);
                         $data['keyword_name'] = array_column($data['taskData'], 'keyword');
-                      
                         $skillid = implode(',',$data['keyword_name']);
-                        
-
                         $skill_name = explode (",",$skillid);
-                        
                         $skils="";
                        for ($i = 0; $i < sizeof($skill_name); $i++) {
                         $assig_name = $this->Crud_modal->fetch_all_data("skill_name", "skills", "skill_id= '".$skill_name[$i]."'");      
                                  $data['skils'] .= $assig_name[0]['skill_name'].","." " ;
                                   
                        }
-                     // print_r($data['skils']);exit;
+                     
                     }
                 } else {
                     $data['rname'] = $this->Curl_model->fetch_single_data('region_name,state_id', 'regions', array('region_id' => $region));
@@ -249,7 +247,6 @@ class volunteer_task extends MY_Controller
                         $data['creation_date'] = $date2;
                         $data['taskType'] = $taskType;
                         $data['region_id'] = $region_id;
-                        //  $data['state_name'] = $state_name;
                         $where = "creation_date>='" . $date_from . "' and creation_date<='" . $date_to . "' and task_type_id=" . $taskType . " and region_id =" . $region_id . " and t.status =1 and t.task_for=1";
                         $data['taskData'] = $this->Admin_model->volunteer_task_Data($where);
                     } else if ($this->input->post('start_new') != "" && $this->input->post('end_new') != "" &&  $this->input->post('taskType') != "" &&  $this->input->post('region_id') != "" &&  $this->input->post('state_name') != "") {
@@ -268,7 +265,6 @@ class volunteer_task extends MY_Controller
                         $where = "creation_date>='" . $date_from . "' and creation_date<='" . $date_to . "' and task_type_id=" . $taskType . " and region_id =" . $region_id . " and t.status =1 and t.task_for=1";
                         $data['taskData'] = $this->Admin_model->volunteer_task_Data($where);
                     } else {
-                        //  $data['taskData'] = $this->Admin_model->volunteer_task_Data($where);
                     }
                 }
                 $data['taskType'] = $this->Crud_modal->fetch_all_data('*', 'task_type', 'status = 1');

@@ -12,7 +12,7 @@
 
     <!-- FAVICON -->
     <link rel="shortcut icon" type="image/x-icon"
-        href="<?php echo base_url('admin/'); ?>assets/images/brand/favicon.png"" />
+        href="<?php echo base_url('admin/'); ?>assets/images/brand/favicon.png" />
 
   <!-- TITLE -->
   <title>CRY : VMS</title>
@@ -138,7 +138,7 @@ select.form-control:not([size]):not([multiple]) {
                                                     <h3>Personal Information</h3>
                                                     <div>
                                                         <input name="intern_id" type="hidden" class="form-control"
-                                                            value="<?php echo $allinternData['internID']; ?>">
+                                                            value="<?php echo $allinternData['intern_id']; ?>">
                                                         <div class="row">
                                                             <div class="control-group form-group col-md-6 mb-0">
                                                                 <label class="form-label fw-bold">First Name</label>
@@ -180,13 +180,13 @@ select.form-control:not([size]):not([multiple]) {
                                                                     name="dob" id="dob" required autocomplete="off"
                                                                     readonly>
                                                                 <span id="lblError"
-                                                                    style="color:Red"><?php echo $this->session->flashdata('dob_error'); ?></span>
+                                                                    style="color:green;"><?php echo $this->session->flashdata('dob_error'); ?></span>
                                                             </div>
                                                             <div class="control-group form-group col-md-6 mb-0">
                                                                 <label class="form-label fw-bold">Age</label>
-                                                                <input type="text" id="age" value="" name="age"
+                                                                <input type="text" id="age" name="age"
                                                                     class="form-control" placeholder="Age" required
-                                                                    readonly>
+                                                                    readonly value="">
                                                             </div>
                                                         </div>
                                                         <div class="row">
@@ -208,6 +208,11 @@ select.form-control:not([size]):not([multiple]) {
                                                                                             echo  "selected";
                                                                                         } ?>>
                                                                         Female
+                                                                    </option>
+                                                                    <option value="3" <?php if ($allinternData['gender'] == '3') {
+                                                                                            echo  "selected";
+                                                                                        } ?>>
+                                                                        Transgender
                                                                     </option>
                                                                 </select>
                                                             </div>
@@ -270,59 +275,74 @@ select.form-control:not([size]):not([multiple]) {
                                                 <form id="documentdetails" name="pForm" enctype="multipart/form-data">
                                                     <h3>Document Details</h3>
                                                     <div class="row">
-                                                        <input name="volunteer_id" type="hidden" class="form-control"
-                                                            value="<?php echo $allinternData['internID']; ?>">
+                                                        <input name="intern_id" type="hidden" class="form-control"
+                                                            value="<?php echo $allinternData['intern_id']; ?>"
+                                                            id="internID">
                                                         <div class="control-group form-group col-md-6 mb-0">
-                                                            <label class="form-label fw-bold">ID proof<span
+                                                            <label class="form-label fw-bold">ID proof <span
                                                                     class="text-red">*</span>
                                                                 <input type="file" class="form-control"
-                                                                    id="id_proof_attach" name="id_proof_attach"
+                                                                    id="id_proof_attach1" name="id_proof_attach1"
                                                                     class="form-control" required accept=".pdf"
                                                                     value="">
+                                                                <p id="id_proof_attach1msg" style="color:green;"></p>
                                                         </div>
                                                         <div class="control-group form-group col-md-6 mb-0">
-                                                            <label class="form-label fw-bold">Address proof
+                                                            <label class="form-label fw-bold">Address proof <sum
+                                                                    class="text-red"> *</sum>
                                                             </label>
                                                             <input type="file" class="form-control"
-                                                                id="add_proof_attach" name="add_proof_attach"
-                                                                accept=".pdf" class="form-control" required value="">
+                                                                id="add_proof_attach" name="add_proof" accept=".pdf"
+                                                                class="form-control" required value="">
+                                                            <p id="add_proof_attachmsg" style="color:green;"></p>
                                                         </div>
                                                     </div>
 
-                                                    <div class="row">
-                                                        <div
-                                                            class="control-group form-group col-md-6 mb-0 letter_parents_attach">
-                                                            <label class="form-label fw-bold">consent letter from your
-                                                                parents<span class="text-red">*</span> </label>
-                                                            <input type="file" class="form-control" accept=".pdf"
-                                                                id="letter_parents_attach" name="letter_parents_attach"
-                                                                class="form-control" required value="">
-                                                        </div>
-                                                        <div class="control-group form-group col-md-6 mb-0">
-                                                            <label class="form-label fw-bold">Upload a close up photo
-                                                            </label>
-                                                            <input type="file" class="form-control" accept=".pdf"
-                                                                id="close_up_photo" name="close_up_photo"
-                                                                class="form-control" required value="">
-                                                        </div>
-                                                    </div>
+
                                                     <div class="row">
                                                         <div class="control-group form-group col-md-6 mb-0">
-                                                            <label class="form-label fw-bold">Upload your CV
+                                                            <label class="form-label fw-bold">Upload your CV <sum
+                                                                    class="text-red">*</sum>
                                                             </label>
                                                             <input type="file" class="form-control" accept=".pdf"
                                                                 id="cv_attach" name="cv_attach" class="form-control"
                                                                 required value="">
+                                                            <p id="cv_attachmsg" style="color:green;"></p>
                                                         </div>
                                                         <div class="control-group form-group col-md-6 mb-0">
                                                             <label class="form-label fw-bold">Reference Letter
                                                             </label>
                                                             <input type="file" class="form-control" accept=".pdf"
                                                                 id="ref_attach" name="ref_attach" class="form-control"
-                                                                required value="">
+                                                                value="">
+                                                            <p id="ref_attachmsg" style="color:green;"></p>
                                                         </div>
 
 
+                                                    </div>
+                                                    <div class="row">
+                                                        <div id="paraent_letter"
+                                                            class="control-group form-group col-md-6 mb-0 letter_parents_attach">
+                                                            <label class="form-label fw-bold">consent letter from your
+                                                                <sum class="text-red">*</sum>
+                                                                parents<span class="text-red">*</span>
+                                                            </label>
+                                                            <input type="file" class="form-control" accept=".pdf"
+                                                                id="letter_parents_attach" name="letter_parents_attach"
+                                                                class="form-control" value="">
+                                                            <p id="letter_parents_attachmsg" style="color:green;"></p>
+                                                        </div>
+                                                        <div class="control-group form-group col-md-6 mb-0">
+                                                            <label class="form-label fw-bold">Upload a close up photo
+                                                                <sum class="text-red">*</sum>
+                                                            </label>
+                                                            <input type="file" class="form-control" accept=".jpg"
+                                                                id="close_up_photo" name="close_up_photo"
+                                                                class="form-control" required value="">
+                                                                <small>Upload Jpg Image</small>
+                                                            <p id="close_up_photomsg" style="color:green;"></p>
+                                                            
+                                                        </div>
                                                     </div>
                                                     <div class="submitbtnleft">
                                                         <div class="control-group form-group col-md-12 mb-0 ">
@@ -338,10 +358,11 @@ select.form-control:not([size]):not([multiple]) {
 
                                         <section style="display:none;" id="section3">
                                             <div class="card">
-                                                <form method="post" action="" id="occupationDetails" name="pForm">
+                                                <form method="post" action="" id="occupationDetails" name="pForm"
+                                                    enctype="multipart/form-data">
                                                     <h3>Occupation Details</h3>
-                                                    <input name="volunteer_id" type="hidden" class="form-control"
-                                                        value="<?php echo $allinternData['internID']; ?>">
+                                                    <input name="intern_id" type="hidden" class="form-control"
+                                                        value="<?php echo $allinternData['intern_id']; ?>">
                                                     <div class="row">
                                                         <div class="control-group form-group col-md-6 mb-0">
                                                             <label class="form-label fw-bold">Emergency Contact
@@ -356,46 +377,37 @@ select.form-control:not([size]):not([multiple]) {
                                                             <input maxlength="10" type="text"
                                                                 value="<?php echo $allinternData['emergency_contact']; ?>"
                                                                 name="emergency_contact" class="form-control" required
-                                                                placeholder="Emergency Contact">
+                                                                placeholder="Emergency Contact" id="emergency_contact">
                                                         </div>
-                                                        <div class="control-group form-group col-md-6 mb-0">
-                                                            <label class="form-label fw-bold">Occupation</label>
-                                                            <select class="form-control select2-show-search"
-                                                                id="occupation" name="occupation"
-                                                                data-placeholder="Choose Occupation...">
-                                                                <option selected disabled value="">Choose Occupation...
-                                                                </option>
-                                                                <?php foreach ($occupation as $occupationData) { ?>
-                                                                <option
-                                                                    value="<?php echo $occupationData['occupation_id']; ?>"
-                                                                    <?php if ($occupationData['occupation_id'] == $allinternData['occupation_id']) {
-                                                                                                                                        echo "selected";
-                                                                                                                                    } ?>>
-                                                                    <?php echo $occupationData['occupation_name']; ?>
-                                                                </option>
 
-                                                                <?php } ?>
-                                                            </select>
-                                                        </div>
-                                                        <div class="control-group form-group col-md-6 mb-0"
-                                                            id="occupation_input_box">
-                                                            <label class="form-label fw-bold">Other Occupation</label>
-                                                            <input type="text"
-                                                                value="<?php echo $allinternData['first_name']; ?>"
-                                                                name="otherOccupation" placeholder="Other Occupation"
-                                                                class="form-control">
-                                                        </div>
                                                         <div class="control-group form-group col-md-6 mb-0">
                                                             <label
-                                                                class="form-label fw-bold">School/College/University/Organization/Company</label>
+                                                                class="form-label fw-bold">School/College/University/Organization/Company/House
+                                                                Wife</label>
                                                             <input type="text"
                                                                 value="<?php echo $allinternData['name_of_school']; ?>"
                                                                 id="name_of_school" name="name_of_school"
                                                                 class="form-control"
                                                                 placeholder="Name of your school/ college" required>
                                                         </div>
-                                                    </div>
-                                                    <div class="row">
+                                                        <div class="form-group col-md-6 mb-0 select-dropdown">
+                                                            <label class="form-label fw-bold">Where did you get to know
+                                                                about this
+                                                                Opportunity</label>
+                                                            <select class="form-control select2 form-select"
+                                                                name="where_know_opportunity[]" data-placeholder="Where did you get to know about this
+                                            Opportunity" multiple required id="where_know_opportunity">
+                                                                <option value="">Where did you get to know about this
+                                                                    Opportunity</option>
+                                                                <?php foreach ($opportunity as $opportunityData) { ?>
+                                                                <option
+                                                                    value="<?php echo $opportunityData['opportunity_id']; ?>">
+                                                                    <?php echo $opportunityData['opportunity_name']; ?>
+                                                                </option><?php } ?>
+                                                            </select>
+                                                            <div class="invalid-feedback">Please select Opportunity
+                                                            </div>
+                                                        </div>
                                                         <div class="control-group form-group col-md-6 mb-0">
                                                             <label class="form-label fw-bold">Designation if
                                                                 working</label>
@@ -405,20 +417,24 @@ select.form-control:not([size]):not([multiple]) {
                                                                 placeholder="Designation if working" required
                                                                 id="designation">
                                                         </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        
                                                         <div class="control-group form-group col-md-6 mb-0">
                                                             <label class="form-label fw-bold">Languages known</label>
                                                             <select class="form-control select2 form-select"
-                                                                name="language" id="language"
-                                                                data-placeholder="Select Languages" required>
+                                                                name="language[]" id="language" data-placeholder=""
+                                                                required multiple>
                                                                 <option value=""> Select Languages known</option>
                                                                 <option value="1">English</option>
                                                                 <option value="2">Hindi</option>
-                                                                <option value="3">Other</option>
+
                                                             </select>
                                                         </div>
                                                         <div class="control-group form-group col-md-6 mb-0"
                                                             id="lang_input_box">
-                                                            <label class="form-label fw-bold">Languages known</label>
+                                                            <label class="form-label fw-bold">Other Languages
+                                                                known</label>
                                                             <input type="text"
                                                                 value="<?php echo $allinternData['Otherlanguages']; ?>"
                                                                 class="form-control" name="otherlanguage">
@@ -429,8 +445,7 @@ select.form-control:not([size]):not([multiple]) {
                                                                 *</label>
                                                             <input type="text"
                                                                 placeholder="Who was the CRY representative you interacted with?"
-                                                                value="<?php echo $allinternData['representative_cry']; ?>"
-                                                                class="form-control" name="representative"
+                                                                value="" class="form-control" name="representative"
                                                                 id="representative">
                                                         </div>
                                                         <div class="control-group form-group col-md-6 mb-0">
@@ -439,7 +454,7 @@ select.form-control:not([size]):not([multiple]) {
                                                                 *</label>
                                                             <select class="form-control select2 form-select"
                                                                 name="communicatedWith" id="interestsyouBox"
-                                                                data-placeholder="Select Languages" required>
+                                                                data-placeholder="Select " required>
                                                                 <option value="">Which CRY office you had communicated
                                                                     with/ written to?
                                                                     *</option>
@@ -454,35 +469,13 @@ select.form-control:not([size]):not([multiple]) {
                                                             </select>
                                                         </div>
                                                         <div class="control-group form-group col-md-6 mb-0">
-                                                            <label class="form-label fw-bold">No of weeks of internship
-                                                                you have been offered?
-                                                                *</label>
-                                                                <select class="form-control select2 form-select"
-                                                                name="NoOfweeks" id="NoOfweeks"
-                                                                data-placeholder="Select Languages" required>
-
-                                                                        <?php for ($i = 4; $i <= 12; $i++) { ?>
-                                                                        <option value="<?php echo $i; ?>"
-                                                                            <?php echo $i == $interuser['internshipDeruation'] ? 'selected' : ''; ?>>
-                                                                            <?php echo $i . " Weeks"; ?>
-                                                                        </option>
-                                                                        <?php } ?>
-                                                                    </select>
-                                                        </div>
-                                                        <div class="control-group form-group col-md-6 mb-0">
-                                                            <label class="form-label fw-bold">Start date of internship
-                                                                *</label>
-                                                            <input type="date"
-                                                                value="<?php echo $allinternData['creation_date']; ?>"
-                                                                class="form-control" name="Startdate_internship">
-                                                        </div>
-                                                        <div class="control-group form-group col-md-6 mb-0">
                                                             <label class="form-label fw-bold">Profile of project you
                                                                 will be involved in
                                                                 *</label>
                                                             <select class="form-control select2 form-select"
                                                                 name="project_profile" id="project_profile"
-                                                                data-placeholder="Select Languages" required>
+                                                                data-placeholder="Profile of project you will be involved
+                                                                    in" required>
                                                                 <option value="">Profile of project you will be involved
                                                                     in
                                                                     *</option>
@@ -505,58 +498,8 @@ select.form-control:not([size]):not([multiple]) {
 
                                                             </select>
                                                         </div>
-
-                                                        <div class="control-group form-group col-md-6 mb-0">
-                                                            <label class="form-label fw-bold">You internship will be
-                                                            </label>
-                                                            <select class="form-control select2 form-select"
-                                                                name="youInternship" data-placeholder=" Your Answer"
-                                                                required id="youInternship">
-
-                                                                        <option value="1" <?php if ($allinternData['internshipType'] == 1) {
-                                                                                                echo  "selected";
-                                                                                            } ?>>
-                                                                            Online
-                                                                        </option>
-                                                                        <option value="2" <?php if ($allinternData['internshipType'] == 2) {
-                                                                                                echo  "selected";
-                                                                                            } ?>>
-                                                                            Offline
-                                                                        </option>
-                                                                        <option value="3" <?php if ($allinternData['internshipType'] == 3) {
-                                                                                                echo  "selected";
-                                                                                            } ?>>
-                                                                            Hybrid
-                                                                        </option>
-                                                                    </select>
-                                                        </div>
-
                                                     </div>
-                                                    <div class="row">
-                                                        <div class="control-group form-group col-md-6 mb-0">
-                                                            <label class="form-label fw-bold">How did you came to know
-                                                                about CRY?</label>
-                                                            <select class="form-control select2"
-                                                                name="where_know_opportunity" data-placeholder=""
-                                                                id="where_know_opportunity" required>
-                                                                <?php foreach ($opportunity as $opportunityData) { ?>
-                                                                <option value="">know about CRY?</option>
-                                                                <option
-                                                                    value="<?php echo $opportunityData['opportunity_id']; ?>">
-                                                                    <?php echo $opportunityData['opportunity_name']; ?>
-                                                                </option><?php } ?>
-                                                            </select>
-                                                        </div>
-                                                        <div class="control-group form-group col-md-6 mb-0"
-                                                            id="where_know_opportunityBox">
-                                                            <label class="form-label fw-bold">How did you came to know
-                                                                about CRY?</label>
-                                                            <input type="text"
-                                                                value="<?php echo $allinternData['knowaboutCRY']; ?>"
-                                                                class="form-control">
-                                                        </div>
 
-                                                    </div>
                                                     <hr>
                                                     <h5><strong>Read the below 3 Documents Properly</strong></h5>
                                                     <div class="row">
@@ -565,7 +508,7 @@ select.form-control:not([size]):not([multiple]) {
                                                             <a href="https://drive.google.com/drive/folders/1OA4CvaYcoVowDUMYyUbmnMvwKKhhiVpt"
                                                                 target="_blank">
                                                                 <h5><span>&nbsp;</span><input type="checkbox"
-                                                                        value="childProtection" required id="">
+                                                                        value="childProtection" id="">
                                                                     &nbsp;CRY's
                                                                     Child Protection
                                                                     Policy</h5>
@@ -574,8 +517,8 @@ select.form-control:not([size]):not([multiple]) {
                                                         <div class="col-md-6 mb-0">
                                                             <a href="https://docs.google.com/document/d/14G9qJjqgCFiapxChbbMRW2dsLPnK8WpVxyZo05qSWsk/edit?usp=sharing"
                                                                 target="_blank">
-                                                                <h5><span>&nbsp;</span><input type="checkbox" value=" "
-                                                                        required> &nbsp;CRY's
+                                                                <h5><span>&nbsp;</span><input type="checkbox" value=" ">
+                                                                    &nbsp;CRY's
                                                                     Code of Conduct
                                                                 </h5>
                                                             </a>
@@ -585,8 +528,8 @@ select.form-control:not([size]):not([multiple]) {
                                                         <div class="col-md-6 mb-0">
                                                             <a href="https://drive.google.com/file/d/119ksoFAzQ7gE8uuvRol0EaCfjbwGL6sz/view?usp=sharing"
                                                                 target="_blank">
-                                                                <h5><span>&nbsp;</span><input type="checkbox" value=" "
-                                                                        required> &nbsp;CRY's
+                                                                <h5><span>&nbsp;</span><input type="checkbox" value=" ">
+                                                                    &nbsp;CRY's
                                                                     Online sessions
                                                                     SOP</h5>
                                                             </a>
@@ -632,25 +575,22 @@ select.form-control:not([size]):not([multiple]) {
     $("#step_3_submit").click(function(ev) {
         ev.preventDefault();
         let emergency_contact = $('#emergency_contact').val();
-        let occupation = $('#occupation').val();
         let name_of_school = $('#name_of_school').val();
+        //alert(name_of_school);
+        let occupation = $('#occupation').val();
         let designation = $('#designation').val();
         let language = $('#language').val();
         let representative = $('#representative').val();
         let communicatedWith = $('#communicatedWith').val();
-        let NoOfweeks = $('#NoOfweeks').val();
-        let Startdate_internship = $('#Startdate_internship').val();
         let project_profile = $('#project_profile').val();
-        let youInternship = $('#youInternship').val();
-        //let commitment = $('#commitment').val();
         let where_know_opportunity = $('#where_know_opportunity').val();
         let signature = $('#signature').val();
-        if (NoOfweeks == "" || youInternship == "" || emergency_contact == "" || occupation == "" ||
+        if (emergency_contact == "" || occupation == "" ||
             name_of_school == "" || designation == "" || language == "" || representative == "" ||
-            communicatedWith == "" || NoOfweeks == "" || Startdate_internship == "" || project_profile == "" ||
-            where_know_opportunity == "" || signature == "") {
+            communicatedWith == "" || project_profile == "" ||
+            signature == "") {
             alert('Please Fill All Details');
-            return false;
+            //  return false;
         } else {
 
             var form = $("#occupationDetails");
@@ -660,6 +600,7 @@ select.form-control:not([size]):not([multiple]) {
                 url: url,
                 data: form.serialize(),
                 success: function(data) {
+                    // return false;
                     window.location.href = "<?php echo base_url('/thank-you') ?>";
                 },
                 error: function(data) {}
@@ -670,6 +611,232 @@ select.form-control:not([size]):not([multiple]) {
 
     });
     </script>
+    <script>
+    $('#step2').click(function(e) {
+        let id_proof_attach = $('#id_proof_attach').val();
+        let add_proof_attach = $('#add_proof_attach').val();
+        //   alert(add_proof_attach);
+        let letter_parents_attach = $('#letter_parents_attach').val();
+        let close_up_photo = $('#close_up_photo').val();
+        let cv_attach = $('#cv_attach').val();
+        let ref_attach = $('#ref_attach').val();
+        if (id_proof_attach == "" || add_proof_attach == "" || close_up_photo ==
+            "" || cv_attach == "") {
+            alert('Please Upload Document');
+            return false;
+        } else {
+            //return false;
+            $("#section1").css("display", "none");
+            $("#section2").css("display", "none");
+            $("#section3").css("display", "block");
+
+        }
+    });
+    </script>
+    <script>
+    $('#close_up_photo').change(function(e) {
+        e.preventDefault();
+        let close_up_photo = document.getElementById("close_up_photo").files[0];
+        var datas = new FormData();
+        datas.append('close_up_photo', close_up_photo);
+        datas.append("intern_id", '<?php echo $allinternData['intern_id'] ?>');
+        $.ajax({
+            type: "POST",
+            url: '<?php echo base_url() . 'upload_close_up_photo' ?>',
+            data: datas,
+            contentType: false,
+            cache: false,
+            processData: false,
+            success: function(result)
+
+            {
+                if (result == 1) {
+                    $('#close_up_photomsg').html('Uploaded Successfully');
+                    setTimeout(function() {
+                        $('#close_up_photomsg').hide();
+                    }, 2000);
+                } else {
+                    alert('something went wrong');
+                }
+            }
+        });
+
+    });
+    </script>
+
+    <script>
+    $('#letter_parents_attach').change(function(e) {
+        e.preventDefault();
+        let letter_parents_attach = document.getElementById("letter_parents_attach").files[0];
+        var datas = new FormData();
+        datas.append('letter_parents_attach', letter_parents_attach);
+        datas.append("intern_id", '<?php echo $allinternData['intern_id'] ?>');
+        $.ajax({
+            type: "POST",
+            url: '<?php echo base_url() . 'upload_letter_parents_attach' ?>',
+            data: datas,
+            contentType: false,
+            cache: false,
+            processData: false,
+            success: function(result)
+
+            {
+                if (result == 1) {
+                    $('#letter_parents_attachmsg').html('Uploaded Successfully');
+                    setTimeout(function() {
+                        $('#letter_parents_attachmsg').hide();
+                    }, 2000);
+                } else {
+                    alert('something went wrong');
+                }
+            }
+        });
+
+    });
+    </script>
+
+    <script>
+    $('#ref_attach').change(function(e) {
+        e.preventDefault();
+        let ref_attach = document.getElementById("ref_attach").files[0];
+        var datas = new FormData();
+        datas.append('ref_attach', ref_attach);
+        datas.append("intern_id", '<?php echo $allinternData['intern_id'] ?>');
+        $.ajax({
+            type: "POST",
+            url: '<?php echo base_url() . 'upload_ref_attach' ?>',
+            data: datas,
+            contentType: false,
+            cache: false,
+            processData: false,
+            success: function(result)
+
+            {
+                if (result == 1) {
+                    $('#ref_attachmsg').html('Uploaded Successfully');
+                    setTimeout(function() {
+                        $('#ref_attachmsg').hide();
+                    }, 2000);
+                } else {
+                    alert('something went wrong');
+                }
+            }
+        });
+
+    });
+    </script>
+
+    <script>
+    $('#cv_attach').change(function(e) {
+        e.preventDefault();
+        let cv_attach = document.getElementById("cv_attach").files[0];
+        var datas = new FormData();
+        datas.append('cv_attach', cv_attach);
+        datas.append("intern_id", '<?php echo $allinternData['intern_id'] ?>');
+        $.ajax({
+            type: "POST",
+            url: '<?php echo base_url() . 'upload_cv_attach' ?>',
+            data: datas,
+            contentType: false,
+            cache: false,
+            processData: false,
+            success: function(result)
+
+            {
+                if (result == 1) {
+                    $('#cv_attachmsg').html('Uploaded Successfully');
+                    setTimeout(function() {
+                        $('#cv_attachmsg').hide();
+                    }, 2000);
+                } else {
+                    alert('something went wrong');
+                }
+            }
+        });
+
+    });
+    </script>
+
+    <script>
+    $('#add_proof_attach').change(function(e) {
+        e.preventDefault();
+        let add_proof_attach = document.getElementById("add_proof_attach").files[0];
+        var datas = new FormData();
+        datas.append('add_proof_attach', add_proof_attach);
+        datas.append("intern_id", '<?php echo $allinternData['intern_id'] ?>');
+        $.ajax({
+            type: "POST",
+            url: '<?php echo base_url() . 'upload_add_proof_attach' ?>',
+            data: datas,
+            contentType: false,
+            cache: false,
+            processData: false,
+            success: function(result)
+
+            {
+                if (result == 1) {
+                    $('#add_proof_attachmsg').html('Uploaded Successfully');
+                    setTimeout(function() {
+                        $('#add_proof_attachmsg').hide();
+                    }, 2000);
+                } else {
+                    alert('something went wrong');
+                }
+            }
+        });
+
+    });
+    </script>
+
+    <script>
+    $('#id_proof_attach1').change(function(e) {
+        e.preventDefault();
+        let id_proof_attach1 = document.getElementById("id_proof_attach1").files[0];
+        var datas = new FormData();
+        datas.append('id_proof_attach1', id_proof_attach1);
+        datas.append("intern_id", '<?php echo $allinternData['intern_id'] ?>');
+        $.ajax({
+            type: "POST",
+            url: '<?php echo base_url() . 'upload_id_proff' ?>',
+            data: datas,
+
+            contentType: false,
+            cache: false,
+            processData: false,
+            success: function(result)
+
+            {
+                if (result == 1) {
+                    $('#id_proof_attach1msg').html('Uploaded Successfully');
+                    setTimeout(function() {
+                        $('#id_proof_attach1msg').hide();
+                    }, 2000);
+                } else {
+                    alert('something went wrong');
+                }
+            }
+        });
+
+    });
+    </script>
+
+
+    <script>
+    $(document).ready(function() {
+
+        $('#step_1_submit').click(function() {
+            var newage = $('#age').val();
+            if (newage >= 18) {
+                $('#paraent_letter').css('visibility', 'hidden');
+
+            }
+        });
+
+    });
+    </script>
+
+
+
     <script>
     $('.feedback').hide();
     $("#step_1_submit1").click(function(ev) {
@@ -695,45 +862,6 @@ select.form-control:not([size]):not([multiple]) {
     </script>
 
     <script>
-    $('#step2').click(function(e) {
-        let id_proof_attach = $('#id_proof_attach').val();
-        // alert('id_proof_attach');
-        let add_proof_attach = $('#add_proof_attach').val();
-        //alert('add_proof_attach');
-        let letter_parents_attach = $('#letter_parents_attach').val();
-        let close_up_photo = $('#close_up_photo').val();
-        let cv_attach = $('#cv_attach').val();
-        let ref_attach = $('#ref_attach').val();
-        if (id_proof_attach == "" || add_proof_attach == "" || letter_parents_attach == "" || close_up_photo ==
-            "" || cv_attach == "" || ref_attach == "") {
-            alert('Please Upload Document');
-            return false;
-        } else {
-
-            e.preventDefault();
-            var form = document.getElementById('documentdetails');
-            var fdata = new FormData(form);
-            var url = '<?php echo base_url() . 'intern-secondinsertBasicdata' ?>';
-            $.ajax({
-                type: "POST",
-                url: url,
-                data: fdata,
-                contentType: false,
-                cache: false,
-                processData: false,
-                success: function(result) {
-                    $("#section1").css("display", "none");
-                    $("#section2").css("display", "none");
-                    $("#section3").css("display", "block");
-                }
-            });
-
-        }
-    });
-    </script>
-
-
-    <script>
     $('#where_know_opportunityBox').hide();
     jQuery('#where_know_opportunity').change(function() {
         if ($('#where_know_opportunity').val() == "8") {
@@ -750,22 +878,12 @@ select.form-control:not([size]):not([multiple]) {
         if ($('#interestsyouBox').val() == "11") {
             $('#interestsBox').show();
         } else {
-            $('#lang_input_box').hide();
+            //$('#lang_input_box').hide();
         }
 
     });
     </script>
-    <script>
-    $('#lang_input_box').hide();
-    jQuery('#language').change(function() {
-        if ($('#language').val() == "3") {
-            $('#lang_input_box').show();
-        } else {
-            $('#lang_input_box').hide();
-        }
 
-    });
-    </script>
     <script>
     $('#occupation_input_box').hide();
     jQuery('#occupation').change(function() {
@@ -809,7 +927,6 @@ select.form-control:not([size]):not([multiple]) {
         dob = new Date(dob);
         var today = new Date();
         var age = Math.floor((today - dob) / (365.25 * 24 * 60 * 60 * 1000));
-
         $('#age').val(age);
     });
     </script>
@@ -906,48 +1023,193 @@ select.form-control:not([size]):not([multiple]) {
     <!-- BACK-TO-TOP -->
     <a href="#top" id="back-to-top"><i class="fa fa-angle-up"></i></a>
 
+
+
+    <script>
+    $('#exampleModal').on('show.bs.modal', function(event) {
+        // Button that triggered the modal
+        var li = $(event.relatedTarget)
+        // Extract info from data attributes 
+        var recipient = li.data('whatever')
+        // Updating the modal content using 
+        // jQuery query selectors
+        var modal = $(this)
+        modal.find('.modal-title')
+            .text('New message to ' + recipient)
+
+        modal.find('.modal-body p')
+            .text('Welcome to ' + recipient)
+    });
+    </script>
+    <script>
+    // Example starter JavaScript for disabling form submissions if there are invalid fields
+    (function() {
+        'use strict'
+
+        // Fetch all the forms we want to apply custom Bootstrap validation styles to
+        var forms = document.querySelectorAll('.needs-validation')
+
+        // Loop over them and prevent submission
+        Array.prototype.slice.call(forms)
+            .forEach(function(form) {
+                form.addEventListener('submit', function(event) {
+                    if (!form.checkValidity()) {
+                        event.preventDefault()
+                        event.stopPropagation()
+                    }
+
+                    form.classList.add('was-validated')
+                }, false)
+            })
+    })()
+    </script>
+
+    <!-- <script src="https://mgracesolution.com/cryvms/admin/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous">
+</script> -->
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous">
+    </script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous">
+    </script>
     <!-- JQUERY JS -->
-    <script src="<?php echo $base_url; ?>assets/js/jquery.min.js"></script>
 
     <!-- BOOTSTRAP JS -->
-    <script src="<?php echo $base_url; ?>assets/plugins/bootstrap/js/popper.min.js"></script>
-    <script src="<?php echo $base_url; ?>assets/plugins/bootstrap/js/bootstrap.min.js"></script>
+    <script src="https://mgracesolution.com/cryvms/admin/assets/plugins/bootstrap/js/popper.min.js"></script>
+    <script src="https://mgracesolution.com/cryvms/admin/assets/plugins/bootstrap/js/bootstrap.min.js"></script>
+    <script src="https://mgracesolution.com/cryvms/admin/assets/js/jquery.sparkline.min.js"></script>
+    <script src="https://mgracesolution.com/cryvms/admin/assets/js/circle-progress.min.js"></script>
+    <script src="https://mgracesolution.com/cryvms/admin/assets/plugins/charts-c3/d3.v5.min.js"></script>
+    <script src="https://mgracesolution.com/cryvms/admin/assets/plugins/charts-c3/c3-chart.js"></script>
+
+    <!-- INPUT MASK JS-->
+    <script src="https://mgracesolution.com/cryvms/admin/assets/plugins/input-mask/jquery.mask.min.js"></script>
+    <script src="https://mgracesolution.com/cryvms/admin/assets/plugins/chart/Chart.bundle.js"></script>
 
     <!-- SIDE-MENU JS-->
-    <script src="<?php echo $base_url; ?>assets/plugins/sidemenu/sidemenu.js"></script>
+    <script src="https://mgracesolution.com/cryvms/admin/assets/plugins/sidemenu/sidemenu.js"></script>
 
     <!-- Sticky js -->
-    <script src="<?php echo $base_url; ?>assets/js/sticky.js"></script>
+    <script src="https://mgracesolution.com/cryvms/admin/assets/js/sticky.js"></script>
 
     <!-- SIDEBAR JS -->
-    <script src="<?php echo $base_url; ?>assets/plugins/sidebar/sidebar.js"></script>
-
-    <script src="<?php echo $base_url; ?>assets/plugins/date-picker/jquery-ui.js"></script>
-    <script src="<?php echo $base_url; ?>assets/plugins/input-mask/jquery.maskedinput.js"></script>
-
-    <!-- FORM WIZARD JS-->
-    <script src="<?php echo $base_url; ?>assets/plugins/formwizard/jquery.smartWizard.js"></script>
-    <script src="<?php echo $base_url; ?>assets/plugins/formwizard/fromwizard.js"></script>
-
-    <!-- INTERNAl Jquery.steps js -->
-    <script src="<?php echo $base_url; ?>assets/plugins/jquery-steps/jquery.steps.min.js"></script>
-    <script src="<?php echo $base_url; ?>assets/plugins/parsleyjs/parsley.min.js"></script>
+    <script src="https://mgracesolution.com/cryvms/admin/assets/plugins/sidebar/sidebar.js"></script>
 
     <!-- Perfect SCROLLBAR JS-->
-    <script src="<?php echo $base_url; ?>assets/plugins/p-scroll/perfect-scrollbar.js"></script>
-    <script src="<?php echo $base_url; ?>assets/plugins/p-scroll/pscroll.js"></script>
-    <script src="<?php echo $base_url; ?>assets/plugins/p-scroll/pscroll-1.js"></script>
+    <script src="https://mgracesolution.com/cryvms/admin/assets/plugins/p-scroll/perfect-scrollbar.js"></script>
+    <script src="https://mgracesolution.com/cryvms/admin/assets/plugins/p-scroll/pscroll.js"></script>
+    <script src="https://mgracesolution.com/cryvms/admin/assets/plugins/p-scroll/pscroll-1.js"></script>
 
-    <!-- INTERNAL Accordion-Wizard-Form js-->
-    <script src="<?php echo $base_url; ?>assets/plugins/accordion-Wizard-Form/jquery.accordion-wizard.min.js"></script>
-    <script src="<?php echo $base_url; ?>assets/js/form-wizard.js"></script>
+    <!-- FILE UPLOADES JS -->
+    <script src="https://mgracesolution.com/cryvms/admin/assets/plugins/fileuploads/js/fileupload.js"></script>
+    <script src="https://mgracesolution.com/cryvms/admin/assets/plugins/fileuploads/js/file-upload.js"></script>
+
+    <!-- INTERNAL Bootstrap-Datepicker js-->
+    <script src="https://mgracesolution.com/cryvms/admin/assets/plugins/bootstrap-daterangepicker/daterangepicker.js">
+    </script>
+    <!--<script>
+    $(document).ready(function() {
+        $('#example').DataTable({
+            dom: 'Bfrtip',
+            buttons: [
+                'copy', 'csv', 'excel', 'pdf', 'print'
+            ]
+        });
+    });
+</script>-->
+
+
+    <script>
+    $(document).ready(function() {
+        $('#example').DataTable({
+            order: [
+                //  [3, 'desc']
+            ],
+            buttons: [
+                'copy', 'csv', 'excel', 'pdf', 'print'
+            ]
+        });
+    });
+    </script>
+    <script src="https://mgracesolution.com/cryvms/admin/assets/js/jquery-3.5.1.js"></script>
+    <script src="https://mgracesolution.com/cryvms/admin/assets/js/jquery.dataTables.min.js"></script>
+    <script src="https://mgracesolution.com/cryvms/admin/assets/js/dataTables.buttons.min.js"></script>
+    <script src="https://mgracesolution.com/cryvms/admin/assets/js/jszip.min.js"></script>
+    <script src="https://mgracesolution.com/cryvms/admin/assets/js/pdfmake.min.js"></script>
+    <script src="https://mgracesolution.com/cryvms/admin/assets/js/vfs_fonts.js"></script>
+    <script src="https://mgracesolution.com/cryvms/admin/assets/js/buttons.html5.min.js"></script>
+    <script src="https://mgracesolution.com/cryvms/admin/assets/js/buttons.print.min.js"></script>
+
+    <!-- INTERNAL File-Uploads Js-->
+    <script src="https://mgracesolution.com/cryvms/admin/assets/plugins/fancyuploder/jquery.ui.widget.js"></script>
+    <script src="https://mgracesolution.com/cryvms/admin/assets/plugins/fancyuploder/jquery.fileupload.js"></script>
+    <script src="https://mgracesolution.com/cryvms/admin/assets/plugins/fancyuploder/jquery.iframe-transport.js">
+    </script>
+    <script src="https://mgracesolution.com/cryvms/admin/assets/plugins/fancyuploder/jquery.fancy-fileupload.js">
+    </script>
+    <script src="https://mgracesolution.com/cryvms/admin/assets/plugins/fancyuploder/fancy-uploader.js"></script>
+
+    <!-- SELECT2 JS -->
+    <script src="https://mgracesolution.com/cryvms/admin/assets/plugins/select2/select2.full.min.js"></script>
+
+    <!-- BOOTSTRAP-DATERANGEPICKER JS -->
+    <script src="https://mgracesolution.com/cryvms/admin/assets/plugins/bootstrap-daterangepicker/moment.min.js">
+    </script>
+    <script src="https://mgracesolution.com/cryvms/admin/assets/plugins/bootstrap-daterangepicker/daterangepicker.js">
+    </script>
+
+    <!-- INTERNAL Bootstrap-Datepicker js-->
+    <script src="https://mgracesolution.com/cryvms/admin/assets/plugins/bootstrap-datepicker/bootstrap-datepicker.js">
+    </script>
+
+    <!-- INTERNAL Sumoselect js-->
+    <script src="https://mgracesolution.com/cryvms/admin/assets/plugins/sumoselect/jquery.sumoselect.js"></script>
+
+    <!-- TIMEPICKER JS -->
+    <script src="https://mgracesolution.com/cryvms/admin/assets/plugins/time-picker/jquery.timepicker.js"></script>
+    <script src="https://mgracesolution.com/cryvms/admin/assets/plugins/time-picker/toggles.min.js"></script>
+
+    <!-- INTERNAL intlTelInput js-->
+    <script src="https://mgracesolution.com/cryvms/admin/assets/plugins/intl-tel-input-master/intlTelInput.js"></script>
+    <script src="https://mgracesolution.com/cryvms/admin/assets/plugins/intl-tel-input-master/country-select.js">
+    </script>
+    <script src="https://mgracesolution.com/cryvms/admin/assets/plugins/intl-tel-input-master/utils.js"></script>
+
+    <!-- INTERNAL jquery transfer js-->
+    <script src="https://mgracesolution.com/cryvms/admin/assets/plugins/jQuerytransfer/jquery.transfer.js"></script>
+
+    <!-- INTERNAL multi js-->
+    <script src="https://mgracesolution.com/cryvms/admin/assets/plugins/multi/multi.min.js"></script>
+
+    <!-- DATEPICKER JS -->
+    <script src="https://mgracesolution.com/cryvms/admin/assets/plugins/date-picker/date-picker.js"></script>
+    <script src="https://mgracesolution.com/cryvms/admin/assets/plugins/date-picker/jquery-ui.js"></script>
+    <script src="https://mgracesolution.com/cryvms/admin/assets/plugins/input-mask/jquery.maskedinput.js"></script>
+
+    <!-- MULTI SELECT JS-->
+    <script src="https://mgracesolution.com/cryvms/admin/assets/plugins/multipleselect/multiple-select.js"></script>
+    <script src="https://mgracesolution.com/cryvms/admin/assets/plugins/multipleselect/multi-select.js"></script>
+
+    <!-- FORMELEMENTS JS -->
+    <script src="https://mgracesolution.com/cryvms/admin/assets/js/formelementadvnced.js"></script>
+    <script src="https://mgracesolution.com/cryvms/admin/assets/js/form-elements.js"></script>
 
     <!-- Color Theme js -->
-    <script src="<?php echo $base_url; ?>assets/js/themeColors.js"></script>
+    <script src="https://mgracesolution.com/cryvms/admin/assets/js/themeColors.js"></script>
 
     <!-- CUSTOM JS -->
-    <script src="<?php echo $base_url; ?>assets/js/custom.js"></script>
+    <script src="https://mgracesolution.com/cryvms/admin/assets/js/custom.js"></script>
 
+    <!----------matching editor js------------>
+
+
+    <!-- WYSIWYG Editor JS -->
+    <script src="https://mgracesolution.com/cryvms/admin/assets/plugins/wysiwyag/jquery.richtext.js"></script>
+    <script src="https://mgracesolution.com/cryvms/admin/assets/plugins/wysiwyag/wysiwyag.js"></script>
+
+    <!-- FORMEDITOR JS -->
+    <script src="https://mgracesolution.com/cryvms/admin/assets/plugins/quill/quill.min.js"></script>
+    <script src="https://mgracesolution.com/cryvms/admin/assets/js/form-editor2.js"></script>
 </body>
 
 </html>

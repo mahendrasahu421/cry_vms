@@ -165,7 +165,7 @@ class LoginModel extends CI_Model
         $this->db->from('interns i');
         $this->db->join('states s', 's.state_id = i.state_id', 'left');
         $this->db->join('cities c', 'c.city_id = i.city_id', 'left');
-        $this->db->where('i.status =7');
+        $this->db->where('i.status =8');
         $this->db->where('i.state_id', $cityID);
         $this->db->order_by('i.intern_id   DESC');
         $query = $this->db->get();

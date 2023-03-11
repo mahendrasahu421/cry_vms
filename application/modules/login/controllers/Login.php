@@ -250,7 +250,7 @@ class Login extends MY_Controller
             echo 'Caught exception: ',  $e->getMessage(), "\n";
         }
     }
-    
+
     public function insert_preregistration_data()
     {
         try {
@@ -322,7 +322,7 @@ class Login extends MY_Controller
                 );
                 $config['upload_path'] = './uploads/';
                 $config['allowed_types']  = 'doc|docx|pdf';
-                $config['max_size']    = '2048'; 
+                $config['max_size']    = '2048';
                 $new_name = time() . $_FILES["Uploade_file"]['name'];
                 $config['file_name'] = $new_name;
                 $this->load->library('upload', $config);
@@ -375,68 +375,6 @@ class Login extends MY_Controller
     }
 
    
-
-
-    public function intern_insertoccupationDetails()
-    {
-        try {
-            $intern_id = $this->input->post('intern_id');
-            $emergency_contact = $this->input->post('emergency_contact');
-            $occupation = $this->input->post('occupation');
-            $otherOccupation = $this->input->post('otherOccupation');
-            $name_of_school = $this->input->post('name_of_school');
-            $designation = $this->input->post('designation');
-            $language = $this->input->post('language');
-            $Otherlanguages = $this->input->post('otherlanguage');
-            $Startdate_internship = $this->input->post('Startdate_internship');
-            $knowaboutCRY = $this->input->post('where_know_opportunity');
-            $where_know_opportunityBox = $this->input->post('where_know_opportunityBox');
-            $signature = $this->input->post('signature');
-            $representative = $this->input->post('representative');
-            $communicatedWith = $this->input->post('communicatedWith');
-            $project_profile = $this->input->post('project_profile');
-            $youInternship = $this->input->post('youInternship');
-            $NoOfweeks = $this->input->post('NoOfweeks');
-
-            $occupationDetails = array(
-                'emergency_contact' => $emergency_contact,
-                'occupation' => $occupation,
-                'name_of_school' => $name_of_school,
-                'language' => $language,
-                'representative_cry' => $representative,
-                'project_profile' => $project_profile,
-                'designation' =>  $designation,
-                'language' => $language,
-                'Otherlanguages' => $Otherlanguages,
-                'signature' => $signature,
-                'project_profile' => $knowaboutCRY,
-                'designation' => $designation,
-                'otherlanguages' => $Otherlanguages,
-                'otherOccupation' => $otherOccupation,
-                'whichcryOffice' => $communicatedWith,
-                'knowaboutCRY' => $where_know_opportunityBox,
-                'NoOfweeks' => $NoOfweeks,
-                'youInternship' => $youInternship,
-                'Startdate_internship' => $Startdate_internship,
-
-
-            );
-            $status = array(
-                'status' => 6,
-            );
-            $where = array(
-                'intern_id' => $intern_id,
-            );
-            $this->Curl_model->update_data('interns', $status, $where);
-            if ($this->Curl_model->update_data('interns_data', $occupationDetails, $where)) {
-                return 1;
-            } else {
-                return 1;
-            }
-        } catch (Exception $e) {
-            echo 'Caught exception: ',  $e->getMessage(), "\n";
-        }
-    }
 
     public function insertoccupationDetails()
     {
@@ -704,7 +642,8 @@ class Login extends MY_Controller
         }
     }
 
-  
+
+
 
     public function secondinsertBasicdata()
     {
@@ -713,7 +652,7 @@ class Login extends MY_Controller
         if ($_FILES['id_proof_attach'] != "") {
             $config['upload_path'] = './uploads/id_proof';
             $config['allowed_types'] = 'gif|jpg|png|doc|pdf|jpeg';
-            $config['max_size'] = 1024 * 8;
+            // $config['max_size'] = 1024 * 8;
             $new_name = time() . $_FILES["id_proof_attach"]['name'];
             $config['file_name'] = $new_name;
             $this->load->library('upload', $config);
@@ -733,7 +672,7 @@ class Login extends MY_Controller
         if ($_FILES['add_proof_attach'] != "") {
             $config['upload_path'] = './uploads/address_proof';
             $config['allowed_types'] = 'gif|jpg|png|doc|pdf|jpeg';
-            $config['max_size'] = 1024 * 8;
+            // $config['max_size'] = 1024 * 8;
             $new_name = time() . $_FILES["add_proof_attach"]['name'];
             $config['file_name'] = $new_name;
             $this->load->library('upload', $config);
@@ -754,7 +693,7 @@ class Login extends MY_Controller
         if ($_FILES['letter_parents_attach'] != "") {
             $config['upload_path'] = './uploads/reference_letter';
             $config['allowed_types'] = 'gif|jpg|png|doc|pdf|jpeg';
-            $config['max_size'] = 1024 * 8;
+            // $config['max_size'] = 1024 * 8;
             $new_name = time() . $_FILES["letter_parents_attach"]['name'];
             $config['file_name'] = $new_name;
             $this->load->library('upload', $config);
@@ -775,7 +714,7 @@ class Login extends MY_Controller
         if ($_FILES['close_up_photo'] != "") {
             $config['upload_path'] = './uploads/closeup_photo';
             $config['allowed_types'] = 'gif|jpg|png|doc|pdf|jpeg';
-            $config['max_size'] = 1024 * 8;
+            // $config['max_size'] = 1024 * 8;
             $new_name = time() . $_FILES["close_up_photo"]['name'];
             $config['file_name'] = $new_name;
             $this->load->library('upload', $config);
@@ -796,7 +735,7 @@ class Login extends MY_Controller
         if ($_FILES['cv_attach'] != "") {
             $config['upload_path'] = './uploads/cv';
             $config['allowed_types'] = 'gif|jpg|png|doc|pdf|jpeg';
-            $config['max_size'] = 1024 * 8;
+            // $config['max_size'] = 1024 * 8;
             $new_name = time() . $_FILES["cv_attach"]['name'];
             $config['file_name'] = $new_name;
             $this->load->library('upload', $config);
@@ -817,7 +756,7 @@ class Login extends MY_Controller
         if ($_FILES['ref_attach'] != "") {
             $config['upload_path'] = './uploads/reference_letter';
             $config['allowed_types'] = 'gif|jpg|png|doc|pdf|jpeg';
-            $config['max_size'] = 1024 * 8;
+            // $config['max_size'] = 1024 * 8;
             $new_name = time() . $_FILES["ref_attach"]['name'];
             $config['file_name'] = $new_name;
             $this->load->library('upload', $config);
@@ -837,144 +776,13 @@ class Login extends MY_Controller
         }
     }
 
-    public function intern_secondinsertBasicdata()
-    {
-        $intern_id = $this->input->post('intern_id');
-
-        if ($_FILES['id_proof_attach'] != "") {
-            $config['upload_path'] = './internDoc/id_proof';
-            $config['allowed_types'] = 'gif|jpg|png|doc|pdf|jpeg';
-            $config['max_size'] = 1024 * 8;
-            $new_name = time() . $_FILES["id_proof_attach"]['name'];
-            $config['file_name'] = $new_name;
-            $this->load->library('upload', $config);
-            if (!$this->upload->do_upload('id_proof_attach')) {
-                $status = 'error';
-                $msg = $this->upload->display_errors('', '');
-            } else {
-                $file = $this->upload->data();
-                $id_proof_attachvol['id_proof_attach'] = $file['file_name'];
-                $where = array(
-                    'intern_id' => $intern_id,
-                );
-                $this->Curl_model->update_data('interns_data', $id_proof_attachvol, $where);
-            }
-            echo json_encode(array('status' => $status, 'msg' => $msg));
-        }
-        if ($_FILES['add_proof_attach'] != "") {
-            $config['upload_path'] = './internDoc/address_proof';
-            $config['allowed_types'] = 'gif|jpg|png|doc|pdf|jpeg';
-            $config['max_size'] = 1024 * 8;
-            $new_name = time() . $_FILES["add_proof_attach"]['name'];
-            $config['file_name'] = $new_name;
-            $this->load->library('upload', $config);
-            if (!$this->upload->do_upload('add_proof_attach')) {
-                $status = 'error';
-                $msg = $this->upload->display_errors();
-                exit;
-            } else {
-                $file = $this->upload->data();
-                $add_proof_attachvol['add_proof_attach'] = $file['file_name'];
-                $where = array(
-                    'intern_id' => $intern_id,
-                );
-                $this->Curl_model->update_data('interns_data', $add_proof_attachvol, $where);
-            }
-            echo json_encode(array('status' => $status, 'msg' => $msg));
-        }
-        if ($_FILES['letter_parents_attach'] != "") {
-            $config['upload_path'] = './internDoc/letter_parents_attach';
-            $config['allowed_types'] = 'gif|jpg|png|doc|pdf|jpeg';
-            $config['max_size'] = 1024 * 8;
-            $new_name = time() . $_FILES["letter_parents_attach"]['name'];
-            $config['file_name'] = $new_name;
-            $this->load->library('upload', $config);
-            if (!$this->upload->do_upload('letter_parents_attach')) {
-                $status = 'error';
-                $msg = $this->upload->display_errors();
-                exit;
-            } else {
-                $file = $this->upload->data();
-                $letter_parents_attachvol['letter_parents_attach'] = $file['file_name'];
-                $where = array(
-                    'intern_id' => $intern_id,
-                );
-                $this->Curl_model->update_data('interns_data', $letter_parents_attachvol, $where);
-            }
-            echo json_encode(array('status' => $status, 'msg' => $msg));
-        }
-        if ($_FILES['close_up_photo'] != "") {
-            $config['upload_path'] = './internDoc/closeup_photo';
-            $config['allowed_types'] = 'gif|jpg|png|doc|pdf|jpeg';
-            $config['max_size'] = 1024 * 8;
-            $new_name = time() . $_FILES["close_up_photo"]['name'];
-            $config['file_name'] = $new_name;
-            $this->load->library('upload', $config);
-            if (!$this->upload->do_upload('close_up_photo')) {
-                $status = 'error';
-                $msg = $this->upload->display_errors();
-                exit;
-            } else {
-                $file = $this->upload->data();
-                $close_up_photovol['close_up_photo'] = $file['file_name'];
-                $where = array(
-                    'intern_id' => $intern_id,
-                );
-                $this->Curl_model->update_data('interns_data', $close_up_photovol, $where);
-            }
-            echo json_encode(array('status' => $status, 'msg' => $msg));
-        }
-        if ($_FILES['cv_attach'] != "") {
-            $config['upload_path'] = './internDoc/cv';
-            $config['allowed_types'] = 'gif|jpg|png|doc|pdf|jpeg';
-            $config['max_size'] = 1024 * 8;
-            $new_name = time() . $_FILES["cv_attach"]['name'];
-            $config['file_name'] = $new_name;
-            $this->load->library('upload', $config);
-            if (!$this->upload->do_upload('cv_attach')) {
-                $status = 'error';
-                $msg = $this->upload->display_errors();
-                exit;
-            } else {
-                $file = $this->upload->data();
-                $cv_attachvol['cv_attach'] = $file['file_name'];
-                $where = array(
-                    'intern_id' => $intern_id,
-                );
-                $this->Curl_model->update_data('interns_data', $cv_attachvol, $where);
-            }
-            echo json_encode(array('status' => $status, 'msg' => $msg));
-        }
-        if ($_FILES['ref_attach'] != "") {
-            $config['upload_path'] = './internDoc/reference_letter';
-            $config['allowed_types'] = 'gif|jpg|png|doc|pdf|jpeg';
-            $config['max_size'] = 1024 * 8;
-            $new_name = time() . $_FILES["ref_attach"]['name'];
-            $config['file_name'] = $new_name;
-            $this->load->library('upload', $config);
-            if (!$this->upload->do_upload('ref_attach')) {
-                $status = 'error';
-                $msg = $this->upload->display_errors();
-                exit;
-            } else {
-                $file = $this->upload->data();
-                $ref_attachvol['ref_attach'] = $file['file_name'];
-                $where = array(
-                    'intern_id' => $intern_id,
-                );
-                $this->Curl_model->update_data('interns_data', $ref_attachvol, $where);
-            }
-            echo json_encode(array('status' => $status, 'msg' => $msg));
-        }
-    }
-
     public function program_volunteersecondinsertBasicdata()
     {
         $program_id = $this->input->post('ProgramId');
         if ($_FILES['id_proof_attach'] != "") {
             $config['upload_path'] = './programs_data/id';
             $config['allowed_types'] = 'gif|jpg|png|doc|pdf|jpeg';
-            $config['max_size'] = 1024 * 8;
+            // $config['max_size'] = 1024 * 8;
             $new_name = time() . $_FILES["id_proof_attach"]['name'];
             $config['file_name'] = $new_name;
             $this->load->library('upload', $config);
@@ -994,7 +802,7 @@ class Login extends MY_Controller
         if ($_FILES['add_proof_attach'] != "") {
             $config['upload_path'] = './programs_data/address_p';
             $config['allowed_types'] = 'gif|jpg|png|doc|pdf|jpeg';
-            $config['max_size'] = 1024 * 8;
+            // $config['max_size'] = 1024 * 8;
             $new_name = time() . $_FILES["add_proof_attach"]['name'];
             $config['file_name'] = $new_name;
             $this->load->library('upload', $config);
@@ -1015,7 +823,7 @@ class Login extends MY_Controller
         if ($_FILES['letter_parents_attach'] != "") {
             $config['upload_path'] = './programs_data/referenceLetter';
             $config['allowed_types'] = 'gif|jpg|png|doc|pdf|jpeg';
-            $config['max_size'] = 1024 * 8;
+            // $config['max_size'] = 1024 * 8;
             $new_name = time() . $_FILES["letter_parents_attach"]['name'];
             $config['file_name'] = $new_name;
             $this->load->library('upload', $config);
@@ -1036,7 +844,7 @@ class Login extends MY_Controller
         if ($_FILES['close_up_photo'] != "") {
             $config['upload_path'] = './programs_data/closePic';
             $config['allowed_types'] = 'gif|jpg|png|doc|pdf|jpeg';
-            $config['max_size'] = 1024 * 8;
+            // $config['max_size'] = 1024 * 8;
             $new_name = time() . $_FILES["close_up_photo"]['name'];
             $config['file_name'] = $new_name;
             $this->load->library('upload', $config);
@@ -1057,7 +865,7 @@ class Login extends MY_Controller
         if ($_FILES['cv_attach'] != "") {
             $config['upload_path'] = './programs_data/cvvv';
             $config['allowed_types'] = 'gif|jpg|png|doc|pdf|jpeg';
-            $config['max_size'] = 1024 * 8;
+            // $config['max_size'] = 1024 * 8;
             $new_name = time() . $_FILES["cv_attach"]['name'];
             $config['file_name'] = $new_name;
             $this->load->library('upload', $config);
@@ -1078,7 +886,7 @@ class Login extends MY_Controller
         if ($_FILES['ref_attach'] != "") {
             $config['upload_path'] = './programs_data/referenceLetter';
             $config['allowed_types'] = 'gif|jpg|png|doc|pdf|jpeg';
-            $config['max_size'] = 1024 * 8;
+            // $config['max_size'] = 1024 * 8;
             $new_name = time() . $_FILES["ref_attach"]['name'];
             $config['file_name'] = $new_name;
             $this->load->library('upload', $config);
@@ -1122,8 +930,8 @@ class Login extends MY_Controller
         for ($i = 0; $i < $length; $i++) {
             $key .= $keys[mt_rand(0, count($keys) - 1)];
         }
-        print_r($key);
-        exit;
+        // print_r($key);
+        // exit;
         echo  $this->preregistration_sendMail($key, $to);
     }
 
@@ -1252,7 +1060,7 @@ class Login extends MY_Controller
 
         </div>';
 
-      //  return $html;
+        //  return $html;
         //die();
         $mail->Body = $html;
         if (!$mail->Send()) {
@@ -1660,20 +1468,20 @@ class Login extends MY_Controller
         if ($this->input->post('stateName') != 0) {
             $internDetails = $this->LoginModel->assign_task_intern($cityID, $taskID);
 ?>
-<div id="tb<?php echo $cityID; ?>">
-    <table class="table table-bordered">
-        <thead class="bg-gray">
-            <tr>
-                <th class="text-white"></th>
-                <th class="text-white">Name</th>
-                <th class="text-white">Mobile</th>
-                <th class="text-white">Email</th>
-                <th class="text-white">City</th>
-                <th class="text-white">Status</th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php
+            <div id="tb<?php echo $cityID; ?>">
+                <table class="table table-bordered">
+                    <thead class="bg-gray">
+                        <tr>
+                            <th class="text-white"></th>
+                            <th class="text-white">Name</th>
+                            <th class="text-white">Mobile</th>
+                            <th class="text-white">Email</th>
+                            <th class="text-white">City</th>
+                            <th class="text-white">Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php
                         $count = 1;
                         foreach ($internDetails as $value) {
                             $checked = '';
@@ -1688,50 +1496,47 @@ class Login extends MY_Controller
                                 $checked = 'name="interns[]"';
                             }
                         ?>
-            <tr>
-                <td>
-                    <input type="checkbox" class="largerCheckbox" <?php echo $checked; ?>
-                        value="<?php echo $value['intern_id']; ?>" id="intern<?php echo $value['intern_id']; ?>" />
-                </td>
-                <!-- <td><?php //echo $count++; 
+                            <tr>
+                                <td>
+                                    <input type="checkbox" class="largerCheckbox" <?php echo $checked; ?> value="<?php echo $value['intern_id']; ?>" id="intern<?php echo $value['intern_id']; ?>" />
+                                </td>
+                                <!-- <td><?php //echo $count++; 
                                             ?></td> -->
-                <td>
-                    <?php if ($value['gender'] == 1) {
+                                <td>
+                                    <?php if ($value['gender'] == 1) {
                                         echo "Mr.";
                                     } elseif ($value['gender'] == 2) {
                                         echo "Mrs.";
                                     } ?> <?php echo ucwords($value['first_name'] . ' ' . $value['last_name']); ?>
-                    <br>
-                    <a href="#" data-toggle="modal" data-target=".profile-details"
-                        onclick="fetch_details('<?php echo $encode_intern_id; ?>','profile_details');">
-                        <small class="text-primary">(View Profile)</small></a>
-                </td>
-                <td><?php echo $value['mobile']; ?></td>
-                <td><?php echo $value['email']; ?></td>
-                <td><?php echo $value['city_name']; ?></td>
-                <?php
+                                    <br>
+                                    <a href="#" data-toggle="modal" data-target=".profile-details" onclick="fetch_details('<?php echo $encode_intern_id; ?>','profile_details');">
+                                        <small class="text-primary">(View Profile)</small></a>
+                                </td>
+                                <td><?php echo $value['mobile']; ?></td>
+                                <td><?php echo $value['email']; ?></td>
+                                <td><?php echo $value['city_name']; ?></td>
+                                <?php
                                 if (sizeof($assigning_task) > 0) {
                                 ?>
-                <td>
-                    <span class="badge bg-success  me-1 mb-1 mt-1">Assigned</span><br>
-                    <small data-toggle="modal" data-target=".project-details" class="text-primary"
-                        onclick="fetch_task_details('<?php echo $encode_intern_id; ?>','project-details');">&nbsp;View
-                        Task</small>
-                </td>
-                <?php } else { ?>
-                <td><span class="badge bg-danger  me-1 mb-1 mt-1">Not Assigned</span></td>
-                <?php } ?>
-            </tr>
-            <?php } ?>
-        </tbody>
-    </table>
-    <script>
-    function checked(id) {
-        alert(id);
-    }
-    </script>
-</div>
-<?php
+                                    <td>
+                                        <span class="badge bg-success  me-1 mb-1 mt-1">Assigned</span><br>
+                                        <small data-toggle="modal" data-target=".project-details" class="text-primary" onclick="fetch_task_details('<?php echo $encode_intern_id; ?>','project-details');">&nbsp;View
+                                            Task</small>
+                                    </td>
+                                <?php } else { ?>
+                                    <td><span class="badge bg-danger  me-1 mb-1 mt-1">Not Assigned</span></td>
+                                <?php } ?>
+                            </tr>
+                        <?php } ?>
+                    </tbody>
+                </table>
+                <script>
+                    function checked(id) {
+                        alert(id);
+                    }
+                </script>
+            </div>
+        <?php
 
         }
     }
@@ -1743,29 +1548,29 @@ class Login extends MY_Controller
         $taskType = $this->input->post('taskType');
         $taskID = $this->input->post('taskName');
         $cityID = $this->input->post('stateName');
-        $skill =  $this->Crud_modal->fetch_single_data('keyword','task','task_id="'.$taskID.'"');
-       $skills = $skill['keyword'];
+        $skill =  $this->Crud_modal->fetch_single_data('keyword', 'task', 'task_id="' . $taskID . '"');
+        $skills = $skill['keyword'];
         if ($this->input->post('stateName') != 0) {
             $volunteerDetails = $this->LoginModel->assign_task_volunteer($cityID, $taskType, $skills);
             // echo "<pre>";
             // print_r($volunteerDetails);
             // exit;
         ?>
-<div id="tb<?php echo $cityID; ?>">
-    <table class="table table-bordered">
-        <thead class="bg-gray">
-            <tr>
-                <th class="text-white"></th>
-                <th class="text-white">Name</th>
-                <th class="text-white">Mobile</th>
-                <th class="text-white">Email</th>
-                <th class="text-white">Skills</th>
-                <th class="text-white">City</th>
-                <th class="text-white">Status</th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php
+            <div id="tb<?php echo $cityID; ?>">
+                <table class="table table-bordered">
+                    <thead class="bg-gray">
+                        <tr>
+                            <th class="text-white"></th>
+                            <th class="text-white">Name</th>
+                            <th class="text-white">Mobile</th>
+                            <th class="text-white">Email</th>
+                            <th class="text-white">Skills</th>
+                            <th class="text-white">City</th>
+                            <th class="text-white">Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php
                         $count = 1;
                         foreach ($volunteerDetails as $value) {
                             $checked = '';
@@ -1781,51 +1586,47 @@ class Login extends MY_Controller
                                 $checked = 'name="valunteers[]"';
                             }
                         ?>
-            <tr>
-                <td>
-                    <input type="checkbox" class="largerCheckbox" <?php echo $checked; ?>
-                        value="<?php echo $value['volunteer_id']; ?>"
-                        id="valunteer<?php echo $value['volunteer_id']; ?>" />
-                </td>
-                <!-- <td><?php //echo $count++; 
+                            <tr>
+                                <td>
+                                    <input type="checkbox" class="largerCheckbox" <?php echo $checked; ?> value="<?php echo $value['volunteer_id']; ?>" id="valunteer<?php echo $value['volunteer_id']; ?>" />
+                                </td>
+                                <!-- <td><?php //echo $count++; 
                                             ?></td> -->
-                <td>
-                    <?php if ($value['gender'] == 1) {
+                                <td>
+                                    <?php if ($value['gender'] == 1) {
                                         echo "Mr.";
                                     } elseif ($value['gender'] == 2) {
                                         echo "Mrs.";
                                     } ?> <?php echo ucwords($value['first_name'] . ' ' . $value['last_name']); ?>
-                    <br>
-                    <a href="#" data-toggle="modal" data-target=".profile-details"
-                        onclick="fetch_details('<?php echo $encode_volunteerID; ?>','profile_details');">
-                        <small class="text-primary">(View Profile)</small></a>
-                </td>
-                <td><?php echo $value['mobile']; ?></td>
-                <td><?php echo $value['email']; ?></td>
-                <td><?php echo $value['volunteer_skill']; ?></td>
-                <td><?php echo $value['city_name']; ?></td>
-                <?php
+                                    <br>
+                                    <a href="#" data-toggle="modal" data-target=".profile-details" onclick="fetch_details('<?php echo $encode_volunteerID; ?>','profile_details');">
+                                        <small class="text-primary">(View Profile)</small></a>
+                                </td>
+                                <td><?php echo $value['mobile']; ?></td>
+                                <td><?php echo $value['email']; ?></td>
+                                <td><?php echo $value['volunteer_skill']; ?></td>
+                                <td><?php echo $value['city_name']; ?></td>
+                                <?php
                                 if (sizeof($assigning_task) > 0) {
                                 ?>
-                <td>
-                    <span class="badge bg-success  me-1 mb-1 mt-1">Assigned</span><br>
-                    <small data-toggle="modal" data-target=".project-details" class="text-primary"
-                        onclick="fetch_task_details('<?php echo $encode_volunteerID; ?>','project-details');">&nbsp;View
-                        Task</small>
-                </td>
-                <?php } else { ?>
-                <td><span class="badge bg-danger  me-1 mb-1 mt-1">Not Assigned</span></td>
-                <?php } ?>
-            </tr>
-            <?php } ?>
-        </tbody>
-    </table>
-    <script>
-    function checked(id) {
-        alert(id);
-    }
-    </script>
-</div>
+                                    <td>
+                                        <span class="badge bg-success  me-1 mb-1 mt-1">Assigned</span><br>
+                                        <small data-toggle="modal" data-target=".project-details" class="text-primary" onclick="fetch_task_details('<?php echo $encode_volunteerID; ?>','project-details');">&nbsp;View
+                                            Task</small>
+                                    </td>
+                                <?php } else { ?>
+                                    <td><span class="badge bg-danger  me-1 mb-1 mt-1">Not Assigned</span></td>
+                                <?php } ?>
+                            </tr>
+                        <?php } ?>
+                    </tbody>
+                </table>
+                <script>
+                    function checked(id) {
+                        alert(id);
+                    }
+                </script>
+            </div>
 <?php
 
         }
@@ -2221,6 +2022,253 @@ class Login extends MY_Controller
         } else {
 
             echo 'Sent';
+        }
+    }
+
+
+
+   
+
+    public function upload_close_up_photo()
+    {
+   
+        $id_proof = $this->input->post('close_up_photo');
+        $intern_id = $this->input->post('intern_id');
+        if ($_FILES['close_up_photo'] != "") {
+            $config['upload_path'] = './internDoc/closeup_photo';
+            $config['allowed_types'] = 'gif|jpg|png|doc|pdf|jpeg';
+            $config['max_size'] = 1024 * 8;
+            $new_name = time() . $_FILES["close_up_photo"]['name'];
+            $config['file_name'] = $new_name;
+            $this->load->library('upload', $config);
+            if (!$this->upload->do_upload('close_up_photo')) {
+                $status = 'error';
+                $msg = $this->upload->display_errors('', '');
+            } else {
+                $file = $this->upload->data();
+                $close_up_photoint['close_up_photo'] = $file['file_name'];
+                $where = array(
+                    'intern_id' => $intern_id,
+                );
+             $result=   $this->Curl_model->update_data('interns_data', $close_up_photoint, $where);
+                if($result==1){
+                    echo 1;
+                   }else{
+                    echo 0;
+                   }
+            }
+            // echo json_encode(array('status' => $status, 'msg' => $msg));
+        }
+    }
+    public function upload_letter_parents_attach()
+    {
+
+        $id_proof = $this->input->post('letter_parents_attach');
+        $intern_id = $this->input->post('intern_id');
+        if ($_FILES['letter_parents_attach'] != "") {
+            $config['upload_path'] = './internDoc/reference_letter';
+            $config['allowed_types'] = 'gif|jpg|png|doc|pdf|jpeg';
+            $config['max_size'] = 1024 * 8;
+            $new_name = time() . $_FILES["letter_parents_attach"]['name'];
+            $config['file_name'] = $new_name;
+            $this->load->library('upload', $config);
+            if (!$this->upload->do_upload('letter_parents_attach')) {
+                $status = 'error';
+                $msg = $this->upload->display_errors('', '');
+            } else {
+                $file = $this->upload->data();
+                $letter_parents_attachint['letter_parents_attach'] = $file['file_name'];
+                $where = array(
+                    'intern_id' => $intern_id,
+                );
+               $result= $this->Curl_model->update_data('interns_data', $letter_parents_attachint, $where);
+                if($result==1){
+                    echo 1;
+                   }else{
+                    echo 0;
+                   }
+            }
+            // echo json_encode(array('status' => $status, 'msg' => $msg));
+        }
+    }
+    public function upload_ref_attach()
+    {
+
+        $id_proof = $this->input->post('ref_attach');
+        $intern_id = $this->input->post('intern_id');
+        if ($_FILES['ref_attach'] != "") {
+            $config['upload_path'] = './internDoc/reference_letter';
+            $config['allowed_types'] = 'gif|jpg|png|doc|pdf|jpeg';
+            $config['max_size'] = 1024 * 8;
+            $new_name = time() . $_FILES["ref_attach"]['name'];
+            $config['file_name'] = $new_name;
+            $this->load->library('upload', $config);
+            if (!$this->upload->do_upload('ref_attach')) {
+                $status = 'error';
+                $msg = $this->upload->display_errors('', '');
+            } else {
+                $file = $this->upload->data();
+                $ref_attachint['ref_attach'] = $file['file_name'];
+                $where = array(
+                    'intern_id' => $intern_id,
+                );
+              $result=  $this->Curl_model->update_data('interns_data', $ref_attachint, $where);
+                if($result==1){
+                    echo 1;
+                   }else{
+                    echo 0;
+                   }
+            }
+            // echo json_encode(array('status' => $status, 'msg' => $msg));
+        }
+    }
+    public function upload_cv_attach()
+    {
+
+        $id_proof = $this->input->post('cv_attach');
+        $intern_id = $this->input->post('intern_id');
+        if ($_FILES['cv_attach'] != "") {
+            $config['upload_path'] = './internDoc/cv';
+            $config['allowed_types'] = 'gif|jpg|png|doc|pdf|jpeg';
+            $config['max_size'] = 1024 * 8;
+            $new_name = time() . $_FILES["cv_attach"]['name'];
+            $config['file_name'] = $new_name;
+            $this->load->library('upload', $config);
+            if (!$this->upload->do_upload('cv_attach')) {
+                $status = 'error';
+                $msg = $this->upload->display_errors('', '');
+            } else {
+                $file = $this->upload->data();
+                $cv_attachint['cv_attach'] = $file['file_name'];
+                $where = array(
+                    'intern_id' => $intern_id,
+                );
+              $result=  $this->Curl_model->update_data('interns_data', $cv_attachint, $where);
+                if($result==1){
+                    echo 1;
+                   }else{
+                    echo 0;
+                   }
+            }
+            // echo json_encode(array('status' => $status, 'msg' => $msg));
+        }
+    }
+
+    public function upload_add_proof_attach()
+    {
+      
+        $id_proof = $this->input->post('add_proof_attach');
+        $intern_id = $this->input->post('intern_id');
+        if ($_FILES['add_proof_attach'] != "") {
+            $config['upload_path'] = './internDoc/address_proof';
+            $config['allowed_types'] = 'gif|jpg|png|doc|pdf|jpeg';
+            $config['max_size'] = 1024 * 8;
+            $new_name = time() . $_FILES["add_proof_attach"]['name'];
+            $config['file_name'] = $new_name;
+            $this->load->library('upload', $config);
+            if (!$this->upload->do_upload('add_proof_attach')) {
+                $status = 'error';
+                $msg = $this->upload->display_errors('', '');
+            } else {
+                $file = $this->upload->data();
+                $add_proof_attachint['add_proof_attach'] = $file['file_name'];
+                $where = array(
+                    'intern_id' => $intern_id,
+                );
+              $result=  $this->Curl_model->update_data('interns_data', $add_proof_attachint, $where);
+                if($result==1){
+                    echo 1;
+                   }else{
+                    echo 0;
+                   }
+            }
+            // echo json_encode(array('status' => $status, 'msg' => $msg));
+        }
+    }
+
+    public function upload_id_proff()
+    {
+    
+        $id_proof = $this->input->post('id_proof');
+        $intern_id = $this->input->post('intern_id');
+        if ($_FILES['id_proof_attach1'] != "") {
+            $config['upload_path'] = './internDoc/id_proof';
+            $config['allowed_types'] = 'gif|jpg|png|doc|pdf|jpeg';
+            $config['max_size'] = 1024 * 8;
+            $new_name = time() . $_FILES["id_proof_attach1"]['name'];
+            $config['file_name'] = $new_name;
+            $this->load->library('upload', $config);
+            if (!$this->upload->do_upload('id_proof_attach1')) {
+                $status = 'error';
+                $msg = $this->upload->display_errors('', '');
+            } else {
+                $file = $this->upload->data();
+                $id_proof_attach1int['id_proof_attach'] = $file['file_name'];
+                $where = array(
+                    'intern_id' => $intern_id,
+                );
+               $result =  $this->Curl_model->update_data('interns_data', $id_proof_attach1int, $where);
+               if($result==1){
+                echo 1;
+               }else{
+                echo 0;
+               }
+            }
+            // echo json_encode(array('status' => $status, 'msg' => $msg));
+        }
+    }
+
+    public function intern_insertoccupationDetails()
+    {
+        
+        try {
+            $intern_id = $this->input->post('intern_id');
+            $emergency_contact = $this->input->post('emergency_contact');
+            $occupation = $this->input->post('occupation');
+            $otherOccupation = $this->input->post('otherOccupation');
+            $name_of_school = $this->input->post('name_of_school');
+            $designation = $this->input->post('designation');
+            $language = $this->input->post('language');
+            $Otherlanguages = $this->input->post('otherlanguage');
+            $representative = $this->input->post('representative');
+            $communicatedWith = $this->input->post('communicatedWith');
+            $project_profile = $this->input->post('project_profile');
+            $signature = $this->input->post('signature');
+
+            $occupationDetails = array(
+                'emergency_contact' => $emergency_contact,
+                'occupation' => $occupation,
+                'otherOccupation' => $otherOccupation,
+                'name_of_school' => $name_of_school,
+                'designation' =>  $designation,
+                'language' => implode(',',$language),
+                'otherlanguages' => $Otherlanguages,
+                'representative_cry' => $representative,
+                'whichcryOffice' => $communicatedWith,
+                'project_profile' => $project_profile,
+                'Otherlanguages' => $Otherlanguages,
+                'signature' => $signature,
+                'designation' => $designation,
+
+            );
+            // echo "<pre>";
+            // print_r($occupationDetails);exit;
+
+
+            $status = array(
+                'status' => 7,
+            );
+            $where = array(
+                'intern_id' => $intern_id,
+            );
+            $this->Curl_model->update_data('interns', $status, $where);
+            if ($this->Curl_model->update_data('interns_data', $occupationDetails, $where)) {
+                return 1;
+            } else {
+                return 1;
+            }
+        } catch (Exception $e) {
+            echo 'Caught exception: ',  $e->getMessage(), "\n";
         }
     }
 }

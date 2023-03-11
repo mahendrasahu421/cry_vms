@@ -439,4 +439,27 @@ class Intern_model extends CI_Model
 		$this->db->close();
 		return $result;
 	}
+
+	public function intern_id_exsist()
+    {
+        try {
+            $this->db->initialize();
+            $intern_id = $this->session->userdata('intern_id');
+           
+            
+                $this->db->select('intern_id');
+                $this->db->from('intern_submission_report');
+                $this->db->where(array('intern_id' => $intern_id));
+                $query = $this->db->get();
+                if ($query->num_rows() > 0) {
+                    return 1;
+                } else {
+                    //$this->db->close();
+                    return 0;
+                }
+            
+        } catch (Exception $e) {
+            echo 'Caught exception: ',  $this->$e->getMessage(), "\n";
+        }
+    }
 }

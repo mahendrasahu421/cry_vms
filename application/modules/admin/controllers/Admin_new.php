@@ -194,7 +194,7 @@ class Admin_new extends MY_Controller
                      $data['creation_date'] = $date1;
                      $data['creation_date'] = $date2;
                      $data['state_name'] = $state_name;
-                     $where = "fd.creation_date>='" . $date_from . "' and fd.creation_date<='" . $date_to . "' and i.state_id=" . $state_name . "  and (i.status =7 AND isr.status = 2 AND fd.status=1)";
+                     $where = "fd.creation_date>='" . $date_from . "' and fd.creation_date<='" . $date_to . "' and i.state_id=" . $state_name . "  AND i.status =8 AND isr.status = 2 AND fd.status=1";
                      $data['feedbackCertifecate'] = $this->Admin_model->send_certificate_by_feedback($where,$empId,$role);
                      $skillId = $data['feedbackCertifecate'][0]['skill_id'];
                      $skill_name = explode (",",$skillId);
@@ -369,6 +369,7 @@ class Admin_new extends MY_Controller
         } else {
 
             $this->Admin_model->certificate_send($val);
+            $this->Admin_model->sent_certificate_to_intern($val);
           //  $this->Admin_model->count_send_mail($val);
             redirect(base_url() . 'intern-request-certificate');
         }

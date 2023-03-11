@@ -226,19 +226,20 @@ if ($this->session->userdata('task_status')) {
                                                 </ul>
                                             </td>
                                             <td><?php echo $taskdataBydate['creation_date']; ?></td>
-                                            
-                                            
+
+
                                             <?php
-												  if($taskdataBydate['keyword']!=''){
-												  $skill_name=explode(',', $taskdataBydate['keyword']);
-												  for($i=0;$i<sizeof($skill_name);$i++){
-													 $assig_name =$this->Crud_modal->fetch_single_data("(skill_name) as name","skills","skill_id='$skill_name[$i]'");
-													 $cname = $cname.ucwords($assig_name['name'].(($i+1)<sizeof($skill_name) ? ", " :""));
-											?>
-													                                         
-												 <?php } }                                        
-												  ?> 
-                                           <td class="w-20"><?php echo $cname;?> </td>   
+                                                if ($taskdataBydate['keyword'] != '') {
+                                                    $skill_name = explode(',', $taskdataBydate['keyword']);
+                                                    for ($i = 0; $i < sizeof($skill_name); $i++) {
+                                $assig_name = $this->Crud_modal->fetch_single_data("(skill_name) as name", "skills","skill_id='$skill_name[$i]'");
+                                                        $cname = $cname . ucwords($assig_name['name'] . (($i + 1) < sizeof($skill_name) ? ", " : ""));
+                                                ?>
+
+                                            <?php }
+                                                }
+                                                ?>
+                                            <td class="w-20"><?php echo $cname; ?> </td>
                                             <!--<td><?php echo $skils; ?></td>-->
 
                                             <td>

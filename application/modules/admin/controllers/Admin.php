@@ -1225,9 +1225,6 @@ class Admin extends MY_Controller
                 <th class="text-white">Sr</th>
                 <th class="text-white">Date</th>
                 <th class="text-white">Task</th>
-
-
-
             </tr>
         </thead>
         <tbody>
@@ -1281,6 +1278,7 @@ class Admin extends MY_Controller
 
     public function submission_approved()
     {
+        $role = $this->session->userdata('role_id');
         $encode_userID = $this->uri->segment(2);
         $encode_taskID = $this->uri->segment(3);
         //$dailyReportDate = $this->uri->segment(5);
@@ -1293,7 +1291,9 @@ class Admin extends MY_Controller
         );
         $fields = array(
             'status' => 2,
-            // 'approveddaily_ID' => $approveddaily_ID
+             'approval_date' => date('Y-m-d'),
+             'approved_by' => $role,
+             'creation_date' =>date('Y-m-d'),
         );
         $results = $this->Curl_model->update_data('intern_submission_report', $fields, $where);
 
@@ -1894,7 +1894,7 @@ class Admin extends MY_Controller
             $join_data = array(
                 array(
                     'table' => 'interns',
-                    'fields' => array('intern_id', 'first_name', 'last_name', 'mobile', 'email', 'date_of_birth', 'state_id', 'city_id', 'occupation_id', 'past_volunteering', 'what_you_aim'),
+                    'fields' => array('intern_id', 'internshipType','internshipDeruation','first_name', 'last_name', 'mobile', 'email', 'date_of_birth', 'state_id', 'city_id', 'occupation_id', 'past_volunteering', 'what_you_aim','status','occupation_id'),
                     'joinWith' => array('intern_id'),
                     'where' => array(
                         'intern_id' => $intern_id
@@ -1924,6 +1924,12 @@ class Admin extends MY_Controller
                     'fields' => array('occupation_name'),
                     'joinWith' => array('occupation_id', 'left'),
                 ),
+                array(
+                    'joined' => 0,
+                    'table' => 'interns_data',
+                    'fields' => array('present_address','permanent_address','name_of_school','cityResindence','id_proof_attach','add_proof_attach','letter_parents_attach','close_up_photo','cv_attach','ref_attach','emergency_contact','other_contact','occupation'),
+                    'joinWith' => array('intern_id', 'left'),
+                ),
             );
 
             $limit = '';
@@ -1934,9 +1940,9 @@ class Admin extends MY_Controller
             // print_r($internDetails);exit;
         ?>
 <div class="col-md-3 m-b-20 text-center">
-    <?php if ($internDetails['profile'] != '') { ?>
-    <img src='<?php $image = $internDetails['profile'];
-                                echo base_url("user_profile/$image"); ?>' width="100%" height="auto"
+    <?php if ($internDetails[0]['close_up_photo'] != '') { ?>
+    <img src='<?php $image = $internDetails[0]['close_up_photo'];
+                                echo base_url("internDoc/closeup_photo/$image"); ?>' width="100%" height="auto"
         class="img-fluid border p-1" />
     <?php } else { ?>
     <img src="<?php echo base_url("user_profile/crop.jpg"); ?>" class="img-fluid" alt="" title="">
@@ -1946,46 +1952,196 @@ class Admin extends MY_Controller
     <h2 class="f-14 font-medium">
         <?php echo ucwords($internDetails[0]['first_name'] . ' ' . $internDetails[0]['last_name']); ?></h2>
     <div class="row mb-2">
-        <div class="col-4 "><b>intern ID</b></div>
+        <div class="col-6"><b>intern ID</b></div>
         <div class="col"><?php echo $internDetails[0]['intern_id']; ?></div>
     </div>
     <div class="row mb-2">
-        <div class="col-4 "><b>Phone</b></div>
+        <div class="col-6"><b>Phone</b></div>
         <div class="col"><?php echo $internDetails[0]['mobile']; ?></div>
     </div>
     <div class="row mb-2">
-        <div class="col-4 "><b>Email</b></div>
+        <div class="col-6"><b>Email</b></div>
         <div class="col"><a href="#" class="text-inverse"><span
                     class="cf_email"><?php echo $internDetails[0]['email']; ?></span></a></div>
     </div>
     <div class="row mb-2">
-        <div class="col-4 "><b>Date of Birth</b></div>
+        <div class="col-6 "><b>Date of Birth</b></div>
         <div class="col"><?php if ($internDetails['date_of_birth'] != '0000-00-00') {
                                             echo ucwords(date("d-m-Y", strtotime($internDetails[0]['date_of_birth'])));
                                         } ?></div>
     </div>
     <div class="row mb-2">
-        <div class="col-4 "><b>State</b></div>
+        <div class="col-6 "><b>State</b></div>
         <div class="col"><?php echo $internDetails[0]['state_name']; ?></div>
     </div>
     <div class="row mb-2">
-        <div class="col-4 "><b>City</b></div>
+        <div class="col-6 "><b>City</b></div>
         <div class="col"><?php echo $internDetails[0]['city_name']; ?></div>
     </div>
 
     <div class="row mb-2">
-        <div class="col-4 "><b>Occupation</b></div>
+        <div class="col-6 "><b>Occupation</b></div>
         <div class="col "><?php echo ucwords($internDetails[0]['occupation_name']); ?></div>
     </div>
     <div class="row mb-2">
-        <div class="col-12 fs-6"><b>Question : Mention past volunteering and Internships you may have done?</b></div>
+        <div class="col-6"><b>Question : Mention past volunteering and Internships you may have done?</b></div>
         <div class="col "><?php echo ucwords($internDetails[0]['past_volunteering']); ?></div>
     </div>
     <div class="row mb-2">
-        <div class="col-12 fs-6"><b>Question : What you aim to value add on if chosen for an Internship with CRY ?</b>
+        <div class="col-6"><b>Question : What you aim to value add on if chosen for an Internship with CRY ?</b>
         </div>
         <div class="col "><?php echo ucwords($internDetails[0]['what_you_aim']); ?></div>
     </div>
+    <?php if($internDetails[0]['status']>=7 ){ ?>
+    <div class="row mb-2">
+        <div class="col-6"><b>Present Address</b>
+        </div>
+        <div class="col "><?php echo ucwords($internDetails[0]['present_address']); ?></div>
+    </div>
+    <div class="row mb-2">
+        <div class="col-6"><b>Pemanent Address</b>
+        </div>
+        <div class="col "><?php echo ucwords($internDetails[0]['permanent_address']); ?></div>
+    </div>
+    <div class="row mb-2">
+        <div class="col-6"><b>City of Residence</b>
+        </div>
+        <div class="col "><?php echo ucwords($internDetails[0]['cityResindence']); ?></div>
+    </div>
+    <div class="row mb-2">
+        <div class="col-6"><b>Occupation </b>
+        </div>
+        <div class="col "><?php echo ucwords($internDetails[0]['occupation']); ?></div>
+    </div>
+    <div class="row mb-2">
+        <div class="col-6"><b>Name of your school/ college/ institute/ company(Write NA if not applicable) *</b>
+        </div>
+        <div class="col "><?php echo ucwords($internDetails[0]['name_of_school']); ?></div>
+    </div>
+    <div class="row mb-2">
+        <div class="col-6"><b>Designation if working (Write NA if not applicable) *</b>
+        </div>
+        <div class="col "><?php echo ucwords($internDetails[0]['designation']); ?></div>
+    </div>
+    <div class="row mb-2">
+        <div class="col-6"><b>Languages known </b>
+        </div>
+        <div class="col "><?php echo ucwords($internDetails[0]['language']); ?></div>
+    </div>
+    <div class="row mb-2">
+        <div class="col-6"><b>Other Languages</b>
+        </div>
+        <div class="col "><?php echo ucwords($internDetails[0]['otherlanguages']); ?></div>
+    </div>
+    <div class="row mb-2">
+        <div class="col-6"><b>Who was the CRY representative you interacted with? </b>
+        </div>
+        <div class="col "><?php echo ucwords($internDetails[0]['representative_cry']); ?></div>
+    </div>
+    <div class="row mb-2">
+        <div class="col-6"><b>Which CRY office you had communicated with/ written to? *</b>
+        </div>
+        <div class="col "><?php echo ucwords($internDetails[0]['communicated_cry']); ?></div>
+    </div>
+    <div class="row mb-2">
+        <div class="col-6"><b>No of weeks of internship you have been offered?*</b>
+        </div>
+        <div class="col "><?php echo ucwords($internDetails[0]['internshipDeruation'])." Weeks"; ?></div>
+    </div>
+    <div class="row mb-2">
+        <div class="col-6"><b>Profile of project you will be involved in?*</b>
+        </div>
+        <div class="col "><?php echo ucwords($internDetails[0]['project_profile']); ?></div>
+    </div>
+    <div class="row mb-2">
+        <div class="col-6"><b>You internship will be*</b>
+        </div>
+        <div class="col ">
+            <?php if ($internDetails[0]['internshipType'] == 1) {
+                                                                        echo  "Online";
+                                                                    } ?>
+            <?php if ($internDetails[0]['internshipType'] == 2) {
+                                                                        echo  "Offline";
+                                                                    } ?>
+            <?php if ($internDetails[0]['internshipType'] == 3) {
+                                                                        echo  "Hybrid";
+                                                                    } ?>
+        </div>
+    </div>
+    <div class="row mb-2">
+        <div class="col-6"><b>How did you came to know about CRY? *</b>
+        </div>
+        <div class="col "><?php echo ucwords($internDetails[0]['where_know_opportunity']); ?></div>
+    </div>
+    <div class="row mb-2">
+        <div class="col-6"><b>ID proof</b>
+        </div>
+        <div class="col "> <?php if ($internDetails[0]['id_proof_attach'] !='') { ?>
+            <a href="<?php echo base_url(); ?>internDoc/id_proof/<?php echo $internDetails[0]['id_proof_attach']; ?>"
+                target="_blank">View ID proof</a>
+            <?php } else { ?>
+            <span><a href="#">NA</a></span>
+            <?php } ?>
+        </div>
+    </div>
+    <div class="row mb-2">
+        <div class="col-6"><b>Address proof *</b>
+        </div>
+        <div class="col "><?php if ($internDetails[0]['add_proof_attach'] !='') { ?>
+            <a href="<?php echo base_url(); ?>internDoc/address_proof/<?php echo $internDetails[0]['add_proof_attach']; ?>"
+                target="_blank">View Address proof</a>
+            <?php } else { ?>
+            <span><a href="#">NA</a></span>
+            <?php } ?>
+        </div>
+    </div>
+    <div class="row mb-2">
+        <div class="col-6"><b>consent letter *</b>
+        </div>
+        <div class="col "><?php if ($internDetails[0]['letter_parents_attach'] !='') { ?>
+            <span><a href="<?php echo base_url(); ?>internDoc/letter_parents_attach/<?php echo $internDetails[0]['letter_parents_attach']; ?>"
+                    target="_blank">View Consent letter</a></span>
+            <?php } else { ?>
+            <span><a href="#">NA</a></span>
+            <?php } ?>
+        </div>
+    </div>
+    <div class="row mb-2">
+        <div class="col-6"><b>Upload a close up photo *</b>
+        </div>
+        <div class="col "><?php if ($internDetails[0]['close_up_photo'] != '') { ?>
+            <span><a href="<?php echo base_url(); ?>internDoc/closeup_photo/<?php echo $internDetails[0]['close_up_photo']; ?>"
+                    target="_blank">View Close up photo</a></span>
+            <?php } else { ?>
+            <span><a href="#">NA</a></span>
+            <?php } ?>
+        </div>
+    </div>
+    <div class="row mb-2">
+        <div class="col-6"><b>Upload your CV *</b>
+        </div>
+        <div class="col "><?php if ($internDetails[0]['cv_attach'] !='') { ?>
+            <span><a href="<?php echo base_url(); ?>internDoc/cv/<?php echo $internDetails[0]['cv_attach']; ?>"
+                    target="_blank">View CV</a></span>
+            <?php } else { ?>
+            <span><a href="#">NA</a></span>
+            <?php } ?>
+        </div>
+    </div>
+    <div class="row mb-2">
+        <div class="col-6"><b>Reference letter *</b>
+        </div>
+        <div class="col "><?php if ($internDetails[0]['ref_attach'] !='') { ?>
+            <span><a href="<?php echo base_url(); ?>internDoc/reference_letter/<?php echo $internDetails[0]['ref_attach']; ?>"
+                    target="_blank">Reference letter</a></span>
+            <?php } else { ?>
+            <span><a href="#">NA</a></span>
+            <?php } ?>
+        </div>
+    </div>
+
+
+    <?php }else { echo "Post Reg. pending"; }  ?>
 </div>
 <?php
         }
@@ -4480,8 +4636,22 @@ class Admin extends MY_Controller
                 if ($role == 1) {
                     $date2 = $data['date_to'] = date("Y-m-d");
                     $data['date_from'] = date("Y-m-d", strtotime($date2 . '-7 days'));
-                    $where = 'i.status =1 OR i.status =2';
-                    if ($this->input->post('start_new') != "" && $this->input->post('end_new') != "" &&  $this->input->post('state_name') != "") {
+                   
+                    if ($this->input->post('start_new') != "" && $this->input->post('end_new') != "" &&  $this->input->post('state_name') != "" &&  $this->input->post('candidate_staus') != "") {
+                        $date1 = $this->input->post('start_new');
+                        $date2 = $this->input->post('end_new');
+                        $state_name = $this->input->post('state_name');
+                        $candidate_staus = $this->input->post('candidate_staus');
+                        $data['date_from'] = $date_from = date("Y-m-d", strtotime($date1));
+                        $data['date_to'] =     $date_to = date("Y-m-d", strtotime($date2));
+                        $data['creation_date'] = $date1;
+                        $data['creation_date'] = $date2;
+                        $data['state_name'] = $state_name;
+                        $data['candidate_staus'] = $candidate_staus;
+                        $where = "creation_date>='" . $date_from . "' and creation_date<='" . $date_to . "' and i.state_id=" . $state_name . "  AND i.status=".$candidate_staus."";
+                        $data['intern'] = $this->Admin_model->intern_enquiry_Data($where);
+                     
+                    }elseif ($this->input->post('start_new') != "" && $this->input->post('end_new') != "" &&  $this->input->post('state_name') != ""){
                         $date1 = $this->input->post('start_new');
                         $date2 = $this->input->post('end_new');
                         $state_name = $this->input->post('state_name');
@@ -4490,19 +4660,31 @@ class Admin extends MY_Controller
                         $data['creation_date'] = $date1;
                         $data['creation_date'] = $date2;
                         $data['state_name'] = $state_name;
-                        $where = "creation_date>='" . $date_from . "' and creation_date<='" . $date_to . "' and i.state_id=" . $state_name . "  and (i.status=1 OR i.status=2)";
+                        $where = "creation_date>='" . $date_from . "' and creation_date<='" . $date_to . "' and i.state_id=" . $state_name . "  AND i.status >= 1 AND i.status <= 8";
                         $data['intern'] = $this->Admin_model->intern_enquiry_Data($where);
-                        // echo "<pre>";
-                        // print_r($data['intern']);exit;
                     }
                 } else {
                     $data['rname'] = $this->Curl_model->fetch_single_data('region_name,state_id', 'regions', array('region_id' => $region));
                     $data['states'] = $this->Crud_modal->fetch_all_data('*', 'states', 'region_id=' . $region);
                     $date2 = $data['date_to'] = date("Y-m-d");
                     $data['date_from'] = date("Y-m-d", strtotime($date2 . '-7 days'));
-                    $where = 'i.status =1 OR i.status =2';
-                    if ($this->input->post('start_new') != "" && $this->input->post('end_new') != "" &&  $this->input->post('state_name') != "") {
+                 
+                    if ($this->input->post('start_new') != "" && $this->input->post('end_new') != "" &&  $this->input->post('state_name') != "" &&  $this->input->post('candidate_staus') != "") {
                         $date1 = date("Y-m-d", strtotime($this->input->post('start_new')));
+                        $date2 = $this->input->post('end_new');
+                        $state_name = $this->input->post('state_name');
+                        $candidate_staus = $this->input->post('candidate_staus');
+                        $data['date_from'] = $date_from = date("Y-m-d", strtotime($date1));
+                        $data['date_to'] =     $date_to = date("Y-m-d", strtotime($date2));
+                        $data['creation_date'] = $date1;
+                        $data['creation_date'] = $date2;
+                        $data['state_name'] = $state_name;
+                        $data['candidate_staus'] = $candidate_staus;
+                        $where = "creation_date>='" . $date_from . "' and creation_date<='" . $date_to . "' and i.state_id=" . $state_name . "  AND i.status=".$candidate_staus."";
+                        $data['intern'] = $this->Admin_model->intern_enquiry_Data($where);
+                       
+                    }elseif ($this->input->post('start_new') != "" && $this->input->post('end_new') != "" &&  $this->input->post('state_name') != ""){
+                        $date1 = $this->input->post('start_new');
                         $date2 = $this->input->post('end_new');
                         $state_name = $this->input->post('state_name');
                         $data['date_from'] = $date_from = date("Y-m-d", strtotime($date1));
@@ -4510,10 +4692,8 @@ class Admin extends MY_Controller
                         $data['creation_date'] = $date1;
                         $data['creation_date'] = $date2;
                         $data['state_name'] = $state_name;
-                        $where = "creation_date>='" . $date_from . "' and creation_date<='" . $date_to . "' and i.state_id=" . $state_name . "  and (i.status=1 OR i.status=2)";
+                        $where = "creation_date>='" . $date_from . "' and creation_date<='" . $date_to . "' and i.state_id=" . $state_name . "  AND i.status >= 1 AND i.status <= 8";
                         $data['intern'] = $this->Admin_model->intern_enquiry_Data($where);
-                        // echo "<pre>";
-                        // print_r($data['intern']);exit;
                     }
                 }
                 $data['regions'] = $this->Crud_modal->fetch_all_data('*', 'regions', 'region_status=1');
@@ -5730,36 +5910,50 @@ class Admin extends MY_Controller
                     $internuser_id = $this->uri->segment(2);
                     $val = base64_decode(str_pad(strtr($internuser_id, '-_', '+/'), strlen($internuser_id) % 4, '=', STR_PAD_RIGHT));
                     $where = "intern_id = '$val'";
-                    //$data['interuser'] = $this->Admin_model->get_all_intern_onlineOffline($where);
-                    $data['interuser'] = $this->Crud_modal->fetch_single_data('*', 'interns', $where);
-
+                
+                    $data['interuser'] = $this->Admin_model->hr_process_intern($where);
+                    
+                   
+                   
                     $data['user_schedule'] = $this->Crud_modal->all_data_select("*", "interview_schedule_detail", "intern_id='$val'", "schedule_id asc");
                     $data['step_name'] = $this->Crud_modal->all_data_select("*", "interview_process_step", "1=1", "step_id asc");
+                    $data['email_templates'] = $this->Crud_modal->fetch_single_data('email_templates_id,body_content', 'email_templates', 'status=1 AND email_templates_id=8');
+                  
+                $internCity = $data['interuser']['city_name'];
+                $internCity = $data['interuser']['state_name'];
+                $searchArray = array("online", "7-8", "September , 2022.", "Mahendra Sahu", 'Kanpur,Uttar Pradesh');
+                $latsarrayTemplate = array(
+                    $data['interuser']['vol_type_name'],
+                    $data['interuser']['internshipDeruation'],
+                    date('d M Y', strtotime($data['interuser']['joining_date'])) . '.',
+                    $data['interuser']['first_name'] . " " . $data['interuser']['last_name'],
+                    trim($data['interuser']['city_name'], " ") .$data['interuser']['state_name'],
+                );
+                $lasttemplate = str_replace($searchArray, $latsarrayTemplate, $data['email_templates']['body_content'], $count);
+                $data['final_offerdata'] = $lasttemplate;
                 } else {
                     $data['rname'] = $this->Crud_modal->fetch_single_data('region_name,state_id', 'regions', array('region_id' => $region));
                     $data['states'] = $this->Crud_modal->fetch_all_data('*', 'states', 'region_id=' . $region);
                     $internuser_id = $this->uri->segment(2);
                     $val = base64_decode(str_pad(strtr($internuser_id, '-_', '+/'), strlen($internuser_id) % 4, '=', STR_PAD_RIGHT));
                     $where = "intern_id = '$val'";
-                    //$data['interuser'] = $this->Admin_model->get_all_intern_onlineOffline($where);
                     $data['interuser'] = $this->Crud_modal->fetch_single_data('*', 'interns', $where);
                     $data['user_schedule'] = $this->Crud_modal->all_data_select("*", "interview_schedule_detail", "intern_id='$val'", "schedule_id asc");
                     $data['step_name'] = $this->Crud_modal->all_data_select("*", "interview_process_step", "1=1", "step_id asc");
                 }
 
                 $data['email_templates'] = $this->Crud_modal->fetch_single_data('email_templates_id,body_content', 'email_templates', 'status=1 AND email_templates_id=8');
-                // $internCity = $data['interuser']['city_name'];
-                $searchArray = array("online", "7-8", "September , 2022.", "Mahendra Sahu", 'Kanpur Uttar Pradesh');
+                $internCity = $data['interuser']['city_name'];
+                $searchArray = array("online", "7-8", "September , 2022.", "Mahendra Sahu", 'Kanpur,Uttar Pradesh');
                 $latsarrayTemplate = array(
                     $data['interuser']['vol_type_name'],
                     $data['interuser']['internshipDeruation'],
-                    date('d M Y', strtotime($data['interuser']['creation_date'])) . '.',
+                    date('d M Y', strtotime($data['interuser']['joining_date'])) . '.',
                     $data['interuser']['first_name'] . " " . $data['interuser']['last_name'],
-                    trim($data['interuser']['city_name'], " ") . "," . $data['interuser']['state_name'],
+                    trim($data['interuser']['city_name'], " ") . $data['interuser']['state_name'],
                 );
                 $lasttemplate = str_replace($searchArray, $latsarrayTemplate, $data['email_templates']['body_content'], $count);
                 $data['final_offerdata'] = $lasttemplate;
-                //  print_r($lasttemplate); exit;
                 $data['regions'] = $this->Crud_modal->fetch_all_data('*', 'regions', 'region_status=1');
                 $this->load->view('temp/head');
                 $this->load->view('temp/header', $data);
@@ -5771,305 +5965,6 @@ class Admin extends MY_Controller
             }
         } catch (Exception $e) {
             echo 'Caught exception: ',  $e->getMessage(), "\n";
-        }
-    }
-
-    public function shortlist_status_update()
-    {
-        if ($this->session->userdata('emp_id') != "" || $this->session->userdata('emp_id') != null) {
-            $intern_id = $this->input->post('intern_id');
-            $status = $this->input->post('status');
-            if ($status == 0) { // when reject
-                if ($this->Crud_modal->update_data("intern_id='$intern_id'", "interns", ['status' => '0'])) {
-                    echo true;
-                } else {
-                    echo false;
-                }
-            } else if ($status == 2) { // when shortlist for next round
-                if ($this->Crud_modal->update_data("intern_id='$intern_id'", "interns", ['status' => '2'])) {
-                    echo true;
-                } else {
-                    echo false;
-                }
-            } else {
-                echo false;
-            }
-        }
-    }
-
-    function get_same_day_schedule_user_count()
-    {
-        $emp_id = $this->session->userdata('emp_id');
-        $date = date("Y-m-d", strtotime($this->input->post('date_value')));
-        echo $this->Crud_modal->check_numrow("interview_schedule_detail", "schedule_date_time like '%$date%'");
-    }
-
-    public function save_interview_schedule_data()
-    {
-        if ($this->session->userdata('emp_id') != "" || $this->session->userdata('emp_id') != null) {
-
-            if ($this->input->post('schedule_id') == '') {
-                $data['mode'] = $data1['mode'] = $this->input->post('mode');
-                $data['hr_description'] = $this->input->post('hr_description');
-                $data['schedule_date_time'] = $data1['reschedule_date_time'] = date("Y-m-d H:i:s", strtotime($this->input->post('schedule_date') . ' ' . $this->input->post('schedule_time')));
-                if ($data['mode'] == "Face to Face") {
-                    $data['venue'] = $this->input->post('venue');
-                }
-                $data['round'] = $data1['round'] = $this->input->post('round');
-                $data['intern_id'] = $data1['intern_id'] = $this->input->post('intern_id');
-                $data['created_date'] = $data1['created_date'] = date("Y-m-d H:i:s");
-                $data['created_by'] = $data1['created_by'] = $this->session->userdata('emp_id');
-                $this->Crud_modal->data_insert("interview_schedule_detail", $data);
-                $this->Crud_modal->data_insert("interview_reschedule", $data1);
-            } else {
-                $data['mode'] = $data1['mode'] = $this->input->post('mode');
-                $data['hr_description'] = $this->input->post('hr_description');
-                $data['schedule_date_time'] = $data1['reschedule_date_time'] = date("Y-m-d H:i:s", strtotime($this->input->post('schedule_date') . ' ' . $this->input->post('schedule_time')));
-                if ($data['mode'] == "Face to Face") {
-                    $data['venue'] = $this->input->post('venue');
-                }
-                $data['round'] = $data1['round'] = intval($this->input->post('round')) - 1;
-                $data['intern_id'] = $data1['intern_id'] = $this->input->post('intern_id');
-                $data['created_date'] = $data1['created_date'] = date("Y-m-d H:i:s");
-                $data['created_by'] = $data1['created_by'] = $this->session->userdata('emp_id');
-                $schedule_id = $this->input->post('schedule_id');
-                $this->Crud_modal->update_data("schedule_id='$schedule_id'", "interview_schedule_detail", $data);
-                $this->Crud_modal->data_insert("interview_reschedule", $data1);
-            }
-        }
-    }
-
-    function clear_interview()
-    {
-        if ($this->session->userdata('emp_id') != "" || $this->session->userdata('emp_id') != null) {
-            //$intern_id = $this->uri->segment(2);
-           // $val = base64_decode(str_pad(strtr($intern_id, '-_', '+/'), strlen($intern_id) % 4, '=', STR_PAD_RIGHT));
-            //print_r($this->input->post());
-            $data['round_status'] = $this->input->post('status');
-            $data['comment'] = $this->input->post('comment');
-            $schedule_id = $this->input->post('schedule_id');
-            $intern_id = $this->input->post('intern_id');
-            $this->Crud_modal->update_data("intern_id='$intern_id'", "interns", ['status' => '5']);
-            if ($this->Crud_modal->update_data("schedule_id='$schedule_id'", "interview_schedule_detail", ['job_process_step' => '4-0'])) {
-                if ($this->Crud_modal->update_data("schedule_id='$schedule_id'", "interview_schedule_detail", $data)) {
-                    echo true;
-                } else {
-                    echo false;
-                }
-            } else {
-                echo false;
-            }
-        }
-    }
-
-    function ongoing_interview()
-    {
-        if ($this->session->userdata('emp_id') != "" || $this->session->userdata('emp_id') != null) {
-            print_r($this->input->post());
-            $data['round_status'] = $this->input->post('status');
-            $data['comment'] = $this->input->post('comment');
-            $schedule_id = $this->input->post('schedule_id');
-            if ($this->Crud_modal->update_data("schedule_id='$schedule_id'", "interview_schedule_detail", $data)) {
-                $data1['intern_id'] = $this->input->post('intern_id');
-                $data1['round'] = $this->input->post('round');
-                $data1['created_by'] = $this->session->userdata('emp_id');
-                $data1['created_date'] = date("Y-m-d H:i:s");
-                if ($this->Crud_modal->data_insert("interview_schedule_detail", $data1)) {
-                    echo true;
-                } else {
-                    echo false;
-                }
-            } else {
-                echo false;
-            }
-        }
-    }
-
-    function reject_interview()
-    {
-        if ($this->session->userdata('emp_id') != "" || $this->session->userdata('emp_id') != null) {
-            //print_r($this->input->post());
-            $data['round_status'] = $this->input->post('status');
-            $data['comment'] = $this->input->post('comment');
-            $schedule_id = $this->input->post('schedule_id');
-            if ($this->Crud_modal->update_data("schedule_id='$schedule_id'", "interview_schedule_detail", ['job_process_step' => '3-1'])) {
-                if ($this->Crud_modal->update_data("schedule_id='$schedule_id'", "interview_schedule_detail", $data)) {
-                    echo true;
-                } else {
-                    echo false;
-                }
-            } else {
-                echo false;
-            }
-        }
-    }
-
-    function update_job_schedule_data()
-    {
-        if ($this->session->userdata('emp_id') != "" || $this->session->userdata('emp_id') != null) {
-            print_r($this->input->post());
-            $data['mode'] = $data1['mode'] = $this->input->post('mode');
-            $data['schedule_date_time'] = $data1['reschedule_date_time'] = date("Y-m-d H:i:s", strtotime($this->input->post('schedule_date') . ' ' . $this->input->post('schedule_time')));
-            if ($data['mode'] == "Face to Face") {
-                $data['venue'] = $this->input->post('venue');
-            }
-            $data['comment'] = $this->input->post('comment');
-            $data1['round'] = intval($this->input->post('round')) - 1;
-            $data1['intern_id'] = $this->input->post('intern_id');
-            $data['created_date'] = $data1['created_date'] = date("Y-m-d H:i:s");
-            $data['created_by'] = $data1['created_by'] = $this->session->userdata('emp_id');
-            $data['round_status'] = 0;
-            $schedule_id = $this->input->post('schedule_id');
-            $this->Crud_modal->update_data("schedule_id='$schedule_id'", "interview_schedule_detail", $data);
-            $this->Crud_modal->data_insert("interview_reschedule", $data1);
-        }
-    }
-
-    function mail_interview_data()
-    {
-        if ($this->session->userdata('emp_id') != "" || $this->session->userdata('emp_id') != null) {
-            $round = intval($this->input->post('round')) - 1;
-            $emp_id = $this->session->userdata('emp_id');
-            $intern_id = $this->input->post('intern_id');
-            $user_data = $this->Crud_modal->fetch_single_data("first_name,last_name, email ", "interns", "intern_id='$intern_id'");
-            $data['mode'] = $this->input->post('mode');
-            $data['schedule_date'] = $this->input->post('schedule_date');
-            $data['schedule_time'] = $this->input->post('schedule_time');
-            $data['venue'] = $this->input->post('venue');
-            $data['hr_description'] = $this->input->post('hr_description');
-            $data['first_name'] = $user_data['first_name'];
-            $data['last_name'] = $user_data['last_name'];
-            $data['user_email'] = $user_data['email'];
-            if ($this->input->post('data_action') == '') {
-                if ($this->Admin_model->schedule_mail_to_user($data)) {
-                    echo true;
-                } else {
-                    echo false;
-                }
-            } else {
-                $old_schedule_data = $this->Admin_model->get_prev_schedule_date("reschedule_date_time,reschedule_id", "interview_reschedule", "intern_id='$intern_id' and round='$round' and created_by='$emp_id'", "reschedule_id desc");
-                $data['old_schedule_date'] = date("F d,Y", strtotime($old_schedule_data['reschedule_date_time']));
-                $data['old_schedule_time'] = date("h:i A", strtotime($old_schedule_data['reschedule_date_time']));
-                if ($this->Admin_model->reschedule_mail_to_user($data)) {
-                    echo true;
-                } else {
-                    echo false;
-                }
-            }
-        }
-    }
-
-    function interview_final_mail()
-    {
-        if ($this->session->userdata('emp_id') != "" || $this->session->userdata('emp_id') != null) {
-            $emp_id = $this->session->userdata('emp_id');
-            $intern_id = $this->input->post('intern_id');
-            $user_data = $this->Crud_modal->fetch_single_data("first_name,last_name,email", "interns", "intern_id='$intern_id'");
-            $interview_status = $this->Crud_modal->fetchdata_with_limit("job_process_step", "interview_schedule_detail", "intern_id='$intern_id'", "schedule_id desc", 1);
-            $process_step = explode('-', $interview_status[0]['job_process_step']);
-            $data['user_name'] = $user_data['first_name'];
-            $data['user_email'] = $user_data['email'];
-            if ($process_step[0] == 4) {
-                if ($this->Admin_model->interview_final_mail($data)) {
-                    echo true;
-                } else {
-                    echo false;
-                }
-            }
-        }
-    }
-
-    public function shortlist_mail()
-    {
-        if ($this->session->userdata('emp_id') != "" || $this->session->userdata('emp_id') != null) {
-            $emp_id = $this->session->userdata('emp_id');
-            $intern_id = $this->input->post('intern_id');
-            $user_data = $this->Crud_modal->fetch_single_data("first_name,email", "interns", "intern_id='$intern_id'");
-            $data['user_name'] = $user_data['first_name'];
-            $data['user_email'] = $user_data['email'];
-            if ($this->Admin_model->shortlist_mail($data)) {
-                echo true;
-            } else {
-                echo false;
-            }
-        }
-    }
-
-
-    function send_offer_to_user()
-    {
-        if ($this->session->userdata('emp_id') != "" || $this->session->userdata('emp_id') != null) {
-            $config['upload_path'] = './uploads/offer_letter/';
-            $config['allowed_types'] = 'pdf';
-            $config['max_size'] = 2000;
-            $config['file_name'] = date("dmYhis") . '-' . $_FILES['offer_letter']['name'];
-            $this->load->library('upload', $config);
-            $this->upload->initialize($config);
-            if ($this->upload->do_upload('offer_letter')) {
-                $data1 = $this->upload->data();
-                $full_path = $data1['full_path'];
-                $file_name = $data1['file_name'];
-                $data['offer_letter'] = $data1['file_name'];
-                $data['job_process_step'] = '5-0';
-                $data['status'] = '5';
-                $intern_id = $this->input->post('intern_id');
-                $enc_intern = rtrim(strtr(base64_encode($intern_id), "+/", "-_"), "=");
-                $url = base_url('post-registration-intern/' . $enc_intern);
-                $this->Crud_modal->update_data("intern_id='$intern_id'", "interns", $data);
-                $user_data = $this->Crud_modal->fetch_single_data("first_name,email", "interns", "intern_id='$intern_id'");
-                $data['first_name'] = $user_data['first_name'];
-                $data['email'] = $user_data['email'];
-                if ($this->Admin_model->send_offer_letter($full_path, $file_name, $data, $url)) {
-                    echo true;
-                    $this->Crud_modal->update_data("intern_id='$intern_id'", "interns", $data);
-                } else {
-                    echo false;
-                }
-            } else {
-                $error = array('error' => $this->upload->display_errors());
-                print_r($error);
-            }
-        }
-    }
-
-
-
-    function confirm_joining()
-    {
-        if ($this->session->userdata('emp_id') != "" || $this->session->userdata('emp_id') != null) {
-            $creation_date = date('Y-m-d');
-            $intern_id = $this->input->post("intern_id");
-            $internEmail = $this->input->post('email');
-            $val =  rtrim(strtr(base64_encode($intern_id), '+/', '-_'), '=');
-            $intern = $this->Crud_modal->fetch_single_data('*', 'interns', "intern_id=$intern_id");
-            // $email_templates = $this->Crud_modal->fetch_all_data('*', 'email_templates', 'status=1 AND email_templates_id=5');
-            $val = rtrim(strtr(base64_encode($intern['intern_id']), '+/', '-_'), '=');
-            $url = base_url('') . 'intern-login';
-            $password = 'intern12345';
-            $to = $intern['email']; {
-                $mail = new PHPMailer();
-                $mail->IsSMTP();
-                $mail->Host = 'smtp.office365.com';
-                $mail->SMTPDebug = 1;
-                $mail->SMTPAuth = true;
-                $mail->SMTPSecure = "tls";
-                $mail->Port = 587;
-                $mail->Username = "noreply@crymail.org";
-                $mail->Password = "^%n7wh#m7_2k";
-                $mail->setFrom('noreply@crymail.org');
-                $mail->AddAddress($to);
-                $mail->addBCC("ravishankar.k@neuralinfo.org", "Ravi");
-                $mail->FromName = 'cry Vms';
-                $mail->IsHTML(true);
-                $mail->Subject = 'Joining Letter';
-                $mail->Body = "" . "<br>" . 'Your Login Credentials,' . " " . "<br>" . "Link:" . " " . $url . "<br><br>" . "Your Email:" . " " . $intern['email'] . '<br>' . "Your Password:" . "  " . $password . "<br><br>" . "Thank you for being a intern with CRY.";
-                if (!$mail->Send()) {
-                    echo "Message could not be sent. <p>";
-                    echo "Mailer Error: " . $mail->ErrorInfo;
-                } else {
-                    $this->Admin_model->intern_count_send_maillogincredational($intern_id, $creation_date);
-                }
-            }
         }
     }
 
@@ -6192,11 +6087,6 @@ class Admin extends MY_Controller
         }
     }
 
-    
-
-  
-
-
     public function view_onboarding_candidate()
     {
 
@@ -6207,7 +6097,7 @@ class Admin extends MY_Controller
                 if ($role == 1) {
                     $date2 = $data['date_to'] = date("Y-m-d");
                     $data['date_from'] = date("Y-m-d", strtotime($date2 . '-7 days'));
-                    $where = 'i.status =7';
+                    $where = 'i.status =8';
                     if ($this->input->post('start_new') != "" && $this->input->post('end_new') != "" &&  $this->input->post('state_name') != "") {
                         $state_name = $this->input->post('state_name');
                         $date1 = $this->input->post('start_new');
@@ -6217,7 +6107,7 @@ class Admin extends MY_Controller
                         $data['creation_date'] = $date1;
                         $data['creation_date'] = $date2;
                         $data['state_name'] = $state_name;
-                        $where = "creation_date>='" . $date_from . "' and creation_date<='" . $date_to . "' and i.state_id=" . $state_name . "  and (i.status=7)";
+                        $where = "creation_date>='" . $date_from . "' and creation_date<='" . $date_to . "' and i.state_id=" . $state_name . "  and (i.status=8)";
                         $data['intern'] = $this->Admin_model->intern_enquiry_Data($where);
                     }
                 } else {
@@ -6225,7 +6115,7 @@ class Admin extends MY_Controller
                     $data['states'] = $this->Crud_modal->fetch_all_data('*', 'states', 'region_id=' . $region);
                     $date2 = $data['date_to'] = date("Y-m-d");
                     $data['date_from'] = date("Y-m-d", strtotime($date2 . '-7 days'));
-                    'i.status =7';
+                    'i.status =8';
                     if ($this->input->post('start_new') != "" && $this->input->post('end_new') != "" &&  $this->input->post('state_name') != "") {
                         $state_name = $this->input->post('state_name');
                         $date1 = $this->input->post('start_new');
@@ -6235,7 +6125,7 @@ class Admin extends MY_Controller
                         $data['creation_date'] = $date1;
                         $data['creation_date'] = $date2;
                         $data['state_name'] = $state_name;
-                        $where = "creation_date>='" . $date_from . "' and creation_date<='" . $date_to . "' and i.state_id=" . $state_name . "  and (i.status=7)";
+                        $where = "creation_date>='" . $date_from . "' and creation_date<='" . $date_to . "' and i.state_id=" . $state_name . "  and (i.status=8)";
                         $data['intern'] = $this->Admin_model->intern_enquiry_Data($where);
                     }
                 }
@@ -6423,116 +6313,6 @@ class Admin extends MY_Controller
         }
     }
 
-
-    public function update_offer_latter()
-    {
-        try {
-            $inter_id = $this->input->post('intern_id');
-            $offerLatter_update_date = $this->input->post('offerLatter_update_date');
-            $internshipType = $this->input->post('internshipType');
-            $internship_durations = $this->input->post('internship_durations');
-            $where = 'intern_id = "' . $inter_id . '"';
-            $update_intershiopjoiningData = array(
-                'creation_date' => $offerLatter_update_date,
-                'internshipType' => $internshipType,
-                'internshipDeruation' => $internship_durations,
-
-            );
-            if ($this->Crud_modal->update_data($where, 'interns', $update_intershiopjoiningData)) {
-                echo 1;
-            } else {
-                return 2;
-            }
-        } catch (Exception $e) {
-            echo 'Caught exception: ',  $e->getMessage(), "\n";
-        }
-    }
-
-    public function view_offer_letter()
-    {
-        $intern_id = $this->uri->segment(2);
-        $val = base64_decode(str_pad(strtr($intern_id, '-_', '+/'), strlen($intern_id) % 4, '=', STR_PAD_RIGHT));
-        $where = 'intern_id = "' . $val . '"';
-        $internemailData = $this->Crud_modal->fetch_single_data('*', 'interns', $where);
-        $offerEmailFormat = $internemailData['offer_latter_email'];
-        $date = date('d-m-Y');
-        $pdf = new FPDF();
-        $pdf->AddPage();
-        $pdf->SetFont('Arial', '', 9);
-        $pdf->Image(base_url() . '/uploads/offer.png', 10, 8, 185);
-        //$pdf->Image($_SERVER['DOCUMENT_ROOT'] . '/uploads/Intern-offer-Letter.png', 10, 7, 185);
-        $pdf->SetY(38.6);
-        $pdf->SetX(147);
-        $pdf->Cell(10, 5, $date, 0, 'R');
-        $pdf->SetY(60);
-        $pdf->Ln(5);
-        $pdf->SetX(20);
-        $pdf->multiCell(170, 4, strip_tags($offerEmailFormat), 5);
-        $pdf->Output();
-        $this->load->view('view_offer_letter');
-    }
-
-    public function send_offer_letter($internemailData)
-    {
-
-        $offerEmailFormat = $internemailData['offer_latter_email'];
-        $date = date('d-m-Y');
-        $pdf = new FPDF();
-        $pdf->AddPage();
-        $pdf->SetFont('Arial', '', 9);
-        $pdf->Image(base_url() . '/uploads/offer.png', 10, 8, 185);
-        //$pdf->Image($_SERVER['DOCUMENT_ROOT'] . '/uploads/offer.png', 10, 8, 185);
-        $pdf->SetY(38.6);
-        $pdf->SetX(147);
-        $pdf->Cell(10, 5, $date, 0, 'R');
-        $pdf->SetY(60);
-        $pdf->Ln(5);
-        $pdf->SetX(20);
-        $pdf->multiCell(170, 4, strip_tags($offerEmailFormat), 5);
-        $path = 'offeremail/' . rand() . '.pdf';
-        $pdf->Output($path, 'F');
-        return $path;
-        $this->load->view('view_offer_letter');
-    }
-
-
-    public function send_offerLetter_emails()
-    {
-        $intern_id = $this->uri->segment(2);
-        $val = base64_decode(str_pad(strtr($intern_id, '-_', '+/'), strlen($intern_id) % 4, '=', STR_PAD_RIGHT));
-        $where = 'intern_id = "' . $val . '"';
-        $internemailData = $this->Crud_modal->fetch_single_data('first_name,last_name,email,offer_latter_email', 'interns', $where);
-        $this->Crud_modal->update_data("intern_id='$val'", "interns", ['status' => '6']);
-        $internEmail = $internemailData['email'];
-        $url = base_url('') . 'post-registration-intern/' . $intern_id;
-        $to = $internEmail;
-        $att = $this->send_offer_letter($internemailData);
-        $mail = new PHPMailer();
-        $mail->IsSMTP();
-        $mail->Host = 'smtp.office365.com';
-        $mail->SMTPDebug = 1;
-        $mail->SMTPAuth = true;
-        $mail->SMTPSecure = "tls";
-        $mail->Port = 587;
-        $mail->Username = "noreply@crymail.org";
-        $mail->Password = "^%n7wh#m7_2k";
-        $mail->setFrom('noreply@crymail.org');
-        $mail->AddAttachment($att);
-        $mail->AddAddress($to);
-        $mail->addBCC("ravishankar.k@neuralinfo.org", "Ravi");
-        $mail->FromName = 'cry Vms';
-        $mail->IsHTML(true);
-        $mail->Subject = 'Cry Offer Letter';
-        $mail->Body = 'Please Fill Your Basic Details And Accept Your Offer Letter' . ' ' . $url;
-        if (!$mail->Send()) {
-            echo "Message could not be sent. <p>";
-            echo "Mailer Error: " . $mail->ErrorInfo;
-        } else {
-           // $this->Admin_model->updateStatus_intern_offerletter($internemailData);
-            redirect(base_url() . 'hr-process/' . $intern_id);
-        }
-    }
-
     public function rate_and_review()
     { {
             try {
@@ -6695,7 +6475,7 @@ class Admin extends MY_Controller
                 if ($role == 1) {
                     if ($this->input->post('intern_task_id') != "") {
                         $assignTaskid = $this->input->post('intern_task_id');
-                        $where = 'iast.status = 1  AND i.status = 7 AND iast.intern_task_id = "' . $assignTaskid . '"';
+                        $where = 'iast.status = 1  AND i.status = 8 AND iast.intern_task_id = "' . $assignTaskid . '"';
                         $data['internAssignTaskdata'] = $this->Admin_model->intern_by_assign_task($where);
                     }
                 } else {
@@ -6705,7 +6485,7 @@ class Admin extends MY_Controller
                         $data['states'] = $this->Crud_modal->fetch_all_data('*', 'states', 'region_id=' . $region);
                         $assignTaskid = $this->input->post('intern_task_id');
                         $empId =  $this->session->userdata('emp_id');
-                        $where = 'iast.status in (0,1,2) And i.status = 7 AND iast.intern_task_id = "' . $assignTaskid . '" AND iast.assign_by_task = "' . $empId . '"';
+                        $where = 'iast.status in (0,1,2) And i.status = 8 AND iast.intern_task_id = "' . $assignTaskid . '" AND iast.assign_by_task = "' . $empId . '"';
                         $data['internAssignTaskdata'] = $this->Admin_model->intern_by_assign_task($where);
                     }
                 }

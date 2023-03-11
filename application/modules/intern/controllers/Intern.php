@@ -67,7 +67,7 @@ class Intern extends MY_Controller
                         $r_password = $results['password'];
 
                         if ($r_password == md5($password)) {
-                            if ($results['status'] == 7) {
+                            if ($results['status'] == 8) {
                                 $this->session->set_userdata('intern_id', $results['intern_id']);
                                 $this->session->set_userdata('first_name', $results['first_name']);
                                 $this->session->set_userdata('state_id', $results['state_id']);
@@ -262,7 +262,7 @@ class Intern extends MY_Controller
             $join_data = array(
                 array(
                     'table' => 'interns',
-                    'fields' => array('first_name', 'last_name', 'state_id', 'mobile','creation_date', 'internshipDeruation', 'internshipType', 'modification_date'),
+                    'fields' => array('first_name', 'last_name', 'state_id', 'mobile','creation_date','joining_date', 'internshipDeruation', 'internshipType', 'modification_date'),
                     'joinWith' => array('intern_id'),
                     'where' => array(
                         'intern_id' => $intern_id
@@ -2836,7 +2836,7 @@ class Intern extends MY_Controller
             $join_data = array(
                 array(
                     'table' => 'interns',
-                    'fields' => array('first_name', 'last_name', 'state_id', 'email', 'mobile', 'intern_id', 'date_of_birth'),
+                    'fields' => array('first_name', 'last_name', 'state_id', 'email', 'mobile', 'intern_id', 'date_of_birth','status'),
                     'joinWith' => array('intern_id'),
                     'where' => array(
                         'intern_id' => $intern_id
@@ -4252,6 +4252,7 @@ class Intern extends MY_Controller
     public function insert_submission_report()
     {
         try {
+           
             $data = array(); 
         $errorUploadType = $statusMsg = ''; 
             $intern_id = $this->session->userdata('intern_id');
@@ -4283,22 +4284,12 @@ class Intern extends MY_Controller
                         $_FILES['file']['tmp_name'] = $_FILES['attecment']['tmp_name'][$i]; 
                         $_FILES['file']['error']     = $_FILES['attecment']['error'][$i]; 
                         $_FILES['file']['size']     = $_FILES['attecment']['size'][$i]; 
-                         
-                        // File upload configuration 
                         $uploadPath = './uploads/submission_report_data'; 
                         $config['upload_path'] = $uploadPath; 
                         $config['allowed_types'] = 'jpg|jpeg|png|gif|pdf'; 
-                        //$config['max_size']    = '100'; 
-                        //$config['max_width'] = '1024'; 
-                        //$config['max_height'] = '768'; 
-                         
-                        // Load and initialize upload library 
                         $this->load->library('upload', $config); 
-                        $this->upload->initialize($config); 
-                         
-                        // Upload file to server 
+                        $this->upload->initialize($config);  
                         if($this->upload->do_upload('file')){ 
-                            // Uploaded file data 
                             $fileData = $this->upload->data(); 
                             $uploadData[$i]['attachmentName'] = $fileData['file_name']; 
                             $uploadData[$i]['intern_id'] = $intern_id; 
@@ -4319,7 +4310,6 @@ class Intern extends MY_Controller
                    
                      $internDataresult=  $this->Crud_modal->insert_batch('attachment', $uploadData);
                      redirect(base_url() . 'feedback');
-                  // Upload status message 
                         $statusMsg = $insert?'Files uploaded successfully!'.$errorUploadType:'Some problem occurred, please try again.'; 
                     }else{ 
                         $statusMsg = "Sorry, there was an error uploading your file.".$errorUploadType; 
@@ -4358,6 +4348,7 @@ class Intern extends MY_Controller
             $work_flow = $this->input->post('work_flow');
             $encouraging = $this->input->post('encouraging');
             $stimulating = $this->input->post('stimulating');
+            $increased_conceptual_learning = $this->input->post('increased_conceptual_learning');
             $contributed_cry_work = $this->input->post('contributed_cry_work');
             $another_student = $this->input->post('another_student');
             $continue_partner = $this->input->post('continue_partner');
@@ -4381,6 +4372,7 @@ class Intern extends MY_Controller
                 'encouraging' => $encouraging,
                 'stimulating' => $stimulating,
                 'contributed_cry_work' => $contributed_cry_work,
+                'increased_conceptual_learning' => $increased_conceptual_learning,
                 'another_student' => $another_student,
                 'continue_partner' => $continue_partner,
                 'internship_with_cry_again' => $internship_with_cry_again,
@@ -4392,8 +4384,50 @@ class Intern extends MY_Controller
 
             );
            
-
-            $this->Crud_modal->data_insert('feedback', $insertFeedbackdata);
+            
+           $queryResult =  $this->Crud_modal->data_insert('feedback', $insertFeedbackdata);
+           if($queryResult==1){
+            {
+                $intern_id = $this->session->userdata('intern_id');
+               $dataEmail = $this->Crud_modal->fetch_single_data('email,first_name,last_name','interns','intern_id="'.$intern_id.'"');
+               
+                $datafname = $dataEmail['first_name'];
+                $datalname = $dataEmail['last_name'];
+                $mail = new PHPMailer();
+                $to = $dataEmail['eamil']; {
+                    $mail = new PHPMailer();
+                    $mail->IsSMTP();
+                    $mail->Host = 'smtp.office365.com';
+                    $mail->SMTPDebug = 1;
+                    $mail->SMTPAuth = true;
+                    $mail->SMTPSecure = "tls";
+                    $mail->Port = 587;
+                    $mail->Username = "noreply@crymail.org";
+                    $mail->Password = "^%n7wh#m7_2k";
+                    $mail->setFrom('noreply@crymail.org');
+                    $mail->AddAddress($to);
+                    $mail->addBCC("mahendra.s@neuralinfo.org", "Ravi");
+                    $mail->FromName = 'cry Vms';
+                    $mail->IsHTML(true);
+                    $mail->Subject = 'Report Submission';
+                    $msg2 = "
+                    <center><p><strong style='font-weight:bold;'>Hai, " . ucfirst($datafname) . " " . ucfirst($datalname) . " Your Report Submitted successfully.</strong></p></center>
+                    <table style='border:1px solid #8f281f;border-top:0px solid #8f281f !important;border-spacing: 0px;width:100%;'>
+                       
+                       
+                    </table>";
+                    $mail->Body = $msg2;
+        
+                    if (!$mail->Send()) {
+                        echo "Message could not be sent. <p>";
+                        echo "Mailer Error: " . $mail->ErrorInfo;
+                    } else {
+        
+                       // $this->Admin_model->count_send_mail($volunteerEmail);
+                    }
+                }
+            }
+           }
             $this->session->set_flashdata('master_insert_message', '<div class="alert alert-success"><strong>Task Create Success!</strong></div>');
             redirect(base_url() . 'intern-dashbord');
             //redirect(base_url() . 'intern-dashbord');
@@ -4408,5 +4442,19 @@ class Intern extends MY_Controller
         $this->load->view('temp/sidebar');
         $this->load->view('user-form');
         $this->load->view('temp/footer');
+    }
+
+    public function deactive_account(){
+
+        $this->input->post('yes');
+        $intern_id =  $this->input->post('intern_id');
+        $where = $intern_id;
+        $this->db->initialize();
+		$updateCount = "UPDATE interns SET status = 9 WHERE intern_id ='" . $where . "'";
+		$querry = $this->db->query($updateCount);
+        //print_r($querry);exit;
+		//$count = $querry->num_rows();
+		return $querry;
+
     }
 }

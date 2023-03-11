@@ -547,6 +547,16 @@ class admin_model extends CI_Model
 		//$count = $querry->num_rows();
 		return true;
 	}
+	public function sent_certificate_to_intern($val)
+	{
+		$this->db->initialize();
+		$updateCount = "UPDATE interns SET certificate_status = 1 WHERE intern_id ='" . $val . "'";
+		$querry = $this->db->query($updateCount);
+		//$count = $querry->num_rows();
+		return true;
+	}
+
+
 	public function feedbackcertificate_send($val)
 	{
 		$this->db->initialize();
@@ -630,28 +640,34 @@ class admin_model extends CI_Model
 
 		switch ($status) {
 			case "1":
-				echo "Onboarding-Condidate";
+				echo "Onboarding-Candidate";
 				break;
 			case "2":
 				echo "Shortlisted";
 				break;
 			case "3":
-				echo "Interview Sheduled";
+				echo "Interview Scheduled";
 				break;
 			case "4":
-				echo "InterView Cleared";
+				echo "Interview Ongoing";
 				break;
 			case "5":
-				echo "InterView Pending";
+				echo "Interview Cleared";
 				break;
 			case "6":
-				echo "Interview PostPosd";
+				echo "Sent Offer Letter";
 				break;
 			case "7":
-				echo "Post Registraion Done";
+				echo "Post Registraion Completed";
 				break;
 			case "8":
-				echo "Our Cry Members";
+				echo "Candidate Onboarded";
+				break;
+			case "9":
+				echo "Inactive User";
+				break;
+			case "10":
+				echo "Candidate rejected";
 				break;
 		}
 	}
@@ -671,7 +687,7 @@ class admin_model extends CI_Model
 		$this->db->initialize();
 		$pass = 'intern12345';
 		$newpass = md5($pass);
-		$updateCount = "UPDATE interns SET  `password`= '$newpass',`status`=7,`creation_date`= '" . $creation_date . "' WHERE intern_id ='" . $intern_id . "'";
+		$updateCount = "UPDATE interns SET  `password`= '$newpass',`status`=8,`creation_date`= '" . $creation_date . "' WHERE intern_id ='" . $intern_id . "'";
 
 		$querry = $this->db->query($updateCount);
 		//$count = $querry->num_rows();
@@ -1276,4 +1292,24 @@ class admin_model extends CI_Model
 		$this->db->close();
 		return $result;
 	}
+	public function hr_process_intern($where){
+		$this->db->initialize();
+		$this->db->select('i.*,s.state_name,c.city_name');
+		$this->db->from('interns i');
+		$this->db->join('states s', 's.state_id = i.state_id', 'left');
+		$this->db->join('cities c', 'c.city_id = i.city_id', 'left');
+		$this->db->where($where);
+		$query = $this->db->order_by('i.intern_id desc');
+		$query = $this->db->get();
+		//echo $this->db->last_query(); die;
+		$result = $query->row_array();
+		$this->db->close();
+		return $result;
+
+
+	}
+	
+	
+	
+	
 }
