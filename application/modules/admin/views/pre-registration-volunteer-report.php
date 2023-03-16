@@ -199,10 +199,12 @@
                             </div>
                         </form>
 
+                        <form action="preRegistrationVolunteer_exporttoExcel">
+                            <button class="btn btn-warning mt-3 mx-5" id="partnercsv">
+                                Export All Data
+                            </button>
+                        </form>
 
-                        <button class="btn btn-warning mt-3 mx-5" id="partnercsv">
-                            Export To excel
-                        </button>
 
                         <form method="post" action="#" id="id-form">
                             <input type="hidden" value="" id="ids" name="ids">
@@ -294,7 +296,7 @@ function fetch_details(id, display_id) {
     //alert(id);
     $('#' + display_id).html(
         '<div class="text-center" style="color:red;margin:10 auto;"><i class="fa fa-spinner fa-pulse fa-4x"></i><p>Fetching Data</p></div>'
-        );
+    );
     var request = $.ajax({
         url: '<?php echo base_url("fetch-user-info"); ?>',
         method: "POST",

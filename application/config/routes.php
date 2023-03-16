@@ -558,3 +558,7 @@ $route['upload_cv_attach'] = 'login/Login/upload_cv_attach';
 $route['upload_ref_attach'] = 'login/Login/upload_ref_attach';
 $route['upload_letter_parents_attach'] = 'login/Login/upload_letter_parents_attach';
 $route['upload_close_up_photo'] = 'login/Login/upload_close_up_photo';
+$route['preRegistrationVolunteer_exporttoExcel'] = 'admin/Export/preRegistrationVolunteer_exporttoExcel';
+$route['postRegistrationexporttoExcel'] = 'admin/Export/postRegistrationexporttoExcel';
+$route['onboar_volunteerd_ExporttoExcel'] = 'admin/Export/onboar_volunteerd_ExporttoExcel';
+$route['task_exportTOexcel'] = 'admin/Export/task_exportTOexcel';

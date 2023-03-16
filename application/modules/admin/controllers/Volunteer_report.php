@@ -261,94 +261,102 @@ class Volunteer_report extends MY_Controller
             echo 'Caught exception: ',  $e->getMessage(), "\n";
         }
     }
+
     public function task_report()
     {
-        try {
-            if (($this->session->userdata('emp_id') != "" || $this->session->userdata('emp_id') != null)) {
-                $region = $this->session->userdata('region_id');
-                $role = $this->session->userdata('role_id');
-                if ($role == 1) {
-                    $date2 = $data['date_to'] = date("Y-m-d");
-                    $data['date_from'] = date("Y-m-d", strtotime($date2 . '-10 days'));
-                    $where = '1 =1';
+       try {
+           if (($this->session->userdata('emp_id') != "" || $this->session->userdata('emp_id') != null)) {
+               $region = $this->session->userdata('region_id');
+               $role = $this->session->userdata('role_id');
+               if ($role == 1) {
+                   $date2 = $data['date_to'] = date("Y-m-d");
+                   $data['date_from'] = date("Y-m-d", strtotime($date2 . '-10 days'));
+                   $where = '1 =1';
 
-                    if ($this->input->post('start_new') != "" && $this->input->post('end_new') != "" &&  $this->input->post('taskType') != "") {
-                        $state_name = $this->input->post('state_name');
-                        $region_id = $this->input->post('region_id');
-                        $taskType = $this->input->post('taskType');
-                        $date1 = $this->input->post('start_new');
-                        $date2 = $this->input->post('end_new');
-                        $date_from = date("Y-m-d", strtotime($date1));
-                        $date_to = date("Y-m-d", strtotime($date2 . '+1 days'));
-                        $data['creation_date'] = $date1;
-                        $data['creation_date'] = $date2;
-                        $data['taskType'] = $taskType;
-                        $where = "creation_date>='" . $date_from . "' and creation_date<='" . $date_to . "' and task_type_id=" . $taskType . "  and status=1 and task_for=1 and task_state_id = '" . $state_name . "' and region_id = " . $region_id . "";
-                        $data['taskData'] = $this->Admin_model->volunteer_task_Data($where);
-                        // echo "<pre>";
-                        // print_r($data['taskData']);exit;
-                    } else {
-                        $date_to = date("Y-m-d");
-                        $date_from = date("Y-m-d", strtotime($date2 . '-10 days'));
-                        $data['creation_date'] = $date_from;
-                        $data['creation_date'] = $date2;
-                        $where = "creation_date>='" . $date_from . "' and creation_date<='" . $date_to . "' and status = 1";
-                        $data['taskData'] = $this->Admin_model->volunteer_task_Data($where);
-                    }
-                } else {
-                    $data['rname'] = $this->Curl_model->fetch_single_data('region_name,state_id', 'regions', array('region_id' => $region));
-                    $data['states'] = $this->Crud_modal->fetch_all_data('*', 'states', 'region_id=' . $region);
-                    $date2 = $data['date_to'] = date("Y-m-d");
-                    $data['date_from'] = date("Y-m-d", strtotime($date2 . '-7 days'));
-                    $where = '1 =1';
-                    if ($this->input->post('start_new') != "" && $this->input->post('end_new') != "" &&  $this->input->post('taskType') != "" &&  $this->input->post('region_id') != "") {
-                        $date1 = $this->input->post('start_new');
-                        $date2 = $this->input->post('end_new');
-                        $data['StaskType'] = $taskType = $this->input->post('taskType');
-                        $region_id = $this->input->post('region_id');
-                        $data['Tstate_name'] = $state_name = $this->input->post('state_name');
-                        $data['date_from'] = $date_from = date("Y-m-d", strtotime($date1));
-                        $data['date_to'] =     $date_to = date("Y-m-d", strtotime($date2));
-                        $data['creation_date'] = $date1;
-                        $data['creation_date'] = $date2;
-                        $data['taskType'] = $taskType;
-                        $data['region_id'] = $region_id;
-                        //  $data['state_name'] = $state_name;
-                        $where = "creation_date>='" . $date_from . "' and creation_date<='" . $date_to . "' and task_type_id=" . $taskType . " and region_id =" . $region_id . " and status =1 and task_for=1";
-                        $data['taskData'] = $this->Admin_model->volunteer_task_Data($where);
-                    } else if ($this->input->post('start_new') != "" && $this->input->post('end_new') != "" &&  $this->input->post('taskType') != "" &&  $this->input->post('region_id') != "" &&  $this->input->post('state_name') != "") {
-                        $date1 = $this->input->post('start_new');
-                        $date2 = $this->input->post('end_new');
-                        $data['StaskType'] = $taskType = $this->input->post('taskType');
-                        $region_id = $this->input->post('region_id');
-                        $data['Tstate_name']  = $state_name = $this->input->post('state_name');
-                        $data['date_from'] = $date_from = date("Y-m-d", strtotime($date1));
-                        $data['date_to'] =     $date_to = date("Y-m-d", strtotime($date2));
-                        $data['creation_date'] = $date1;
-                        $data['creation_date'] = $date2;
-                        $data['taskType'] = $taskType;
-                        $data['region_id'] = $region_id;
-                        $data['state_name'] = $state_name;
-                        $where = "creation_date>='" . $date_from . "' and creation_date<='" . $date_to . "' and task_type_id=" . $taskType . " and region_id =" . $region_id . " and status =1 and task_for=1";
-                        $data['taskData'] = $this->Admin_model->volunteer_task_Data($where);
-                    } else {
-                        //  $data['taskData'] = $this->Admin_model->volunteer_task_Data($where);
-                    }
-                }
-                $data['taskType'] = $this->Crud_modal->fetch_all_data('*', 'task_type', 'status = 1');
-                $data['regions'] = $this->Crud_modal->fetch_all_data('*', 'regions', 'region_status=1');
-                $this->load->view('temp/head');
-                $this->load->view('temp/header', $data);
-                $this->load->view('temp/sidebar');
-                $this->load->view('task-report', $data);
-                $this->load->view('temp/footer');
-            } else {
-                redirect(base_url() . 'login', 'refresh');
-            }
-        } catch (Exception $e) {
-            echo 'Caught exception: ',  $e->getMessage(), "\n";
-        }
-    }
+                   if ($this->input->post('start_new') != "" && $this->input->post('end_new') != "" &&  $this->input->post('taskType') != "") {
+                       $data['Tstate_name'] = $state_name = $this->input->post('state_name');
+                       $data['task_regionName'] = $region_id = $this->input->post('region_id');
+                       $taskType = $this->input->post('taskType');
+                       $date1 = $this->input->post('start_new');
+                       $date2 = $this->input->post('end_new');
+                       $date_from = date("Y-m-d", strtotime($date1));
+                       $date_to = date("Y-m-d", strtotime($date2 . '+1 days'));
+                       $data['creation_date'] = $date1;
+                       $data['creation_date'] = $date2;
+                       $data['taskType'] = $taskType;
+                       $where = "creation_date>='" . $date_from . "' and creation_date<='" . $date_to . "' and task_type_id=" . $taskType . "  and t.status=1 and t.task_for=1 and task_state_id = '" . $state_name . "' and region_id = " . $region_id . "";
+                       $data['taskData'] = $this->Admin_model->volunteer_task_Data($where);
+
+                   } else {
+                       $date_to = date("Y-m-d");
+                       $date_from = date("Y-m-d", strtotime($date2 . '-10 days'));
+                       $data['creation_date'] = $date_from;
+                       $data['creation_date'] = $date2;
+                       $where = "creation_date>='" . $date_from . "' and creation_date<='" . $date_to . "' and t.status = 1";
+                       $data['taskData'] = $this->Admin_model->volunteer_task_Data($where);
+                       $data['keyword_name'] = array_column($data['taskData'], 'keyword');
+                       $skillid = implode(',',$data['keyword_name']);
+                       $skill_name = explode (",",$skillid);
+                       $skils="";
+                      for ($i = 0; $i < sizeof($skill_name); $i++) {
+                       $assig_name = $this->Crud_modal->fetch_all_data("skill_name", "skills", "skill_id= '".$skill_name[$i]."'");      
+                                $data['skils'] .= $assig_name[0]['skill_name'].","." " ;
+                                 
+                      }
+                    
+                   }
+               } else {
+                   $data['rname'] = $this->Curl_model->fetch_single_data('region_name,state_id', 'regions', array('region_id' => $region));
+                   $data['states'] = $this->Crud_modal->fetch_all_data('*', 'states', 'region_id=' . $region);
+                   $date2 = $data['date_to'] = date("Y-m-d");
+                   $data['date_from'] = date("Y-m-d", strtotime($date2 . '-7 days'));
+                   $where = '1 =1';
+                   if ($this->input->post('start_new') != "" && $this->input->post('end_new') != "" &&  $this->input->post('taskType') != "" &&  $this->input->post('region_id') != "") {
+                       $date1 = $this->input->post('start_new');
+                       $date2 = $this->input->post('end_new');
+                       $data['StaskType'] = $taskType = $this->input->post('taskType');
+                       $region_id = $this->input->post('region_id');
+                       $data['Tstate_name'] = $state_name = $this->input->post('state_name');
+                       $data['date_from'] = $date_from = date("Y-m-d", strtotime($date1));
+                       $data['date_to'] =     $date_to = date("Y-m-d", strtotime($date2));
+                       $data['creation_date'] = $date1;
+                       $data['creation_date'] = $date2;
+                       $data['taskType'] = $taskType;
+                       $data['region_id'] = $region_id;
+                       $where = "creation_date>='" . $date_from . "' and creation_date<='" . $date_to . "' and task_type_id=" . $taskType . " and region_id =" . $region_id . " and t.status =1 and t.task_for=1";
+                       $data['taskData'] = $this->Admin_model->volunteer_task_Data($where);
+                   } else if ($this->input->post('start_new') != "" && $this->input->post('end_new') != "" &&  $this->input->post('taskType') != "" &&  $this->input->post('region_id') != "" &&  $this->input->post('state_name') != "") {
+                       $date1 = $this->input->post('start_new');
+                       $date2 = $this->input->post('end_new');
+                       $data['StaskType'] = $taskType = $this->input->post('taskType');
+                       $region_id = $this->input->post('region_id');
+                       $data['Tstate_name']  = $state_name = $this->input->post('state_name');
+                       $data['date_from'] = $date_from = date("Y-m-d", strtotime($date1));
+                       $data['date_to'] =     $date_to = date("Y-m-d", strtotime($date2));
+                       $data['creation_date'] = $date1;
+                       $data['creation_date'] = $date2;
+                       $data['taskType'] = $taskType;
+                       $data['region_id'] = $region_id;
+                       $data['state_name'] = $state_name;
+                       $where = "creation_date>='" . $date_from . "' and creation_date<='" . $date_to . "' and task_type_id=" . $taskType . " and region_id =" . $region_id . " and t.status =1 and t.task_for=1";
+                       $data['taskData'] = $this->Admin_model->volunteer_task_Data($where);
+                   } else {
+                   }
+               }
+               $data['taskType'] = $this->Crud_modal->fetch_all_data('*', 'task_type', 'status = 1');
+               $data['regions'] = $this->Crud_modal->fetch_all_data('*', 'regions', 'region_status=1');
+               $this->load->view('temp/head');
+               $this->load->view('temp/header', $data);
+               $this->load->view('temp/sidebar');
+               $this->load->view('task-report', $data);
+               $this->load->view('temp/footer');
+           } else {
+               redirect(base_url() . 'login', 'refresh');
+           }
+       } catch (Exception $e) {
+           echo 'Caught exception: ',  $e->getMessage(), "\n";
+       }
+   }
 
     public function export()
 	{

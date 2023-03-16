@@ -183,6 +183,12 @@
                                 </div>
                             </div>
                         </form>
+                        <form action="postRegistrationexporttoExcel">
+                            <button class="btn btn-warning mt-3 mx-5" id="partnercsv">
+                                Export All Data
+                            </button>
+                        </form>
+
                         <form method="post" action="#" id="id-form">
                             <input type="hidden" value="" id="ids" name="ids">
                             <div class="card-body">

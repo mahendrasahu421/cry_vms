@@ -50,22 +50,6 @@
                                         <div class="invalid-feedback"> Select Region</div>
                                     </div>
                                     <div class="col-md-6">
-                                        <label for="state_name" class="form-label">State Name</label>
-                                        <!-- <option selected disabled value="">Select State</option> -->
-                                        <select class="form-control select2-show-search form-select" name="state_name[]" id="state_name" required multiple>
-                                            <?php foreach ($states as $sd) { ?>
-                                                <option value="<?php echo $sd['state_id']; ?>" <?php if ($sd['state_id'] == $sid) {
-                                                                                                    echo "selected";
-                                                                                                } ?>>
-                                                    <?php echo $sd['state_name']; ?>
-                                                </option>
-
-                                            <?php } ?>
-                                        </select>
-                                        <div class="invalid-feedback">Select State </div>
-                                    </div>
-
-                                    <div class="col-md-6">
                                         <label for="emp_name" class="form-label">Employee Name</label>
                                         <input type="text" name="emp_name" class="form-control" id="emp_name" value="" placeholder="Employee Name " required>
                                         <div class="invalid-feedback">Select Employee Name</div>
@@ -111,8 +95,8 @@
                                     </div>
                                     <div class="col-md-6">
                                         <label for="password" class="form-label">Password</label>
-                                        <input type="password" name="password" class="form-control" id="password" value="" placeholder="Email" required>
-                                        <div class="invalid-feedback">Select Password</div>
+                                        <input type="password" name="password" class="form-control" id="password" value="" placeholder="Password" required>
+                                        <div class="invalid-feedback">Enter Password</div>
                                     </div>
                                     <div class="col-md-6">
                                         <label for="status" class="form-label">Status</label>

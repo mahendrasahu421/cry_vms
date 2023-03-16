@@ -461,10 +461,10 @@ select.form-control:not([size]):not([multiple]) {
                                                                 <option value="1">Delhi</option>
                                                                 <option value="2">Mumbai</option>
                                                                 <option value="3">Kolkata</option>
-                                                                <option value="4">Media related work/ Publishing
-                                                                    articles</option>
-                                                                <option value="5">Bengaluru</option>
-                                                                <option value="6">Others</option>
+                                                                <option value="4">Bangalore</option>
+                                                                <option value="5">Channai</option>
+                                                                <option value="6">Hydrabad</option>
+                                                                <option value="7">Online</option>
 
                                                             </select>
                                                         </div>

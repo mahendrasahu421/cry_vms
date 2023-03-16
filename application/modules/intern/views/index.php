@@ -35,7 +35,7 @@
                                 <div class="ms-auto">
                                     <h2 class="text-muted m-b-0"><a href="<?php echo base_url('')?>user-form"><button
                                                 class="btn btn-warning pull-right up" data-toggle="tooltip"
-                                                data-placement="bottom" title="Update Profile">Update</button></a></h2>
+                                                data-placement="bottom" title="Update Profile">View Profile</button></a></h2>
                                     </i>
                                 </div>
 
@@ -161,7 +161,16 @@
                             <h3 class="card-title">Submission Report</h3>
                         </div>
                         <span class="badge bg-info  me-1 mb-1 mt-1"> Your Internship Will Expire after</span>
+                        <a href="<?php echo base_url(); ?>submission-report">
+                                <div class="text-center">
 
+                                    <button style="margin-top:10px;" type="button" class="btn btn-primary">Submission
+                                        Report</button>
+                                    <!-- <div> <span class='text-center fw-bold'>Fill Report Till :
+                                            <?php echo date('d-m-Y',strtotime($newexpirydate));?></span></div> -->
+                                </div>
+
+                            </a>
                         <p class="para" id="counter"></p>
 
 

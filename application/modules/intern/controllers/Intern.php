@@ -102,6 +102,8 @@ class Intern extends MY_Controller
             $state_id = $this->session->userdata('state_id');
             $intern_id = $this->session->userdata('intern_id');
             $data['totaltask'] = $this->Intern_model->total_task_count($intern_id);
+                //  echo "<pre>";
+                //  print_r($data['totaltask'] );exit;
             // 
             $join_data = array(
                 array(
@@ -122,8 +124,7 @@ class Intern extends MY_Controller
             $limit = 5;
             $order_by = '';
             $data['interntask'] = $this->Curl_model->fetch_data_with_joining($join_data, $limit, $order_by);
-            //    echo "<pre>";
-            //      print_r($data['interntask'] );exit;
+          
             $join_data = array(
                 array(
                     'table' => 'interntask',
@@ -262,7 +263,7 @@ class Intern extends MY_Controller
             $join_data = array(
                 array(
                     'table' => 'interns',
-                    'fields' => array('first_name', 'last_name', 'state_id', 'mobile','creation_date','joining_date', 'internshipDeruation', 'internshipType', 'modification_date'),
+                    'fields' => array('first_name', 'last_name', 'state_id', 'mobile', 'creation_date', 'joining_date', 'internshipDeruation', 'internshipType', 'modification_date'),
                     'joinWith' => array('intern_id'),
                     'where' => array(
                         'intern_id' => $intern_id
@@ -2836,7 +2837,7 @@ class Intern extends MY_Controller
             $join_data = array(
                 array(
                     'table' => 'interns',
-                    'fields' => array('first_name', 'last_name', 'state_id', 'email', 'mobile', 'intern_id', 'date_of_birth','status'),
+                    'fields' => array('first_name', 'last_name', 'state_id', 'email', 'mobile', 'intern_id', 'date_of_birth', 'status'),
                     'joinWith' => array('intern_id'),
                     'where' => array(
                         'intern_id' => $intern_id
@@ -3704,7 +3705,7 @@ class Intern extends MY_Controller
         return $html;
     }
 
-   
+
 
     public function intern_self_task_daily_report()
     {
@@ -3831,7 +3832,6 @@ class Intern extends MY_Controller
                     $this->session->set_flashdata('data_message', 'Successfully Submitted!');
                     echo '<script>window.location.href = "' . base_url() . 'intern-dashbord"</script>';
                 }
-
             }
             $this->load->view('intern-self-task-daily-report', $data);
             $this->load->view('temp/footer');
@@ -4252,9 +4252,9 @@ class Intern extends MY_Controller
     public function insert_submission_report()
     {
         try {
-           
-            $data = array(); 
-        $errorUploadType = $statusMsg = ''; 
+
+            $data = array();
+            $errorUploadType = $statusMsg = '';
             $intern_id = $this->session->userdata('intern_id');
             $projectDescription = $this->input->post('projectDescription');
             $name_of_theDepartment = $this->input->post('name_of_theDepartment');
@@ -4273,51 +4273,47 @@ class Intern extends MY_Controller
                 'status' => 1,
                 'final_sunmission_date' => date('Y-m-d'),
             );
-           
-                // If files are selected to upload 
-                if(!empty($_FILES['attecment']['name']) && count(array_filter($_FILES['attecment']['name'])) > 0){ 
-                    $filesCount = count($_FILES['attecment']['name']); 
-                   
-                    for($i = 0; $i < $filesCount; $i++){ 
-                        $_FILES['file']['name'] = $_FILES['attecment']['name'][$i]; 
-                        $_FILES['file']['type']   = $_FILES['attecment']['type'][$i]; 
-                        $_FILES['file']['tmp_name'] = $_FILES['attecment']['tmp_name'][$i]; 
-                        $_FILES['file']['error']     = $_FILES['attecment']['error'][$i]; 
-                        $_FILES['file']['size']     = $_FILES['attecment']['size'][$i]; 
-                        $uploadPath = './uploads/submission_report_data'; 
-                        $config['upload_path'] = $uploadPath; 
-                        $config['allowed_types'] = 'jpg|jpeg|png|gif|pdf'; 
-                        $this->load->library('upload', $config); 
-                        $this->upload->initialize($config);  
-                        if($this->upload->do_upload('file')){ 
-                            $fileData = $this->upload->data(); 
-                            $uploadData[$i]['attachmentName'] = $fileData['file_name']; 
-                            $uploadData[$i]['intern_id'] = $intern_id; 
-                            $uploadData[$i]['status'] = 1; 
-                           
-                        }else{  
-                            $errorUploadType .= $_FILES['file']['name'].' | ';  
-                        } 
-                    } 
-                     
-                    $errorUploadType = !empty($errorUploadType)?'<br/>File Type Error: '.trim($errorUploadType, ' | '):''; 
-                    if(!empty($uploadData)){ 
-                     $insert = $this->Crud_modal->intern_data_insert('intern_submission_report', $insertData); 
-                     for($k=0; $k < $filesCount; $k++){
+
+            // If files are selected to upload 
+            if (!empty($_FILES['attecment']['name']) && count(array_filter($_FILES['attecment']['name'])) > 0) {
+                $filesCount = count($_FILES['attecment']['name']);
+
+                for ($i = 0; $i < $filesCount; $i++) {
+                    $_FILES['file']['name'] = $_FILES['attecment']['name'][$i];
+                    $_FILES['file']['type']   = $_FILES['attecment']['type'][$i];
+                    $_FILES['file']['tmp_name'] = $_FILES['attecment']['tmp_name'][$i];
+                    $_FILES['file']['error']     = $_FILES['attecment']['error'][$i];
+                    $_FILES['file']['size']     = $_FILES['attecment']['size'][$i];
+                    $uploadPath = './uploads/submission_report_data';
+                    $config['upload_path'] = $uploadPath;
+                    $config['allowed_types'] = 'jpg|jpeg|png|gif|pdf';
+                    $this->load->library('upload', $config);
+                    $this->upload->initialize($config);
+                    if ($this->upload->do_upload('file')) {
+                        $fileData = $this->upload->data();
+                        $uploadData[$i]['attachmentName'] = $fileData['file_name'];
+                        $uploadData[$i]['intern_id'] = $intern_id;
+                        $uploadData[$i]['status'] = 1;
+                    } else {
+                        $errorUploadType .= $_FILES['file']['name'] . ' | ';
+                    }
+                }
+
+                $errorUploadType = !empty($errorUploadType) ? '<br/>File Type Error: ' . trim($errorUploadType, ' | ') : '';
+                if (!empty($uploadData)) {
+                    $insert = $this->Crud_modal->intern_data_insert('intern_submission_report', $insertData);
+                    for ($k = 0; $k < $filesCount; $k++) {
                         $uploadData[$k]['sr_id'] = $insert;
-                     
-                   }
-                   
-                     $internDataresult=  $this->Crud_modal->insert_batch('attachment', $uploadData);
-                     redirect(base_url() . 'feedback');
-                        $statusMsg = $insert?'Files uploaded successfully!'.$errorUploadType:'Some problem occurred, please try again.'; 
-                    }else{ 
-                        $statusMsg = "Sorry, there was an error uploading your file.".$errorUploadType; 
-                    } 
-                }else{ 
-                    $statusMsg = 'Please select image files to upload.'; 
-                
-           
+                    }
+                    
+                    $internDataresult =  $this->Crud_modal->insert_batch('attachment', $uploadData);
+                    redirect(base_url() . 'feedback');
+                    $statusMsg = $insert ? 'Files uploaded successfully!' . $errorUploadType : 'Some problem occurred, please try again.';
+                } else {
+                    $statusMsg = "Sorry, there was an error uploading your file." . $errorUploadType;
+                }
+            } else {
+                $statusMsg = 'Please select image files to upload.';
             }
         } catch (Exception $e) {
             echo 'Caught exception: ',  $e->getMessage(), "\n";
@@ -4379,55 +4375,54 @@ class Intern extends MY_Controller
                 'overall_internship' => $overall_internship,
                 'overall_experience' => $overall_experience,
                 'any_suggestions' => $any_suggestions,
-                'status' =>$status,
-                'creation_date'=>date('Y-m-d'),
+                'status' => $status,
+                'creation_date' => date('Y-m-d'),
 
             );
-           
-            
-           $queryResult =  $this->Crud_modal->data_insert('feedback', $insertFeedbackdata);
-           if($queryResult==1){
-            {
-                $intern_id = $this->session->userdata('intern_id');
-               $dataEmail = $this->Crud_modal->fetch_single_data('email,first_name,last_name','interns','intern_id="'.$intern_id.'"');
-               
-                $datafname = $dataEmail['first_name'];
-                $datalname = $dataEmail['last_name'];
-                $mail = new PHPMailer();
-                $to = $dataEmail['eamil']; {
+
+
+            $queryResult =  $this->Crud_modal->data_insert('feedback', $insertFeedbackdata);
+            if ($queryResult == 1) { {
+                    $intern_id = $this->session->userdata('intern_id');
+                    $dataEmail = $this->Crud_modal->fetch_single_data('email,first_name,last_name', 'interns', 'intern_id="' . $intern_id . '"');
+
+                    $datafname = $dataEmail['first_name'];
+                    $datalname = $dataEmail['last_name'];
                     $mail = new PHPMailer();
-                    $mail->IsSMTP();
-                    $mail->Host = 'smtp.office365.com';
-                    $mail->SMTPDebug = 1;
-                    $mail->SMTPAuth = true;
-                    $mail->SMTPSecure = "tls";
-                    $mail->Port = 587;
-                    $mail->Username = "noreply@crymail.org";
-                    $mail->Password = "^%n7wh#m7_2k";
-                    $mail->setFrom('noreply@crymail.org');
-                    $mail->AddAddress($to);
-                    $mail->addBCC("mahendra.s@neuralinfo.org", "Ravi");
-                    $mail->FromName = 'cry Vms';
-                    $mail->IsHTML(true);
-                    $mail->Subject = 'Report Submission';
-                    $msg2 = "
+                    $to = $dataEmail['eamil']; {
+                        $mail = new PHPMailer();
+                        $mail->IsSMTP();
+                        $mail->Host = 'smtp.office365.com';
+                        $mail->SMTPDebug = 1;
+                        $mail->SMTPAuth = true;
+                        $mail->SMTPSecure = "tls";
+                        $mail->Port = 587;
+                        $mail->Username = "noreply@crymail.org";
+                        $mail->Password = "^%n7wh#m7_2k";
+                        $mail->setFrom('noreply@crymail.org');
+                        $mail->AddAddress($to);
+                        $mail->addBCC("mahendra.s@neuralinfo.org", "Ravi");
+                        $mail->FromName = 'cry Vms';
+                        $mail->IsHTML(true);
+                        $mail->Subject = 'Report Submission';
+                        $msg2 = "
                     <center><p><strong style='font-weight:bold;'>Hai, " . ucfirst($datafname) . " " . ucfirst($datalname) . " Your Report Submitted successfully.</strong></p></center>
                     <table style='border:1px solid #8f281f;border-top:0px solid #8f281f !important;border-spacing: 0px;width:100%;'>
                        
                        
                     </table>";
-                    $mail->Body = $msg2;
-        
-                    if (!$mail->Send()) {
-                        echo "Message could not be sent. <p>";
-                        echo "Mailer Error: " . $mail->ErrorInfo;
-                    } else {
-        
-                       // $this->Admin_model->count_send_mail($volunteerEmail);
+                        $mail->Body = $msg2;
+
+                        if (!$mail->Send()) {
+                            echo "Message could not be sent. <p>";
+                            echo "Mailer Error: " . $mail->ErrorInfo;
+                        } else {
+
+                            // $this->Admin_model->count_send_mail($volunteerEmail);
+                        }
                     }
                 }
             }
-           }
             $this->session->set_flashdata('master_insert_message', '<div class="alert alert-success"><strong>Task Create Success!</strong></div>');
             redirect(base_url() . 'intern-dashbord');
             //redirect(base_url() . 'intern-dashbord');
@@ -4436,25 +4431,30 @@ class Intern extends MY_Controller
         }
     }
 
-    public function user_form(){
+    public function user_form()
+    {
+        $intern_id = $this->session->userdata('intern_id');
+        $where = 'i.intern_id = "'.$intern_id.'"';
+        $data['internDetails'] = $this->Intern_model->fetch_intern_data_by_one_table_join($where);
+       
         $this->load->view('temp/head');
         $this->load->view('temp/header');
         $this->load->view('temp/sidebar');
-        $this->load->view('user-form');
+        $this->load->view('user-form', $data);
         $this->load->view('temp/footer');
     }
 
-    public function deactive_account(){
+    public function deactive_account()
+    {
 
         $this->input->post('yes');
         $intern_id =  $this->input->post('intern_id');
         $where = $intern_id;
         $this->db->initialize();
-		$updateCount = "UPDATE interns SET status = 9 WHERE intern_id ='" . $where . "'";
-		$querry = $this->db->query($updateCount);
+        $updateCount = "UPDATE interns SET status = 9 WHERE intern_id ='" . $where . "'";
+        $querry = $this->db->query($updateCount);
         //print_r($querry);exit;
-		//$count = $querry->num_rows();
-		return $querry;
-
+        //$count = $querry->num_rows();
+        return $querry;
     }
 }

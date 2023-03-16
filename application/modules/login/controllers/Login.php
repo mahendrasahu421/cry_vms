@@ -1520,8 +1520,7 @@ class Login extends MY_Controller
                                 ?>
                                     <td>
                                         <span class="badge bg-success  me-1 mb-1 mt-1">Assigned</span><br>
-                                        <small data-toggle="modal" data-target=".project-details" class="text-primary" onclick="fetch_task_details('<?php echo $encode_intern_id; ?>','project-details');">&nbsp;View
-                                            Task</small>
+                                        
                                     </td>
                                 <?php } else { ?>
                                     <td><span class="badge bg-danger  me-1 mb-1 mt-1">Not Assigned</span></td>
@@ -1564,7 +1563,7 @@ class Login extends MY_Controller
                             <th class="text-white">Name</th>
                             <th class="text-white">Mobile</th>
                             <th class="text-white">Email</th>
-                            <th class="text-white">Skills</th>
+                            
                             <th class="text-white">City</th>
                             <th class="text-white">Status</th>
                         </tr>
@@ -1604,7 +1603,7 @@ class Login extends MY_Controller
                                 </td>
                                 <td><?php echo $value['mobile']; ?></td>
                                 <td><?php echo $value['email']; ?></td>
-                                <td><?php echo $value['volunteer_skill']; ?></td>
+                           
                                 <td><?php echo $value['city_name']; ?></td>
                                 <?php
                                 if (sizeof($assigning_task) > 0) {

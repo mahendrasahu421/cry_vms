@@ -389,28 +389,35 @@ class Admin extends MY_Controller
                 $role = $this->session->userdata('role_id');
                 if ($role == 1) {
                     $taskType = $this->input->post('taskType');
-                    // echo "<pre>";
-                    // print_r($taskType);exit;
-                    $task = $this->Crud_modal->all_data_select('task_id,task_title,keyword', 'task', "task_type_id='$taskType'", 'task_title ASC');
-                    // echo "<pre>";
-                    //  print_r($task);exit;
+                    $where ='task_type_id  = "'.$taskType.'"';
+                    $task = $this->Admin_model->assign_task_vol($where);
+                   
+                                               
                     echo '<option value="">---Select Task---</option>';
                     foreach ($task as $taskData) {
                         $task_id = $taskData['task_id'];
                         $task_name = $taskData['task_title'];
-                        $taskKeyword = $taskData['keyword'];
-                        echo '<option value="' . $task_id . '">' . rtrim($task_name." ".$taskKeyword, ' ') . '</option>';
+                        $cname="";
+                            if ($taskData['keyword'] != '') {
+                                $skill_name = explode(',', $taskData['keyword']);
+                                for ($i = 0; $i < sizeof($skill_name); $i++) {
+                                 $assig_name = $this->Crud_modal->fetch_single_data("(skill_name) as name", "skills","skill_id='$skill_name[$i]'");
+                                    $cname .= ucwords($assig_name['name'] . (($i + 1) < sizeof($skill_name) ? ", " : ""));
+                            }
+                            }
+                        echo '<option value="' . $task_id . '">' . rtrim($task_name." (".$cname, ' ') . ')</option>';
                     }
                 } else {
                     $taskType = $this->input->post('taskType');
-                    $task = $this->Crud_modal->all_data_select('*', 'task', 'task_type_id=' . $taskType . ' and region_id=' . $region, 'task_title ASC');
+                    $task = $this->Crud_modal->all_data_select('task_id,task_title,keyword', 'task', "task_type_id='$taskType'", 'task_title ASC');
                     // print_r($task);exit;
 
                     echo '<option value="">---Select Task---</option>';
                     foreach ($task as $taskData) {
                         $task_id = $taskData['task_id'];
                         $task_name = $taskData['task_title'];
-                        echo '<option value="' . $task_id . '">' . rtrim($task_name, ' ') . '</option>';
+                        $taskKeyword = $taskData['keyword'];
+                        echo '<option value="' . $task_id . '">' . rtrim($task_name." (".$taskKeyword, ' ') . ')</option>';
                     }
                 }
             } else {
@@ -1309,11 +1316,7 @@ class Admin extends MY_Controller
             $msg = 'CRY VMS';
             $msg2 = "
             <center><p><strong style='font-weight:bold;'>Congratulation! </strong>Your daily report has been approved.</p></center>
-            <table style='border:1px solid #8f281f;border-top:0px solid #8f281f !important;border-spacing: 0px;width:100%;'>
-                <tr>
-                    <th style='border-top:1px solid #8f281f !important;padding:10px 20px ;text-align:left;'>Your Total Time</th>
-                </tr>
-            </table>";
+            ";
             //die();
             $subj = "Submission Report";
             $btn = "Check Now!";
@@ -1927,7 +1930,7 @@ class Admin extends MY_Controller
                 array(
                     'joined' => 0,
                     'table' => 'interns_data',
-                    'fields' => array('present_address','permanent_address','name_of_school','cityResindence','id_proof_attach','add_proof_attach','letter_parents_attach','close_up_photo','cv_attach','ref_attach','emergency_contact','other_contact','occupation'),
+                    'fields' => array('present_address','whichcryOffice','representative_cry','otherlanguages','designation','permanent_address','name_of_school','cityResindence','id_proof_attach','add_proof_attach','letter_parents_attach','close_up_photo','cv_attach','ref_attach','emergency_contact','other_contact','occupation'),
                     'joinWith' => array('intern_id', 'left'),
                 ),
             );
@@ -2026,7 +2029,14 @@ class Admin extends MY_Controller
     <div class="row mb-2">
         <div class="col-6"><b>Languages known </b>
         </div>
-        <div class="col "><?php echo ucwords($internDetails[0]['language']); ?></div>
+        <div class="col ">
+            <?php if ($internDetails[0]['internshipType'] == 1) {
+                                                                        echo  "Hindi";
+                                                                    } ?>
+            <?php if ($internDetails[0]['internshipType'] == 2) {
+                                                                        echo  "English";
+                                                                    } ?>
+        </div>
     </div>
     <div class="row mb-2">
         <div class="col-6"><b>Other Languages</b>
@@ -2041,7 +2051,30 @@ class Admin extends MY_Controller
     <div class="row mb-2">
         <div class="col-6"><b>Which CRY office you had communicated with/ written to? *</b>
         </div>
-        <div class="col "><?php echo ucwords($internDetails[0]['communicated_cry']); ?></div>
+        <div class="col ">
+            <?php if ($internDetails[0]['whichcryOffice'] == 1) {
+                                                                        echo  "Delhi";
+                                                                    } ?>
+            <?php if ($internDetails[0]['whichcryOffice'] == 2) {
+                                                                        echo  "Mumbai";
+                                                                    } ?>
+            <?php if ($internDetails[0]['whichcryOffice'] == 3) {
+                                                                        echo  "Kolkata";
+                                                                    } ?>
+            <?php if ($internDetails[0]['whichcryOffice'] == 4) {
+                                                                        echo  "Bengaluru";
+                                                                    } ?>
+            <?php if ($internDetails[0]['whichcryOffice'] == 5) {
+                                                                        echo  "Channai";
+                                                                    } ?>
+            <?php if ($internDetails[0]['whichcryOffice'] == 6) {
+                                                                        echo  "Hydrabad";
+                                                                    } ?>
+            <?php if ($internDetails[0]['whichcryOffice'] == 7) {
+                                                                        echo  "Online";
+                                                                    } ?>
+
+        </div>
     </div>
     <div class="row mb-2">
         <div class="col-6"><b>No of weeks of internship you have been offered?*</b>
@@ -4261,8 +4294,6 @@ class Admin extends MY_Controller
                 $val = base64_decode(str_pad(strtr($ci_id, '-_', '+/'), strlen($ci_id) % 4, '=', STR_PAD_RIGHT));
                 $where = "region_id = '$val'";
                 $data['region'] = $this->Crud_modal->all_data_select('*', 'regions', $where, 'region_id desc');
-                // echo "<pre>";
-                // print_r($data['region']);exit;
                 $data['state'] = $this->Crud_modal->fetch_all_data('*', 'states', 'status=1');
                 $this->load->view('temp/head');
                 $this->load->view('temp/header');
@@ -4542,7 +4573,10 @@ class Admin extends MY_Controller
                 $where = "emp_id = '$val'";
                 $data['employee'] = $this->Admin_model->fetch_emp_data($where);
                 $data['regions'] = $this->Crud_modal->fetch_all_data('*', 'regions', 'region_status=1');
+                $data['states'] = $this->Crud_modal->fetch_all_data('*', 'states', 'status=1');
                 $data['role'] = $this->Crud_modal->fetch_all_data('*', 'master_role', 'status=1');
+                $data['designation'] =$this->Crud_modal->fetch_all_data('*', 'designation', 'status=1');
+              
                 $this->load->view('temp/head');
                 $this->load->view('temp/header');
                 $this->load->view('temp/sidebar');
@@ -4586,27 +4620,30 @@ class Admin extends MY_Controller
     {
 
         $emp_id = $this->input->post('emp_id');
-        $region_id = $this->input->post('region_id');
         $role_id = $this->input->post('role_id');
+        $region_id = $this->input->post('region_id');
         $emp_name = $this->input->post('emp_name');
+        $designation = $this->input->post('designation');
         $mobile_number = $this->input->post('mobile_number');
         $email = $this->input->post('email');
+        $password = $this->input->post('password');
         $gender = $this->input->post('emp_gender');
         $status = $this->input->post('status');
 
         $updateRegiondata = array(
-            'emp_id' => $emp_id,
-            'region_id' => $region_id,
+            //'emp_id' => $emp_id,
             'role_id' => $role_id,
+            'region_id' => $region_id,
             'emp_name' => $emp_name,
+            'des_id' => $designation,
             'emp_contact' => $mobile_number,
             'emp_email' => $email,
+            'emp_password' => $password,
             'emp_gender' => $gender,
             'status' => $status
 
         );
-        // echo "<pre>";
-        // print_r($updateRegiondata);exit;
+      
         $where = "emp_id = '$emp_id'";
         if ($this->Crud_modal->update_data($where, 'employee', $updateRegiondata)) {
             $this->session->set_flashdata('master_district', '<div class="alert alert-warning"><strong>Success!</strong> District Data has Updated.</div>');
@@ -6504,4 +6541,6 @@ class Admin extends MY_Controller
             echo 'Caught exception: ',  $e->getMessage(), "\n";
         }
     }
+
+   
 }

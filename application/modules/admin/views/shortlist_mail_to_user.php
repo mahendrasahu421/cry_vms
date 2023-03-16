@@ -36,7 +36,7 @@
                     </tr>
                   </table>
                   <!-- Start Top -->
-                  <table width="500" border="0" cellpadding="0" cellspacing="0" align="center" class="mobile"  bgcolor="#112b4e" c-style="blueBG" object="drag-module-small">
+                  <table width="500" border="0" cellpadding="0" cellspacing="0" align="center" class="mobile"  bgcolor="#ffc107" c-style="blueBG" object="drag-module-small">
                     <tr>
                       <td width="500" valign="middle" align="center">
                         <!-- Header Text --> 

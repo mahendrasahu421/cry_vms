@@ -697,6 +697,7 @@ class Crud_modal extends CI_model
 		return $this->db->insert_batch($table, $data);
 		$this->db->close();
 	}
+
 	function fetch_data_by_one_table_join($field, $table_name, $join1, $where)
 	{
 		$this->db->initialize();
@@ -709,6 +710,7 @@ class Crud_modal extends CI_model
 		//$this->db->close();	
 		return $result;
 	}
+
 	function fetch_data_by_two_table_join($field, $table_name, $join1, $join2, $where)
 	{
 		$this->db->initialize();
@@ -1318,4 +1320,6 @@ class Crud_modal extends CI_model
 
 		return $result->num_rows();
 	}
+
+	
 }

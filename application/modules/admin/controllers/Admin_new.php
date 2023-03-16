@@ -182,7 +182,7 @@ class Admin_new extends MY_Controller
              if ($role == 1) {
                  $date2 = $data['date_to'] = date("Y-m-d");
                  $data['date_from'] = date("Y-m-d", strtotime($date2 . '-7 days'));
-                 $where = 'i.status =7 AND isr.status = 2 AND fd.status=1 AND';
+                 $where = 'i.status =8 AND isr.status = 2 AND fd.status=1 AND';
                  if ($this->input->post('start_new') != "" && $this->input->post('end_new') != "" &&  $this->input->post('state_name') != "" && $this->input->post('region_id') != "") {
                     $empId = $this->session->userdata('emp_id');
                      $data['state'] =  $state_name = $this->input->post('state_name');
@@ -223,11 +223,12 @@ class Admin_new extends MY_Controller
                  $data['states'] = $this->Crud_modal->fetch_all_data('*', 'states', 'region_id=' . $region);
                   $date2 = $data['date_to'] = date("Y-m-d");
                  $data['date_from'] = date("Y-m-d", strtotime($date2 . '-7 days'));
-                 $where = 'i.status =7 AND isr.status = 2 AND fd.status=1 AND';
+                // $where = 'i.status =8 AND isr.status = 2 AND fd.status=1 AND';
                  if ($this->input->post('start_new') != "" && $this->input->post('end_new') != "" &&  $this->input->post('state_name') != "" && $this->input->post('region_id') != "") {
-                    $empId = $this->session->userdata('emp_id');
+                  $empId = $this->session->userdata('emp_id');
                      $data['state'] =  $state_name = $this->input->post('state_name');
                      $data['region_id'] =  $region_id = $this->input->post('region_id');
+        
                      $date1 = $this->input->post('start_new');
                      $date2 = $this->input->post('end_new');
                      $date_from = date("Y-m-d", strtotime($date1));
@@ -235,7 +236,7 @@ class Admin_new extends MY_Controller
                      $data['creation_date'] = $date1;
                      $data['creation_date'] = $date2;
                      $data['state_name'] = $state_name;
-                     $where = "fd.creation_date>='" . $date_from . "' and fd.creation_date<='" . $date_to . "' and i.state_id=" . $state_name . "  and (i.status =7 AND isr.status = 2 AND fd.status=1)";
+                    $where = "fd.creation_date>='" . $date_from . "' and fd.creation_date<='" . $date_to . "' and i.state_id=" . $state_name . "  AND i.status =8 AND isr.status = 2 AND fd.status=1";
                      $data['feedbackCertifecate'] = $this->Admin_model->send_certificate_by_feedback($where,$empId,$role);
                      $skillId = $data['feedbackCertifecate'][0]['skill_id'];
                      $skill_name = explode (",",$skillId);
@@ -369,7 +370,7 @@ class Admin_new extends MY_Controller
         } else {
 
             $this->Admin_model->certificate_send($val);
-            $this->Admin_model->sent_certificate_to_intern($val);
+            $this->Admin_model->sent_certificate_to_in($val);
           //  $this->Admin_model->count_send_mail($val);
             redirect(base_url() . 'intern-request-certificate');
         }

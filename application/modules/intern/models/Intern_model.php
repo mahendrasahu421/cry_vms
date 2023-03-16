@@ -398,7 +398,7 @@ class Intern_model extends CI_Model
 	{
 		$this->db->select('intern_assigned_task_id');
 		$this->db->from('intern_assigning_task');
-		$this->db->where('status', 0);
+		$this->db->where('status', 1);
 		$this->db->where('intern_id', $intern_id);
 		$this->db->group_by('intern_task_id');
 		$query = $this->db->get();
@@ -406,6 +406,13 @@ class Intern_model extends CI_Model
 		return $count;
 	}
 
+	// public function total_task_count_intern($statesID = 0)
+	// {
+	// 	$sql = "SELECT * FROM intern_assigning_task WHERE status=1";
+	// 	$querry = $this->db->query($sql);
+	// 	$count = $querry->result_array();
+	// 	return $count;
+	// }
 
 	function get_intern_transfer_city($intern_id)
 	{
@@ -462,4 +469,18 @@ class Intern_model extends CI_Model
             echo 'Caught exception: ',  $this->$e->getMessage(), "\n";
         }
     }
+	public function fetch_intern_data_by_one_table_join($where){
+		$this->db->initialize();
+		$this->db->select('i.first_name,i.last_name,i.email,i.mobile,id.present_address,id.permanent_address,id.cityResindence,id.emergency_contact');
+		$this->db->from('interns i');
+		$this->db->join('interns_data id', 'id.intern_id = i.intern_id');
+		$this->db->where($where);
+		$query = $this->db->order_by('i.intern_id desc');
+		$query = $this->db->get();
+		 // echo $this->db->last_query();
+		//  die;
+		$result = $query->row_array();
+		$this->db->close();
+		return $result;
+	}
 }
