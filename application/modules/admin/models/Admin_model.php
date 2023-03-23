@@ -1327,4 +1327,26 @@ class admin_model extends CI_Model
 		$this->db->close();
 		return $result;
 	}
+
+	public function count_fale_user($where)
+	{
+		$this->db->initialize();
+		$this->db->select('v.gender');
+		$this->db->from('volunteer v');
+		$this->db->where('state_id = "'.$where.'" AND gender = 1');
+		$this->db->where('state_id = "'.$where.'" AND gender = 2');
+		$query = $this->db->get();
+		$count = $query->num_rows($query);
+		echo $count;
+	}
+	public function female_count($where)
+	{
+		$this->db->initialize();
+		$this->db->select('v.gender');
+		$this->db->from('volunteer v');
+		
+		$query = $this->db->get();
+		$count = $query->num_rows($query);
+		echo $count;
+	}
 }

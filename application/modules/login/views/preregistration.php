@@ -331,20 +331,20 @@ select.form-control:not([size]):not([multiple]) {
                                         <label class="form-label fw-bold">Internship Skills</label>
                                         <select class="form-control select2" name="internskill_id[]"
                                             data-placeholder="Internship Skills" multiple id="internSkill_id">
-                                          
+
                                             <?php foreach ($skills as $skillsData) { ?>
                                             <option value="<?php echo $skillsData['skill_id']; ?>">
                                                 <?php echo $skillsData['skill_name']; ?></option>
                                             <?php } ?>
                                         </select>
-                                       
+
                                     </div>
                                     <div class="form-group col-md-12 mb-0 select-dropdown1" id="">
                                         <div class="form-group" id="cv">
                                             <label class="form-label fw-bold">Upload Your CV <small><b>(Only
                                                         PDF)</b></small></label>
                                             <div><input type="file" name="Uploade_file" id="file" class="demoInputBox"
-                                                    accept=".pdf" onchange="return validate();"  /> <span
+                                                    accept=".pdf" onchange="return validate();" /> <span
                                                     id="file_error"><b></b></span></div>
 
                                         </div>

@@ -90,6 +90,7 @@ class Login extends MY_Controller
                                     $this->session->set_userdata('error', 'Your Login has been block.');
                                 }
                             } else {
+                                
                                 $this->session->set_userdata('emp_id', $results['emp_id']);
                                 $this->session->set_userdata('sid', $results['sid']);
                                 $this->session->set_userdata('region_id', $results['region_id']);
