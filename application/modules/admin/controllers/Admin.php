@@ -54,8 +54,14 @@ class Admin extends MY_Controller
                 $data['male_count'] = $this->db->where('gender', 1)->where('status', 5)->count_all_results('volunteer');
                 $data['female_count'] = $this->db->where('gender', 2)->where('status', 5)->count_all_results('volunteer');
                 $data['totalvolinactive'] = $this->db->where('status', 6)->count_all_results('volunteer');
+                $data['totalintinactive'] = $this->db->where('status', 8)->count_all_results('interns');
                 $cutoff_date = date('Y-m-d', strtotime('-1 month'));
                 $data['sleepyvol'] = $this->db->where('last_login <', $cutoff_date)->where('status', 5)->count_all_results('volunteer');
+                $lastloginDateintern = date('Y-m-d', strtotime('-1 month'));
+                $data['sleepyintern'] = $this->db->where('last_login <', $lastloginDateintern)->where('status', 8)->count_all_results('interns');
+                $data['male_countintern'] = $this->db->where('gender', 1)->where('status', 8)->count_all_results('interns');
+                $data['female_countintrn'] = $this->db->where('gender', 2)->where('status', 8)->count_all_results('interns');
+                $data['certificate_status'] = $this->db->where('certificate_status', 1)->count_all_results('interns');
 
                 $volunteerTaskcount = 0;
                 $internTaskcount = 0;
@@ -70,6 +76,17 @@ class Admin extends MY_Controller
                 $data['volunteerTaskcount'] =  $volunteerTaskcount;
                 $data['internTaskcount'] =  $internTaskcount;
             } else {
+                $data['male_count'] = $this->db->where('gender', 1)->where('status', 5)->count_all_results('volunteer');
+                $data['female_count'] = $this->db->where('gender', 2)->where('status', 5)->count_all_results('volunteer');
+                $data['totalvolinactive'] = $this->db->where('status', 6)->count_all_results('volunteer');
+                $data['totalintinactive'] = $this->db->where('status', 8)->count_all_results('interns');
+                $cutoff_date = date('Y-m-d', strtotime('-1 month'));
+                $data['sleepyvol'] = $this->db->where('last_login <', $cutoff_date)->where('status', 5)->count_all_results('volunteer');
+                $lastloginDateintern = date('Y-m-d', strtotime('-1 month'));
+                $data['sleepyintern'] = $this->db->where('last_login <', $lastloginDateintern)->where('status', 8)->count_all_results('interns');
+                $data['male_countintern'] = $this->db->where('gender', 1)->where('status', 8)->count_all_results('interns');
+                $data['female_countintrn'] = $this->db->where('gender', 2)->where('status', 8)->count_all_results('interns');
+                $data['certificate_status'] = $this->db->where('certificate_status', 1)->count_all_results('interns');
                 $region = $this->session->userdata('region_id');
                 $where = 'v.status =1 OR v.status =2 And region_id = "' . $region . '"';
                 $limit = '5';
@@ -697,34 +714,34 @@ class Admin extends MY_Controller
                     $i++;
                     # code...
 ?>
-                    <div class="row form-group m-b-20">
-                        <div class="col-md-3">
-                            <h4 class="f-16 m-0 p-0 font-weight-bold">Task Title</h4>
-                        </div>
-                        <div class="col-md-9">
-                            <?php echo ucwords($value['task_title']); ?>
-                        </div>
-                    </div>
-                    <div class="row form-group m-b-20">
-                        <div class="col-md-3">
-                            <h4 class="f-16 m-0 p-0 font-weight-bold">Working Hours</h4>
-                        </div>
-                        <div class="col-md-9">
-                            <?php
+<div class="row form-group m-b-20">
+    <div class="col-md-3">
+        <h4 class="f-16 m-0 p-0 font-weight-bold">Task Title</h4>
+    </div>
+    <div class="col-md-9">
+        <?php echo ucwords($value['task_title']); ?>
+    </div>
+</div>
+<div class="row form-group m-b-20">
+    <div class="col-md-3">
+        <h4 class="f-16 m-0 p-0 font-weight-bold">Working Hours</h4>
+    </div>
+    <div class="col-md-9">
+        <?php
                             if (sizeof($daily_report) > 0) {
                             ?>
-                                <?php echo $phours ?> Hours <?php echo $pmint ?> Mins
-                            <?php } else { ?>
-                                Not found
-                            <?php } ?>
-                        </div>
-                    </div>
-                    <div class="row form-group m-b-20">
-                        <div class="col-md-3">
-                            <h4 class="f-16  m-0 p-0 font-weight-bold">Start Working Date</h4>
-                        </div>
-                        <div class="col-md-9">
-                            <?php
+        <?php echo $phours ?> Hours <?php echo $pmint ?> Mins
+        <?php } else { ?>
+        Not found
+        <?php } ?>
+    </div>
+</div>
+<div class="row form-group m-b-20">
+    <div class="col-md-3">
+        <h4 class="f-16  m-0 p-0 font-weight-bold">Start Working Date</h4>
+    </div>
+    <div class="col-md-9">
+        <?php
                             if (sizeof($daily_report_date) > 0) {
                                 echo date('d/m/Y', strtotime($daily_report_date[0]['dailyReportDate']));
                             } else {
@@ -732,15 +749,15 @@ class Admin extends MY_Controller
                             }
                             ?>
 
-                        </div>
-                    </div>
-                <?php
+    </div>
+</div>
+<?php
 
                 }
             } else {
                 ?>
-                <center>No data found</center>
-        <?php
+<center>No data found</center>
+<?php
             }
         }
     }
@@ -1150,25 +1167,25 @@ class Admin extends MY_Controller
         $dilyreportDetails = $this->Curl_model->fetch_data_with_joining($join_data, $limit, $order_by);
 
         ?>
-        <h5 class="badge bg-warning text-black"> Name-
-            <?php echo ucwords($dilyreportDetails[0]['first_name'] . ' ' . $dilyreportDetails[0]['last_name']); ?></h5>
-        <div class="row form-group m-b-20">
-            <table id="dom-table" class="table table-striped table-bordered pre-line">
-                <thead>
-                    <tr class="bg-gray">
-                        <th class="text-white">Sr</th>
-                        <th class="text-white">Date</th>
-                        <th class="text-white">Time In</th>
-                        <th class="text-white">Time Out</th>
-                        <th class="text-white">Activity</th>
-                        <th class="text-white">Improved Msg</th>
-                        <th class="text-white">Challeges Face</th>
-                        <th class="text-white">Experrience Any</th>
-                        <th class="text-white w-10">Total Time</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php $i = 1;
+<h5 class="badge bg-warning text-black"> Name-
+    <?php echo ucwords($dilyreportDetails[0]['first_name'] . ' ' . $dilyreportDetails[0]['last_name']); ?></h5>
+<div class="row form-group m-b-20">
+    <table id="dom-table" class="table table-striped table-bordered pre-line">
+        <thead>
+            <tr class="bg-gray">
+                <th class="text-white">Sr</th>
+                <th class="text-white">Date</th>
+                <th class="text-white">Time In</th>
+                <th class="text-white">Time Out</th>
+                <th class="text-white">Activity</th>
+                <th class="text-white">Improved Msg</th>
+                <th class="text-white">Challeges Face</th>
+                <th class="text-white">Experrience Any</th>
+                <th class="text-white w-10">Total Time</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php $i = 1;
                     foreach ($dilyreportDetails as $key => $value) {
                         $volunteer_id = $value['volunteer_id'];
                         $encoded_id = rtrim(strtr(base64_encode($volunteer_id), '+/', '-_'), '=');
@@ -1184,32 +1201,36 @@ class Admin extends MY_Controller
                         $totalmin += $mins;
                         $total_time1 = $total . '.' . $totalmin;
                     ?>
-                        <tr>
-                            <td><?php echo $i; ?></td>
-                            <td><?php echo date('d/m/Y', strtotime($value['dr_date'])); ?></td>
-                            <td><?php echo date('h:i A', strtotime($value['dr_time_in'])); ?></td>
-                            <td><?php echo date('h:i A', strtotime($value['dr_time_out'])); ?></td>
-                            <td><?php echo ucwords($value['dr_activity']); ?></td>
-                            <td><?php echo ucwords($value['improvement']); ?></td>
-                            <td><?php echo ucwords($value['challenges']); ?></td>
-                            <td><?php echo ucwords($value['experience']); ?></td>
-                            <td><?php echo "<b>$hours</b> hour <b>$mins</b> mins</b>" ?></td>
-                        </tr>
-                    <?php $i++;
+            <tr>
+                <td><?php echo $i; ?></td>
+                <td><?php echo date('d/m/Y', strtotime($value['dr_date'])); ?></td>
+                <td><?php echo date('h:i A', strtotime($value['dr_time_in'])); ?></td>
+                <td><?php echo date('h:i A', strtotime($value['dr_time_out'])); ?></td>
+                <td><?php echo ucwords($value['dr_activity']); ?></td>
+                <td><?php echo ucwords($value['improvement']); ?></td>
+                <td><?php echo ucwords($value['challenges']); ?></td>
+                <td><?php echo ucwords($value['experience']); ?></td>
+                <td><?php echo "<b>$hours</b> hour <b>$mins</b> mins</b>" ?></td>
+            </tr>
+            <?php $i++;
                     } ?><tr>
-                        <td colspan="8" class="text-end bg-gray text-white fw-bold">Total</td>
-                        <td class=" bg-gray text-white bold"><?php echo "<b>$total</b> hours <b>$totalmin</b> mins</b>" ?></td>
-                    </tr>
-                </tbody>
-            </table>
+                <td colspan="8" class="text-end bg-gray text-white fw-bold">Total</td>
+                <td class=" bg-gray text-white bold"><?php echo "<b>$total</b> hours <b>$totalmin</b> mins</b>" ?></td>
+            </tr>
+        </tbody>
+    </table>
 
-        </div>
-        <div class="modal-footer">
-            <a onclick="return confirm('Do you want to approved'); " href="<?php echo base_url(); ?>dailyreport-approved/<?php echo $encoded_id; ?>/<?php echo $encode_taskID; ?>/<?php echo $total_time1; ?>"><button type="button" class="btn btn-rounded  btn-warning ">Approve</button></a>
-            <a href="#" data-toggle="modal" data-target=".project-details" onclick="disapproved('<?php echo $volunteer_id; ?>','<?php echo $value['task_id']; ?>','<?php echo $total_time1; ?>');"><button type="button" class="btn btn-rounded  btn-secondary">DisApprove</button></a>
-            <button type="button" class="btn btn-rounded  btn-default" data-dismiss="modal" aria-hidden="true">Cancel</button>
-        </div>
-    <?php
+</div>
+<div class="modal-footer">
+    <a onclick="return confirm('Do you want to approved'); "
+        href="<?php echo base_url(); ?>dailyreport-approved/<?php echo $encoded_id; ?>/<?php echo $encode_taskID; ?>/<?php echo $total_time1; ?>"><button
+            type="button" class="btn btn-rounded  btn-warning ">Approve</button></a>
+    <a href="#" data-toggle="modal" data-target=".project-details"
+        onclick="disapproved('<?php echo $volunteer_id; ?>','<?php echo $value['task_id']; ?>','<?php echo $total_time1; ?>');"><button
+            type="button" class="btn btn-rounded  btn-secondary">DisApprove</button></a>
+    <button type="button" class="btn btn-rounded  btn-default" data-dismiss="modal" aria-hidden="true">Cancel</button>
+</div>
+<?php
     }
 
 
@@ -1227,58 +1248,63 @@ class Admin extends MY_Controller
         $where = 'at.sr_id = "' . $sr_id . '" AND at.intern_id = "' . $reportId . '" AND status = 1';
         $viewAttech = $this->Admin_model->submission_report_attecment($userID);
     ?>
-        <h5 class="badge bg-warning text-black"> Name-
-            <?php echo ucwords($dilyreportDetails[0]['first_name'] . ' ' . $dilyreportDetails[0]['last_name']); ?></h5>
-        <div class="row form-group m-b-20">
-            <table id="dom-table" class="table table-striped table-bordered pre-line">
-                <thead>
-                    <tr class="bg-gray">
-                        <th class="text-white">Sr</th>
-                        <th class="text-white">Date</th>
-                        <th class="text-white">Task</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php $i = 1;
+<h5 class="badge bg-warning text-black"> Name-
+    <?php echo ucwords($dilyreportDetails[0]['first_name'] . ' ' . $dilyreportDetails[0]['last_name']); ?></h5>
+<div class="row form-group m-b-20">
+    <table id="dom-table" class="table table-striped table-bordered pre-line">
+        <thead>
+            <tr class="bg-gray">
+                <th class="text-white">Sr</th>
+                <th class="text-white">Date</th>
+                <th class="text-white">Task</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php $i = 1;
                     foreach ($dilyreportDetails as $key => $value) {
                         $intern_id = $value['intern_id'];
                         $sr_id = $value['sr_id'];
                         $encoded_id = rtrim(strtr(base64_encode($intern_id), '+/', '-_'), '=');
                         $submissionId = rtrim(strtr(base64_encode($sr_id), '+/', '-_'), '=');
                     ?>
-                        <tr>
-                            <td><?php echo $i; ?></td>
-                            <!-- <td><?php echo $sr_id; ?></td>
+            <tr>
+                <td><?php echo $i; ?></td>
+                <!-- <td><?php echo $sr_id; ?></td>
                             <td><?php echo $intern_id; ?></td> -->
-                            <td><?php echo date('d-m-Y', strtotime($value['final_sunmission_date'])); ?></td>
-                            <td><?php echo ucwords($value['task_title']); ?></td>
+                <td><?php echo date('d-m-Y', strtotime($value['final_sunmission_date'])); ?></td>
+                <td><?php echo ucwords($value['task_title']); ?></td>
 
 
-                        </tr>
-                    <?php $i++;
+            </tr>
+            <?php $i++;
                     } ?>
-                </tbody>
-            </table>
-            <div class="col-md-12">
-                <div class="fs4"><strong>Task Description : </strong></div><br>
-                <div class=""><?php echo ucwords($value['description']); ?></div><br>
-                <div class=""><strong>Attechments </strong></div>
-                <br>
-                <?php $i = 1;
+        </tbody>
+    </table>
+    <div class="col-md-12">
+        <div class="fs4"><strong>Task Description : </strong></div><br>
+        <div class=""><?php echo ucwords($value['description']); ?></div><br>
+        <div class=""><strong>Attechments </strong></div>
+        <br>
+        <?php $i = 1;
                 foreach ($viewAttech as $attech) { ?>
-                    <a href="<?php echo base_url(); ?>uploads/submission_report_data/<?php echo $attech['attachmentName']; ?>" target="_blank"> View Attechment <?php echo $i++; ?></a> <b>,</b>
+        <a href="<?php echo base_url(); ?>uploads/submission_report_data/<?php echo $attech['attachmentName']; ?>"
+            target="_blank"> View Attechment <?php echo $i++; ?></a> <b>,</b>
 
-                <?php } ?>
+        <?php } ?>
 
-            </div>
+    </div>
 
-        </div>
-        <div class="modal-footer">
-            <a onclick="return confirm('Do you want to approved'); " href="<?php echo base_url(); ?>submission-approved/<?php echo $encoded_id; ?>/<?php echo $submissionId; ?>"><button type="button" class="btn btn-rounded  btn-warning ">Approve</button></a>
-            <a href="#" data-toggle="modal" data-target=".project-details" onclick="disapproved('<?php echo $intern_id; ?>','<?php echo $sr_id; ?>');"><button type="button" class="btn btn-rounded  btn-secondary">DisApprove</button></a>
-            <button type="button" class="btn btn-rounded  btn-default" data-dismiss="modal" aria-hidden="true">Cancel</button>
-        </div>
-    <?php
+</div>
+<div class="modal-footer">
+    <a onclick="return confirm('Do you want to approved'); "
+        href="<?php echo base_url(); ?>submission-approved/<?php echo $encoded_id; ?>/<?php echo $submissionId; ?>"><button
+            type="button" class="btn btn-rounded  btn-warning ">Approve</button></a>
+    <a href="#" data-toggle="modal" data-target=".project-details"
+        onclick="disapproved('<?php echo $intern_id; ?>','<?php echo $sr_id; ?>');"><button type="button"
+            class="btn btn-rounded  btn-secondary">DisApprove</button></a>
+    <button type="button" class="btn btn-rounded  btn-default" data-dismiss="modal" aria-hidden="true">Cancel</button>
+</div>
+<?php
     }
 
 
@@ -1394,25 +1420,25 @@ class Admin extends MY_Controller
         $dilyreportDetails = $this->Curl_model->fetch_data_with_joining($join_data, $limit, $order_by);
 
     ?>
-        <h5 class="badge bg-warning text-black"> Name-
-            <?php echo ucwords($dilyreportDetails[0]['first_name'] . ' ' . $dilyreportDetails[0]['last_name']); ?></h5>
-        <div class="row form-group m-b-20">
-            <table id="dom-table" class="table table-striped table-bordered pre-line">
-                <thead>
-                    <tr class="bg-gray">
-                        <th class="text-white">Sr</th>
-                        <th class="text-white">Date</th>
-                        <th class="text-white">Time In</th>
-                        <th class="text-white">Time Out</th>
-                        <th class="text-white">Activity</th>
-                        <th class="text-white">Improved Msg</th>
-                        <th class="text-white">Challeges Face</th>
-                        <th class="text-white">Experrience Any</th>
-                        <th class="text-white w-10">Total Time</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php $i = 1;
+<h5 class="badge bg-warning text-black"> Name-
+    <?php echo ucwords($dilyreportDetails[0]['first_name'] . ' ' . $dilyreportDetails[0]['last_name']); ?></h5>
+<div class="row form-group m-b-20">
+    <table id="dom-table" class="table table-striped table-bordered pre-line">
+        <thead>
+            <tr class="bg-gray">
+                <th class="text-white">Sr</th>
+                <th class="text-white">Date</th>
+                <th class="text-white">Time In</th>
+                <th class="text-white">Time Out</th>
+                <th class="text-white">Activity</th>
+                <th class="text-white">Improved Msg</th>
+                <th class="text-white">Challeges Face</th>
+                <th class="text-white">Experrience Any</th>
+                <th class="text-white w-10">Total Time</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php $i = 1;
                     foreach ($dilyreportDetails as $key => $value) {
                         $intern_id = $value['intern_id'];
                         $encoded_id = rtrim(strtr(base64_encode($intern_id), '+/', '-_'), '=');
@@ -1428,32 +1454,36 @@ class Admin extends MY_Controller
                         $totalmin += $mins;
                         $total_time1 = $total . '.' . $totalmin;
                     ?>
-                        <tr>
-                            <td><?php echo $i; ?></td>
-                            <td><?php echo date('d/m/Y', strtotime($value['dr_date'])); ?></td>
-                            <td><?php echo date('h:i A', strtotime($value['dr_time_in'])); ?></td>
-                            <td><?php echo date('h:i A', strtotime($value['dr_time_out'])); ?></td>
-                            <td><?php echo ucwords($value['dr_activity']); ?></td>
-                            <td><?php echo ucwords($value['improvement']); ?></td>
-                            <td><?php echo ucwords($value['challenges']); ?></td>
-                            <td><?php echo ucwords($value['experience']); ?></td>
-                            <td><?php echo "<b>$hours</b> hour <b>$mins</b> mins</b>" ?></td>
-                        </tr>
-                    <?php $i++;
+            <tr>
+                <td><?php echo $i; ?></td>
+                <td><?php echo date('d/m/Y', strtotime($value['dr_date'])); ?></td>
+                <td><?php echo date('h:i A', strtotime($value['dr_time_in'])); ?></td>
+                <td><?php echo date('h:i A', strtotime($value['dr_time_out'])); ?></td>
+                <td><?php echo ucwords($value['dr_activity']); ?></td>
+                <td><?php echo ucwords($value['improvement']); ?></td>
+                <td><?php echo ucwords($value['challenges']); ?></td>
+                <td><?php echo ucwords($value['experience']); ?></td>
+                <td><?php echo "<b>$hours</b> hour <b>$mins</b> mins</b>" ?></td>
+            </tr>
+            <?php $i++;
                     } ?><tr>
-                        <td colspan="8" class="text-end bg-gray text-white fw-bold">Total</td>
-                        <td class=" bg-gray text-white bold"><?php echo "<b>$total</b> hours <b>$totalmin</b> mins</b>" ?></td>
-                    </tr>
-                </tbody>
-            </table>
+                <td colspan="8" class="text-end bg-gray text-white fw-bold">Total</td>
+                <td class=" bg-gray text-white bold"><?php echo "<b>$total</b> hours <b>$totalmin</b> mins</b>" ?></td>
+            </tr>
+        </tbody>
+    </table>
 
-        </div>
-        <div class="modal-footer">
-            <a onclick="return confirm('Do you want to approved'); " href="<?php echo base_url(); ?>interndailyreport-approved/<?php echo $encoded_id; ?>/<?php echo $encode_taskID; ?>/<?php echo $total_time1; ?>"><button type="button" class="btn btn-rounded  btn-warning ">Approve</button></a>
-            <a href="#" data-toggle="modal" data-target=".project-details" onclick="disapproved('<?php echo $intern_id; ?>','<?php echo $value['task_id']; ?>','<?php echo $total_time1; ?>');"><button type="button" class="btn btn-rounded  btn-secondary">DisApprove</button></a>
-            <button type="button" class="btn btn-rounded  btn-default" data-dismiss="modal" aria-hidden="true">Cancel</button>
-        </div>
-    <?php
+</div>
+<div class="modal-footer">
+    <a onclick="return confirm('Do you want to approved'); "
+        href="<?php echo base_url(); ?>interndailyreport-approved/<?php echo $encoded_id; ?>/<?php echo $encode_taskID; ?>/<?php echo $total_time1; ?>"><button
+            type="button" class="btn btn-rounded  btn-warning ">Approve</button></a>
+    <a href="#" data-toggle="modal" data-target=".project-details"
+        onclick="disapproved('<?php echo $intern_id; ?>','<?php echo $value['task_id']; ?>','<?php echo $total_time1; ?>');"><button
+            type="button" class="btn btn-rounded  btn-secondary">DisApprove</button></a>
+    <button type="button" class="btn btn-rounded  btn-default" data-dismiss="modal" aria-hidden="true">Cancel</button>
+</div>
+<?php
     }
 
 
@@ -1525,20 +1555,20 @@ class Admin extends MY_Controller
         //print_r ($dilyreportDetails); exit;
 
     ?>
-        <div class="row form-group m-b-20">
-            <table id="dom-table" class="table table-striped table-bordered pre-line">
-                <thead>
-                    <tr>
-                        <th>Sr.no</th>
-                        <th>Date</th>
-                        <th>Time In</th>
-                        <th>Time Out</th>
-                        <th>Activity</th>
-                        <th>Total Time</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php $i = 1;
+<div class="row form-group m-b-20">
+    <table id="dom-table" class="table table-striped table-bordered pre-line">
+        <thead>
+            <tr>
+                <th>Sr.no</th>
+                <th>Date</th>
+                <th>Time In</th>
+                <th>Time Out</th>
+                <th>Activity</th>
+                <th>Total Time</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php $i = 1;
                     foreach ($dilyreportDetails as $key => $value) {
                         $timeIn = $value['dailyReportTimeIn'];
                         $time = date('h:i A', strtotime($timeIn));
@@ -1550,21 +1580,21 @@ class Admin extends MY_Controller
                         $mins = $tmins % 60;
 
                     ?>
-                        <tr>
-                            <td><?php echo $i; ?></td>
-                            <td><?php echo date('d/m/Y', strtotime($value['dailyReportDate'])); ?></td>
-                            <td><?php echo date('h:i A', strtotime($value['dailyReportTimeIn'])); ?></td>
-                            <td><?php echo date('h:i A', strtotime($value['dailyReportTimeOut'])); ?></td>
-                            <td><?php echo ucwords($value['dailyReportActivity']); ?></td>
-                            <td><?php echo "<b>$hours</b> hour <b>$mins</b> mins</b>" ?></td>
-                        </tr>
-                    <?php $i++;
+            <tr>
+                <td><?php echo $i; ?></td>
+                <td><?php echo date('d/m/Y', strtotime($value['dailyReportDate'])); ?></td>
+                <td><?php echo date('h:i A', strtotime($value['dailyReportTimeIn'])); ?></td>
+                <td><?php echo date('h:i A', strtotime($value['dailyReportTimeOut'])); ?></td>
+                <td><?php echo ucwords($value['dailyReportActivity']); ?></td>
+                <td><?php echo "<b>$hours</b> hour <b>$mins</b> mins</b>" ?></td>
+            </tr>
+            <?php $i++;
                     } ?>
-                </tbody>
-            </table>
+        </tbody>
+    </table>
 
-        </div>
-        <?php
+</div>
+<?php
     }
 
     public function volunteer()
@@ -1830,53 +1860,55 @@ class Admin extends MY_Controller
 
             $volunteerDetails = $this->Curl_model->fetch_data_with_joining($join_data, $limit, $order_by);
         ?>
-            <div class="col-md-3 m-b-20 text-center">
-                <?php if ($volunteerDetails['profile'] != '') { ?>
-                    <img src='<?php $image = $volunteerDetails['profile'];
-                                echo base_url("user_profile/$image"); ?>' width="100%" height="auto" class="img-fluid border p-1" />
-                <?php } else { ?>
-                    <img src="<?php echo base_url("user_profile/crop.jpg"); ?>" class="img-fluid" alt="" title="">
-                <?php } ?>
-            </div>
-            <div class="col-md-8">
-                <h2 class="f-14 font-medium">
-                    <?php echo ucwords($volunteerDetails[0]['first_name'] . ' ' . $volunteerDetails[0]['last_name']); ?></h2>
-                <div class="row mb-2">
-                    <div class="col-4 "><b></b>Volunteer ID</div>
-                    <div class="col"><?php echo $volunteerDetails[0]['volunteer_id']; ?></div>
-                </div>
-                <div class="row mb-2">
-                    <div class="col-4 "><b></b>Phone</div>
-                    <div class="col"><?php echo $volunteerDetails[0]['mobile']; ?></div>
-                </div>
-                <div class="row mb-2">
-                    <div class="col-4 "><b></b>Email</div>
-                    <div class="col"><a href="#" class="text-inverse"><span class="cf_email"><?php echo $volunteerDetails[0]['email']; ?></span></a></div>
-                </div>
-                <div class="row mb-2">
-                    <div class="col-4 "><b></b>Date of Birth</div>
-                    <div class="col"><?php if ($volunteerDetails['date_of_birth'] != '0000-00-00') {
+<div class="col-md-3 m-b-20 text-center">
+    <?php if ($volunteerDetails['profile'] != '') { ?>
+    <img src='<?php $image = $volunteerDetails['profile'];
+                                echo base_url("user_profile/$image"); ?>' width="100%" height="auto"
+        class="img-fluid border p-1" />
+    <?php } else { ?>
+    <img src="<?php echo base_url("user_profile/crop.jpg"); ?>" class="img-fluid" alt="" title="">
+    <?php } ?>
+</div>
+<div class="col-md-8">
+    <h2 class="f-14 font-medium">
+        <?php echo ucwords($volunteerDetails[0]['first_name'] . ' ' . $volunteerDetails[0]['last_name']); ?></h2>
+    <div class="row mb-2">
+        <div class="col-4 "><b></b>Volunteer ID</div>
+        <div class="col"><?php echo $volunteerDetails[0]['volunteer_id']; ?></div>
+    </div>
+    <div class="row mb-2">
+        <div class="col-4 "><b></b>Phone</div>
+        <div class="col"><?php echo $volunteerDetails[0]['mobile']; ?></div>
+    </div>
+    <div class="row mb-2">
+        <div class="col-4 "><b></b>Email</div>
+        <div class="col"><a href="#" class="text-inverse"><span
+                    class="cf_email"><?php echo $volunteerDetails[0]['email']; ?></span></a></div>
+    </div>
+    <div class="row mb-2">
+        <div class="col-4 "><b></b>Date of Birth</div>
+        <div class="col"><?php if ($volunteerDetails['date_of_birth'] != '0000-00-00') {
                                             echo ucwords(date("d-m-Y", strtotime($volunteerDetails[0]['date_of_birth'])));
                                         } ?></div>
-                </div>
-                <div class="row mb-2">
-                    <div class="col-4 "><b></b>State</div>
-                    <div class="col"><?php echo $volunteerDetails[0]['state_name']; ?></div>
-                </div>
-                <div class="row mb-2">
-                    <div class="col-4 "><b></b>City</div>
-                    <div class="col"><?php echo $volunteerDetails[0]['city_name']; ?></div>
-                </div>
-                <!-- <div class="row mb-2">
+    </div>
+    <div class="row mb-2">
+        <div class="col-4 "><b></b>State</div>
+        <div class="col"><?php echo $volunteerDetails[0]['state_name']; ?></div>
+    </div>
+    <div class="row mb-2">
+        <div class="col-4 "><b></b>City</div>
+        <div class="col"><?php echo $volunteerDetails[0]['city_name']; ?></div>
+    </div>
+    <!-- <div class="row mb-2">
                     <div class="col-4 "><b></b>Address</div>
                     <div class="col"><?php echo $volunteerDetails[0]['present_address']; ?></div>
                 </div> -->
-                <div class="row mb-2">
-                    <div class="col-4 "><b></b>Occupation</div>
-                    <div class="col "><?php echo ucwords($volunteerDetails[0]['occupation_name']); ?></div>
-                </div>
-            </div>
-        <?php
+    <div class="row mb-2">
+        <div class="col-4 "><b></b>Occupation</div>
+        <div class="col "><?php echo ucwords($volunteerDetails[0]['occupation_name']); ?></div>
+    </div>
+</div>
+<?php
         }
     }
 
@@ -1935,235 +1967,243 @@ class Admin extends MY_Controller
             // echo '<pre>';
             // print_r($internDetails);exit;
         ?>
-            <div class="col-md-3 m-b-20 text-center">
-                <?php if ($internDetails[0]['close_up_photo'] != '') { ?>
-                    <img src='<?php $image = $internDetails[0]['close_up_photo'];
-                                echo base_url("internDoc/closeup_photo/$image"); ?>' width="100%" height="auto" class="img-fluid border p-1" />
-                <?php } else { ?>
-                    <img src="<?php echo base_url("user_profile/crop.jpg"); ?>" class="img-fluid" alt="" title="">
-                <?php } ?>
-            </div>
-            <div class="col-md-8">
-                <h2 class="f-14 font-medium">
-                    <?php echo ucwords($internDetails[0]['first_name'] . ' ' . $internDetails[0]['last_name']); ?></h2>
-                <div class="row mb-2">
-                    <div class="col-6"><b>intern ID</b></div>
-                    <div class="col"><?php echo $internDetails[0]['intern_id']; ?></div>
-                </div>
-                <div class="row mb-2">
-                    <div class="col-6"><b>Phone</b></div>
-                    <div class="col"><?php echo $internDetails[0]['mobile']; ?></div>
-                </div>
-                <div class="row mb-2">
-                    <div class="col-6"><b>Email</b></div>
-                    <div class="col"><a href="#" class="text-inverse"><span class="cf_email"><?php echo $internDetails[0]['email']; ?></span></a></div>
-                </div>
-                <div class="row mb-2">
-                    <div class="col-6 "><b>Date of Birth</b></div>
-                    <div class="col"><?php if ($internDetails['date_of_birth'] != '0000-00-00') {
+<div class="col-md-3 m-b-20 text-center">
+    <?php if ($internDetails[0]['close_up_photo'] != '') { ?>
+    <img src='<?php $image = $internDetails[0]['close_up_photo'];
+                                echo base_url("internDoc/closeup_photo/$image"); ?>' width="100%" height="auto"
+        class="img-fluid border p-1" />
+    <?php } else { ?>
+    <img src="<?php echo base_url("user_profile/crop.jpg"); ?>" class="img-fluid" alt="" title="">
+    <?php } ?>
+</div>
+<div class="col-md-8">
+    <h2 class="f-14 font-medium">
+        <?php echo ucwords($internDetails[0]['first_name'] . ' ' . $internDetails[0]['last_name']); ?></h2>
+    <div class="row mb-2">
+        <div class="col-6"><b>intern ID</b></div>
+        <div class="col"><?php echo $internDetails[0]['intern_id']; ?></div>
+    </div>
+    <div class="row mb-2">
+        <div class="col-6"><b>Phone</b></div>
+        <div class="col"><?php echo $internDetails[0]['mobile']; ?></div>
+    </div>
+    <div class="row mb-2">
+        <div class="col-6"><b>Email</b></div>
+        <div class="col"><a href="#" class="text-inverse"><span
+                    class="cf_email"><?php echo $internDetails[0]['email']; ?></span></a></div>
+    </div>
+    <div class="row mb-2">
+        <div class="col-6 "><b>Date of Birth</b></div>
+        <div class="col"><?php if ($internDetails['date_of_birth'] != '0000-00-00') {
                                             echo ucwords(date("d-m-Y", strtotime($internDetails[0]['date_of_birth'])));
                                         } ?></div>
-                </div>
-                <div class="row mb-2">
-                    <div class="col-6 "><b>State</b></div>
-                    <div class="col"><?php echo $internDetails[0]['state_name']; ?></div>
-                </div>
-                <div class="row mb-2">
-                    <div class="col-6 "><b>City</b></div>
-                    <div class="col"><?php echo $internDetails[0]['city_name']; ?></div>
-                </div>
+    </div>
+    <div class="row mb-2">
+        <div class="col-6 "><b>State</b></div>
+        <div class="col"><?php echo $internDetails[0]['state_name']; ?></div>
+    </div>
+    <div class="row mb-2">
+        <div class="col-6 "><b>City</b></div>
+        <div class="col"><?php echo $internDetails[0]['city_name']; ?></div>
+    </div>
 
-                <div class="row mb-2">
-                    <div class="col-6 "><b>Occupation</b></div>
-                    <div class="col "><?php echo ucwords($internDetails[0]['occupation_name']); ?></div>
-                </div>
-                <div class="row mb-2">
-                    <div class="col-6"><b>Question : Mention past volunteering and Internships you may have done?</b></div>
-                    <div class="col "><?php echo ucwords($internDetails[0]['past_volunteering']); ?></div>
-                </div>
-                <div class="row mb-2">
-                    <div class="col-6"><b>Question : What you aim to value add on if chosen for an Internship with CRY ?</b>
-                    </div>
-                    <div class="col "><?php echo ucwords($internDetails[0]['what_you_aim']); ?></div>
-                </div>
-                <?php if ($internDetails[0]['status'] >= 7) { ?>
-                    <div class="row mb-2">
-                        <div class="col-6"><b>Present Address</b>
-                        </div>
-                        <div class="col "><?php echo ucwords($internDetails[0]['present_address']); ?></div>
-                    </div>
-                    <div class="row mb-2">
-                        <div class="col-6"><b>Pemanent Address</b>
-                        </div>
-                        <div class="col "><?php echo ucwords($internDetails[0]['permanent_address']); ?></div>
-                    </div>
-                    <div class="row mb-2">
-                        <div class="col-6"><b>City of Residence</b>
-                        </div>
-                        <div class="col "><?php echo ucwords($internDetails[0]['cityResindence']); ?></div>
-                    </div>
-                    <div class="row mb-2">
-                        <div class="col-6"><b>Occupation </b>
-                        </div>
-                        <div class="col "><?php echo ucwords($internDetails[0]['occupation']); ?></div>
-                    </div>
-                    <div class="row mb-2">
-                        <div class="col-6"><b>Name of your school/ college/ institute/ company(Write NA if not applicable) *</b>
-                        </div>
-                        <div class="col "><?php echo ucwords($internDetails[0]['name_of_school']); ?></div>
-                    </div>
-                    <div class="row mb-2">
-                        <div class="col-6"><b>Designation if working (Write NA if not applicable) *</b>
-                        </div>
-                        <div class="col "><?php echo ucwords($internDetails[0]['designation']); ?></div>
-                    </div>
-                    <div class="row mb-2">
-                        <div class="col-6"><b>Languages known </b>
-                        </div>
-                        <div class="col ">
-                            <?php if ($internDetails[0]['internshipType'] == 1) {
+    <div class="row mb-2">
+        <div class="col-6 "><b>Occupation</b></div>
+        <div class="col "><?php echo ucwords($internDetails[0]['occupation_name']); ?></div>
+    </div>
+    <div class="row mb-2">
+        <div class="col-6"><b>Question : Mention past volunteering and Internships you may have done?</b></div>
+        <div class="col "><?php echo ucwords($internDetails[0]['past_volunteering']); ?></div>
+    </div>
+    <div class="row mb-2">
+        <div class="col-6"><b>Question : What you aim to value add on if chosen for an Internship with CRY ?</b>
+        </div>
+        <div class="col "><?php echo ucwords($internDetails[0]['what_you_aim']); ?></div>
+    </div>
+    <?php if ($internDetails[0]['status'] >= 7) { ?>
+    <div class="row mb-2">
+        <div class="col-6"><b>Present Address</b>
+        </div>
+        <div class="col "><?php echo ucwords($internDetails[0]['present_address']); ?></div>
+    </div>
+    <div class="row mb-2">
+        <div class="col-6"><b>Pemanent Address</b>
+        </div>
+        <div class="col "><?php echo ucwords($internDetails[0]['permanent_address']); ?></div>
+    </div>
+    <div class="row mb-2">
+        <div class="col-6"><b>City of Residence</b>
+        </div>
+        <div class="col "><?php echo ucwords($internDetails[0]['cityResindence']); ?></div>
+    </div>
+    <div class="row mb-2">
+        <div class="col-6"><b>Occupation </b>
+        </div>
+        <div class="col "><?php echo ucwords($internDetails[0]['occupation']); ?></div>
+    </div>
+    <div class="row mb-2">
+        <div class="col-6"><b>Name of your school/ college/ institute/ company(Write NA if not applicable) *</b>
+        </div>
+        <div class="col "><?php echo ucwords($internDetails[0]['name_of_school']); ?></div>
+    </div>
+    <div class="row mb-2">
+        <div class="col-6"><b>Designation if working (Write NA if not applicable) *</b>
+        </div>
+        <div class="col "><?php echo ucwords($internDetails[0]['designation']); ?></div>
+    </div>
+    <div class="row mb-2">
+        <div class="col-6"><b>Languages known </b>
+        </div>
+        <div class="col ">
+            <?php if ($internDetails[0]['internshipType'] == 1) {
                                 echo  "Hindi";
                             } ?>
-                            <?php if ($internDetails[0]['internshipType'] == 2) {
+            <?php if ($internDetails[0]['internshipType'] == 2) {
                                 echo  "English";
                             } ?>
-                        </div>
-                    </div>
-                    <div class="row mb-2">
-                        <div class="col-6"><b>Other Languages</b>
-                        </div>
-                        <div class="col "><?php echo ucwords($internDetails[0]['otherlanguages']); ?></div>
-                    </div>
-                    <div class="row mb-2">
-                        <div class="col-6"><b>Who was the CRY representative you interacted with? </b>
-                        </div>
-                        <div class="col "><?php echo ucwords($internDetails[0]['representative_cry']); ?></div>
-                    </div>
-                    <div class="row mb-2">
-                        <div class="col-6"><b>Which CRY office you had communicated with/ written to? *</b>
-                        </div>
-                        <div class="col ">
-                            <?php if ($internDetails[0]['whichcryOffice'] == 1) {
+        </div>
+    </div>
+    <div class="row mb-2">
+        <div class="col-6"><b>Other Languages</b>
+        </div>
+        <div class="col "><?php echo ucwords($internDetails[0]['otherlanguages']); ?></div>
+    </div>
+    <div class="row mb-2">
+        <div class="col-6"><b>Who was the CRY representative you interacted with? </b>
+        </div>
+        <div class="col "><?php echo ucwords($internDetails[0]['representative_cry']); ?></div>
+    </div>
+    <div class="row mb-2">
+        <div class="col-6"><b>Which CRY office you had communicated with/ written to? *</b>
+        </div>
+        <div class="col ">
+            <?php if ($internDetails[0]['whichcryOffice'] == 1) {
                                 echo  "Delhi";
                             } ?>
-                            <?php if ($internDetails[0]['whichcryOffice'] == 2) {
+            <?php if ($internDetails[0]['whichcryOffice'] == 2) {
                                 echo  "Mumbai";
                             } ?>
-                            <?php if ($internDetails[0]['whichcryOffice'] == 3) {
+            <?php if ($internDetails[0]['whichcryOffice'] == 3) {
                                 echo  "Kolkata";
                             } ?>
-                            <?php if ($internDetails[0]['whichcryOffice'] == 4) {
+            <?php if ($internDetails[0]['whichcryOffice'] == 4) {
                                 echo  "Bengaluru";
                             } ?>
-                            <?php if ($internDetails[0]['whichcryOffice'] == 5) {
+            <?php if ($internDetails[0]['whichcryOffice'] == 5) {
                                 echo  "Channai";
                             } ?>
-                            <?php if ($internDetails[0]['whichcryOffice'] == 6) {
+            <?php if ($internDetails[0]['whichcryOffice'] == 6) {
                                 echo  "Hydrabad";
                             } ?>
-                            <?php if ($internDetails[0]['whichcryOffice'] == 7) {
+            <?php if ($internDetails[0]['whichcryOffice'] == 7) {
                                 echo  "Online";
                             } ?>
 
-                        </div>
-                    </div>
-                    <div class="row mb-2">
-                        <div class="col-6"><b>No of weeks of internship you have been offered?*</b>
-                        </div>
-                        <div class="col "><?php echo ucwords($internDetails[0]['internshipDeruation']) . " Weeks"; ?></div>
-                    </div>
-                    <div class="row mb-2">
-                        <div class="col-6"><b>Profile of project you will be involved in?*</b>
-                        </div>
-                        <div class="col "><?php echo ucwords($internDetails[0]['project_profile']); ?></div>
-                    </div>
-                    <div class="row mb-2">
-                        <div class="col-6"><b>You internship will be*</b>
-                        </div>
-                        <div class="col ">
-                            <?php if ($internDetails[0]['internshipType'] == 1) {
+        </div>
+    </div>
+    <div class="row mb-2">
+        <div class="col-6"><b>No of weeks of internship you have been offered?*</b>
+        </div>
+        <div class="col "><?php echo ucwords($internDetails[0]['internshipDeruation']) . " Weeks"; ?></div>
+    </div>
+    <div class="row mb-2">
+        <div class="col-6"><b>Profile of project you will be involved in?*</b>
+        </div>
+        <div class="col "><?php echo ucwords($internDetails[0]['project_profile']); ?></div>
+    </div>
+    <div class="row mb-2">
+        <div class="col-6"><b>You internship will be*</b>
+        </div>
+        <div class="col ">
+            <?php if ($internDetails[0]['internshipType'] == 1) {
                                 echo  "Online";
                             } ?>
-                            <?php if ($internDetails[0]['internshipType'] == 2) {
+            <?php if ($internDetails[0]['internshipType'] == 2) {
                                 echo  "Offline";
                             } ?>
-                            <?php if ($internDetails[0]['internshipType'] == 3) {
+            <?php if ($internDetails[0]['internshipType'] == 3) {
                                 echo  "Hybrid";
                             } ?>
-                        </div>
-                    </div>
-                    <div class="row mb-2">
-                        <div class="col-6"><b>How did you came to know about CRY? *</b>
-                        </div>
-                        <div class="col "><?php echo ucwords($internDetails[0]['where_know_opportunity']); ?></div>
-                    </div>
-                    <div class="row mb-2">
-                        <div class="col-6"><b>ID proof</b>
-                        </div>
-                        <div class="col "> <?php if ($internDetails[0]['id_proof_attach'] != '') { ?>
-                                <a href="<?php echo base_url(); ?>internDoc/id_proof/<?php echo $internDetails[0]['id_proof_attach']; ?>" target="_blank">View ID proof</a>
-                            <?php } else { ?>
-                                <span><a href="#">NA</a></span>
-                            <?php } ?>
-                        </div>
-                    </div>
-                    <div class="row mb-2">
-                        <div class="col-6"><b>Address proof *</b>
-                        </div>
-                        <div class="col "><?php if ($internDetails[0]['add_proof_attach'] != '') { ?>
-                                <a href="<?php echo base_url(); ?>internDoc/address_proof/<?php echo $internDetails[0]['add_proof_attach']; ?>" target="_blank">View Address proof</a>
-                            <?php } else { ?>
-                                <span><a href="#">NA</a></span>
-                            <?php } ?>
-                        </div>
-                    </div>
-                    <div class="row mb-2">
-                        <div class="col-6"><b>consent letter *</b>
-                        </div>
-                        <div class="col "><?php if ($internDetails[0]['letter_parents_attach'] != '') { ?>
-                                <span><a href="<?php echo base_url(); ?>internDoc/letter_parents_attach/<?php echo $internDetails[0]['letter_parents_attach']; ?>" target="_blank">View Consent letter</a></span>
-                            <?php } else { ?>
-                                <span><a href="#">NA</a></span>
-                            <?php } ?>
-                        </div>
-                    </div>
-                    <div class="row mb-2">
-                        <div class="col-6"><b>Upload a close up photo *</b>
-                        </div>
-                        <div class="col "><?php if ($internDetails[0]['close_up_photo'] != '') { ?>
-                                <span><a href="<?php echo base_url(); ?>internDoc/closeup_photo/<?php echo $internDetails[0]['close_up_photo']; ?>" target="_blank">View Close up photo</a></span>
-                            <?php } else { ?>
-                                <span><a href="#">NA</a></span>
-                            <?php } ?>
-                        </div>
-                    </div>
-                    <div class="row mb-2">
-                        <div class="col-6"><b>Upload your CV *</b>
-                        </div>
-                        <div class="col "><?php if ($internDetails[0]['cv_attach'] != '') { ?>
-                                <span><a href="<?php echo base_url(); ?>internDoc/cv/<?php echo $internDetails[0]['cv_attach']; ?>" target="_blank">View CV</a></span>
-                            <?php } else { ?>
-                                <span><a href="#">NA</a></span>
-                            <?php } ?>
-                        </div>
-                    </div>
-                    <div class="row mb-2">
-                        <div class="col-6"><b>Reference letter *</b>
-                        </div>
-                        <div class="col "><?php if ($internDetails[0]['ref_attach'] != '') { ?>
-                                <span><a href="<?php echo base_url(); ?>internDoc/reference_letter/<?php echo $internDetails[0]['ref_attach']; ?>" target="_blank">Reference letter</a></span>
-                            <?php } else { ?>
-                                <span><a href="#">NA</a></span>
-                            <?php } ?>
-                        </div>
-                    </div>
+        </div>
+    </div>
+    <div class="row mb-2">
+        <div class="col-6"><b>How did you came to know about CRY? *</b>
+        </div>
+        <div class="col "><?php echo ucwords($internDetails[0]['where_know_opportunity']); ?></div>
+    </div>
+    <div class="row mb-2">
+        <div class="col-6"><b>ID proof</b>
+        </div>
+        <div class="col "> <?php if ($internDetails[0]['id_proof_attach'] != '') { ?>
+            <a href="<?php echo base_url(); ?>internDoc/id_proof/<?php echo $internDetails[0]['id_proof_attach']; ?>"
+                target="_blank">View ID proof</a>
+            <?php } else { ?>
+            <span><a href="#">NA</a></span>
+            <?php } ?>
+        </div>
+    </div>
+    <div class="row mb-2">
+        <div class="col-6"><b>Address proof *</b>
+        </div>
+        <div class="col "><?php if ($internDetails[0]['add_proof_attach'] != '') { ?>
+            <a href="<?php echo base_url(); ?>internDoc/address_proof/<?php echo $internDetails[0]['add_proof_attach']; ?>"
+                target="_blank">View Address proof</a>
+            <?php } else { ?>
+            <span><a href="#">NA</a></span>
+            <?php } ?>
+        </div>
+    </div>
+    <div class="row mb-2">
+        <div class="col-6"><b>consent letter *</b>
+        </div>
+        <div class="col "><?php if ($internDetails[0]['letter_parents_attach'] != '') { ?>
+            <span><a href="<?php echo base_url(); ?>internDoc/letter_parents_attach/<?php echo $internDetails[0]['letter_parents_attach']; ?>"
+                    target="_blank">View Consent letter</a></span>
+            <?php } else { ?>
+            <span><a href="#">NA</a></span>
+            <?php } ?>
+        </div>
+    </div>
+    <div class="row mb-2">
+        <div class="col-6"><b>Upload a close up photo *</b>
+        </div>
+        <div class="col "><?php if ($internDetails[0]['close_up_photo'] != '') { ?>
+            <span><a href="<?php echo base_url(); ?>internDoc/closeup_photo/<?php echo $internDetails[0]['close_up_photo']; ?>"
+                    target="_blank">View Close up photo</a></span>
+            <?php } else { ?>
+            <span><a href="#">NA</a></span>
+            <?php } ?>
+        </div>
+    </div>
+    <div class="row mb-2">
+        <div class="col-6"><b>Upload your CV *</b>
+        </div>
+        <div class="col "><?php if ($internDetails[0]['cv_attach'] != '') { ?>
+            <span><a href="<?php echo base_url(); ?>internDoc/cv/<?php echo $internDetails[0]['cv_attach']; ?>"
+                    target="_blank">View CV</a></span>
+            <?php } else { ?>
+            <span><a href="#">NA</a></span>
+            <?php } ?>
+        </div>
+    </div>
+    <div class="row mb-2">
+        <div class="col-6"><b>Reference letter *</b>
+        </div>
+        <div class="col "><?php if ($internDetails[0]['ref_attach'] != '') { ?>
+            <span><a href="<?php echo base_url(); ?>internDoc/reference_letter/<?php echo $internDetails[0]['ref_attach']; ?>"
+                    target="_blank">Reference letter</a></span>
+            <?php } else { ?>
+            <span><a href="#">NA</a></span>
+            <?php } ?>
+        </div>
+    </div>
 
 
-                <?php } else {
+    <?php } else {
                     echo "Post Reg. pending";
                 }  ?>
-            </div>
-        <?php
+</div>
+<?php
         }
     }
 
@@ -2987,20 +3027,20 @@ class Admin extends MY_Controller
         //print_r ($dilyreportDetails); exit;
 
         ?>
-        <div class="row form-group m-b-20">
-            <table id="dom-table" class="table table-striped table-bordered pre-line">
-                <thead>
-                    <tr>
-                        <th>Sr.no</th>
-                        <th>Date</th>
-                        <th>Time In</th>
-                        <th>Time Out</th>
-                        <th>Activity</th>
-                        <th>Total Time</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php $i = 1;
+<div class="row form-group m-b-20">
+    <table id="dom-table" class="table table-striped table-bordered pre-line">
+        <thead>
+            <tr>
+                <th>Sr.no</th>
+                <th>Date</th>
+                <th>Time In</th>
+                <th>Time Out</th>
+                <th>Activity</th>
+                <th>Total Time</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php $i = 1;
                     foreach ($dilyreportDetails as $key => $value) {
                         $timeIn = $value['dailyReportTimeIn'];
                         $time = date('h:i A', strtotime($timeIn));
@@ -3012,21 +3052,21 @@ class Admin extends MY_Controller
                         $mins = $tmins % 60;
 
                     ?>
-                        <tr>
-                            <td><?php echo $i; ?></td>
-                            <td><?php echo date('d/m/Y', strtotime($value['dailyReportDate'])); ?></td>
-                            <td><?php echo date('h:i A', strtotime($value['dailyReportTimeIn'])); ?></td>
-                            <td><?php echo date('h:i A', strtotime($value['dailyReportTimeOut'])); ?></td>
-                            <td><?php echo ucwords($value['dailyReportActivity']); ?></td>
-                            <td><?php echo "<b>$hours</b> hour <b>$mins</b> mins</b>" ?></td>
-                        </tr>
-                    <?php $i++;
+            <tr>
+                <td><?php echo $i; ?></td>
+                <td><?php echo date('d/m/Y', strtotime($value['dailyReportDate'])); ?></td>
+                <td><?php echo date('h:i A', strtotime($value['dailyReportTimeIn'])); ?></td>
+                <td><?php echo date('h:i A', strtotime($value['dailyReportTimeOut'])); ?></td>
+                <td><?php echo ucwords($value['dailyReportActivity']); ?></td>
+                <td><?php echo "<b>$hours</b> hour <b>$mins</b> mins</b>" ?></td>
+            </tr>
+            <?php $i++;
                     } ?>
-                </tbody>
-            </table>
+        </tbody>
+    </table>
 
-        </div>
-        <?php
+</div>
+<?php
     }
 
     public function export()
@@ -3045,42 +3085,42 @@ class Admin extends MY_Controller
                 $user_data = $this->db->get();
                 $excel_row = 2;
         ?>
-                <table class="table table-bordered">
-                    <thead>
-                        <tr>
-                            <th scope="col"><b>#</b></th>
-                            <th scope="col"><b>Registration Date</b></th>
-                            <th scope="col"><b>Name</b></th>
-                            <th scope="col"><b>Email</b></th>
-                            <th scope="col"><b>Mobile No.</b></th>
-                            <th scope="col"><b>Region</b></th>
-                        </tr>
-                    </thead>
-                    <tbody>
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th scope="col"><b>#</b></th>
+            <th scope="col"><b>Registration Date</b></th>
+            <th scope="col"><b>Name</b></th>
+            <th scope="col"><b>Email</b></th>
+            <th scope="col"><b>Mobile No.</b></th>
+            <th scope="col"><b>Region</b></th>
+        </tr>
+    </thead>
+    <tbody>
 
-                        <?php
+        <?php
                         $c = 1;
                         foreach ($user_data->result() as $key => $value) {
                         ?>
-                            <tr>
-                                <th scope="row"><b><?php echo $c++; ?></b></th>
-                                <td><?php echo date('d-m-Y', strtotime($value->creation_date)); ?></td>
-                                <td><?php echo ucwords($value->name); ?></td>
-                                <td><?php echo $value->email; ?></td>
-                                <td><?php $mobile = str_replace(',', '/', trim($value->mobile));
+        <tr>
+            <th scope="row"><b><?php echo $c++; ?></b></th>
+            <td><?php echo date('d-m-Y', strtotime($value->creation_date)); ?></td>
+            <td><?php echo ucwords($value->name); ?></td>
+            <td><?php echo $value->email; ?></td>
+            <td><?php $mobile = str_replace(',', '/', trim($value->mobile));
                                     $mobile = str_replace(' ', '/', $mobile);
                                     $mobile = str_replace('//', '/', $mobile);
                                     echo $mobile; ?></td>
-                                <td><?php echo $value->region_name; ?></td>
-                            </tr>
-                            <?php // print_r($value); 
+            <td><?php echo $value->region_name; ?></td>
+        </tr>
+        <?php // print_r($value); 
                             ?>
-                        <?php } ?>
-                    </tbody>
-                </table>
-                <button onclick="exportTableToCSV('members.csv')" id="csbbtn">Export HTML Table To CSV File</button>
+        <?php } ?>
+    </tbody>
+</table>
+<button onclick="exportTableToCSV('members.csv')" id="csbbtn">Export HTML Table To CSV File</button>
 
-        <?php
+<?php
             } else {
                 redirect('admin');
             }
@@ -3586,23 +3626,23 @@ class Admin extends MY_Controller
 
 
     public function view_add_permission()
-    { {
-            try {
-                if (($this->session->userdata('emp_id') != "" || $this->session->userdata('emp_id') != null)) {
-                    $data['master_permission'] = $this->Crud_modal->fetch_alls('master_permission', 'permission_id desc');
-                    $this->load->view('temp/head');
-                    $this->load->view('temp/header');
-                    $this->load->view('temp/sidebar');
-                    $this->load->view('view-add-permission', $data);
-                    $this->load->view('temp/footer');
-                } else {
-                    redirect(base_url() . 'login', 'refresh');
-                }
-            } catch (Exception $e) {
-                echo 'Caught exception: ',  $e->getMessage(), "\n";
+    {
+        try {
+            if (($this->session->userdata('emp_id') != "" || $this->session->userdata('emp_id') != null)) {
+                $data['master_permission'] = $this->Crud_modal->fetch_alls('master_permission', 'permission_id desc');
+                $this->load->view('temp/head');
+                $this->load->view('temp/header');
+                $this->load->view('temp/sidebar');
+                $this->load->view('view-add-permission', $data);
+                $this->load->view('temp/footer');
+            } else {
+                redirect(base_url() . 'login', 'refresh');
             }
+        } catch (Exception $e) {
+            echo 'Caught exception: ',  $e->getMessage(), "\n";
         }
     }
+
 
     public function insert_permission_master()
     {
@@ -4859,25 +4899,25 @@ class Admin extends MY_Controller
         //print_r ($dilyreportDetails); exit;
 
         ?>
-        <h5 class="badge badge-primary"> Name-
-            <?php echo ucwords($dilyreportDetails[0]['firstName'] . ' ' . $dilyreportDetails[0]['lastName']); ?></h5>
-        <div class="row form-group m-b-20">
-            <table id="dom-table" class="table table-striped table-bordered pre-line">
-                <thead>
-                    <tr>
-                        <th>Sr</th>
-                        <th>Date</th>
-                        <th>Time In</th>
-                        <th>Time Out</th>
-                        <th>Activity</th>
-                        <th>Improved Msg</th>
-                        <th>Challeges Face</th>
-                        <th>Experrience Any</th>
-                        <!--<th>Total Time</th>-->
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php $i = 1;
+<h5 class="badge badge-primary"> Name-
+    <?php echo ucwords($dilyreportDetails[0]['firstName'] . ' ' . $dilyreportDetails[0]['lastName']); ?></h5>
+<div class="row form-group m-b-20">
+    <table id="dom-table" class="table table-striped table-bordered pre-line">
+        <thead>
+            <tr>
+                <th>Sr</th>
+                <th>Date</th>
+                <th>Time In</th>
+                <th>Time Out</th>
+                <th>Activity</th>
+                <th>Improved Msg</th>
+                <th>Challeges Face</th>
+                <th>Experrience Any</th>
+                <!--<th>Total Time</th>-->
+            </tr>
+        </thead>
+        <tbody>
+            <?php $i = 1;
                     foreach ($dilyreportDetails as $key => $value) {
                         $timeIn = $value['dailyReportTimeIn'];
                         $time = date('h:i A', strtotime($timeIn));
@@ -4889,23 +4929,23 @@ class Admin extends MY_Controller
                         $mins = $tmins % 60;
 
                     ?>
-                        <tr>
-                            <td><?php echo $i; ?></td>
-                            <td><?php echo date('d/m/Y', strtotime($value['dailyReportDate'])); ?></td>
-                            <td><?php echo date('h:i A', strtotime($value['dailyReportTimeIn'])); ?></td>
-                            <td><?php echo date('h:i A', strtotime($value['dailyReportTimeOut'])); ?></td>
-                            <td><?php echo ucwords($value['dailyReportActivity']); ?></td>
-                            <td><?php echo ucwords($value['improved_msg']); ?></td>
-                            <td><?php echo ucwords($value['challeges_face']); ?></td>
-                            <td><?php echo ucwords($value['experrience_any']); ?></td>
-                            <!--<td><?php echo "<b>$hours</b> hour <b>$mins</b> mins</b>" ?></td>-->
-                        </tr>
-                    <?php $i++;
+            <tr>
+                <td><?php echo $i; ?></td>
+                <td><?php echo date('d/m/Y', strtotime($value['dailyReportDate'])); ?></td>
+                <td><?php echo date('h:i A', strtotime($value['dailyReportTimeIn'])); ?></td>
+                <td><?php echo date('h:i A', strtotime($value['dailyReportTimeOut'])); ?></td>
+                <td><?php echo ucwords($value['dailyReportActivity']); ?></td>
+                <td><?php echo ucwords($value['improved_msg']); ?></td>
+                <td><?php echo ucwords($value['challeges_face']); ?></td>
+                <td><?php echo ucwords($value['experrience_any']); ?></td>
+                <!--<td><?php echo "<b>$hours</b> hour <b>$mins</b> mins</b>" ?></td>-->
+            </tr>
+            <?php $i++;
                     } ?>
-                </tbody>
-            </table>
+        </tbody>
+    </table>
 
-        </div>
+</div>
 <?php
     }
 
@@ -6549,42 +6589,127 @@ class Admin extends MY_Controller
 
     public function get_gender_count()
     {
-        $state_id = $this->input->post('state_name');
+        try {
 
-        if ($state_id == "") {
-            $male_count = $this->db->where('gender', 1)->where('status', 5)->count_all_results('volunteer');
-            $female_count = $this->db->where('gender', 2)->where('status', 5)->count_all_results('volunteer');
-            $totalvol = $this->db->where('status', 5)->count_all_results('volunteer');
-            $data = array(
-                'male_count' => $male_count,
-                'female_count' => $female_count,
-                'totalvol' => $totalvol
-            );
-            echo json_encode($data);
-        } else {
-            $male_count = $this->db->where('state_id', $state_id)
-                ->where('gender', 1)
-                ->count_all_results('volunteer');
+            if (($this->session->userdata('emp_id') != "" || $this->session->userdata('emp_id') != null)) {
+                $region = $this->session->userdata('region_id');
+                $role = $this->session->userdata('role_id');
 
-            $female_count = $this->db->where('state_id', $state_id)
-                ->where('gender', 2)
-                ->count_all_results('volunteer');
-            $totalvolactive = $this->db->where('state_id', $state_id)->where('status', 5)->where('status', 5)->count_all_results('volunteer');
-            $totalvolinactive = $this->db->where('state_id', $state_id)->where('status', 6)->count_all_results('volunteer');
-            $lastlogDate = date('Y-m-d', strtotime('-1 month'));
-            $sleepyvol = $this->db->where('state_id', $state_id)->where('last_login <', $lastlogDate)->where('status', 5)->count_all_results('volunteer');
-            $data = array(
-                'male_count' => $male_count,
-                'female_count' => $female_count,
-                'totalvol' => $totalvolactive,
-                'totalvolinactive' => $totalvolinactive,
-                'sleepyvol' => $sleepyvol
-            );
-           
+                if ($role == 1) {
+                    $state_id = $this->input->post('state_name');
+                    $male_count = $this->db->where('state_id', $state_id)->where('gender', 1)->where('status', 5)->count_all_results('volunteer');
+                    $male_countintern = $this->db->where('state_id', $state_id)->where('gender', 1)->where('status', 8)->count_all_results('interns');
+                    $female_count = $this->db->where('state_id', $state_id)->where('gender', 2)->where('status', 5)->count_all_results('volunteer');
+                    $female_countintrn = $this->db->where('state_id', $state_id)->where('gender', 2)->where('status', 8)->count_all_results('interns');
+                    $totalvolactive = $this->db->where('state_id', $state_id)->where('status', 5)->count_all_results('volunteer');
+                    $totalintactive = $this->db->where('state_id', $state_id)->where('status', 8)->count_all_results('interns');
+                    $totalvolinactive = $this->db->where('state_id', $state_id)->where('status', 6)->count_all_results('volunteer');
+                    $totalintinactive = $this->db->where('state_id', $state_id)->where('status', 9)->count_all_results('volunteer');
+                    $lastlogDate = date('Y-m-d', strtotime('-1 month'));
+                    $sleepyvol = $this->db->where('state_id', $state_id)->where('last_login <', $lastlogDate)->where('status', 5)->count_all_results('volunteer');
+                    $lastloginDateintern = date('Y-m-d', strtotime('-1 month'));
+                    $sleepyintern = $this->db->where('state_id', $state_id)->where('last_login <', $lastloginDateintern)->where('status', 8)->count_all_results('interns');
+                    $certificate_status = $this->db->where('state_id', $state_id)->where('certificate_status', 1)->count_all_results('interns');
+                    $countCertificate = "SELECT 
+                    admin_time,
+                    COUNT(*) AS volunteer_count,
+                    SUM(CASE 
+                      WHEN admin_time >= 100 THEN 1
+                      ELSE 0
+                    END) AS platinum_count,
+                    SUM(CASE 
+                      WHEN admin_time >= 80 AND admin_time < 100 THEN 1
+                      ELSE 0
+                    END) AS gold_count,
+                    SUM(CASE 
+                      WHEN admin_time >= 60 AND admin_time < 80 THEN 1
+                      ELSE 0
+                    END) AS silver_count,
+                    SUM(CASE 
+                      WHEN admin_time < 60 THEN 1
+                      ELSE 0
+                    END) AS bronze_count
+                  FROM approveddaily_report
+                  GROUP BY admin_time;
+                  ";
 
-            // Print the results
-           
-            echo json_encode($data);
+                    $data = array(
+                        'male_count' => $male_count,
+                        'male_countintern' => $male_countintern,
+                        'female_count' => $female_count,
+                        'female_countintrn' => $female_countintrn,
+                        'totalvol' => $totalvolactive,
+                        'totalintactive' => $totalintactive,
+                        'totalvolinactive' => $totalvolinactive,
+                        'totalintinactive' => $totalintinactive,
+                        'sleepyvol' => $sleepyvol,
+                        'sleepyintern' => $sleepyintern,
+                        'male_countintern' => $male_countintern,
+                        'certificate_status' => $certificate_status
+                    );
+
+                    echo json_encode($data);
+                } else {
+                    $state_id = $this->input->post('state_name');
+                    $male_count = $this->db->where('state_id', $state_id)->where('gender', 1)->where('status', 5)->count_all_results('volunteer');
+                    $male_countintern = $this->db->where('state_id', $state_id)->where('gender', 1)->where('status', 8)->count_all_results('interns');
+                    $female_count = $this->db->where('state_id', $state_id)->where('gender', 2)->where('status', 5)->count_all_results('volunteer');
+                    $female_countintrn = $this->db->where('state_id', $state_id)->where('gender', 2)->where('status', 8)->count_all_results('interns');
+                    $totalvolactive = $this->db->where('state_id', $state_id)->where('status', 5)->count_all_results('volunteer');
+                    $totalintactive = $this->db->where('state_id', $state_id)->where('status', 8)->count_all_results('interns');
+                    $totalvolinactive = $this->db->where('state_id', $state_id)->where('status', 6)->count_all_results('volunteer');
+                    $totalintinactive = $this->db->where('state_id', $state_id)->where('status', 9)->count_all_results('volunteer');
+                    $lastlogDate = date('Y-m-d', strtotime('-1 month'));
+                    $sleepyvol = $this->db->where('state_id', $state_id)->where('last_login <', $lastlogDate)->where('status', 5)->count_all_results('volunteer');
+                    $lastloginDateintern = date('Y-m-d', strtotime('-1 month'));
+                    $sleepyintern = $this->db->where('state_id', $state_id)->where('last_login <', $lastloginDateintern)->where('status', 8)->count_all_results('interns');
+                    $certificate_status = $this->db->where('state_id', $state_id)->where('certificate_status', 1)->count_all_results('interns');
+                    $countCertificate = "SELECT 
+                    admin_time,
+                    COUNT(*) AS volunteer_count,
+                    SUM(CASE 
+                      WHEN admin_time >= 100 THEN 1
+                      ELSE 0
+                    END) AS platinum_count,
+                    SUM(CASE 
+                      WHEN admin_time >= 80 AND admin_time < 100 THEN 1
+                      ELSE 0
+                    END) AS gold_count,
+                    SUM(CASE 
+                      WHEN admin_time >= 60 AND admin_time < 80 THEN 1
+                      ELSE 0
+                    END) AS silver_count,
+                    SUM(CASE 
+                      WHEN admin_time < 60 THEN 1
+                      ELSE 0
+                    END) AS bronze_count
+                  FROM approveddaily_report
+                  GROUP BY admin_time
+                  ";
+
+                    $data = array(
+                        'male_count' => $male_count,
+                        'male_countintern' => $male_countintern,
+                        'female_count' => $female_count,
+                        'female_countintrn' => $female_countintrn,
+                        'totalvol' => $totalvolactive,
+                        'totalintactive' => $totalintactive,
+                        'totalvolinactive' => $totalvolinactive,
+                        'totalintinactive' => $totalintinactive,
+                        'sleepyvol' => $sleepyvol,
+                        'sleepyintern' => $sleepyintern,
+                        'male_countintern' => $male_countintern,
+                        'certificate_status' => $certificate_status,
+                        'countCertificate' => $countCertificate
+                    );
+
+                    echo json_encode($data);
+                }
+            } else {
+                redirect(base_url() . 'login', 'refresh');
+            }
+        } catch (Exception $e) {
+            echo 'Caught exception: ',  $e->getMessage(), "\n";
         }
     }
 }

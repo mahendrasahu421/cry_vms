@@ -45,10 +45,11 @@
                                             id="region_id">
                                             <option selected disabled value="">Select Region</option>
                                             <?php foreach ($regions as $rd) {
-										?>
+                                            ?>
                                             <option value="<?php echo $rd['region_id']; ?>" <?php if ($regionId == $rd['region_id']) {
-																								echo "selected";
-																							} ?>><?php echo $rd['region_name'] ?></option>
+                                                                                                    echo "selected";
+                                                                                                } ?>>
+                                                <?php echo $rd['region_name'] ?></option>
                                             <?php } ?>
                                         </select>
                                     </div>
@@ -67,8 +68,6 @@
                             </div><!-- COL END -->
                         </div>
                     </form>
-
-
 
                     <table id="example" class="display bg-white" cellspacing="0" width="100%">
                         <th colspan="6" class="fs-20">Volunteer</th>
@@ -102,7 +101,8 @@
                                             <div class="card-body p-4">
 
                                                 <h2 class="mb-2 fw-normal mt-2 ">
-                                                    <i class="fa fa-female fs-40 female-count"><?php echo $female_count;?></i>
+                                                    <i
+                                                        class="fa fa-female fs-40 female-count"><?php echo $female_count; ?></i>
 
                                                 </h2>
                                                 <h5 class="fw-normal mb-0">Total Volunteer</h5>
@@ -110,7 +110,7 @@
                                         </div>
                                         <div class="col-4 mt-4">
                                             <h2 class="mb-2 fw-normal mt-2 ">
-                                                <i class="fa fa-male fs-40 male-count"><?php echo $male_count;?></i>
+                                                <i class="fa fa-male fs-40 male-count"><?php echo $male_count; ?></i>
                                             </h2>
                                             <h5 class="fw-normal mb-0">Total Volunteer</h5>
                                         </div>
@@ -128,183 +128,126 @@
                             <th class="fs-17">Female</th>
                         </tr>
                         <tr>
-                            <td class="totalvol fs-17"><?php echo count($totalvolunteer); ?></td>
-                            <td class="totalvolinactive fs-17"><?php echo $totalvolinactive; ?></td>
-                            <td class="sleepyvol fs-17"><?php echo $sleepyvol; ?></td>
-                            <td class="male-count fs-17"><?php echo $male_count; ?></td>
-                            <td class="female-count fs-17"><?php echo $female_count; ?></td>
+                            <td class="totalvol fs-30"><?php echo count($totalvolunteer); ?></td>
+                            <td class="totalvolinactive fs-30"><?php echo $totalvolinactive; ?></td>
+                            <td class="sleepyvol fs-30"><?php echo $sleepyvol; ?></td>
+                            <td class="male-count fs-30"><?php echo $male_count; ?></td>
+                            <td class="female-count fs-30"><?php echo $female_count; ?></td>
+                        </tr>
+                        <?php $query = $this->db->query("
+                                    SELECT 
+                                        COUNT(CASE WHEN total_time >= 40 AND total_time < 60 THEN 1 END) AS bronze_count,
+                                        COUNT(CASE WHEN total_time >= 60 AND total_time < 80 THEN 1 END) AS silver_count,
+                                        COUNT(CASE WHEN total_time >= 80 AND total_time < 100 THEN 1 END) AS gold_count,
+                                        COUNT(CASE WHEN total_time >= 100 THEN 1 END) AS platinum_count
+                                    FROM (
+                                        SELECT volunteer_id, SUM(admin_time) AS total_time
+                                        FROM approveddaily_report
+                                        GROUP BY volunteer_id
+                                    ) t
+                                    ");
+                                    if ($query->num_rows() > 0) {
+                                        $row = $query->row();
+                        
+                                      } else {
+                                        echo 'No certificate counts found.';
+                                      }
+                                      ?>
+                        
+                        <th class="fs-20">Issue Certificate</th>
+                        <tr>
+
+                            <th class="fs-17">Bronze</th>
+                            <th class="fs-17 countCertificate">Silver</th>
+                            <th class="fs-17 countCertificate">Gold</th>
+                            <th class="fs-17 countCertificate">platinum</th>
+
+
+                        </tr>
+                        <tr class="fs-20">
+
+                            <td><?php echo $row->bronze_count;?></td>
+                            <td><?php echo $row->silver_count;?></td>
+                            <td><?php echo $row->gold_count;?></td>
+                            <td><?php echo $row->platinum_count;?></td>
+                        </tr>
+                    </table>
+
+                    <table id="example" class="display bg-white mt-4" cellspacing="0" width="100%">
+                        <th colspan="6" class="fs-20 mx-">Interns</th>
+
+                        <tr>
+                            <td rowspan="9" colspan="6">
+                                <div class="">
+                                    <div class="row">
+
+                                        <div class="col-8">
+                                            <div class="card-body p-4">
+
+                                                <h2 class="mb-2 fw-normal mt-2 totalintactive">
+                                                    <?php echo $totalintinactive; ?></h2>
+                                                <h5 class="fw-normal mb-0">Total Interns</h5>
+                                            </div>
+                                        </div>
+                                        <div class="col-4">
+                                            <div
+                                                class="circle-icon bg-warning text-center align-self-center box-warning-shadow">
+                                                <img src="<?php echo base_url(); ?>admin/assets/images/svgs/circle.svg"
+                                                    alt="img" class="card-img-absolute">
+                                                <i class="lnr lnr-user fs-30  text-white mt-4"></i>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <div class="row">
+
+                                        <div class="col-8">
+                                            <div class="card-body p-4">
+
+                                                <h2 class="mb-2 fw-normal mt-2 ">
+                                                    <i
+                                                        class="fa fa-female fs-40 female_countintrn"><?php echo $female_countintrn; ?></i>
+
+                                                </h2>
+                                                <h5 class="fw-normal mb-0">Total Interns</h5>
+                                            </div>
+                                        </div>
+                                        <div class="col-4 mt-4">
+                                            <h2 class="mb-2 fw-normal mt-2 ">
+                                                <i
+                                                    class="fa fa-male fs-40 male_countintern"><?php echo $male_countintern; ?></i>
+                                            </h2>
+                                            <h5 class="fw-normal mb-0">Total Interns</h5>
+                                        </div>
+
+                                    </div>
+
+
+
+                                </div>
+                            </td>
+                            <th class="fs-17">Active</th>
+                            <th class="fs-17">Inactive</th>
+                            <th class="fs-17">Sleepy</th>
+                            <th class="fs-17">Male</th>
+                            <th class="fs-17">Female</th>
+                        </tr>
+                        <tr>
+                            <td class="totalintactive fs-30"><?php echo $totalintinactive; ?></td>
+                            <td class="totalvolinactive fs-30"><?php echo $totalvolinactive; ?></td>
+                            <td class="sleepyintern fs-30"><?php echo $sleepyintern; ?></td>
+                            <td class="male_countintern fs-30"><?php echo $male_countintern; ?></td>
+                            <td class="female_countintrn fs-30"><?php echo $female_countintrn; ?></td>
                         </tr>
 
                         <th class="fs-20">Issue Certificate</th>
                         <tr>
 
-                            <th class="fs-17">Bronze</th>
-                            <th class="fs-17">Silver</th>
-                            <th class="fs-17">Gold</th>
-                            <th class="fs-17">platinum</th>
-
-
-                        </tr>
-                        <tr>
-
-                            <td>214</td>
-                            <td>25</td>
-                            <td>563</td>
-                            <td> 634</td>
-
+                            <th class="certificate_status fs-30"><?php echo $certificate_status; ?></th>
                         </tr>
                     </table>
-                    <table style="margin-top: 20px;" class="table table-bordered bg-white">
-                                <th colspan="3">Interns</th>
-                                <th colspan="9">Onboarding Status</th>
-                                <tr>
-                                    <td rowspan="11" colspan="6">
-                                        <div class="card">
-                                            <div class="row">
 
-                                                <div class="col-md-8">
-                                                    <div class="card-body p-4">
-
-                                                        <h2 class="mb-2 fw-normal mt-2">
-                                                            <?php echo count($totalvolunteer); ?></h2>
-                                                        <h5 class="fw-normal mb-0">Total Interns</h5>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-4">
-                                                    <div
-                                                        class="circle-icon bg-primary text-center align-self-center box-primary-shadow">
-                                                        <img src="<?php echo base_url(); ?>admin/assets/images/svgs/circle.svg"
-                                                            alt="img" class="card-img-absolute">
-                                                        <i class="lnr lnr-user fs-30  text-white mt-4"></i>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="row">
-                                            <div class="col-8">
-                                                <div class="card-body">
-
-                                                    <div
-                                                        class="circle-icon bg-primary text-center align-self-center box-primary-shadow">
-                                                        <img src="<?php echo base_url(); ?>admin/assets/images/svgs/circle.svg"
-                                                            alt="img" class="card-img-absolute">
-                                                        <i class="fa fa-male fs-20  text-white mt-4"><br>40</i>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-4">
-                                                <div style="margin-top:37px;"
-                                                    class="circle-icon bg-primary text-center align-self-center box-primary-shadow">
-                                                    <img src="<?php echo base_url(); ?>admin/assets/images/svgs/circle.svg"
-                                                        alt="img" class="card-img-absolute">
-                                                    <i class="fa fa-female fs-20  text-white mt-4"><br>33</i>
-                                                </div>
-                                            </div>
-                                        </div>
-
-
-
-
-                                    </td>
-                                    <th>Proccess</th>
-                                    <td>State 1</td>
-                                    <td>State 2</td>
-                                    <td>State 3</td>
-                                    <td>State 4</td>
-                                    <td>State 5</td>
-                                </tr>
-                                <tr>
-                                    <th>Total</th>
-                                    <td>900</td>
-                                    <td>800</td>
-                                    <td>700</td>
-                                    <td>554</td>
-                                    <td>752</td>
-                                </tr>
-                                <tr>
-                                    <th>Applied</th>
-                                    <td>411</td>
-                                    <td>525</td>
-                                    <td>411</td>
-                                    <td>522</td>
-                                    <td>585</td>
-                                </tr>
-                                <tr>
-                                    <th>ShortListed</th>
-                                    <td>588</td>
-                                    <td>585</td>
-                                    <td>555</td>
-                                    <td>856</td>
-                                    <td>536</td>
-                                </tr>
-                                <tr>
-                                    <th>interview</th>
-                                    <td>758</td>
-                                    <td>555</td>
-                                    <td>856</td>
-                                    <td>963</td>
-                                    <td>369</td>
-                                </tr>
-                                <tr>
-                                    <th>Offer</th>
-                                    <td>654</td>
-                                    <td>456</td>
-                                    <td>857</td>
-                                    <td>785</td>
-                                    <td>230</td>
-                                </tr>
-                                <tr>
-                                    <th>joined</th>
-                                    <td>589</td>
-                                    <td>985</td>
-                                    <td>758</td>
-                                    <td>857</td>
-                                    <td>855</td>
-                                </tr>
-
-                                <tr>
-
-                                    <th>Engaged User</th>
-                                    <td>854</td>
-                                    <td>526</td>
-                                    <td>563</td>
-                                    <td>852</td>
-                                    <td>869</td>
-
-                                </tr>
-                                <tr>
-
-                                    <th>Non - engadeg User</th>
-                                    <td>856</td>
-                                    <td>582</td>
-                                    <td>369</td>
-                                    <td>563</td>
-                                    <td>563</td>
-                                </tr>
-                                <tr>
-
-                                    <th>Submission Reports</th>
-                                    <td>555</td>
-                                    <td>236</td>
-                                    <td>321</td>
-                                    <td>232</td>
-                                    <td>365</td>
-                                </tr>
-                                <tr>
-
-                                    <th>certificate issuee</th>
-                                    <td>210</td>
-                                    <td>120</td>
-                                    <td>240</td>
-                                    <td>236</td>
-                                    <td>365</td>
-                                </tr>
-
-
-                            </table>
-                    
-                    <div class="row">
+                    <div class="row mt-5">
                         <div class="col-sm-12 col-md-3 col-lg-6 col-xl-3">
                             <div class="card">
                                 <div class="row">
@@ -430,7 +373,7 @@
                                             <td><?php echo $value['email']; ?></td>
                                             <td><?php echo $value['mobile']; ?></td>
                                             <td><?php echo $value['date_of_birth']; ?></td>
-                                            <td><a href="<?php echo base_url();?>enquiry"><span
+                                            <td><a href="<?php echo base_url(); ?>enquiry"><span
                                                         class="badge bg-warning  me-1 mb-1 mt-1">Enquiry
                                                         Volunteer</span></a></td>
 
@@ -505,6 +448,12 @@ $(document).ready(function(e) {
                 $(".totalvol").html(data.totalvol);
                 $(".totalvolinactive").html(data.totalvolinactive);
                 $(".sleepyvol").html(data.sleepyvol);
+                $(".sleepyintern").html(data.sleepyintern);
+                $(".male_countintern").html(data.male_countintern);
+                $(".totalintactive").html(data.totalintactive);
+                $(".female_countintrn").html(data.female_countintrn);
+                $(".certificate_status").html(data.certificate_status);
+                $(".countCertificate").html(data.countCertificate);
             }
         });
     });

@@ -199,12 +199,14 @@
                             </div>
                         </form>
 
+                        <form action="preRegistrationinterns_exporttoExcel" method="POST" id="">
+                            <button class="btn btn-warning mt-3 mx-5" id="get_data_btn">
+                                Export To excel
+                            </button>
+                        </form>
 
-                        <button class="btn btn-warning mt-3 mx-5" id="partnercsv">
-                            Export To excel
-                        </button>
 
-                        <form method="post" action="#" id="id-form">
+                        <form method="post" action="" id="id-form">
                             <input type="hidden" value="" id="ids" name="ids">
                             <div class="card-body">
                                 <div class="table-responsive ">
@@ -218,27 +220,27 @@
                                                 <th>Mobile</th>
                                                 <th>Districts</th>
                                                 <th>State</th>
-                                               
+
                                                 <th>Registration Date</th>
-                                               
+
                                             </tr>
                                         </thead>
                                         <tbody>
-									<?php $i=1; foreach($intern as $in){?>
-									<tr>
-										<td><?php echo $i++; ?></td>
-										<td><?php echo $in['first_name']; ?><?php echo $in['last_name']; ?></td>
-										<td><?php echo $in['date_of_birth']; ?></td>
-										<td><?php echo $in['email']; ?></td>
-										<td><?php echo $in['mobile']; ?></td>
-										<td><?php echo $in['city_name']; ?></td>
-										<td><?php echo $in['state_name']; ?></td>
-										<td><?php echo $in['creation_date']; ?></td>
-									
-									
-									</tr>
-									<?php } ?>
-                                    </tbody>
+                                            <?php $i=1; foreach($intern as $in){?>
+                                            <tr>
+                                                <td><?php echo $i++; ?></td>
+                                                <td><?php echo $in['first_name']; ?><?php echo $in['last_name']; ?></td>
+                                                <td><?php echo $in['date_of_birth']; ?></td>
+                                                <td><?php echo $in['email']; ?></td>
+                                                <td><?php echo $in['mobile']; ?></td>
+                                                <td><?php echo $in['city_name']; ?></td>
+                                                <td><?php echo $in['state_name']; ?></td>
+                                                <td><?php echo $in['creation_date']; ?></td>
+
+
+                                            </tr>
+                                            <?php } ?>
+                                        </tbody>
                                     </table>
                                     <!-- <input type="botton" id="submit3" value="Send Login Credentional" class="mt-5 btn btn-warning  pull-right" id="map_button" style="padding: 1% 2% 1% 2%;"> -->
                                 </div>
@@ -254,6 +256,21 @@
 </div>
 </div>
 <script>
+$(document).ready(function() {
+    $('#get_data_btn').on('click', function() {
+        $.ajax({
+            url: '<?php echo base_url(); ?>get_data',
+            method: 'GET',
+            dataType: 'json',
+            success: function(response) {
+                console.log(response);
+                // Do something with the returned data
+            }
+        });
+    });
+});
+</script>
+<script>
 $('#partnercsv').click(function() {
     //alert();
     $.ajax({
@@ -264,6 +281,7 @@ $('#partnercsv').click(function() {
         },
         cache: false,
         success: function(response) {
+            return false;
             $('#dis_csv').html(response);
             //alert(response);
             $('#csbbtn').click();
@@ -276,7 +294,7 @@ function fetch_details(id, display_id) {
     //alert(id);
     $('#' + display_id).html(
         '<div class="text-center" style="color:red;margin:10 auto;"><i class="fa fa-spinner fa-pulse fa-4x"></i><p>Fetching Data</p></div>'
-        );
+    );
     var request = $.ajax({
         url: '<?php echo base_url("fetch-user-info"); ?>',
         method: "POST",

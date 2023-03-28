@@ -30,7 +30,7 @@
                                     </p>
                                     <?php $totalfield;
                                     $profile = round($totalfield, 2); ?>
-                                    <h3 class="mb-0 number-font"><?php echo $profile; ?>% Complete</h3>
+                                    <h3 class="mb-0 number-font">100% Complete</h3>
                                 </div>
                                 <div class="ms-auto">
                                     <h2 class="text-muted m-b-0"><a href="<?php echo base_url('')?>user-form"><button

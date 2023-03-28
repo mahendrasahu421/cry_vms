@@ -1,4 +1,5 @@
-<div class="modal fade" id="exampleModal1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="exampleModal1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -12,7 +13,8 @@
             <div class="modal-body">
                 <div class="modal-body row" id="profile_details">
                     <div class="col-md-3 m-b-20 text-center">
-                        <img src="<?php echo base_url('admin/'); ?>assets/images/crop.jpg" class="img-fluid" alt="" title="">
+                        <img src="<?php echo base_url('admin/'); ?>assets/images/crop.jpg" class="img-fluid" alt=""
+                            title="">
                     </div>
                     <div class="col-md-8">
                         <h2 class="">Mahendra sahu</h2>
@@ -26,7 +28,8 @@
                         </div>
                         <div class="row mb-2">
                             <div class="col-4 font-weight-bold text-dark">Email</div>
-                            <div class="col"><a href="#" class="text-inverse"><span class="_cf_email_">thejasjohn12@gmail.com</span></a></div>
+                            <div class="col"><a href="#" class="text-inverse"><span
+                                        class="_cf_email_">thejasjohn12@gmail.com</span></a></div>
                         </div>
                         <div class="row mb-2">
                             <div class="col-4 font-weight-bold text-dark">Date of Birth</div>
@@ -59,7 +62,8 @@
     </div>
 </div>
 
-<div class="modal fade" id="exampleModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="exampleModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -99,7 +103,8 @@
         </div>
     </div>
 </div>
-<div class="modal fade" id="exampleModal3" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="exampleModal3" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -113,7 +118,8 @@
             <div class="modal-body">
                 <div class="modal-body row" id="profile_details">
                     <div class="col-md-3 m-b-20 text-center">
-                        <img src="<?php echo base_url('admin/'); ?>assets/images/crop.jpg" class="img-fluid" alt="" title="">
+                        <img src="<?php echo base_url('admin/'); ?>assets/images/crop.jpg" class="img-fluid" alt=""
+                            title="">
                     </div>
                     <div class="col-md-8">
                         <h2 class="">Ravi Sharma</h2>
@@ -127,7 +133,8 @@
                         </div>
                         <div class="row mb-2">
                             <div class="col-4 font-weight-bold text-dark">Email</div>
-                            <div class="col"><a href="#" class="text-inverse"><span class="_cf_email_">ravi.s1234@gmail.com</span></a></div>
+                            <div class="col"><a href="#" class="text-inverse"><span
+                                        class="_cf_email_">ravi.s1234@gmail.com</span></a></div>
                         </div>
                         <div class="row mb-2">
                             <div class="col-4 font-weight-bold text-dark">Date of Birth</div>
@@ -159,7 +166,8 @@
         </div>
     </div>
 </div>
-<div class="modal fade" id="exampleModal4" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="exampleModal4" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
 
@@ -253,20 +261,24 @@
                         <form action="intern-assign-task-report" method="post">
                             <div class="card-header">
                                 <div class="col-md-3">
-                                    <input type="hidden" name="regionId" value="<?php $regionId = $this->session->userdata('region_id'); ?>">
+                                    <input type="hidden" name="regionId"
+                                        value="<?php $regionId = $this->session->userdata('region_id'); ?>">
                                     <?php $regionId = $this->session->userdata('region_id'); ?>
-                                    <select class="form-control select2-show-search form-select" name="taskType" id="taskType">
+                                    <select class="form-control select2-show-search form-select" name="taskType"
+                                        id="taskType">
                                         <option selected disabled value="">Select Task Type</option>
                                         <?php foreach ($taskType as $tt) {
                                         ?>
-                                            <option value="<?php echo $tt['task_type_id']; ?>" <?php if ($regionId == $tt['task_type_id']) {
+                                        <option value="<?php echo $tt['task_type_id']; ?>" <?php if ($regionId == $tt['task_type_id']) {
                                                                                                     echo "selected";
-                                                                                                } ?>><?php echo $tt['task_type'] ?></option>
+                                                                                                } ?>>
+                                            <?php echo $tt['task_type'] ?></option>
                                         <?php } ?>
                                     </select>
                                 </div>
                                 <div class="col-md-3">
-                                    <select class="form-control select2-show-search form-select" name="taskName" id="taskName" required>
+                                    <select class="form-control select2-show-search form-select" name="taskName"
+                                        id="taskName" required>
                                         <option value="">Select Task</option>
 
                                     </select>
@@ -277,7 +289,9 @@
                                         <div class="input-group-text">
                                             <i class="fa fa-calendar tx-16 lh-0 op-6"></i>
                                         </div>
-                                        <input class="form-control fc-datepicker" name="start_new" value="<?php echo date("m/d/Y", strtotime($date_from)) ?>" required placeholder="To" id="toDate" type="text">
+                                        <input class="form-control fc-datepicker" name="start_new"
+                                            value="<?php echo date("m/d/Y", strtotime($date_from)) ?>" required
+                                            placeholder="To" id="toDate" type="text">
                                     </div>
                                 </div>
                                 <strong style="font-size: 15px; font:900">To</strong>
@@ -286,15 +300,21 @@
                                         <div class="input-group-text">
                                             <i class="fa fa-calendar tx-16 lh-0 op-6"></i>
                                         </div>
-                                        <input class="form-control fc-datepicker" name="end_new" value="<?php echo date("m/d/Y", strtotime($date_to)) ?>" required placeholder="From" id="fromDate" type="text">
+                                        <input class="form-control fc-datepicker" name="end_new"
+                                            value="<?php echo date("m/d/Y", strtotime($date_to)) ?>" required
+                                            placeholder="From" id="fromDate" type="text">
                                     </div>
                                 </div>
                                 <div class="col-md-2">
                                     <div class="input-group  p-0">
-                                        <button type="submit" name="submit" id="searchData" class="input-group-text btn btn-warning">Search</button>
+                                        <button type="submit" name="submit" id="searchData"
+                                            class="input-group-text btn btn-warning">Search</button>
                                     </div>
                                 </div>
                             </div>
+                        </form>
+                        <form action="assign_taskDetails_exportToExcel">
+                         <button class="btn btn-warning mt-3 mx-5">Export To Excel</button>
                         </form>
                         <div class="card-body">
                             <div class="table-responsive">
@@ -317,37 +337,24 @@
                                             $internEmail = $internData['email'];
                                             $encoded_id = rtrim(strtr(base64_encode($intern_id), '+/', '-_'), '=');
                                         ?>
-                                            <tr>
-                                                <td>
-                                                   <?php echo $count++;?>
-                                                </td>
-                                                
-                                                <td>
-                                                    <?php echo ucwords($internData['first_name'] . ' ' . $internData['last_name']); ?>
-                                                    <br>
+                                        <tr>
+                                            <td><?php echo $count++;?> </td>
 
-                                                </td>
-                                                <td><?php echo $internEmail; ?>
-                                                </td>
-                                                <td><?php echo $internData['mobile']; ?>
-                                                </td>
-                                                <td><?php echo $internData['assigned_date']; ?>
-                                                </td>
-                                               
-                                                <!-- <td>
-                                                    <?php echo date("d-m-Y", strtotime($internData['creation_date'])); ?>
-                                                </td> -->
-                                              
+                                            <td><?php echo ucwords($internData['first_name'] . ' ' . $internData['last_name']); ?><br></td>
+                                            <td><?php echo $internEmail; ?></td>
+                                            <td><?php echo $internData['mobile']; ?></td>
+                                            <td><?php echo $internData['assigned_date']; ?></td>
+                                            <td>
+                                                <?php if ($internData['certificate_id'] == 0) { ?>
+                                                <button type='button'
+                                                    class='badge bg-info  me-1 mb-1 mt-1'>Assigned</button>
+                                                <?php } else { ?>
+                                                <button type='button' class='badge bg-info  me-1 mb-1 mt-1'> Not
+                                                    Assign</button>
 
-                                                <td>
-                                                    <?php if ($internData['certificate_id'] == 0) { ?>
-                                                        <button type='button' class='badge bg-info  me-1 mb-1 mt-1'>Assigned</button>
-                                                    <?php } else { ?>
-                                                        <button type='button' class='badge bg-info  me-1 mb-1 mt-1'> Not Assign</button>
-
-                                                    <?php } ?>
-                                                </td>
-                                            </tr>
+                                                <?php } ?>
+                                            </td>
+                                        </tr>
                                         <?php
                                         } ?>
                                     </tbody>
@@ -358,32 +365,28 @@
                 </div>
             </div>
         </div>
-
-
-
     </div>
-
 </div>
 </div>
 </div>
 <script>
-    $(document).ready(function() {
+$(document).ready(function() {
 
-        $('#taskType').change(function() {
-            //alert('working');
-            var taskType = $(this).val();
-            datastr = {
-                taskType: taskType
-            };
-            $.ajax({
-                url: '<?php echo base_url(); ?>interngetonline_offlineTask',
-                type: 'post',
-                data: datastr,
-                success: function(response) {
-                    //alert(response);
-                    $("#taskName").html(response);
-                }
-            });
+    $('#taskType').change(function() {
+        //alert('working');
+        var taskType = $(this).val();
+        datastr = {
+            taskType: taskType
+        };
+        $.ajax({
+            url: '<?php echo base_url(); ?>interngetonline_offlineTask',
+            type: 'post',
+            data: datastr,
+            success: function(response) {
+                //alert(response);
+                $("#taskName").html(response);
+            }
         });
-    })
+    });
+})
 </script>

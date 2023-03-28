@@ -199,10 +199,12 @@
                             </div>
                         </form>
 
-
+                        <form action="shortlistInterns" method="POST">
                         <button class="btn btn-warning mt-3 mx-5" id="partnercsv">
                             Export To excel
                         </button>
+                        </form>
+                       
 
                         <form method="post" action="#" id="id-form">
                             <input type="hidden" value="" id="ids" name="ids">

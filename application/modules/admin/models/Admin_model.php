@@ -1349,4 +1349,21 @@ class admin_model extends CI_Model
 		$count = $query->num_rows($query);
 		echo $count;
 	}
+
+	public function get_all_data(){
+		$query = $this->db->get('interns');
+		//echo $this->db->last_query(); die;
+		return $query->result();
+	 }
+
+	 public function countCertificates() {
+		$query = $this->db->query("
+		  SELECT 
+			admin_time,volunteer_id
+			
+		  FROM approveddaily_report
+		  GROUP BY volunteer_id
+		");
+		return $query->result_array();
+	}
 }

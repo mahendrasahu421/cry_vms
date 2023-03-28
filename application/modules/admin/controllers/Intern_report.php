@@ -376,5 +376,52 @@ class Intern_report extends MY_Controller
             echo 'Caught exception: ',  $e->getMessage(), "\n";
         }
     }
+
+    public function get_data() {
+        $data = $this->db->get('')->result_array();
+        return $data;
+    }
+    
+    public function export_excel() {
+        // Load PHPExcel library
+        $this->load->library('PHPExcel');
+    
+        // Create new PHPExcel object
+        $objPHPExcel = new PHPExcel();
+    
+        // Set the active worksheet to the first sheet
+        $objPHPExcel->setActiveSheetIndex(0);
+    
+        // Retrieve data from database
+        $data = $this->get_data();
+    
+        // Add column headers
+        $col = 'A';
+        foreach ($data[0] as $key => $value) {
+            $objPHPExcel->getActiveSheet()->setCellValue($col.'1', $key);
+            $col++;
+        }
+    
+        // Add data rows
+        $row = 2;
+        foreach ($data as $rowData) {
+            $col = 'A';
+            foreach ($rowData as $cellData) {
+                $objPHPExcel->getActiveSheet()->setCellValue($col.$row, $cellData);
+                $col++;
+            }
+            $row++;
+        }
+    
+        // Set filename and download as Excel file
+        $filename = 'data.xlsx';
+        header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        header('Content-Disposition: attachment;filename="'.$filename.'"');
+        header('Cache-Control: max-age=0');
+        $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
+        $objWriter->save('php://output');
+    }
+    
+
 }
 ?>

@@ -67,7 +67,13 @@ class Intern extends MY_Controller
                         $r_password = $results['password'];
 
                         if ($r_password == md5($password)) {
+                            
                             if ($results['status'] == 8) {
+                                $data = array(
+                                    'last_login' => date('Y-m-d')
+                                );
+                                $this->db->where('email', $email);
+                                $this->db->update('interns', $data);
                                 $this->session->set_userdata('intern_id', $results['intern_id']);
                                 $this->session->set_userdata('first_name', $results['first_name']);
                                 $this->session->set_userdata('state_id', $results['state_id']);

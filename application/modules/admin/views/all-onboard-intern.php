@@ -142,6 +142,11 @@
 						<div class="col-md-2 mt-5">
 
 						</div>
+						<form action="all_onboard_intern_memberexportToexcel" method="POST">
+                        <button class="btn btn-warning mt-3 mx-5" id="partnercsv">
+                            Export To excel
+                        </button>
+                        </form>
 						<form method="post" action="send_orientation_emails" id="id-form">
 							<input type="hidden" value="" id="ids" name="ids">
 							<div class="card-body">
