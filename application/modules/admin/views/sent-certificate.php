@@ -154,9 +154,9 @@
 
                             </div>
                         </form>
-                        <div class="col-md-2 mt-5">
-
-                        </div>
+                       <form action="sent_certificate_exportToexcel">
+                                            <button class="btn btn-warning mx-4 mt-3">Export To Excel</button>
+                       </form>
                         <form method="post" action="send_orientation_emails" id="id-form">
                             <input type="hidden" value="" id="ids" name="ids">
 
@@ -205,15 +205,15 @@
                                                 <td><?php echo $internData['city_name']; ?></td>
                                                 <td><?php echo $internEmail; ?></td>
                                                 <td>
-                                                <button type="button" class="btn btn-primary"
-                                                        data-toggle="modal" data-target=".bd-example-modal-lg"
+                                                    <button type="button" class="btn btn-primary" data-toggle="modal"
+                                                        data-target=".bd-example-modal-lg"
                                                         style="padding: 1% 2% 1% 2%;">Edit And
                                                         Update</button>
                                                     <button type="button" class="btn btn-warning" id="preview">
                                                         <a href="<?php echo base_url() ?>view_certificate/<?php echo $encoded_id; ?>"
                                                             target="_blank">Preview </a>
                                                     </button>
-                                                  
+
                                                     <?php if ($internData['status'] == 3) { ?>
                                                     <button type='button' class='badge bg-warning '> <a
                                                             href="<?php echo base_url() ?>send_certificate_on_mail/<?php echo $encoded_id; ?>">Already

@@ -1,3 +1,41 @@
+<style>
+.magic {
+    position: relative;
+    /* display: inline-block; */
+    /* border-bottom: 1px dotted black; */
+}
+
+.magic .magictext {
+    visibility: hidden;
+    width: 120px;
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 0;
+    position: absolute;
+    z-index: 1;
+    bottom: 150%;
+    left: 50%;
+    margin-left: -60px;
+    font-size: 10px;
+}
+
+.magic .magictext::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: black transparent transparent transparent;
+}
+
+.magic:hover .magictext {
+    visibility: visible;
+}
+</style>
 <div class="main-content app-content mt-0">
     <div class="side-app">
         <div class="main-container container-fluid">
@@ -7,8 +45,10 @@
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item"><a href="admin-dashboard">Home</a></li>
                         <li class="breadcrumb-item active text-warning" aria-current="page">Dashboard Analytics</li>
+
                     </ol>
                 </div>
+
             </div>
             <div class="row">
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xl-12">
@@ -70,7 +110,8 @@
                     </form>
 
                     <table id="example" class="display bg-white" cellspacing="0" width="100%">
-                        <th colspan="6" class="fs-20">Volunteer</th>
+                        <th colspan="6" class="fs-20">Volunteer
+                        </th>
 
                         <tr>
                             <td rowspan="9" colspan="6">
@@ -102,7 +143,7 @@
 
                                                 <h2 class="mb-2 fw-normal mt-2 ">
                                                     <i
-                                                        class="fa fa-female fs-40 female-count"><?php echo $female_count; ?></i>
+                                                        class="fa fa-female fs-40 female-count"><?php echo $totalfemale[0]['COUNT(*)']; ?></i>
 
                                                 </h2>
                                                 <h5 class="fw-normal mb-0">Total Volunteer</h5>
@@ -110,7 +151,8 @@
                                         </div>
                                         <div class="col-4 mt-4">
                                             <h2 class="mb-2 fw-normal mt-2 ">
-                                                <i class="fa fa-male fs-40 male-count"><?php echo $male_count; ?></i>
+                                                <i
+                                                    class="fa fa-male fs-40 male-count"><?php echo $totalmale[0]['COUNT(*)']; ?></i>
                                             </h2>
                                             <h5 class="fw-normal mb-0">Total Volunteer</h5>
                                         </div>
@@ -122,8 +164,10 @@
                                 </div>
                             </td>
                             <th class="fs-17">Active</th>
-                            <th class="fs-17">Inactive</th>
-                            <th class="fs-17">Sleepy</th>
+                            <th class="magic fs-17">Inactive<span class="magictext">Self Blocked & By admin Block</span>
+                            </th>
+                            <th class="magic fs-17">Sleepy <span class="magictext">Last Login Before One Month</span>
+                            </th>
                             <th class="fs-17">Male</th>
                             <th class="fs-17">Female</th>
                         </tr>
@@ -131,8 +175,8 @@
                             <td class="totalvol fs-30"><?php echo count($totalvolunteer); ?></td>
                             <td class="totalvolinactive fs-30"><?php echo $totalvolinactive; ?></td>
                             <td class="sleepyvol fs-30"><?php echo $sleepyvol; ?></td>
-                            <td class="male-count fs-30"><?php echo $male_count; ?></td>
-                            <td class="female-count fs-30"><?php echo $female_count; ?></td>
+                            <td class="male-count fs-30"><?php echo $totalmale[0]['COUNT(*)']; ?></td>
+                            <td class="female-count fs-30"><?php echo $totalfemale[0]['COUNT(*)']; ?></td>
                         </tr>
                         <?php $query = $this->db->query("
                                     SELECT 
@@ -153,7 +197,7 @@
                                         echo 'No certificate counts found.';
                                       }
                                       ?>
-                        
+
                         <th class="fs-20">Issue Certificate</th>
                         <tr>
 
@@ -174,7 +218,11 @@
                     </table>
 
                     <table id="example" class="display bg-white mt-4" cellspacing="0" width="100%">
-                        <th colspan="6" class="fs-20 mx-">Interns</th>
+                        <th colspan="6" class="fs-20 mx-5 mt-5">Interns
+                            <hr>
+                        </th>
+                        <th colspan="6" class="fs-20"></th>
+
 
                         <tr>
                             <td rowspan="9" colspan="6">
@@ -226,24 +274,48 @@
 
                                 </div>
                             </td>
-                            <th class="fs-17">Active</th>
-                            <th class="fs-17">Inactive</th>
-                            <th class="fs-17">Sleepy</th>
-                            <th class="fs-17">Male</th>
-                            <th class="fs-17">Female</th>
+                            <th class="fs-17">Active
+                                <hr>
+                            </th>
+                            <th class="magic fs-17">Inactive
+                                <hr><span class="magictext">Self Blocked & By admin Block</span>
+                            </th>
+                            <th class="magic fs-17">Sleepy
+                                <hr><span class="magictext">Last Login Before One Month</span>
+                            </th>
+                            <th class="fs-17">Male
+                                <hr>
+                            </th>
+                            <th class="fs-17">Female
+                                <hr>
+                            </th>
                         </tr>
                         <tr>
-                            <td class="totalintactive fs-30"><?php echo $totalintinactive; ?></td>
-                            <td class="totalvolinactive fs-30"><?php echo $totalvolinactive; ?></td>
-                            <td class="sleepyintern fs-30"><?php echo $sleepyintern; ?></td>
-                            <td class="male_countintern fs-30"><?php echo $male_countintern; ?></td>
-                            <td class="female_countintrn fs-30"><?php echo $female_countintrn; ?></td>
+                            <td class="totalintactive fs-30"><?php echo $totalintinactive; ?>
+                                <hr>
+                            </td>
+                            <td class="totalvolinactive fs-30"><?php echo $totalvolinactive; ?>
+                                <hr>
+                            </td>
+                            <td class="sleepyintern fs-30"><?php echo $sleepyintern; ?>
+                                <hr>
+                            </td>
+                            <td class="male_countintern fs-30"><?php echo $male_countintern; ?>
+                                <hr>
+                            </td>
+                            <td class="female_countintrn fs-30"><?php echo $female_countintrn; ?>
+                                <hr>
+                            </td>
                         </tr>
 
-                        <th class="fs-20">Issue Certificate</th>
+                        <th class="fs-20">Issue Certificate
+                            <hr>
+                        </th>
                         <tr>
 
-                            <th class="certificate_status fs-30"><?php echo $certificate_status; ?></th>
+                            <th class="certificate_status fs-30"><?php echo $certificate_status; ?>
+                                <hr>
+                            </th>
                         </tr>
                     </table>
 

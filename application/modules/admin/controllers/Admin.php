@@ -93,6 +93,10 @@ class Admin extends MY_Controller
                 $data['rname'] = $this->Curl_model->fetch_single_data('region_name,state_id', 'regions', array('region_id' => $region));
                 $statesID =  $data['rname']['state_id'];
                 $data['totalvolunteer'] = $this->Admin_model->total_volunteer($statesID);
+                $data['totalmale'] = $this->Admin_model->total_male($statesID);
+                $data['totalfemale'] = $this->Admin_model->total_female($statesID);
+                // echo "<pre>";
+                // print_r($data['totalmale']);exit;
                 $data['totalintern'] = $this->Admin_model->total_intern_region_wise($statesID);
                 $data['totaltask'] = $this->Admin_model->total_task_for_volunteer_region_wise($region);
                 $data['totaltaskintern'] = $this->Admin_model->total_task_count_intern_region_wise($region);
@@ -148,7 +152,7 @@ class Admin extends MY_Controller
                 'start_date' => $sdate,
                 'expected_end_date' => $edate,
                 'intern_required' => $volunteer_required,
-                'keyword' => $keyword,
+                'keyword' => implode(',',$keyword),
                 'task_title' => $title,
                 'task_brief' => $what_to_do,
                 'status' => $status,
@@ -301,6 +305,7 @@ class Admin extends MY_Controller
                     $data['rname'] = $this->Curl_model->fetch_single_data('region_name,state_id', 'regions', array('region_id' => $region));
                     $data['states'] = $this->Crud_modal->fetch_all_data('*', 'states', 'region_id=' . $region);
                 }
+                $data['skills'] = $this->Crud_modal->fetch_all_data('*', 'skills', 'status = 1');
                 $data['taskType'] = $this->Crud_modal->fetch_all_data('*', 'task_type', 'status = 1');
                 $data['regions'] = $this->Crud_modal->fetch_all_data('*', 'regions', 'region_status=1');
                 $this->load->view('temp/head');
@@ -404,6 +409,52 @@ class Admin extends MY_Controller
         $this->load->view('temp/footer');
     }
 
+    public function interngetonline_offlineTask()
+    {
+        try {
+            if (($this->session->userdata('emp_id') != "" || $this->session->userdata('emp_id') != null)) {
+                $region = $this->session->userdata('region_id');
+                $sid = $this->session->userdata('sid');
+                $role = $this->session->userdata('role_id');
+                if ($role == 1) {
+                    $taskType = $this->input->post('taskType');
+                    $where = 'task_type_id  = "' . $taskType . '"';
+                    $task = $this->Admin_model->assign_task_int($where);
+                    // echo "<pre>";
+                    //  print_r($task);exit;
+                    echo '<option value="">---Select Task---</option>';
+                    foreach ($task as $taskData) {
+                        $task_id = $taskData['intern_task_id'];
+                        $task_name = $taskData['task_title'];
+                        $cname = "";
+                        if ($taskData['keyword'] != '') {
+                            $skill_name = explode(',', $taskData['keyword']);
+                            for ($i = 0; $i < sizeof($skill_name); $i++) {
+                                $assig_name = $this->Crud_modal->fetch_single_data("(skill_name) as name", "skills", "skill_id='$skill_name[$i]'");
+                                $cname .= ucwords($assig_name['name'] . (($i + 1) < sizeof($skill_name) ? ", " : ""));
+                            }
+                        }
+                        echo '<option value="' . $task_id . '">' . rtrim($task_name . " (" . $cname, ' ') . ')</option>';
+                    }
+                }else {
+                    $taskType = $this->input->post('taskType');
+                    $task = $this->Crud_modal->all_data_select('*', 'interntask', 'task_type_id=' . $taskType . ' and region_id=' . $region, 'task_title ASC');
+                    // print_r($task);exit;
+
+                    echo '<option value="">---Select Task---</option>';
+                    foreach ($task as $taskData) {
+                        $task_id = $taskData['intern_task_id'];
+                        $task_name = $taskData['task_title'];
+                        echo '<option value="' . $task_id . '">' . rtrim($task_name, ' ') . '</option>';
+                    }
+                }
+            } else {
+                redirect(base_url() . 'login', 'refresh');
+            }
+        } catch (Exception $e) {
+            echo 'Caught exception: ',  $e->getMessage(), "\n";
+        }
+    }
 
     public function getonline_offlineTask()
     {
@@ -453,43 +504,7 @@ class Admin extends MY_Controller
         }
     }
 
-    public function interngetonline_offlineTask()
-    {
-        try {
-            if (($this->session->userdata('emp_id') != "" || $this->session->userdata('emp_id') != null)) {
-                $region = $this->session->userdata('region_id');
-                $sid = $this->session->userdata('sid');
-                $role = $this->session->userdata('role_id');
-                if ($role == 1) {
-                    $taskType = $this->input->post('taskType');
-                    $task = $this->Crud_modal->all_data_select('*', 'interntask', "task_type_id='$taskType'", 'task_title ASC');
-                    // echo "<pre>";
-                    //  print_r($task);exit;
-                    echo '<option value="">---Select Task---</option>';
-                    foreach ($task as $taskData) {
-                        $task_id = $taskData['intern_task_id'];
-                        $task_name = $taskData['task_title'];
-                        echo '<option value="' . $task_id . '">' . rtrim($task_name, ' ') . '</option>';
-                    }
-                } else {
-                    $taskType = $this->input->post('taskType');
-                    $task = $this->Crud_modal->all_data_select('*', 'interntask', 'task_type_id=' . $taskType . ' and region_id=' . $region, 'task_title ASC');
-                    // print_r($task);exit;
-
-                    echo '<option value="">---Select Task---</option>';
-                    foreach ($task as $taskData) {
-                        $task_id = $taskData['intern_task_id'];
-                        $task_name = $taskData['task_title'];
-                        echo '<option value="' . $task_id . '">' . rtrim($task_name, ' ') . '</option>';
-                    }
-                }
-            } else {
-                redirect(base_url() . 'login', 'refresh');
-            }
-        } catch (Exception $e) {
-            echo 'Caught exception: ',  $e->getMessage(), "\n";
-        }
-    }
+    
 
     public function getTaskstate()
     {
@@ -5204,14 +5219,14 @@ class Admin extends MY_Controller
             $mail->FromName = 'cry Vms';
             $mail->IsHTML(true);
             $mail->Subject = 'Update State ';
-            $mail->Body = 'Your State Update Successfully...!';
+            $mail->Body = 'Your request has been accepted please Wait for Approvel';
 
             if (!$mail->Send()) {
                 echo "Message could not be sent. <p>";
                 echo "Mailer Error: " . $mail->ErrorInfo;
             } else {
-                $this->Admin_model->program_volunteer_stateUpdate($volunteerEmail, $relocateState, $volunteer_city);
-                $this->Admin_model->program_volunteer_statusUpdate($volunteer_id, $relocate_id);
+                //$this->Admin_model->program_volunteer_state_Update($volunteerEmail, $relocateState, $volunteer_city);
+                $this->Admin_model->program_volunteer_status_Update($volunteer_id, $relocate_id);
             }
         }
     }
@@ -5241,15 +5256,15 @@ class Admin extends MY_Controller
             $mail->FromName = 'cry Vms';
             $mail->IsHTML(true);
             $mail->Subject = 'Update State ';
-            $mail->Body = 'Update Your State Successfully...!';
+            $mail->Body = 'Your Request Accpeted please Wait for approveal...!';
 
             if (!$mail->Send()) {
                 echo "Message could not be sent. <p>";
                 echo "Mailer Error: " . $mail->ErrorInfo;
             } else {
 
-                $this->Admin_model->program_intern_Updatestate($internEmail, $internRelocate, $internRelocateCity);
-                $this->Admin_model->program_intern_UpdateStatus($relocate_id, $intern_id);
+               // $this->Admin_model->program_intern_Updatestate($internEmail, $internRelocate, $internRelocateCity);
+                $this->Admin_model->intern_Update_Status($relocate_id, $intern_id);
             }
         }
     }
@@ -5518,7 +5533,7 @@ class Admin extends MY_Controller
                         $data['creation_date'] = $date1;
                         $data['creation_date'] = $date2;
                         $data['state_name'] = $state_name;
-                        $where = "it.creation_date>='" . $date_from . "' and it.creation_date<='" . $date_to . "' and it.current_state=" . $state_name . "  and (it.status=1)";
+                        $where = "it.creation_date>='" . $date_from . "' and it.creation_date<='" . $date_to . "' and it.current_state=" . $state_name . "  and (it.status=0)";
                         $data['internTransfer'] = $this->Admin_model->intern_transferRequest($where);
                     }
                 } else {
@@ -5536,7 +5551,7 @@ class Admin extends MY_Controller
                         $data['creation_date'] = $date1;
                         $data['creation_date'] = $date2;
                         $data['state_name'] = $state_name;
-                        $where = "it.creation_date>='" . $date_from . "' and it.creation_date<='" . $date_to . "' and it.current_state=" . $state_name . "  and (it.status=1)";
+                        $where = "it.creation_date>='" . $date_from . "' and it.creation_date<='" . $date_to . "' and it.current_state=" . $state_name . "  and (it.status=0)";
                         $data['internTransfer'] = $this->Admin_model->intern_transferRequest($where);
                     }
                 }
@@ -5574,7 +5589,7 @@ class Admin extends MY_Controller
                         $data['creation_date'] = $date1;
                         $data['creation_date'] = $date2;
                         $data['state_name'] = $state_name;
-                        $where = "vt.creation_date>='" . $date_from . "' and vt.creation_date<='" . $date_to . "' and vt.current_state=" . $state_name . "  and (vt.status=1)";
+                        $where = "vt.creation_date>='" . $date_from . "' and vt.creation_date<='" . $date_to . "' and vt.current_state=" . $state_name . "  and (vt.status=0)";
                         $data['volunteerTransfer'] = $this->Admin_model->volunteer_transferRequest($where);
                     }
                 } else {
@@ -5592,7 +5607,7 @@ class Admin extends MY_Controller
                         $data['creation_date'] = $date1;
                         $data['creation_date'] = $date2;
                         $data['state_name'] = $state_name;
-                        $where = "vt.creation_date>='" . $date_from . "' and vt.creation_date<='" . $date_to . "' and vt.relocate_state=" . $state_name . "  and (vt.status=1)";
+                        $where = "vt.creation_date>='" . $date_from . "' and vt.creation_date<='" . $date_to . "' and vt.current_state=" . $state_name . "  and (vt.status=0)";
 
                         $data['volunteerTransfer'] = $this->Admin_model->volunteer_transferRequest($where);
                     }
@@ -5716,7 +5731,7 @@ class Admin extends MY_Controller
                         $data['creation_date'] = $date1;
                         $data['creation_date'] = $date2;
                         $data['state_name'] = $state_name;
-                        $where = "it.creation_date>='" . $date_from . "' and it.creation_date<='" . $date_to . "' and it.current_state=" . $state_name . "  and (it.status=2)";
+                        $where = "it.state_update_date>='" . $date_from . "' and it.state_update_date<='" . $date_to . "' and it.current_state=" . $state_name . "  and (it.status=2)";
                         $data['internTransfer'] = $this->Admin_model->intern_transferRequest($where);
                         // echo "<pre>";
                         // print_r($data['internTransfer']);exit;
@@ -5736,7 +5751,7 @@ class Admin extends MY_Controller
                         $data['creation_date'] = $date1;
                         $data['creation_date'] = $date2;
                         $data['state_name'] = $state_name;
-                        $where = "it.creation_date>='" . $date_from . "' and it.creation_date<='" . $date_to . "' and it.current_state=" . $state_name . "  and (it.status=2)";
+                        $where = "it.state_update_date>='" . $date_from . "' and it.state_update_date<='" . $date_to . "' and it.current_state=" . $state_name . "  and (it.status=2)";
                         $data['internTransfer'] = $this->Admin_model->intern_transferRequest($where);
                         // echo "<pre>";
                         // print_r($data['internTransfer']);exit;
@@ -6684,7 +6699,7 @@ class Admin extends MY_Controller
                       ELSE 0
                     END) AS bronze_count
                   FROM approveddaily_report
-                  GROUP BY admin_time
+                  GROUP BY admin_time;
                   ";
 
                     $data = array(
@@ -6699,8 +6714,7 @@ class Admin extends MY_Controller
                         'sleepyvol' => $sleepyvol,
                         'sleepyintern' => $sleepyintern,
                         'male_countintern' => $male_countintern,
-                        'certificate_status' => $certificate_status,
-                        'countCertificate' => $countCertificate
+                        'certificate_status' => $certificate_status
                     );
 
                     echo json_encode($data);
@@ -6712,4 +6726,192 @@ class Admin extends MY_Controller
             echo 'Caught exception: ',  $e->getMessage(), "\n";
         }
     }
+
+    public function other_region_volunteer(){
+        
+            try {
+                if (($this->session->userdata('emp_id') != "" || $this->session->userdata('emp_id') != null)) {
+                    $region = $this->session->userdata('region_id');
+                    $role = $this->session->userdata('role_id');
+                    if ($role == 1) {
+                        $date2 = $data['date_to'] = date("Y-m-d");
+                        $data['date_from'] = date("Y-m-d", strtotime($date2 . '-7 days'));
+                        $where = 'vt.status =1';
+                        if ($this->input->post('start_new') != "" && $this->input->post('end_new') != "" &&  $this->input->post('state_name') != "") {
+                            $state_name = $this->input->post('state_name');
+                            $date1 = $this->input->post('start_new');
+                            $date2 = $this->input->post('end_new');
+                            $date_from = date("Y-m-d", strtotime($date1));
+                            $date_to = date("Y-m-d", strtotime($date2 . '+1 days'));
+                            $data['creation_date'] = $date1;
+                            $data['creation_date'] = $date2;
+                            $data['state_name'] = $state_name;
+                            $where = "vt.creation_date>='" . $date_from . "' and vt.creation_date<='" . $date_to . "' and vt.relocate_state=" . $state_name . "  and (vt.status=1)";
+                            $data['volunteerTransfer'] = $this->Admin_model->volunteer_transferRequest($where);
+                        }
+                    } else {
+                        $data['rname'] = $this->Curl_model->fetch_single_data('region_name,state_id', 'regions', array('region_id' => $region));
+                        $data['states'] = $this->Crud_modal->fetch_all_data('*', 'states', 'region_id=' . $region);
+                        $date2 = $data['date_to'] = date("Y-m-d");
+                        $data['date_from'] = date("Y-m-d", strtotime($date2 . '-7 days'));
+                        $where = 'vt.status =1';
+                        if ($this->input->post('start_new') != "" && $this->input->post('end_new') != "" &&  $this->input->post('state_name') != "") {
+                            $state_name = $this->input->post('state_name');
+                            $date1 = $this->input->post('start_new');
+                            $date2 = $this->input->post('end_new');
+                            $date_from = date("Y-m-d", strtotime($date1));
+                            $date_to = date("Y-m-d", strtotime($date2 . '+1 days'));
+                            $data['creation_date'] = $date1;
+                            $data['creation_date'] = $date2;
+                            $data['state_name'] = $state_name;
+                            $where = "vt.creation_date>='" . $date_from . "' and vt.creation_date<='" . $date_to . "' and vt.relocate_state=" . $state_name . "  and (vt.status=1)";
+    
+                            $data['volunteerTransfer'] = $this->Admin_model->volunteer_transferRequest($where);
+                        }
+                    }
+                    // $data['states'] = $this->Crud_modal->fetch_all_data('*', 'states', 'status=1');
+                    $data['regions'] = $this->Crud_modal->fetch_all_data('*', 'regions', 'region_status=1');
+                    $this->load->view('temp/head');
+                    $this->load->view('temp/header', $data);
+                    $this->load->view('temp/sidebar');
+                    $this->load->view('other_region_volunteer', $data);
+                    $this->load->view('temp/footer');
+                } else {
+                    redirect(base_url() . 'login', 'refresh');
+                }
+            } catch (Exception $e) {
+                echo 'Caught exception: ',  $e->getMessage(), "\n";
+            }
+    }
+
+    
+    public function update_by_region_manager() {
+        $volunteerEmail = $this->input->post('volunteer_sendId');
+        $relocateState = $this->input->post('relocateState');
+        $volunteer_city = $this->input->post('volunteer_city');
+        $relocate_id = $this->input->post('relocate_id');
+        $volunteer_id = $this->input->post('volunteer_id');
+        // echo "<pre>";
+        // print_r($volunteer_id);exit;
+        $to = $volunteerEmail; {
+            $mail = new PHPMailer();
+            $mail->IsSMTP();
+            $mail->Host = 'smtp.office365.com';
+            $mail->SMTPDebug = 1;
+            $mail->SMTPAuth = true;
+            $mail->SMTPSecure = "tls";
+            $mail->Port = 587;
+            $mail->Username = "noreply@crymail.org";
+            $mail->Password = "^%n7wh#m7_2k";
+            $mail->setFrom('noreply@crymail.org');
+            $mail->AddAddress($to);
+            $mail->addBCC("ravishankar.k@neuralinfo.org", "Ravi");
+            $mail->FromName = 'cry Vms';
+            $mail->IsHTML(true);
+            $mail->Subject = 'Update State ';
+            $mail->Body = 'Your State Update Successfully...!';
+
+            if (!$mail->Send()) {
+                echo "Message could not be sent. <p>";
+                echo "Mailer Error: " . $mail->ErrorInfo;
+            } else {
+                $this->Admin_model->volunteer_state_Update($volunteerEmail, $relocateState, $volunteer_city);
+                $this->Admin_model->volunteer_status_Update($volunteer_id, $relocate_id);
+            }
+        }
+    }
+
+   public function other_region_intern(){
+    try {
+        if (($this->session->userdata('emp_id') != "" || $this->session->userdata('emp_id') != null)) {
+            $region = $this->session->userdata('region_id');
+            $role = $this->session->userdata('role_id');
+            if ($role == 1) {
+                $date2 = $data['date_to'] = date("Y-m-d");
+                $data['date_from'] = date("Y-m-d", strtotime($date2 . '-7 days'));
+                $where = 'it.status =1';
+                if ($this->input->post('start_new') != "" && $this->input->post('end_new') != "" &&  $this->input->post('state_name') != "") {
+                    $state_name = $this->input->post('state_name');
+                    $date1 = $this->input->post('start_new');
+                    $date2 = $this->input->post('end_new');
+                    $date_from = date("Y-m-d", strtotime($date1));
+                    $date_to = date("Y-m-d", strtotime($date2 . '+1 days'));
+                    $data['creation_date'] = $date1;
+                    $data['creation_date'] = $date2;
+                    $data['state_name'] = $state_name;
+                    $where = "it.creation_date>='" . $date_from . "' and it.creation_date<='" . $date_to . "' and it.relocate_state=" . $state_name . "  and (it.status=1)";
+                    $data['internTransfer'] = $this->Admin_model->intern_transferRequest($where);
+                }
+            } else {
+                $data['rname'] = $this->Curl_model->fetch_single_data('region_name,state_id', 'regions', array('region_id' => $region));
+                $data['states'] = $this->Crud_modal->fetch_all_data('*', 'states', 'region_id=' . $region);
+                $date2 = $data['date_to'] = date("Y-m-d");
+                $data['date_from'] = date("Y-m-d", strtotime($date2 . '-7 days'));
+                $where = 'it.status =1 and ';
+                if ($this->input->post('start_new') != "" && $this->input->post('end_new') != "" &&  $this->input->post('state_name') != "") {
+                    $state_name = $this->input->post('state_name');
+                    $date1 = $this->input->post('start_new');
+                    $date2 = $this->input->post('end_new');
+                    $date_from = date("Y-m-d", strtotime($date1));
+                    $date_to = date("Y-m-d", strtotime($date2 . '+1 days'));
+                    $data['creation_date'] = $date1;
+                    $data['creation_date'] = $date2;
+                    $data['state_name'] = $state_name;
+                    $where = "it.creation_date>='" . $date_from . "' and it.creation_date<='" . $date_to . "' and it.relocate_state=" . $state_name . "  and (it.status=1)";
+                    $data['internTransfer'] = $this->Admin_model->intern_transferRequest($where);
+                }
+            }
+            $data['states'] = $this->Crud_modal->fetch_all_data('*', 'states', 'status=1');
+            $data['regions'] = $this->Crud_modal->fetch_all_data('*', 'regions', 'region_status=1');
+            $this->load->view('temp/head');
+            $this->load->view('temp/header', $data);
+            $this->load->view('temp/sidebar');
+            $this->load->view('other_region_intern', $data);
+            $this->load->view('temp/footer');
+        } else {
+            redirect(base_url() . 'login', 'refresh');
+        }
+    } catch (Exception $e) {
+        echo 'Caught exception: ',  $e->getMessage(), "\n";
+    }
+}
+
+
+public function update_intern_by_region_manager(){
+    $internEmail = $this->input->post('internEmail');
+    $internRelocate = $this->input->post('relocateState');
+    $internRelocateCity = $this->input->post('relocate_city');
+    $relocate_id = $this->input->post('relocate_id');
+    $intern_id = $this->input->post('intern_id');
+    // echo "<pre>";
+    // print_r($internRelocateCity);exit;
+    $to = $internEmail; {
+        $mail = new PHPMailer();
+        $mail->IsSMTP();
+        $mail->Host = 'smtp.office365.com';
+        $mail->SMTPDebug = 1;
+        $mail->SMTPAuth = true;
+        $mail->SMTPSecure = "tls";
+        $mail->Port = 587;
+        $mail->Username = "noreply@crymail.org";
+        $mail->Password = "^%n7wh#m7_2k";
+        $mail->setFrom('noreply@crymail.org');
+        $mail->AddAddress($to);
+        $mail->addBCC("ravishankar.k@neuralinfo.org", "Ravi");
+        $mail->FromName = 'cry Vms';
+        $mail->IsHTML(true);
+        $mail->Subject = 'Update State ';
+        $mail->Body = 'Update Your State Successfully...!';
+
+        if (!$mail->Send()) {
+            echo "Message could not be sent. <p>";
+            echo "Mailer Error: " . $mail->ErrorInfo;
+        } else {
+
+            $this->Admin_model->intern_Update_state($internEmail, $internRelocate, $internRelocateCity);
+            $this->Admin_model->intern_Update_Status($relocate_id, $intern_id);
+        }
+    }
+}
+
 }

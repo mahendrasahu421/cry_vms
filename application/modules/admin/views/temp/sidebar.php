@@ -137,14 +137,25 @@ $rid = $this->session->userdata('admin_role');
                             Request</span><i class="angle fa fa-angle-right"></i></a>
                     <ul class="slide-menu">
                         <li class="side-menu-label1"><a href="javascript:void(0)">Settings</a></li>
+                        
+                        <li>
+                            <a href="<?php echo base_url(); ?>voleentur-transfer-table" class="slide-item">
+                                 Volunnteer Transfer Request
+                            </a>
+                        </li>
+                        <li>
+                            <a href="<?php echo base_url(); ?>other_region_volunteer" class="slide-item">
+                               Other Region Volunteer
+                            </a>
+                        </li>
                         <li>
                             <a href="<?php echo base_url(); ?>transfer-table" class="slide-item">
                                 Intern Transfer Request
                             </a>
                         </li>
                         <li>
-                            <a href="<?php echo base_url(); ?>voleentur-transfer-table" class="slide-item">
-                                Voleentur Transfer Request
+                            <a href="<?php echo base_url(); ?>other_region_intern" class="slide-item">
+                                Other Region Intern
                             </a>
                         </li>
 

@@ -13,27 +13,27 @@
 
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.8.7/chosen.css" integrity="sha512-0nkKORjFgcyxv3HbE4rzFUlENUMNqic/EzDIeYCgsKa/nwqr2B91Vu/tNAu4Q0cBuG4Xe/D1f/freEci/7GDRA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-<div class="modal fade profile-details" id="exampleModal1" tabindex="-1" role="dialog"
-    aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-            <div class="modal-header bg-warning">
-                <h5 class="modal-title " id="exampleModalLabel">
-                    Profile Details
-                </h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">×</span>
-                </button>
-            </div>
-            <div class="modal-body row" id="profile_details" style="height:480px; overflow:scroll">
-            </div>
-            <div class="modal-footer bg-default">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">
-                    Close
-                </button>
-            </div>
-        </div>
-    </div>
+<div class="modal fade profile-details" id="exampleModal1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="exampleModalLabel">
+					Profile Details
+				</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">×</span>
+				</button>
+			</div>
+			<div class="modal-body row" id="profile_details">
+
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-dismiss="modal">
+					Close
+				</button>
+			</div>
+		</div>
+	</div>
 </div>
 <div class="main-content app-content mt-0">
 	<div class="side-app">
@@ -42,21 +42,11 @@
 			<!-- PAGE-HEADER -->
 			<div class="page-header">
 				<div>
-					<h1 class="page-title">  Intern Transfer Report </h1>
+					<h1 class="page-title"> Intern Transfer </h1>
 					<ol class="breadcrumb">
 						<li class="breadcrumb-item"><a href="admin-dashboard">Home</a></li>
-						<li class="breadcrumb-item active" aria-current="page"> Intern Transfer Report  </li>
+						<li class="breadcrumb-item active" aria-current="page"> Intern Transfer </li>
 					</ol>
-				</div>
-				<div class="ms-auto pageheader-btn" id="flip">
-					<a href="javascript:void(0);">
-						<!-- <span>
-							<i class="fe fe-plus"></i>
-						</span> View Filters -->
-					</a>
-					<!-- <div class="count-checkboxes-wrapper fs-6">
-						<span id="count-checked-checkboxes">0</span> checked
-					</div> -->
 				</div>
 			</div>
 			<style>
@@ -73,7 +63,7 @@
 			<div class="row row-sm">
 				<div class="col-lg-12">
 					<div class="card">
-					<form action="intern-transfer-report" method="post">
+						<form action="other_region_intern" method="post">
 							<div class="card-header">
 								<div class="col-md-3">
 									<input type="hidden" name="regionId" value="<?php $regionId = $this->session->userdata('region_id'); ?>">
@@ -91,17 +81,9 @@
 								<div class="col-md-3">
 									<select class="form-control select2-show-search form-select" name="state_name" id="state_name">
 										<option value="">Select State</option>
-										<?php foreach ($states as $sd) { ?>
-											<option value="<?php echo $sd['state_id']; ?>" <?php if ($regi == $sd['state_id']) {
-																								echo "selected";
-																							} ?>>
-												<?php echo $sd['state_name']; ?>
-											</option>
 
-										<?php } ?>
 									</select>
 								</div>
-								<!-- <input type="hidden" class="input-sm form-control" name="start" value="<?php echo $date_from ?>" required /> -->
 								<div class="col-lg-2">
 									<div class="input-group">
 										<div class="input-group-text">
@@ -134,7 +116,7 @@
 										<thead>
 											<tr class="bg-gray-light">
 												<th>Sr.no</th>
-												<th>State Tranfer Date</th>
+												<th>Request Date</th>
 												<th>Name </th>
 												<th>Mobile Number</th>
 												<th>Email</th>
@@ -150,13 +132,13 @@
 										<tbody>
 											<?php
 											$count = 1;
-											foreach ($internTransfer as $internData) {
-												$relocate_id = $internData['relocate_id'];
-												$relocateState = $internData['relocate_state'];
-												$relocate_city = $internData['relocate_city'];
-												$intern_id = $internData['intern_id'];
-												$internEmail = $internData['email'];
-												$encoded_id = rtrim(strtr(base64_encode($intern_id), '+/', '-_'), '=');
+											foreach ($internTransfer as $volunteerData) {
+												$relocate_id = $volunteerData['relocate_id'];
+												$relocateState = $volunteerData['relocate_state'];
+												$relocate_city = $volunteerData['relocate_city'];
+												$intern_id = $volunteerData['intern_id'];
+												$internEmail = $volunteerData['email'];
+												$encoded_id = rtrim(strtr(base64_encode($volunteer_id), '+/', '-_'), '=');
 												$internencoded_id = rtrim(strtr(base64_encode($intern_id), '+/', '-_'), '=');
 											?>
 												<tr>
@@ -164,28 +146,28 @@
 														<input class="che" id="intern_id" name="numchec" value="<?php echo $intern_id; ?>" type="checkbox">
 													</td>
 													<td>
-														<?php echo date("d-m-Y", strtotime($internData['state_update_date'])); ?>
+														<?php echo date("d-m-Y", strtotime($volunteerData['creation_date'])); ?>
 													</td>
 													<td>
-														<?php echo ucwords($internData['first_name'] . ' ' . $internData['last_name']); ?>
+														<?php echo ucwords($volunteerData['first_name'] . ' ' . $volunteerData['last_name']); ?>
 														<br>
 														<a href="#" data-toggle="modal" data-target=".profile-details" onclick="fetch_details('<?php echo $encoded_id; ?>','profile_details');">
 															<small class="text-primary">(View Profile)</small></a>
 													</td>
-													<td><?php echo $internData['mobile']; ?>
+													<td><?php echo $volunteerData['mobile']; ?>
 													</td>
 													<td><?php echo $internEmail; ?></td>
 
-													<td><?php echo $internData['state_name']; ?></td>
+													<td><?php echo $volunteerData['state_name']; ?></td>
 													<td>
-														<?php echo $internData['relocate_state_name']; ?></td>
+														<?php echo $volunteerData['relocate_state_name']; ?></td>
 													<td>
-														<?php echo $internData['relocate_city_name']; ?></td>
+														<?php echo $volunteerData['relocate_city_name']; ?></td>
 													<td>
-														<?php echo $internData['relocate_reason']; ?></td>
+														<?php echo $volunteerData['relocate_reason']; ?></td>
 													<td>
-														<?php if ($internData['status'] == 2) { ?>
-															<button type='button' class="btn btn-warning">Accepted</button>
+														<?php if ($volunteerData['status'] == 2) { ?>
+															<button type='button' onclick="getId_sendmail('<?php echo $internEmail; ?>',<?php echo $relocateState; ?>,<?php echo $relocate_id; ?>,<?php echo $intern_id; ?>,<?php echo $relocate_city; ?>)" class='badge bg-warning  me-1 mb-1 mt-1'>Accepted</button>
 														<?php } else { ?>
 															<button type='button' onclick="getId_sendmail('<?php echo $internEmail; ?>',<?php echo $relocateState; ?>,<?php echo $relocate_id; ?>,<?php echo $intern_id; ?>,<?php echo $relocate_city; ?>)" class='badge bg-info  me-1 mb-1 mt-1'>Accept</button>
 
@@ -210,14 +192,43 @@
 </div>
 </div>
 <script>
+	function getId_sendmail(internEmail, relocateState, relocate_id, intern_id, relocate_city) {
+		var internEmail = internEmail;
+		var relocateState = relocateState;
+		var relocate_city = relocate_city;
+		var relocate_id = relocate_id;
+		var intern_id = intern_id;
+		//alert(relocate_city);
+		datastr = {
+			internEmail: internEmail,
+			relocateState: relocateState,
+			relocate_city: relocate_city,
+			relocate_id: relocate_id,
+			intern_id: intern_id
+		};
+
+		$.ajax({
+			url: '<?php echo base_url() ?>update_intern_by_region_manager',
+			type: 'post',
+			data: datastr,
+			success: function(response) {
+				$('#success_msg').html('Update State Successfully..');
+
+			}
+		});
+
+	}
+</script>
+
+<script>
 	function fetch_details(id, display_id) {
 		//alert(id);
 		$('#' + display_id).html('<div class="text-center" style="color:red;margin:10 auto;"><i class="fa fa-spinner fa-pulse fa-4x"></i><p>Fetching Data</p></div>');
 		var request = $.ajax({
-			url: '<?php echo base_url("fetch-user-info-intern"); ?>',
+			url: '<?php echo base_url("fetch-user-info"); ?>',
 			method: "POST",
 			data: {
-				intern_id: id
+				volunteer_id: id
 			},
 			success: function(results) {
 				// console.log(results);
@@ -284,26 +295,28 @@
 		});
 
 	});
+	$(document).ready(function() {
+
+			var region_id = $('#region_id').val();
+	
+			datastr = {
+				region_id: region_id
+			};
+
+			$.ajax({
+				url: '<?php echo base_url() ?>get-states-admin',
+				type: 'post',
+				data: datastr,
+				success: function(response) {
+					$("#state_name").html(response);
+					// $('select').selectpicker('refresh');
+				}
+			});
+		
+
+	});
 </script>
-<script>
-	function getId_sendmail(internEmail) {
-		var intern_sendId = internEmail;
-		datastr = {
-			intern_sendId: internEmail
-		};
 
-		$.ajax({
-			url: '<?php echo base_url() ?>send_postRegistration_emailsLink',
-			type: 'post',
-			data: datastr,
-			success: function(response) {
-				$('#success_msg').html('Orientation Mail Sent Successfully');
-
-			}
-		});
-
-	}
-</script>
 <script>
 	$(document).on('click', '#submit3', function() {
 		var matches = [];

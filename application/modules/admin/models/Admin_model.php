@@ -153,6 +153,26 @@ class admin_model extends CI_Model
 		return $count;
 	}
 
+	public function total_male($statesID = 0)
+	{
+		$sql = $statesID == 0 ? "SELECT * FROM volunteer WHERE status=5" : "SELECT COUNT(*) FROM volunteer WHERE gender = 1 AND state_id IN ($statesID) AND status =5;
+		";
+		
+		$querry = $this->db->query($sql);
+		$count = $querry->result_array();
+		return $count;
+	}
+
+	public function total_female($statesID = 0)
+	{
+		$sql = $statesID == 0 ? "SELECT * FROM volunteer WHERE status=5" : "SELECT COUNT(*) FROM volunteer WHERE gender = 2 AND state_id IN ($statesID) AND status =5;
+		";
+		
+		$querry = $this->db->query($sql);
+		$count = $querry->result_array();
+		return $count;
+	}
+
 	public function last_five_pending_volunteer($statesID = 0)
 	{
 		$sql = $statesID == 0 ? "SELECT * FROM volunteer WHERE ORDER BY volunteer_id DESC LIMIT  5 status=1 " : "SELECT * FROM volunteer WHERE state_id IN ($statesID) AND status=1 ORDER BY volunteer_id DESC LIMIT  5";
@@ -567,7 +587,7 @@ class admin_model extends CI_Model
 		return true;
 	}
 
-	public function program_volunteer_stateUpdate($volunteerEmail, $relocateState, $volunteer_city)
+	public function program_volunteer_state_Update($volunteerEmail, $relocateState, $volunteer_city)
 	{
 		$this->db->initialize();
 		$updatestatus = "UPDATE volunteer SET state_id = $relocateState,city_id= $volunteer_city WHERE email ='" . $volunteerEmail . "'";
@@ -578,10 +598,10 @@ class admin_model extends CI_Model
 		return true;
 	}
 
-	public function program_volunteer_statusUpdate($volunteer_id, $relocate_id)
+	public function program_volunteer_status_Update($volunteer_id, $relocate_id)
 	{
 		$this->db->initialize();
-		$updateCount = "UPDATE volunteer_transfer SET status=2 WHERE volunteer_relocate_id = $relocate_id OR volunteer_id=$volunteer_id";
+		$updateCount = "UPDATE volunteer_transfer SET status=1 WHERE volunteer_relocate_id = $relocate_id OR volunteer_id=$volunteer_id";
 		$querry = $this->db->query($updateCount);
 		//$count = $querry->num_rows();
 		return true;
@@ -590,7 +610,7 @@ class admin_model extends CI_Model
 	public function program_intern_UpdateStatus($relocate_id, $intern_id)
 	{
 		$this->db->initialize();
-		$updatestatus = "UPDATE intern_transfer SET status=2 WHERE relocate_id = $relocate_id OR intern_id=$intern_id";
+		$updatestatus = "UPDATE intern_transfer SET status=1 WHERE relocate_id = $relocate_id OR intern_id=$intern_id";
 		// echo "<pre>";
 		// print_r($updatestatus);exit;
 		$querry = $this->db->query($updatestatus);
@@ -1312,6 +1332,25 @@ class admin_model extends CI_Model
 			return $result;
 		}
 	}
+
+	public function assign_task_int($where)
+	{ {
+			$this->db->initialize();
+			$this->db->select('it.*');
+			$this->db->from('interntask it');
+
+			$this->db->where($where);
+			$this->db->where("it.expected_end_date>", date('Y-m-d'));
+			$query = $this->db->order_by('intern_task_id desc');
+			$query = $this->db->get();
+			//  echo $this->db->last_query();
+			//  die;
+			$result = $query->result_array();
+			$this->db->close();
+			return $result;
+		}
+	}
+
 	public function hr_process_intern($where)
 	{
 		$this->db->initialize();
@@ -1366,4 +1405,49 @@ class admin_model extends CI_Model
 		");
 		return $query->result_array();
 	}
+
+
+
+	public function volunteer_state_Update($volunteerEmail, $relocateState, $volunteer_city)
+	{
+		$this->db->initialize();
+		$updatestatus = "UPDATE volunteer SET state_id = $relocateState,city_id= $volunteer_city WHERE email ='" . $volunteerEmail . "'";
+		// echo "<pre>";
+		// print_r($updatestatus);exit;
+		$querry = $this->db->query($updatestatus);
+		//$count = $querry->num_rows();
+		return true;
+	}
+
+	public function volunteer_status_Update($volunteer_id, $relocate_id)
+	{
+		$this->db->initialize();
+		$updateCount = "UPDATE volunteer_transfer SET status=2 WHERE volunteer_relocate_id = $relocate_id OR volunteer_id=$volunteer_id";
+		$querry = $this->db->query($updateCount);
+		//$count = $querry->num_rows();
+		return true;
+	}
+
+
+	public function intern_Update_Status($relocate_id, $intern_id)
+	{
+		$this->db->initialize();
+		$updatestatus = "UPDATE intern_transfer SET state_update_date = date('Y-m-d') status=1 WHERE relocate_id = $relocate_id OR intern_id=$intern_id";
+		// echo "<pre>";
+		// print_r($updatestatus);exit;
+		$querry = $this->db->query($updatestatus);
+		//$count = $querry->num_rows();
+		return true;
+	}
+	public function intern_Update_state($internEmail, $relocateState, $relocatecity)
+	{
+		$this->db->initialize();
+		$updateCount = "UPDATE interns SET state_id = $relocateState,city_id= $relocatecity WHERE email ='" . $internEmail . "'";
+		// echo "<pre>";
+		// print_r($updateCount);exit;
+		$querry = $this->db->query($updateCount);
+		//$count = $querry->num_rows();
+		return true;
+	}
+
 }

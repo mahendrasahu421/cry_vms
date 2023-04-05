@@ -76,7 +76,7 @@
             <div class="row row-sm">
                 <div class="col-lg-12">
                     <div class="card">
-                        <form action="voleentur-transfer-table" method="post">
+                        <form action="other_region_volunteer" method="post">
                             <div class="card-header">
                                 <div class="col-md-3">
                                     <input type="hidden" name="regionId"
@@ -235,7 +235,7 @@ function getId_sendmail(volunteerEmail, relocateState, volunteer_city, relocate_
     };
 
     $.ajax({
-        url: '<?php echo base_url() ?>send_volunteerstateUpdate_email',
+        url: '<?php echo base_url() ?>update_by_region_manager',
         type: 'post',
         data: datastr,
         success: function(response) {

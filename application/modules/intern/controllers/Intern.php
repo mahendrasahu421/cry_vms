@@ -4147,8 +4147,8 @@ class Intern extends MY_Controller
                     'relocate_state' => $this->input->post('relocate_state'),
                     'relocate_city' => $this->input->post('relocate_city'),
                     'relocate_reason' => $this->input->post('relocate_reason'),
-                    'creation_date' => date('Y-m-d H:i:s'),
-                    'status' => 1,
+                    'creation_date' => date('Y-m-d'),
+                    'status' => 0,
                 );
                 // echo $data;exit;
 
@@ -4158,7 +4158,7 @@ class Intern extends MY_Controller
                 // print_r( $results);exit;
 
                 //$this->session->set_flashdata('volunteer_transfer_insert_message', '<div class="alert alert-info"><strong>Success!</strong> Relocated  successfully.</div>');
-                redirect(base_url() . 'intern-transfer-form');
+                redirect(base_url() . 'intern-dashbord');
             } else {
                 echo '<script>window.location.href = "' . base_url() . 'intern-login"</script>';
             }
