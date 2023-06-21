@@ -1,29 +1,29 @@
 <style>
-#profileImage {
-    background: #f9f9f9;
-    border: 5px solid #88c;
-    padding: 15px;
-    border-radius: 5px;
-    margin: 10px;
-    cursor: pointer;
-}
+    #profileImage {
+        background: #f9f9f9;
+        border: 5px solid #88c;
+        padding: 15px;
+        border-radius: 5px;
+        margin: 10px;
+        cursor: pointer;
+    }
 
-.fa-camera {
-    color: #fff;
-}
+    .fa-camera {
+        color: #fff;
+    }
 
-.icon-add {
-    background: #8f281f;
-    padding: 6px;
-    border-radius: 50%;
-    width: 30px;
-    margin-top: -20px;
-    margin-right: -11px;
-}
+    .icon-add {
+        background: #8f281f;
+        padding: 6px;
+        border-radius: 50%;
+        width: 30px;
+        margin-top: -20px;
+        margin-right: -11px;
+    }
 
-.icon-add:before {
-    content: none;
-}
+    .icon-add:before {
+        content: none;
+    }
 </style>
 
 <div class="main-content app-content mt-0">
@@ -62,23 +62,20 @@
                                 <div class="col-md-4 m-b-20 text-center">
                                     <form id="profileImageForm" name="profileImageForm">
                                         <span id="result"></span>
-                                        <img src='<?php echo base_url(); ?>user_profile/crop.jpg'
-                                            class="img-fluid border p-1" id="profileImage"
-                                            style=" width: 340px;height: 257px;" />
+                                        <img src='<?php echo base_url(); ?>user_profile/crop.jpg' class="img-fluid border p-1" id="profileImage" style=" width: 340px;height: 257px;" />
                                         <input type="file" name="profile" id="my_file" style="display:none" />
                                         <div class="icon-add pull-right"><i class="fa fa-camera "></i></div>
-                                        <button type="submit" name="submit" value="submit" class="btn btn-danger"
-                                            disabled style="display:none">Save</button>
+                                        <button type="submit" name="submit" value="submit" class="btn btn-danger" disabled style="display:none">Save</button>
                                     </form>
                                 </div>
                                 <script>
-                                document.getElementById('profileImage').onclick = function() {
-                                    document.getElementById('my_file').click();
-                                };
+                                    document.getElementById('profileImage').onclick = function() {
+                                        document.getElementById('my_file').click();
+                                    };
                                 </script>
                                 <div class="col-md-8">
                                     <h2 class="f-24 font-medium">
-                                        <?php echo $internDetails[0]['first_name'].' '.$internDetails[0]['last_name']; ?>
+                                        <?php echo $internDetails[0]['first_name'] . ' ' . $internDetails[0]['last_name']; ?>
                                     </h2>
                                     <!-- <p class="m-b-20">Online</p> -->
                                     <div class="row mb-2">
@@ -91,8 +88,7 @@
                                     </div>
                                     <div class="row mb-2">
                                         <div class="col-4 font-weight-bold text-dark">Email</div>
-                                        <div class="col"><span class="text-inverse"><span class="__cf_email__"
-                                                    data-cfemail="<?php echo $internDetails[0]['email']; ?>"><?php echo $internDetails[0]['email']; ?></span></span>
+                                        <div class="col"><span class="text-inverse"><span class="__cf_email__" data-cfemail="<?php echo $internDetails[0]['email']; ?>"><?php echo $internDetails[0]['email']; ?></span></span>
                                         </div>
                                     </div>
                                     <div class="row mb-2">
@@ -106,15 +102,11 @@
 
                                     <div class="row mb-2">
                                         <div class="form-check form-switch mx-5">
-                                            <?php if($internDetails[0]['status']==8){ ?>
-                                            <input class="form-check-input" type="checkbox" role="switch"
-                                                id="activeValue" checked
-                                                value="<?php echo $internDetails[0]['status']; ?>" name="chkOrgRow">
+                                            <?php if ($internDetails[0]['status'] == 8) { ?>
+                                                <input class="form-check-input" type="checkbox" role="switch" id="activeValue" checked value="<?php echo $internDetails[0]['status']; ?>" name="chkOrgRow">
 
                                             <?php } else { ?>
-                                            <input class="form-check-input" id="accountActive" type="checkbox"
-                                                role="switch" id="activeValue" name="chkOrgRow"
-                                                <?php echo $internDetails[0]['status']; ?>>
+                                                <input class="form-check-input" id="accountActive" type="checkbox" role="switch" id="activeValue" name="chkOrgRow" <?php echo $internDetails[0]['status']; ?>>
 
                                             <?php } ?>
                                         </div>
@@ -137,8 +129,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                        aria-hidden="true">&times;</span>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
 
                 </button>
                 <h4 class="modal-title">Deactive Account</h4>
@@ -157,49 +148,50 @@
 </div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
 <script>
-$(function() {
-    var checkbox_one = '';
-    $("[name='chkOrgRow']").change(function(e) {
-        checkbox_one = $(this);
-        openmodal();
-    });
+    $(function() {
+        var checkbox_one = '';
+        $("[name='chkOrgRow']").change(function(e) {
+            checkbox_one = $(this);
+            openmodal();
+        });
 
-    $('.buttons').on('click', function() {
-        var activeValue = $('#activeValue').val();
-        var yes = $(this).val();
-        //alert(yes);
+        $('.buttons').on('click', function() {
+            var activeValue = $('#activeValue').val();
+            var yes = $(this).val();
+            //alert(yes);
 
-        if (yes == '1') {
-            datastr = {
-                yes: yes,
-                intern_id: '<?php echo $internDetails[0]['intern_id'];?>',
-                intern_email: '<?php echo $internDetails[0]['email']; ?>',
-            };
-            $.ajax({
-                url: '<?php echo base_url(); ?>deactive_account',
-                type: 'post',
-                data: datastr,
-                success: function(data) {
-                    if (data == 1) {
-                        window.location.href = "<?php echo base_url('intern-login')?>";
+            if (yes == '1') {
+                datastr = {
+                    yes: yes,
+                    intern_id: '<?php echo $internDetails[0]['intern_id']; ?>',
+                    intern_email: '<?php echo $internDetails[0]['email']; ?>',
+                };
+                $.ajax({
+                    url: '<?php echo base_url(); ?>deactive_account',
+                    type: 'post',
+                    data: datastr,
+                    success: function(data) {
+                        alert(data);
+                        if (data == 1) {
+                            window.location.href = "<?php echo base_url('intern-login') ?>";
+                        }
+                        // alert(querry);
                     }
-                    // alert(querry);
-                }
-            });
-            $("#ModalConfirmSettled").modal('hide');
-            checkbox_one.parents('tr').toggleClass('highlight');
-        } else {
-            console.log('close');
-        }
-        $('.highlight').css("background-color") ? $('input[name=chkOrgRow]').prop('checked', true) :
-            $('input[name=chkOrgRow]').prop('checked', false);
-    });
-});
-
-function openmodal() {
-    $('#ModalConfirmSettled').modal('show', function(data) {
-        console.log('data:' + data);
+                });
+                $("#ModalConfirmSettled").modal('hide');
+                checkbox_one.parents('tr').toggleClass('highlight');
+            } else {
+                console.log('close');
+            }
+            $('.highlight').css("background-color") ? $('input[name=chkOrgRow]').prop('checked', true) :
+                $('input[name=chkOrgRow]').prop('checked', false);
+        });
     });
 
-}
+    function openmodal() {
+        $('#ModalConfirmSettled').modal('show', function(data) {
+            console.log('data:' + data);
+        });
+
+    }
 </script>

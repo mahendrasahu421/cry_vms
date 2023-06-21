@@ -146,6 +146,7 @@
 									<div class="form-group col-md-4 mt-3">
 										<select class="form-control select2-show-search form-select" data-placeholder="Select State" id="stateName" name="stateName" required>
 											<option label="Select State"></option>
+											<option value="All">All</option>
 
 										</select>
 										<div class="invalid-feedback">Please Select State</div>
@@ -246,6 +247,7 @@
 		});
 		$('#stateName').change(function() {
 			var stateName = $(this).val();
+			
 			var taskType = $('#taskType').val();
 			var taskName = $('#taskName').val();
 			datastr = {

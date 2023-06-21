@@ -67,7 +67,7 @@
                                                             <img src="<?php echo base_url('admin/'); ?>assets/images/brand/download.png" class="mobile-logo logo-1" alt="logo">
                                                         </div>
                                                         <div class="card-headerr">
-                                                            <h4 style="text-align: center;font-size: 22px;">Your Registration Form is submitted successfully.<br>For further Update Keep Checking Your Email</span></h4>
+                                                            <h4 style="text-align: center;font-size: 22px;">Thank you for showing interest and filling in the registration form. We will get back to you in 5-6 working days. For furthur updates please keep checking your email. Reagrds Team CRY</span></h4>
                                                             <div style="text-align: center;" class="mt-3">
 
                                                             <span class="badge bg-warning text-dark" title="welcome">Back To Website</span>

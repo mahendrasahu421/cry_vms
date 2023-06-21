@@ -67,7 +67,7 @@ class Intern extends MY_Controller
                         $r_password = $results['password'];
 
                         if ($r_password == md5($password)) {
-                            
+
                             if ($results['status'] == 8) {
                                 $data = array(
                                     'last_login' => date('Y-m-d')
@@ -108,8 +108,8 @@ class Intern extends MY_Controller
             $state_id = $this->session->userdata('state_id');
             $intern_id = $this->session->userdata('intern_id');
             $data['totaltask'] = $this->Intern_model->total_task_count($intern_id);
-                //  echo "<pre>";
-                //  print_r($data['totaltask'] );exit;
+            //  echo "<pre>";
+            //  print_r($data['totaltask'] );exit;
             // 
             $join_data = array(
                 array(
@@ -130,7 +130,7 @@ class Intern extends MY_Controller
             $limit = 5;
             $order_by = '';
             $data['interntask'] = $this->Curl_model->fetch_data_with_joining($join_data, $limit, $order_by);
-          
+
             $join_data = array(
                 array(
                     'table' => 'interntask',
@@ -3972,9 +3972,7 @@ class Intern extends MY_Controller
             $limit = '5';
             $order_by = array('intern_dr_id', 'DESC');
             $data['report'] = $this->Curl_model->fetch_data_with_joining($join_data, $limit, $order_by);
-            // echo '<pre>'.$data['report']. '</pre>'; exit();
-            //          echo "<pre>";
-            //  print_r($data['report'] );exit;
+
 
             $join_data = array(
                 array(
@@ -4239,12 +4237,44 @@ class Intern extends MY_Controller
     {
         if ($this->session->userdata('intern_id') != "" || $this->session->userdata('intern_id') != null || $this->session->userdata('state_id') != "" || $this->session->userdata('state_id') != null || $this->session->userdata('first_name') != "" || $this->session->userdata('first_name') != null) {
             $intern_id  = $this->session->userdata('intern_id');
+            $taskId = '';
             $Where = 'intern_id = "' . $intern_id . '"';
             $data['taskType'] = $this->Crud_modal->fetch_all_data('*', 'volunteer_type', 'status=1');
             $data['assign_taskIntern'] = $this->Intern_model->intern_assignTask($Where);
             // echo "<pre>";
-            // print_r($data['assign_taskIntern']);
-            // exit;
+            // print_r($data['assign_taskIntern']);exit;
+            $join_data = array(
+                array(
+                    'table' => 'interns',
+                    'fields' => array('first_name', 'last_name', 'state_id', 'mobile'),
+                    'joinWith' => array('intern_id'),
+                    'where' => array(
+                        'intern_id' => $intern_id
+                    ),
+                ),
+                array(
+                    'joined' => 0,
+                    'table' => 'interns_data',
+                    'fields' => array('occupation'),
+                    'joinWith' => array('intern_id', 'left'),
+                ),
+                array(
+                    'joined' => 0,
+                    'table' => 'states',
+                    'fields' => array('region_id', 'state_name'),
+                    'joinWith' => array('state_id', 'left'),
+                ),
+                array(
+                    'joined' => 2,
+                    'table' => 'regions',
+                    'fields' => array('region_name'),
+                    'joinWith' => array('region_id', 'left'),
+                ),
+            );
+            $where = array();
+            $limit = '';
+            $order_by = '';
+            $data['internDetails'] = $this->Curl_model->fetch_data_with_joining($join_data, $limit, $order_by);
             $this->load->view('temp/head');
             $this->load->view('temp/header', $data);
             $this->load->view('temp/sidebar', $data);
@@ -4258,24 +4288,36 @@ class Intern extends MY_Controller
     public function insert_submission_report()
     {
         try {
-
-            $data = array();
+            // echo "<pre>";
+            // print_r($_POST);exit;
+            // $data = array();
             $errorUploadType = $statusMsg = '';
+            $submissionassign_task = $this->input->post('submissionassign_task');
+
             $intern_id = $this->session->userdata('intern_id');
             $projectDescription = $this->input->post('projectDescription');
+            $mentorsname = $this->input->post('mentorsname');
             $name_of_theDepartment = $this->input->post('name_of_theDepartment');
             $name_andAddress = $this->input->post('intern_institution');
             $cityInternship = $this->input->post('cityInternship');
             $natureofAssignment = $this->input->post('natureofAssignment');
-            $status = 1;
+            $others_assignment = $this->input->post('others_assignment');
+            $whichvaregion = $this->input->post('whichvaregion');
+            $subjectPursuing = $this->input->post('subjectPursuing');
+
             $uploadData = array();
             $insertData = array(
                 'intern_id' => $intern_id,
+                'task_keyword' => $submissionassign_task,
                 'description' => $projectDescription,
                 'department_intern_in' => $name_of_theDepartment,
                 'intern_institution' => $name_andAddress,
                 'intern_city' => $cityInternship,
-                'intern_assignment' => $natureofAssignment,
+                'intern_assignment' => implode('|', $natureofAssignment),
+                'others_assignment' => $others_assignment,
+                'mentorsname' => $mentorsname,
+                'subjectPursuing' => $subjectPursuing,
+                'whichvaregion' => $whichvaregion,
                 'status' => 1,
                 'final_sunmission_date' => date('Y-m-d'),
             );
@@ -4307,13 +4349,18 @@ class Intern extends MY_Controller
 
                 $errorUploadType = !empty($errorUploadType) ? '<br/>File Type Error: ' . trim($errorUploadType, ' | ') : '';
                 if (!empty($uploadData)) {
-                    $insert = $this->Crud_modal->intern_data_insert('intern_submission_report', $insertData);
+                    $insert = $this->Crud_modal->data_insert_return_id('intern_submission_report', $insertData);
                     for ($k = 0; $k < $filesCount; $k++) {
                         $uploadData[$k]['sr_id'] = $insert;
                     }
-                    
                     $internDataresult =  $this->Crud_modal->insert_batch('attachment', $uploadData);
-                    redirect(base_url() . 'feedback');
+                    $recodCount = $this->Crud_modal->check_numrow('intern_submission_report', 'intern_id=' . $intern_id . '');
+                    if ($recodCount == 1) {
+                        redirect(base_url() . 'feedback');
+                    } else {
+                        redirect(base_url() . 'intern-dashbord');
+                    }
+
                     $statusMsg = $insert ? 'Files uploaded successfully!' . $errorUploadType : 'Some problem occurred, please try again.';
                 } else {
                     $statusMsg = "Sorry, there was an error uploading your file." . $errorUploadType;
@@ -4328,10 +4375,44 @@ class Intern extends MY_Controller
 
     public function feedback()
     {
-        $this->load->view('temp/head');
-        $this->load->view('temp/header');
-        $this->load->view('temp/sidebar');
-        $this->load->view('feedback');
+        $intern_id  = $this->session->userdata('intern_id');
+        $Where = 'intern_id = "' . $intern_id . '"';
+        $join_data = array(
+            array(
+                'table' => 'interns',
+                'fields' => array('first_name', 'last_name', 'state_id', 'mobile'),
+                'joinWith' => array('intern_id'),
+                'where' => array(
+                    'intern_id' => $intern_id
+                ),
+            ),
+            array(
+                'joined' => 0,
+                'table' => 'interns_data',
+                'fields' => array('occupation'),
+                'joinWith' => array('intern_id', 'left'),
+            ),
+            array(
+                'joined' => 0,
+                'table' => 'states',
+                'fields' => array('region_id', 'state_name'),
+                'joinWith' => array('state_id', 'left'),
+            ),
+            array(
+                'joined' => 2,
+                'table' => 'regions',
+                'fields' => array('region_name'),
+                'joinWith' => array('region_id', 'left'),
+            ),
+        );
+        $where = array();
+        $limit = '';
+        $order_by = '';
+        $data['internDetails'] = $this->Curl_model->fetch_data_with_joining($join_data, $limit, $order_by);
+        $this->load->view('temp/head', $data);
+        $this->load->view('temp/header', $data);
+        $this->load->view('temp/sidebar', $data);
+        $this->load->view('feedback', $data);
         $this->load->view('temp/footer');
     }
 
@@ -4440,9 +4521,9 @@ class Intern extends MY_Controller
     public function user_form()
     {
         $intern_id = $this->session->userdata('intern_id');
-        $where = 'i.intern_id = "'.$intern_id.'"';
+        $where = 'i.intern_id = "' . $intern_id . '"';
         $data['internDetails'] = $this->Intern_model->fetch_intern_data_by_one_table_join($where);
-       
+
         $this->load->view('temp/head');
         $this->load->view('temp/header');
         $this->load->view('temp/sidebar');
@@ -4459,8 +4540,6 @@ class Intern extends MY_Controller
         $this->db->initialize();
         $updateCount = "UPDATE interns SET status = 9 WHERE intern_id ='" . $where . "'";
         $querry = $this->db->query($updateCount);
-        //print_r($querry);exit;
-        //$count = $querry->num_rows();
-        return $querry;
+        echo $querry;
     }
 }

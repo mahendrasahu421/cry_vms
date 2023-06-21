@@ -10,19 +10,16 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="description" content="Zanex – Bootstrap  Admin & Dashboard Template">
     <meta name="author" content="Spruko Technologies Private Limited">
-    <meta name="keywords"
-        content="admin, dashboard, dashboard ui, admin dashboard template, admin panel dashboard, admin panel html, admin panel html template, admin panel template, admin ui templates, administrative templates, best admin dashboard, best admin templates, bootstrap 4 admin template, bootstrap admin dashboard, bootstrap admin panel, html css admin templates, html5 admin template, premium bootstrap templates, responsive admin template, template admin bootstrap 4, themeforest html">
+    <meta name="keywords" content="admin, dashboard, dashboard ui, admin dashboard template, admin panel dashboard, admin panel html, admin panel html template, admin panel template, admin ui templates, administrative templates, best admin dashboard, best admin templates, bootstrap 4 admin template, bootstrap admin dashboard, bootstrap admin panel, html css admin templates, html5 admin template, premium bootstrap templates, responsive admin template, template admin bootstrap 4, themeforest html">
 
     <!-- FAVICON -->
-    <link rel="shortcut icon" type="image/x-icon"
-        href="<?php echo base_url('admin/'); ?>assets/images/brand/favicon.png"" />
+    <link rel="shortcut icon" type="image/x-icon" href="<?php echo base_url('admin/'); ?>assets/images/brand/favicon.png"" />
 
   <!-- TITLE -->
   <title>CRY : VMS</title>
 
   <!-- BOOTSTRAP CSS -->
-  <link id=" style" href="<?php echo base_url('admin/'); ?>assets/plugins/bootstrap/css/bootstrap.min.css"
-        rel="stylesheet" />
+  <link id=" style" href="<?php echo base_url('admin/'); ?>assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
 
     <!-- STYLE CSS -->
     <link href="<?php echo base_url('admin/'); ?>assets/css/style.css" rel="stylesheet" />
@@ -37,56 +34,55 @@
     <!-- <link type="text/css" href="https://cdn.datatables.net/buttons/2.2.3/css/buttons.dataTables.min.css" rel="stylesheet"> -->
 
     <!-- COLOR SKIN CSS -->
-    <link id="theme" rel="stylesheet" type="text/css" media="all"
-        href="<?php echo base_url('admin/'); ?>assets/colors/color1.css" />
+    <link id="theme" rel="stylesheet" type="text/css" media="all" href="<?php echo base_url('admin/'); ?>assets/colors/color1.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
     <!-- Select2 CSS -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
 
 </head>
 <style>
-select.form-control:not([size]):not([multiple]) {
-    height: 3.375rem;
-}
-
-.login100-form {
-    width: 573px;
-
-}
-
-@media (max-width: 992px) {
-    .login100-form {
-        width: 100%;
+    select.form-control:not([size]):not([multiple]) {
+        height: 3.375rem;
     }
-}
 
-.login100-form {
-    /* width: 320px; */
-}
+    .login100-form {
+        width: 573px;
+
+    }
+
+    @media (max-width: 992px) {
+        .login100-form {
+            width: 100%;
+        }
+    }
+
+    .login100-form {
+        /* width: 320px; */
+    }
 
 
-.form-label {
-    display: block;
-    margin-bottom: 0.375rem;
-    font-weight: 500;
-    font-size: 1.40rem;
-    margin-top: 9px;
-}
+    .form-label {
+        display: block;
+        margin-bottom: 0.375rem;
+        font-weight: 500;
+        font-size: 1.40rem;
+        margin-top: 9px;
+    }
 
-.error {
-    width: 100%;
-    text-align: left;
-    color: red;
-}
+    .error {
+        width: 100%;
+        text-align: left;
+        color: red;
+    }
 
-#calendar_details_b2c,
-#calendar_details_b2b {
-    display: none;
-}
+    #calendar_details_b2c,
+    #calendar_details_b2b {
+        display: none;
+    }
 
-.select2-container .select2-selection--single {
-    height: 3.375rem !important;
-}
+    .select2-container .select2-selection--single {
+        height: 3.375rem !important;
+    }
 </style>
 
 <body>
@@ -105,8 +101,7 @@ select.form-control:not([size]):not([multiple]) {
                 <div class="col col-login mx-auto">
 
                     <div class="text-center mt-5">
-                        <img src="<?php echo base_url('users/'); ?>assets/images/brand/ezgif.com-gif-maker.gif"
-                            style="border-radius: 10px;" class="" alt="">
+                        <img src="<?php echo base_url('users/'); ?>assets/images/brand/ezgif.com-gif-maker.gif" style="border-radius: 10px;" class="" alt="">
                     </div>
                 </div>
                 <div class="col col-login mx-auto">
@@ -115,265 +110,284 @@ select.form-control:not([size]):not([multiple]) {
           </div> -->
                 </div>
                 <style>
-                #resend {
-                    margin-top: 23px;
-                }
+                    #resend {
+                        margin-top: 23px;
+                        margin-left: -25px;
+                        ;
+                    }
 
-                #verifyMail {
-                    margin-top: 23px;
-                }
+                    #verifyMail {
+                        margin-top: 23px;
+                    }
                 </style>
                 <div class="container-login100">
                     <div class="wrap-login100 p-0">
                         <div class="card-header">
-                            <span class="login100-form-title">Pre Registration</span>
+                            <span class="login100-form-title"><b>Application Form</b></span>
                         </div>
+
+
                         <!-- <?php echo $this->session->flashdata('master_insert_message'); ?> -->
                         <div class="card-body">
-                            <form class="login100-form validate-form needs-validation" id="sform" method="post"
-                                action="<?php echo base_url(); ?>insert_preregistration_data"
-                                enctype="multipart/form-data" novalidate>
+                            <form class="login100-form validate-form needs-validation" id="sform" method="post" action="<?php echo base_url(); ?>insert_preregistration_data" enctype="multipart/form-data" novalidate>
                                 <section id="emailSection" style="display:block;">
                                     <div class="row">
                                         <input type="hidden" id="mailotp" name="cotp">
                                         <div class="form-group col-md-12 mb-0" id="lookingFor">
                                             <label for="validationCustom01">Looking for</label>
-                                            <select id="single" class="form-select select2 form-control"
-                                                id="looking_for" name="looking_for" required>
+                                            <select id="single" class="form-select select2 form-control" id="looking_for" name="looking_for" required>
                                                 <option value="">Looking for...</option>
                                                 <option value="volunteering">Volunteering</option>
                                                 <option value="internship">Internship</option>
                                             </select>
 
                                         </div>
+
                                         <div class="form-group col-md-12 mb-0">
                                             <label class="form-label fw-bold">Enter Email (OTP Send on your
                                                 Mail)</label>
-                                            <input type="email" class="form-control" id="email" name="email"
-                                                placeholder="Enter Email" required>
+                                            <input type="email" class="form-control" id="email" name="email" placeholder="Enter Email" required>
 
                                         </div>
 
                                         <div class="col-lg-6 mb-0 Otp">
-                                            <label class="form-label fw-bold">Enter OTP</label>
+                                            <label class="form-label fw-bold">Enter OTP </label>
                                             <div class="">
-                                                <input class="form-control" id="enterOtp" name="otp"
-                                                    placeholder="Enter OTP" maxlength="4">
+                                                <input class="form-control" id="enterOtp" name="otp" placeholder="Enter OTP" maxlength="4">
                                             </div>
+                                            <b><span class="mt-2">(Please check your SPAM incase you do not find it in
+                                                    our inbox) </span>
+                                                <span>OTP Valid for 10 min.</span></b>
                                         </div>
-                                        <div class="col-lg-3 mb-0 Otp" id="verifyMail">
+
+                                        <div class="col-lg-3 mb-0 Otp">
                                             <label class="form-label fw-bold"></label>
-                                            <div class="">
+                                            <div class="" id="verifyMail">
                                                 <span class="btn btn-info">Verify Mail</span>
                                             </div>
                                         </div>
-                                        <div class="col-lg-3  Otp">
+
+                                        <div class="col-lg-3  resendOtp">
                                             <label class="form-label fw-bold"></label>
-                                            <div class="">
-                                                <span id="resend" class="btn btn-info">Resend Otp</span>
+                                            <div class="pe-3">
+                                                <span id="resend" class="btn btn-info">Resend OTP</span>
                                             </div>
+
                                         </div>
+                                        <span id="countdown" class="mt-5 text-primary"></span>
+
                                         <div class="form-group col-md-12 mt-3">
                                             <button type="button" class="btn btn-warning" id="genrateOTP">Genrate
                                                 OTP</button>
                                         </div>
                                     </div>
+
+
                                 </section>
 
+
                                 <section id="detailFormsection" style="display:none;">
+
                                     <div class="form-group col-md-6 mb-0">
                                         <label class="form-label fw-bold">First Name </label>
-                                        <input type="text" id="first_name" name="first_name"
-                                            class="form-control txtNumeric" placeholder="First Name" required>
+                                        <input type="text" id="first_name" name="first_name" class="form-control txtNumeric" placeholder="First Name" required>
                                     </div>
 
                                     <div class="form-group col-md-6 mb-0">
                                         <label class="form-label fw-bold">Last Name</label>
-                                        <input type="text" id="last_name" name="last_name"
-                                            class="form-control txtNumeric" placeholder="Last Name" required>
+                                        <input type="text" id="last_name" name="last_name" class="form-control txtNumeric" placeholder="Last Name" required>
                                     </div>
+
                                     <div class="form-group col-md-6 mb-0">
                                         <label class="form-label fw-bold">Date of Birth </label>
                                         <div class="input-group mb-4">
-                                            <input type="text" class="form-control" placeholder="Date of Birth"
-                                                name="dob" id="dob" required autocomplete="off">
+                                            <input type="text" class="form-control" placeholder="Date of Birth" name="dob" id="dob" required autocomplete="off">
                                         </div>
-                                        <span id="lblError"
-                                            style="color:Red"><?php echo $this->session->flashdata('dob_error'); ?></span>
+                                        <span id="lblError" style="color:Red"><?php echo $this->session->flashdata('dob_error'); ?></span>
                                     </div>
+
                                     <div class="form-group col-md-6 mb-0">
                                         <label class="form-label fw-bold">Gender</label>
-                                        <select class="form-control select2 form-select" id="gender" name="gender"
-                                            data-placeholder="Select Gender" required>
+                                        <select class="form-control select2 form-select" id="gender" name="gender" data-placeholder="Select Gender" required>
                                             <option value="">Gender</option>
                                             <option value="1">Male</option>
                                             <option value="2">Female</option>
-                                            <option value="3">Transgender</option>
+                                            <option value="3">Prefer not to say</option>
                                         </select>
                                         <div class="invalid-feedback">Please select Gender</div>
                                     </div>
+
                                     <div class="form-group col-md-12 mb-0">
                                         <label class="form-label fw-bold">Enter Mobile Number </label>
-                                        <input type="tel" class="form-control"
-                                            onkeypress="return /^-?[0-9]*$/.test(this.value+event.key)" minlength="10"
-                                            maxlength="10" required name="mobile_number" placeholder="Mobile number"
-                                            required id="number">
+                                        <input type="tel" class="form-control" onkeypress="return /^-?[0-9]*$/.test(this.value+event.key)" minlength="10" maxlength="10" required name="mobile_number" placeholder="Mobile number" required id="number">
                                     </div>
+
                                     <div class="form-group col-md-6 mb-0">
                                         <label class="form-label fw-bold">Choose Country</label>
-                                        <select class="form-control select2-show-search" name="county" id="country_id"
-                                            data-placeholder="Choose Country" required>
+                                        <select class="form-control select2-show-search" name="county" id="country_id" data-placeholder="Choose Country" required>
                                             <option selected disabled value="">Choose Countries</option>
                                             <?php foreach ($countries as $countrydata) { ?>
-                                            <option value="<?php echo $countrydata['country_id']; ?>">
-                                                <?php echo $countrydata['Name']; ?></option>
+                                                <option value="<?php echo $countrydata['country_id']; ?>">
+                                                    <?php echo $countrydata['Name']; ?></option>
                                             <?php } ?>
                                         </select>
                                         <div class="invalid-feedback">Please select Country</div>
                                     </div>
+
                                     <div class="form-group col-md-6 mb-0">
                                         <label class="form-label fw-bold">Current State</label>
-                                        <select class="form-control select2-show-search" name="state_id" id="state_name"
-                                            data-placeholder="Current State" required>
+                                        <select class="form-control select2-show-search" name="state_id" id="state_name" data-placeholder="Current State" required>
                                             <option value="">Current State</option>
 
                                         </select>
                                         <div class="invalid-feedback">Please select State</div>
                                     </div>
+
                                     <div class="form-group col-md-6 mb-0">
-                                        <label class="form-label fw-bold">Current Districts
-                                            (Resident/Studying/Work)</label>
-                                        <select class="form-control select2-show-search" name="city_name" id="city_name"
-                                            data-placeholder="Current Districts" required>
+                                        <label class="form-label fw-bold">Current District/city/town/village
+                                            (Resident/studying/work)
+                                        </label>
+                                        <select class="form-control select2-show-search" name="city_name" id="city_name" data-placeholder="Current Districts" required>
                                             <option value="">Current Districts </option>
                                         </select>
                                         <div class="invalid-feedback">Please select Districts</div>
                                     </div>
+
                                     <div class="form-group col-md-6 mb-0">
                                         <label class="form-label fw-bold">Choose Occupation</label>
-                                        <select class="form-control select2-show-search" name="occupation"
-                                            id="occupation" data-placeholder="Choose Occupation..." required>
+                                        <select class="form-control select2-show-search" name="occupation" id="occupation" data-placeholder="Choose Occupation..." required>
                                             <option selected disabled value="">Choose Occupation...</option>
-                                            <?php foreach ($occupation as $occupationData) { ?>
-                                            <option value="<?php echo $occupationData['occupation_id']; ?>">
-                                                <?php echo $occupationData['occupation_name']; ?></option>
+                                            <?php foreach ($intoccupation as $occupationData) { ?>
+                                                <option value="<?php echo $occupationData['occupation_id']; ?>">
+                                                    <?php echo $occupationData['occupation_name']; ?></option>
 
                                             <?php } ?>
                                         </select>
+
                                         <div class="invalid-feedback">Please select Occupation</div>
                                     </div>
+
                                     <div class="form-group col-md-12 mb-0 select-dropdown">
                                         <label class="form-label fw-bold">Type Of Volunteering</label>
-                                        <select id="inputState" class="form-control select2 form-select"
-                                            name="volunteering_type" required>
+                                        <select id="inputState" class="form-control select2 form-select" name="volunteering_type" required>
                                             <option value="">Select Type Of...</option>
                                             <?php foreach ($taskType as $taskTypedata) { ?>
-                                            <option value="<?php echo $taskTypedata['vol_type_id']; ?>">
-                                                <?php echo $taskTypedata['vol_type_name']; ?></option>
+                                                <option value="<?php echo $taskTypedata['vol_type_id']; ?>">
+                                                    <?php echo $taskTypedata['vol_type_name']; ?></option>
 
                                             <?php } ?>
                                         </select>
                                         <div class="invalid-feedback">Please select Volunteering Type</div>
                                     </div>
+
                                     <div class="form-group col-md-12 mb-0 select-dropdown">
 
                                         <label class="form-label fw-bold">Volunteership Skills</label>
-                                        <select class="form-control select2 form-select" name="skill_id[]" multiple
-                                            required id="skill_id">
+                                        <select class="form-control select2 form-select" name="skill_id[]" multiple required id="skill_id">
                                             <?php foreach ($skills as $skillsData) { ?>
-                                            <option value="<?php echo $skillsData['skill_id']; ?>">
-                                                <?php echo $skillsData['skill_name']; ?></option>
+                                                <option value="<?php echo $skillsData['skill_id']; ?>">
+                                                    <?php echo $skillsData['skill_name']; ?></option>
 
                                             <?php } ?>
                                         </select>
                                         <div class="invalid-feedback">Please select Volunteership Skills</div>
 
                                     </div>
-                                    <div class="form-group col-md-12 mb-0 select-dropdown">
+
+                                    <div class="form-group col-md-12 mb-0" id="otheroccupation">
+                                        <label class="form-label fw-bold">Enter Other Occupation</label>
+                                        <input type="text" class="form-controw about this Opportunityl mt-2" name="otheroccupation" id="" placeholder="Enter Other Occupation">
+                                        <div class="invalid-feedback">Please select Volunteering Type</div>
+                                    </div>
+
+                                    <div class="form-group col-md-12 mb-0">
                                         <label class="form-label fw-bold">Where did you get to know about this
                                             Opportunity</label>
-                                        <select class="form-control select2 form-select" name="where_know_opportunity[]"
-                                            data-placeholder="Where did you get to know about this
-                                            Opportunity" multiple required id="where_know_opportunity">
+                                        <select class="form-control select2 form-select" name="where_know_opportunity" data-placeholder="Where did you get to know about this Opportunity" required id="where_know_opportunity">
                                             <option value="">Where did you get to know about this
                                                 Opportunity</option>
                                             <?php foreach ($opportunity as $opportunityData) { ?>
-                                            <option value="<?php echo $opportunityData['opportunity_id']; ?>">
-                                                <?php echo $opportunityData['opportunity_name']; ?></option><?php } ?>
+                                                <option value="<?php echo $opportunityData['opportunity_id']; ?>">
+                                                    <?php echo $opportunityData['opportunity_name']; ?></option><?php } ?>
                                         </select>
                                         <div class="invalid-feedback">Please select Opportunity</div>
                                     </div>
+                                    <div class="form-group col-md-12 mb-0" id="other_opportunity">
+                                        <label class="form-label fw-bold">Other Where did you get to know about this
+                                            Opportunity</label>
+                                        <input type="text" class="form-controw about this Opportunityl mt-2" name="other_opportunity" placeholder="Enter Other Opportunity">
+                                        <div class="invalid-feedback">Please select Opportunity</div>
+                                    </div>
+
                                     <div class="form-group col-md-12 mb-0 select-dropdown1" id="">
                                         <label class="form-label fw-bold">Internship Type</label>
-                                        <select class="form-control select2" name="internshipType"
-                                            data-placeholder="Internship Type" id="internshipType">
+                                        <select class="form-control select2" name="internshipType" data-placeholder="Internship Type" id="internshipType">
                                             <option value="">Select Type Of...</option>
                                             <?php foreach ($taskType as $taskTypedata) { ?>
-                                            <option value="<?php echo $taskTypedata['vol_type_id']; ?>">
-                                                <?php echo $taskTypedata['vol_type_name']; ?></option>
+                                                <option value="<?php echo $taskTypedata['task_type_id']; ?>">
+                                                    <?php echo $taskTypedata['task_type']; ?></option>
 
                                             <?php } ?>
                                         </select>
+                                        <span><b>Select On ground and Hybrid, only if you are based in Delhi, Kolkata, Mumbai, Bangalore, Hyderabad, Pune.</b></span>
 
                                     </div>
+
                                     <div class="form-group col-md-12 mb-0 select-dropdown1" id="">
-                                        <label class="form-label fw-bold">Internship Deruation</label>
-                                        <select class="form-control select2" name="internshipDeruation"
-                                            data-placeholder="Internship Deruation" id="internSkill_id">
+                                        <label class="form-label fw-bold">Internship Duration</label>
+                                        <select class="form-control select2" name="internshipDeruation" data-placeholder="Internship Duration" id="internSkill_id">
                                             <option value=""> Select Internship Deruation</option>
-                                            <?php for ($i = 4; $i <= 12; $i++) { ?>
-                                            <option value="<?php echo $i; ?>"><?php echo $i . " Weeks"; ?></option>
-                                            <?php } ?>
-                                        </select>
-
+                                            <?php for ($i = 4; $i <= 12; $i++) {
+                                                if ($i % 2 === 0) { // check if the current number is even
+                                                    echo '<option value="' . $i . '">' . $i . ' Weeks</option>';
+                                                }
+                                            } ?>
+                                        </select you are best at.lect>
                                     </div>
                                     <div class="form-group col-md-12 mb-0 select-dropdown1" id="">
-                                        <label class="form-label fw-bold">Internship Skills</label>
-                                        <select class="form-control select2" name="internskill_id[]"
-                                            data-placeholder="Internship Skills" multiple id="internSkill_id">
+                                        <label class="form-label fw-bold">Skills you posses</label>
+                                        <select class="form-control select2" name="internskill_id[]" data-placeholder="Internship Skills" multiple id="internSkill_id">
 
                                             <?php foreach ($skills as $skillsData) { ?>
-                                            <option value="<?php echo $skillsData['skill_id']; ?>">
-                                                <?php echo $skillsData['skill_name']; ?></option>
+                                                <option value="<?php echo $skillsData['skill_id']; ?>">
+                                                    <?php echo $skillsData['skill_name']; ?></option>
                                             <?php } ?>
                                         </select>
-
+                                        <span>Please select 3 skills you are best at.</span>
                                     </div>
+
                                     <div class="form-group col-md-12 mb-0 select-dropdown1" id="">
                                         <div class="form-group" id="cv">
                                             <label class="form-label fw-bold">Upload Your CV <small><b>(Only
                                                         PDF)</b></small></label>
-                                            <div><input type="file" name="Uploade_file" id="file" class="demoInputBox"
-                                                    accept=".pdf" onchange="return validate();" /> <span
-                                                    id="file_error"><b></b></span></div>
+                                            <div><input type="file" name="Uploade_file" id="file" class="demoInputBox" accept=".pdf" onchange="return validate();" /> <span id="file_error"><b></b></span></div>
 
                                         </div>
+                                        <span style="color:red"><b>PDF accept less then 2 Mb</b></span>
                                     </div>
+
                                     <div class="col-lg-12 mb-0" id="textarea1">
                                         <div class="">
                                             <label class="form-label fw-bold">Mention past volunteering and Internships
                                                 you may have done?</label>
-                                            <textarea class="form-control mb-4" name="mention_past"
-                                                id="pastVolunteering"
-                                                placeholder="Mention past volunteering and Internships you may have done?"
-                                                rows="3" maxlength="250"></textarea>
+                                            <textarea class="form-control mb-4" name="mention_past" id="pastVolunteering" placeholder="Mention past volunteering and Internships you may have done?" rows="3" maxlength="250"></textarea>
                                         </div>
                                     </div>
+
                                     <div class="col-lg-12 mb-0" id="textarea2">
                                         <label class="form-label fw-bold">What you aim to value add on if chosen for an
                                             Internship with CRY ?</label>
                                         <div class="">
-                                            <textarea class="form-control mb-4" name="whatyou_aim" id="youAim"
-                                                placeholder="What you aim to value add on if chosen for an Internship with CRY ?"
-                                                rows="3" maxlength="250"></textarea>
+                                            <textarea class="form-control mb-4" name="whatyou_aim" id="youAim" placeholder="What you aim to value add on if chosen for an Internship with CRY ?" rows="3" maxlength="250"></textarea>
                                         </div>
                                     </div>
+
                                     <div class="container-login100-form-btn">
-                                        <button type="submit" name="preregistration" id="preregistration"
-                                            class="login100-form-btn btn-warning">
-                                            Register
+                                        <button type="submit" name="preregistration" id="preregistration" class="login100-form-btn btn-warning">
+                                            Submit
                                         </button>
                                     </div>
+
                                 </section>
                             </form>
                         </div>
@@ -384,131 +398,291 @@ select.form-control:not([size]):not([multiple]) {
     </div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6/jquery.min.js" type="text/javascript"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js" type="text/javascript"></script>
-    <link href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="Stylesheet"
-        type="text/css" />
+    <link href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="Stylesheet" type="text/css" />
     <script>
-    function validate() {
-        $("#file_error").html("");
-        $(".demoInputBox").css("border-color", "#F0F0F0");
-        var file_size = $('#file')[0].files[0].size;
-        if (file_size > 2097152) {
-            $('#file').val('');
-            $("#file_error").html("File size is greater than 2MB");
-            $(".demoInputBox").css("border-color", "#FF0000");
-            return false;
-        } else {
-            return true;
-        }
+        $(document).ready(function() {
+            $('#other_opportunity').hide();
+            $('#where_know_opportunity').change(function() {
 
-    }
-    </script>
-    <script>
-    $("document").ready(function() {
-        // $('#cv').hide();
-        $('.select-dropdown').hide();
-        $('.select-dropdown1').hide();
-        $('#textarea1').hide();
-        $('#textarea2').hide();
-        $('#single').change(function() {
-            let volunteerValue = $('#single').val();
-            if (volunteerValue == 'volunteering') {
+                let where_know_opportunity = $('#where_know_opportunity').val();
 
-                $('.select-dropdown').show();
-                $('.select-dropdown1').hide();
-
-                //$('#lookingFor').hide();
-                $('#textarea1').hide();
-
-                $('#textarea2').hide();
-
-            } else if ($('#single').val() == 'internship') {
-
-                if (confirm(
-                        'In Internship we expect minimum of 5-6 hours of work daily through minimum of 4 weeks Are you sure you will like to apply? '
-                    )) {
-                    // Save it!
-
-                    $('.select-dropdown').hide();
-                    $('.select-dropdown').hide();
-                    $('.select-dropdown1').show();
-
-                    $('#textarea1').show();
-                    $('#textarea2').show();
+                if (where_know_opportunity == 8) {
+                    $('#other_opportunity').show();
                 } else {
-                    // Do nothing!
-                    $(location).attr('href', '#simple');
-                    $('.select-dropdown').hide();
-
+                    $('#other_opportunity').hide();
                 }
 
-            } else {
-                $('.select-dropdown').hide();
-                $('.select-dropdown1').hide();
-                $('#textarea1').hide();
-                $('#textarea2').hide();
-            }
+            });
         });
-        $(".multiple").select2({
-            placeholder: "Select a programming language",
-            allowClear: true,
-            maximumSelectionLength: 8
-        });
-    })
     </script>
     <script>
-    $(document).ready(function() {
-        $("#single").change(function() {
-            let volunteeringType = $('#single').val();
-            if (volunteeringType == 'internship') {
-                $('#skill_id').removeAttr("required");
-                //$('#internSkill_id').addAttr("required");
-                $('#where_know_opportunity').removeAttr("required");
-                $('#inputState').removeAttr("required");
-                $('#file').attr("required");
-            }
+        $(document).ready(function() {
+            $('#verifyMail').on('click', function() {
+                var otp = $('#mailotp').val();
+                var cotp = $('#enterOtp').val();
+                if (otp == cotp) {
+                    $("#emailSection").css("display", "none");
+                    $("#detailFormsection").css("display", "block");
+                } else if (cotp == " " && otp == " ") {
+                    alert('Please enter otp');
+                    return false;
+                } else {
+                    alert('OTP not matched');
+                    return false;
+                }
+            });
         });
-    });
     </script>
-    <script>
-    $(document).ready(function() {
-        $('#verifyMail').on('click', function() {
-            var otp = $('#mailotp').val();
-            var cotp = $('#enterOtp').val();
-            if (otp == cotp) {
-                $("#emailSection").css("display", "none");
-                $("#detailFormsection").css("display", "block");
-            } else {
-                alert('OTP Not Matched');
-                $('#con_otp').val('');
-                return false;
-            }
-        });
-    });
-    </script>
-    <script>
-    $(document).ready(function() {
-        $('.Otp').hide();
-        $('#genrateOTP').click(function() {
-            let email = $('#email').val();
-            var looking_for = $('#single').val();
-            if (email == "" || looking_for == "") {
-                alert('Fill All Fields');
-            } else {
 
-                $('.email-verify-error').empty('Please Enter Email');
+    <script>
+        // Wait for the document to load
+        document.addEventListener("DOMContentLoaded", function() {
+            // Get the input element by its ID
+            var inputElement = document.getElementById("mailotp");
+
+            // Function to remove the value
+            function removeValue() {
+                inputElement.value = ""; // Set the value to an empty string
+            }
+
+            // Call the function initially
+            removeValue();
+
+            // Set an interval to call the function every 10 minutes (600,000 milliseconds)
+            setInterval(removeValue, 600000);
+        });
+    </script>
+
+    <script>
+        $(document).ready(function() {
+            $('#otheroccupation').hide();
+            $('#occupation').change(function() {
+                let occupation = $('#occupation').val();
+                if (occupation == 11) {
+                    $('#otheroccupation').show();
+                } else {
+                    $('#otheroccupation').hide();
+                }
+            });
+
+        });
+    </script>
+    <script>
+        var count = 30; // Set the countdown timer to 30 seconds
+        var countdownElem = document.getElementById("countdown"); // Get the countdown element
+        var resendBtn = document.getElementById("resend"); // Get the resend button element
+        document.getElementById('resend').style.display = 'none';
+
+        function startCountdown() {
+            countdownElem.innerHTML = "Resend OTP " + count + " sec";
+            count--;
+            if (count < 0) {
+                clearTimeout(timer);
+                countdownElem.innerHTML = "";
+                resendBtn.style.display = "inline-block";
+            } else {
+                var timer = setTimeout(startCountdown, 1000);
+            }
+        }
+
+        function resendOtp() {
+            // Disable the resend button
+            resendBtn.style.display = "none";
+            count = 30;
+            startCountdown();
+            // Add your code to resend the OTP here
+        }
+
+        $(document).ready(function() {
+            $('.Otp').hide();
+            $('.resendOtp').hide();
+            $('#genrateOTP').click(function() {
+                let email = $('#email').val();
+                var looking_for = $('#single').val();
+                if (email == "" || looking_for == "") {
+                    alert('Fill All Fields');
+                } else {
+                    $('.email-verify-error').empty('Please Enter Email');
+                    var datastr = {
+                        VOLUNTEEREMAIL: email,
+                        SINGLE: looking_for,
+                    };
+                    jQuery.ajax({
+                        url: '<?php echo base_url(); ?>email-ajax-check',
+                        type: 'post',
+                        data: datastr,
+                        success: function(data) {
+                            if (data == 1) {
+                                alert('Email Already exits!');
+                                $('#email').val('');
+                                setTimeout(function() {
+                                    $('.email-verify-error').text('');
+                                }, 4000);
+                                $('#email').focus();
+                                return false;
+                            } else {
+                                $('.Otp').show();
+                                $('.resendOtp').show();
+                                $('#genrateOTP').hide();
+                                $('#mailotp').val('');
+                                // Start the countdown timer
+                                startCountdown();
+                                jQuery.ajax({
+                                    url: '<?php echo base_url(); ?>create-emailOtp',
+                                    type: 'post',
+                                    data: datastr,
+                                    success: function(data) {
+                                        var trimStr = $.trim(data);
+                                        $('#mailotp').val(trimStr);
+                                    }
+                                });
+                            }
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+
+    <script>
+        function validate() {
+            $("#file_error").html("");
+            $(".demoInputBox").css("border-color", "#F0F0F0");
+            var file_size = $('#file')[0].files[0].size;
+            if (file_size > 2097152) {
+                $('#file').val('');
+                $("#file_error").html("File size is greater than 2MB");
+                $(".demoInputBox").css("border-color", "#FF0000");
+                return false;
+            } else {
+                return true;
+            }
+
+        }
+    </script>
+    <script>
+        $("document").ready(function() {
+            // $('#cv').hide();
+            $('.select-dropdown').hide();
+            $('.select-dropdown1').hide();
+            $('#textarea1').hide();
+            $('#textarea2').hide();
+            $('#single').change(function() {
+                let volunteerValue = $('#single').val();
+                if (volunteerValue == 'volunteering') {
+
+                    $('.select-dropdown').show();
+                    $('.select-dropdown1').hide();
+
+                    //$('#lookingFor').hide();
+                    $('#textarea1').hide();
+
+                    $('#textarea2').hide();
+
+                } else if ($('#single').val() == 'internship') {
+
+                    if (confirm(
+                            'In Internship we expect minimum of 5-6 hours of work daily through minimum of 4 weeks Are you sure you will like to apply? '
+                        )) {
+                        // Save it!
+
+                        $('.select-dropdown').hide();
+                        $('.select-dropdown').hide();
+                        $('.select-dropdown1').show();
+
+                        $('#textarea1').show();
+                        $('#textarea2').show();
+                    } else {
+                        // Do nothing!
+                        $(location).attr('href', '#simple');
+                        $('.select-dropdown').hide();
+
+                    }
+
+                } else {
+                    $('.select-dropdown').hide();
+                    $('.select-dropdown1').hide();
+                    $('#textarea1').hide();
+                    $('#textarea2').hide();
+                }
+            });
+            $(".multiple").select2({
+                placeholder: "Select a programming language",
+                allowClear: true,
+                maximumSelectionLength: 8
+            });
+        })
+    </script>
+    <script>
+        $(document).ready(function() {
+            $("#single").change(function() {
+                let volunteeringType = $('#single').val();
+                if (volunteeringType == 'internship') {
+                    $('#skill_id').removeAttr("required");
+                    //$('#internSkill_id').addAttr("required");
+                    $('#where_know_opportunity').removeAttr("required");
+                    $('#inputState').removeAttr("required");
+                    $('#file').attr("required");
+                }
+            });
+        });
+    </script>
+
+
+    <script type="text/javascript">
+        $(function() {
+            $('.txtNumeric').keydown(function(e) {
+                if (e.ctrlKey || e.altKey) {
+                    e.preventDefault();
+                } else {
+                    var key = e.keyCode;
+                    if (!((key == 8) || (key == 32) || (key == 46) || (key >= 35 && key <= 40) || (key >=
+                            65 && key <= 90))) {
+                        e.preventDefault();
+                    }
+                }
+            });
+        });
+    </script>
+
+    <script>
+        // Example starter JavaScript for disabling form submissions if there are invalid fields
+        (function() {
+            'use strict'
+
+            // Fetch all the forms we want to apply custom Bootstrap validation styles to
+            var forms = document.querySelectorAll('.needs-validation')
+
+            // Loop over them and prevent submission
+            Array.prototype.slice.call(forms)
+                .forEach(function(form) {
+                    form.addEventListener('submit', function(event) {
+                        if (!form.checkValidity()) {
+                            event.preventDefault()
+                            event.stopPropagation()
+                        }
+
+                        form.classList.add('was-validated')
+                    }, false)
+                })
+        })()
+    </script>
+
+    <script>
+        $(document).ready(function() {
+            $('#resend').click(function() {
+                var email = $('#email').val();
                 var datastr = {
-                    VOLUNTEEREMAIL: email,
-                    SINGLE: looking_for,
+                    VOLUNTEEREMAIL: email
                 };
-                //alert(datastr);
                 jQuery.ajax({
                     url: '<?php echo base_url(); ?>email-ajax-check',
                     type: 'post',
                     data: datastr,
                     success: function(data) {
-                        //alert(data);
+                        //alert(data);	
                         if (data == 1) {
-                            alert('Email Already exits!');
+                            $('.email-verify-error').text('Email Already exits!');
                             $('#email').val('');
                             setTimeout(function() {
                                 $('.email-verify-error').text('');
@@ -517,247 +691,163 @@ select.form-control:not([size]):not([multiple]) {
                             return false;
 
                         } else {
-                            $('.Otp').show();
-                            $('#genrateOTP').hide();
+                            $('.enterOtp').show();
                             jQuery.ajax({
                                 url: '<?php echo base_url(); ?>create-emailOtp',
                                 type: 'post',
                                 data: datastr,
                                 success: function(data) {
                                     var trimStr = $.trim(data);
-                                    //alert(trimStr);
+                                    //  alert(trimStr);
+                                    //console.log(trimStr);
                                     $('#mailotp').val(trimStr);
-
                                 }
                             });
                         }
                     }
                 });
-            }
-
-        });
-
-    });
-    </script>
-    <script type="text/javascript">
-    $(function() {
-        $('.txtNumeric').keydown(function(e) {
-            if (e.ctrlKey || e.altKey) {
-                e.preventDefault();
-            } else {
-                var key = e.keyCode;
-                if (!((key == 8) || (key == 32) || (key == 46) || (key >= 35 && key <= 40) || (key >=
-                        65 && key <= 90))) {
-                    e.preventDefault();
-                }
-            }
-        });
-    });
-    </script>
-
-    <script>
-    // Example starter JavaScript for disabling form submissions if there are invalid fields
-    (function() {
-        'use strict'
-
-        // Fetch all the forms we want to apply custom Bootstrap validation styles to
-        var forms = document.querySelectorAll('.needs-validation')
-
-        // Loop over them and prevent submission
-        Array.prototype.slice.call(forms)
-            .forEach(function(form) {
-                form.addEventListener('submit', function(event) {
-                    if (!form.checkValidity()) {
-                        event.preventDefault()
-                        event.stopPropagation()
-                    }
-
-                    form.classList.add('was-validated')
-                }, false)
-            })
-    })()
-    </script>
-
-    <script>
-    $(document).ready(function() {
-        $('#resend').click(function() {
-            var email = $('#email').val();
-            var datastr = {
-                VOLUNTEEREMAIL: email
-            };
-            jQuery.ajax({
-                url: '<?php echo base_url(); ?>email-ajax-check',
-                type: 'post',
-                data: datastr,
-                success: function(data) {
-                    //alert(data);	
-                    if (data == 1) {
-                        $('.email-verify-error').text('Email Already exits!');
-                        $('#email').val('');
-                        setTimeout(function() {
-                            $('.email-verify-error').text('');
-                        }, 4000);
-                        $('#email').focus();
-                        return false;
-
-                    } else {
-                        $('.enterOtp').show();
-                        jQuery.ajax({
-                            url: '<?php echo base_url(); ?>create-emailOtp',
-                            type: 'post',
-                            data: datastr,
-                            success: function(data) {
-                                var trimStr = $.trim(data);
-                                //  alert(trimStr);
-                                //console.log(trimStr);
-                                $('#mailotp').val(trimStr);
-                            }
-                        });
-                    }
-                }
             });
         });
-    });
     </script>
 
 
     <script>
-    function reloadThePage() {
-        window.location.reload();
-    }
+        function reloadThePage() {
+            window.location.reload();
+        }
     </script>
 
     <script type='text/javascript'>
-    var secondsBeforeExpire = 120;
-    var timer = setInterval(function() {
-        if (secondsBeforeExpire <= 0) {
-            clearInterval(timer);
-            $("#resend").prop('disabled', false);
-            $("#time-remaining").hide();
-        } else {
-            secondsBeforeExpire--;
-            $("#time-remaining").text(secondsBeforeExpire + "sec.");
-        }
-    }, 1000);
+        var secondsBeforeExpire = 120;
+        var timer = setInterval(function() {
+            if (secondsBeforeExpire <= 0) {
+                clearInterval(timer);
+                $("#resend").prop('disabled', false);
+                $("#time-remaining").hide();
+            } else {
+                secondsBeforeExpire--;
+                $("#time-remaining").text(secondsBeforeExpire + "sec.");
+            }
+        }, 1000);
     </script>
 
     <!-- JQUERY JS -->
     <script>
-    $(document).ready(function() {
-        $("#country_id").change(function() {
-            var country_id = $(this).val();
-            datastr = {
-                country_id: country_id
-            };
+        $(document).ready(function() {
+            $("#country_id").change(function() {
+                var country_id = $(this).val();
+                datastr = {
+                    country_id: country_id
+                };
 
-            $.ajax({
-                url: '<?php echo base_url() ?>get-states',
-                type: 'post',
-                data: datastr,
-                success: function(response) {
-                    $("#state_name").html(response);
-                    $('select').selectpicker('refresh');
+                $.ajax({
+                    url: '<?php echo base_url() ?>get-states',
+                    type: 'post',
+                    data: datastr,
+                    success: function(response) {
+                        $("#state_name").html(response);
+                        $('select').selectpicker('refresh');
+                    }
+                });
+            });
+
+        });
+    </script>
+    <script>
+        $(document).ready(function() {
+            $("#state_name").change(function() {
+
+                var state_id = $(this).val();
+                // alert(state_id);
+                datastr = {
+                    state_id: state_id
+                };
+
+                $.ajax({
+                    url: '<?php echo base_url() ?>get-city',
+                    type: 'post',
+                    data: datastr,
+                    success: function(response) {
+                        $("#city_name").html(response);
+                        $('select').selectpicker('refresh');
+                    }
+                });
+            });
+
+        });
+    </script>
+
+    <script>
+        $(function() {
+            $("#dob").datepicker({
+                changeMonth: true,
+                changeYear: true,
+                // showOn: 'button',
+                buttonImageOnly: false,
+                buttonImage: '<?php echo base_url() ?>web/images/calendar.gif',
+                dateFormat: 'dd-mm-yy',
+                yearRange: '1900:+0',
+                onSelect: function(dateString, txtDate) {
+                    ValidateDOB(dateString);
                 }
             });
         });
 
-    });
-    </script>
-    <script>
-    $(document).ready(function() {
-        $("#state_name").change(function() {
-
-            var state_id = $(this).val();
-            // alert(state_id);
-            datastr = {
-                state_id: state_id
-            };
-
-            $.ajax({
-                url: '<?php echo base_url() ?>get-city',
-                type: 'post',
-                data: datastr,
-                success: function(response) {
-                    $("#city_name").html(response);
-                    $('select').selectpicker('refresh');
-                }
-            });
-        });
-
-    });
-    </script>
-
-    <script>
-    $(function() {
-        $("#dob").datepicker({
-            changeMonth: true,
-            changeYear: true,
-            // showOn: 'button',
-            buttonImageOnly: false,
-            buttonImage: '<?php echo base_url() ?>web/images/calendar.gif',
-            dateFormat: 'dd-mm-yy',
-            yearRange: '1900:+0',
-            onSelect: function(dateString, txtDate) {
-                ValidateDOB(dateString);
-            }
-        });
-    });
-
-    function ValidateDOB(dateString) {
-        var lblError = $("#lblError");
-        var parts = dateString.split("-");
-        var dtDOB = new Date(parts[1] + "-" + parts[0] + "-" + parts[2]);
-        var dtCurrent = new Date();
-        lblError.html("Eligibility 13 years ONLY.")
-        if (dtCurrent.getFullYear() - dtDOB.getFullYear() < 13) {
-            $('#dob').val('');
-            return false;
-        }
-
-        if (dtCurrent.getFullYear() - dtDOB.getFullYear() == 13) {
-            if (dtCurrent.getMonth() < dtDOB.getMonth()) {
+        function ValidateDOB(dateString) {
+            var lblError = $("#lblError");
+            var parts = dateString.split("-");
+            var dtDOB = new Date(parts[1] + "-" + parts[0] + "-" + parts[2]);
+            var dtCurrent = new Date();
+            lblError.html("Eligibility 13 years ONLY.")
+            if (dtCurrent.getFullYear() - dtDOB.getFullYear() < 13) {
                 $('#dob').val('');
                 return false;
             }
-            if (dtCurrent.getMonth() == dtDOB.getMonth()) {
-                if (dtCurrent.getDate() < dtDOB.getDate()) {
+
+            if (dtCurrent.getFullYear() - dtDOB.getFullYear() == 13) {
+                if (dtCurrent.getMonth() < dtDOB.getMonth()) {
                     $('#dob').val('');
                     return false;
                 }
+                if (dtCurrent.getMonth() == dtDOB.getMonth()) {
+                    if (dtCurrent.getDate() < dtDOB.getDate()) {
+                        $('#dob').val('');
+                        return false;
+                    }
+                }
             }
+            lblError.html("");
+            return true;
         }
-        lblError.html("");
-        return true;
-    }
     </script>
 
 
     <script>
-    $(document).ready(function() {
-        $('#number').on('change', function() {
-            var mob = $('#number').val();
-            var datastr = {
-                MIGRANTMOB: mob
-            };
-            jQuery.ajax({
-                url: '<?php echo base_url(); ?>mobile-ajax-check',
-                type: 'post',
-                data: datastr,
-                success: function(data) {
-                    //alert(data);	
-                    if (data == 1) {
-                        $('.mob-signup-error').text('Mobile Number already exits!');
-                        $('#number').val('');
-                        setTimeout(function() {
-                            $('.mob-signup-error').text('');
-                        }, 4000);
-                        $('#number').focus();
-                        return false;
+        $(document).ready(function() {
+            $('#number').on('change', function() {
+                var mob = $('#number').val();
+                var datastr = {
+                    MIGRANTMOB: mob
+                };
+                jQuery.ajax({
+                    url: '<?php echo base_url(); ?>mobile-ajax-check',
+                    type: 'post',
+                    data: datastr,
+                    success: function(data) {
+                        //alert(data);	
+                        if (data == 1) {
+                            $('.mob-signup-error').text('Mobile Number already exits!');
+                            $('#number').val('');
+                            setTimeout(function() {
+                                $('.mob-signup-error').text('');
+                            }, 4000);
+                            $('#number').focus();
+                            return false;
+                        }
                     }
-                }
+                });
             });
         });
-    });
     </script>
 
 

@@ -23,20 +23,20 @@
 					<div class="d-flex align-items-center">
 						<a aria-label="Hide Sidebar" class="app-sidebar__toggle" data-bs-toggle="sidebar" href="javascript:void(0);"></a>
 						<div class="responsive-logo">
-							<a href="<?php echo base_url('admin-dashboard')?>" class="header-logo">
-								<img src="<?php echo base_url('admin/'); ?>assets/images/brand/logo-3.png" class="mobile-logo logo-1" alt="logo">
+							<a href="<?php echo base_url('admin-dashboard') ?>" class="header-logo">
+								<img src="<?php echo base_url('admin/'); ?>assets/images/brand/cry-yellowlogo.gif" class="mobile-logo logo-1" alt="logo">
 								<img src="<?php echo base_url('admin/'); ?>assets/images/brand/logo.png" class="mobile-logo dark-logo-1" alt="logo">
 							</a>
 						</div>
 						<!-- sidebar-toggle-->
-						<a class="logo-horizontal " href="<?php echo base_url('admin-dashboard')?>">
+						<a class="logo-horizontal " href="<?php echo base_url('admin-dashboard') ?>">
 							<img src="<?php echo base_url('admin/'); ?>assets/images/brand/logo.png" class="header-brand-img desktop-logo" alt="logo">
-							<img src="<?php echo base_url('admin/'); ?>assets/images/brand/logo-3.png" class="header-brand-img light-logo1" alt="logo">
+							<img src="<?php echo base_url('admin/'); ?>assets/images/brand/cry-yellowlogo.gif" class="header-brand-img light-logo1" alt="logo">
 						</a>
 						<!-- LOGO -->
-						
+
 						<div class="d-flex order-lg-2 ms-auto header-right-icons">
-							
+
 							<?php
 							if ($this->session->userdata('region_id') == 0) {
 								echo "";
@@ -49,13 +49,13 @@
 								for ($i = 0; $i < count($resultCode); $i++) {
 									$Sname .= '<span style="cursor:pointer;" title="' . $resultSname[$i] . '">' . $resultCode[$i] . '</span>,';
 								}
-								echo '<strong style="font-weight: 900;">'.$rname['region_name'].'</strong>'.":" . $Sname;
+								echo '<strong style="font-weight: 900;">' . $rname['region_name'] . '</strong>' . ":" . $Sname;
 							}
 							?>
 							<div class="navbar navbar-collapse responsive-navbar p-0">
 								<div class="collapse navbar-collapse" id="navbarSupportedContent-4">
 									<div class="d-flex order-lg-2">
-										
+
 										<div class="dropdown d-md-flex">
 											<a class="nav-link icon theme-layout nav-link-bg layout-setting">
 												<span class="dark-layout"><i class="fe fe-moon"></i></span>
@@ -70,9 +70,9 @@
 										</div>
 
 										<!-- FULL-SCREEN -->
-										
-									
-									
+
+
+
 										<!-- MESSAGE-BOX -->
 										<div class="dropdown d-md-flex profile-1">
 											<a href="javascript:void(0);" data-bs-toggle="dropdown" class="nav-link leading-none d-flex px-1">
@@ -91,12 +91,12 @@
 												<a class="dropdown-item" href="admin-user-profile">
 													<i class="dropdown-icon fe fe-user"></i> Profile
 												</a>
-												<a class="dropdown-item" href="<?php echo base_url('login');?>">
+												<a class="dropdown-item" href="<?php echo base_url('login'); ?>">
 													<i class="dropdown-icon fe fe-alert-circle"></i> Sign out
 												</a>
 											</div>
 										</div>
-										
+
 										<!-- SIDE-MENU -->
 									</div>
 								</div>

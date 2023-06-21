@@ -339,11 +339,11 @@ fieldset[disabled] .btn-default:hover {
                         </div>
                         <div class="modal-body">
                             <h2>Are you sure?</h2>
-                            <p style="display: block;">You want to reject it.</p>
+                            <p style="display: block;"> YOU WANT TO REJECT</p>
                         </div>
                         <div class="modal-footer">
                             <div class="text-center confirm" id="confirm_reject"><button type="button"
-                                    class="btn btn-primary fs-14" data-bs-dismiss="modal">Yes</button></div>
+                                    class="btn btn-primary fs-14 not_shortlist_email" data-bs-dismiss="modal">Yes</button></div>
                             <div class="text-center cancel_short"><button type="button" class="btn btn-default fs-14"
                                     data-bs-dismiss="modal">NO</button></div>
                         </div>
@@ -459,8 +459,8 @@ fieldset[disabled] .btn-default:hover {
                                                         <br>
                                                     </p>
                                                     <br>
-                                                    <button class="btn btn-info interview_final_mail" title="Email"><i
-                                                            class="fa fa-paper-plane" aria-hidden="true"></i></button>
+                                                    <!--<button class="btn btn-info interview_final_mail" title="Email"><i
+                                                            class="fa fa-paper-plane" aria-hidden="true"></i></button>-->
 
                                                 </div>
                                                 <?php } else { ?>
@@ -646,6 +646,7 @@ fieldset[disabled] .btn-default:hover {
                                                                 </div>
                                                             </div>
                                                             <div class="modal-footer">
+                                                                
                                                                 <button type="button" id="update_offer_letter"
                                                                     class="btn btn-primary">Save &
                                                                     Next</button>
@@ -698,7 +699,9 @@ fieldset[disabled] .btn-default:hover {
                                                                 <a href="<?php echo base_url() ?>view_offer_letter/<?php echo $encoded_id; ?>"
                                                                     target="_blank">Preview </a>
                                                             </button>
-                                                            <button type="button" class="btn btn-warning">
+                                                            <!--<button class="btn btn-info interview_final_mail" title="Email"><i
+                                                            class="fa fa-paper-plane" aria-hidden="true"></i></button>-->
+                                                            <button type="button" class="btn btn-warning interview_final_mail">
                                                                 <a
                                                                     href="<?php echo base_url() ?>send_offerLetter_emails/<?php echo $encoded_id; ?>">Send
                                                                 </a>
@@ -765,13 +768,13 @@ fieldset[disabled] .btn-default:hover {
                                                                     <td>
                                                                         <input type="text" data-role="date"
                                                                             style="color:#000" name="schedule_date"
-                                                                            class="form-control dob_cafc_interview schedule_date"
+                                                                            class="form-control dob_cafc_interview schedule_date mydate"
                                                                             value="" placeholder="MM/DD/YYYY"
                                                                             id="newid">
-                                                                        <span style="display:none;color:red"
+                                                                       <!-- <span style="display:none;color:red"
                                                                             class="schedule_error">15 or more the 15
                                                                             interview
-                                                                            are Schedule.</span>
+                                                                            are Schedule.</span>-->
                                                                     </td>
                                                                     <td>
                                                                         <div class="input-group clockpicker"
@@ -779,7 +782,7 @@ fieldset[disabled] .btn-default:hover {
                                                                             <input type="text"
                                                                                 class="form-control schedule_time"
                                                                                 placeholder="09:30"
-                                                                                name="schedule_time">
+                                                                                name="schedule_time" value="<?php echo date('h:i A',time()); ?>">
                                                                             <!--  <span class="input-group-addon"><span class="fa fa-clock-o"></span></span> -->
                                                                         </div>
                                                                     </td>
@@ -788,7 +791,8 @@ fieldset[disabled] .btn-default:hover {
                                                                         <textarea style="color:#000;" name="venue"
                                                                             class="form-control venue"
                                                                             placeholder="Venue"
-                                                                            disabled>  <?php echo "City: " . $cityi['city_name'] . "   State: " . $statei['state_name'] ?></textarea>
+                                                                            >  </textarea>
+                                                                            <?php  "City: " . $cityi['city_name'] . "   State: " . $statei['state_name'] ?>
                                                                         <!--<textarea style="color:#000;" name="venue"
                                                                             class="form-control venue"
                                                                             placeholder="Venue"></textarea>-->
@@ -844,7 +848,7 @@ fieldset[disabled] .btn-default:hover {
                                                                         <input type="text" data-role="date"
                                                                             style="color:#000" name="schedule_date"
                                                                             <?php echo ($u_schedule['schedule_date_time'] != "0000-00-00 00:00:00" ? "disabled" : '') ?>
-                                                                            class="form-control dob_cafc_interview schedule_date"
+                                                                            class="form-control dob_cafc_interview schedule_date mydate"
                                                                             value="<?php if ($u_schedule['schedule_date_time'] != "0000-00-00 00:00:00") {
                                                                                                                                                                                                                                                                                                                             echo date("m/d/Y", strtotime($u_schedule['schedule_date_time']));
                                                                                                                                                                                                                                                                                                                         } ?>"
@@ -860,7 +864,7 @@ fieldset[disabled] .btn-default:hover {
                                                                             data-autoclose="true" style="color:#000;">
                                                                             <input type="text"
                                                                                 class="form-control schedule_time"
-                                                                                placeholder="09:30" name="schedule_time"
+                                                                                placeholder="09:30" name="schedule_time" 
                                                                                 <?php echo ($u_schedule['schedule_date_time'] != "0000-00-00 00:00:00" ? "disabled" : '') ?>
                                                                                 value="<?php if ($u_schedule['schedule_date_time'] != "0000-00-00 00:00:00") {
                                                                                                                                                                                                                                                                                             echo date("H:i", strtotime($u_schedule['schedule_date_time']));
@@ -1012,36 +1016,6 @@ $(".confirm").click(function() {
 });
 </script>
 
-<script type="text/javascript">
-$('.submit').click(function() {
-    if ($('#oldpassword').val() == '') {
-        alert('Please enter old password');
-    } else if ($('#newpassword').val() == '') {
-        alert('Please enter new password');
-
-    } else if ($('#confirmnewpassword').val() == '') {
-        alert('Please enter confirm password');
-    } else {
-        //   alert("OK");
-        $.ajax({
-            method: "POST",
-            dataType: "json",
-            data: {
-                "oldpassword": $('#oldpassword').val(),
-                "newpassword": $('#newpassword').val(),
-                "confirmnewpassword": $('#confirmnewpassword').val()
-            },
-            url: 'https://drycoder.com/employer-password-match',
-            success: function(res) {
-                alert(res.message);
-                if (res.status == 1) {
-                    window.location.reload();
-                }
-            }
-        });
-    }
-});
-</script>
 <script>
 $(document).ready(function() {
     $('#update_offer_letter').click(function() {
@@ -1241,7 +1215,7 @@ $(document).on("click", ".save_schedule", function() {
         venue_cout = 1;
         return false;
     }
-    var con = confirm("Are you want to schedule the interview");
+    var con = confirm("Do you want to schedule the interview");
     if (con) {
         if (mode != '' && schedule_date != '' && schedule_time != '' && hr_description != '' && venue_cout ==
             0) {
@@ -1461,7 +1435,7 @@ $(document).on("click", ".save_btn_action", function() {
 });
 
 function ajax_function(in_data, link) {
-    var con = confirm("Are you want to schedule the interview");
+    var con = confirm("Do you want to schedule the interview");
     if (con) {
         $.ajax({
             method: "post",
@@ -1480,7 +1454,7 @@ function ajax_function(in_data, link) {
         });
     }
 }
-// mail send functionality
+// Mail sent functionality
 $(document).on("click", ".mail_btn_action", function(event) {
     var parentid = $(this).parents("tr");
     // if (parentid.find(".interview_status").val() != 1 && parentid.find(".interview_status").val() != 3) {
@@ -1503,7 +1477,7 @@ $(document).on("click", ".mail_btn_action", function(event) {
         var previous_date_value = $(this).parents("tr").prev("tr").find(
             ".schedule_date").val();
         var data_action = $(this).attr("data-action");
-        var con = confirm("Are you want to mail");
+        var con = confirm("Are you sure you want to send the mail?");
         if (con) {
             $.ajax({
                 method: "post",
@@ -1521,7 +1495,7 @@ $(document).on("click", ".mail_btn_action", function(event) {
                 },
                 success: function(datas) {
                     if (datas) {
-                        alert("Mail send");
+                        alert("Mail sent");
                     } else {
                         alert("Something went wrong");
                     }
@@ -1547,7 +1521,7 @@ $(document).on("click", ".send_offer_letter", function() {
     datas.append("intern_id", '<?php echo $interuser['intern_id'] ?>');
     if ($("input[type=file]").val() != '') {
         if ($("input[type=file]")[0].files[0].type == "application/pdf") {
-            var con = confirm("Are you want to mail?");
+            var con = confirm("Are you sure you want to send the mail?");
             if (con) {
                 $.ajax({
                     method: "post",
@@ -1558,7 +1532,7 @@ $(document).on("click", ".send_offer_letter", function() {
                     success: function(datas) {
                         //alert(datas)
                         if (datas) {
-                            alert("Mail send");
+                            alert("Mail sent");
                             window.location.reload();
                         } else {
                             alert("Something went wrong");
@@ -1639,7 +1613,25 @@ $(".shortlist_email").click(function() {
             if (data == false) {
                 alert("Something went wrong");
             } else {
-                alert("Mail Send");
+                alert("Mail sent");
+            }
+        }).fail(function(data) {
+            alert("Something went wrong");
+
+        });
+    } else {
+        alert('Please sortlist the candidate.');
+    }
+})
+$(".not_shortlist_email").click(function() {
+    if ($("input[name=short_radio][value='Not Shortlisted']").prop("checked")) {
+        $.post("<?php echo base_url(); ?>not_shortlist_mail", {
+            'intern_id': <?php echo $interuser['intern_id'] ?>,
+        }, function(data) {
+            if (data == false) {
+                alert("Something went wrong");
+            } else {
+                alert("Mail sent");
             }
         }).fail(function(data) {
             alert("Something went wrong");
@@ -1657,11 +1649,18 @@ $(".interview_final_mail").click(function() {
         if (data == false) {
             alert("Something went wrong");
         } else {
-            alert("Mail Send");
+            alert("Do you want to take the candidate to the next stage?");
         }
     }).fail(function(data) {
         alert("Something went wrong");
 
     });
 });
+</script>
+<script type="text/javascript">
+$(".mydate").datepicker({
+       format:'yyyy-mm-dd',
+       autoclose: true,
+       minDate: 0,   
+}); 
 </script>

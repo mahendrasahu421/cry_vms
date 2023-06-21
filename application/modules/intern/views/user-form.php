@@ -25,70 +25,64 @@
                             Update Your Profile</h3>
                         </div>
                         <div class="card-body">
-                            <form class="needs-validation" action="<?php echo base_url(); ?>intern-dashbord"
-                                method="post" name="form" id="form" novalidate>
+                            <form class="needs-validation" action="<?php echo base_url(); ?>intern-dashbord" method="post" name="form" id="form" novalidate>
                                 <div class="form-row">
                                     <div class="form-group col-md-6 mb-0">
                                         <label class="form-label fw-bold">First Name</label>
-                                        <input type="text" class="form-control"
-                                            value="<?php echo $internDetails['first_name']; ?>" required
-                                            name="first_name">
+                                        <input type="text" class="form-control" value="<?php echo $internDetails['first_name']; ?>" required name="first_name">
                                     </div>
                                     <div class="form-group col-md-6 mb-0">
                                         <label class="form-label fw-bold">Last Name</label>
-                                        <input type="text" class="form-control"
-                                            value="<?php echo $internDetails['last_name']; ?>" required
-                                            name="last_name">
+                                        <input type="text" class="form-control" value="<?php echo $internDetails['last_name']; ?>" required name="last_name">
                                     </div>
 
                                     <!-- <div class="form-group col-md-6 mb-0">
 										<label class="form-label fw-bold">Age</label>
 										<div class="input-group mb-4">
-											<?php if($internDetails['date_of_birth']=="0000-00-00"){
-												$dob="";
-											 }else{
-												$dob= date('d/m/Y',strtotime($internDetails['date_of_birth']));
-											 }?>
+											<?php if ($internDetails['date_of_birth'] == "0000-00-00") {
+                                                $dob = "";
+                                            } else {
+                                                $dob = date('d/m/Y', strtotime($internDetails['date_of_birth']));
+                                            } ?>
 											<input type="text" class="form-control" value="<?php echo $dob; ?>" name="dob" id="dob" required autocomplete="off">
 										</div>
 										<span id="lblError" style="color:Red"><?php echo $this->session->flashdata('dob_error'); ?></span>
 									</div> -->
 
-                                    <!-- <div class="form-group col-md-6 mb-0 select-dropdown">
+                                    <div class="form-group col-md-6 mb-0 select-dropdown">
 										<label class="form-label fw-bold">Gender</label>
 										<select class="form-control" data-placeholder="" name="gender">
-											<option <?php if($internDetails['gender']==1){echo 'selected=selected';}?> value="1" <?php echo $volunteerDetails['gender']; ?>>Male</option>
-											<option <?php if($internDetails['gender']==2){echo 'selected=selected';}?> value="2" <?php echo $volunteerDetails['gender']; ?>>Female</option>
-											<option <?php if($internDetails['gender']==3){echo 'selected=selected';}?> value="3" <?php echo $volunteerDetails['gender']; ?>>Transgender</option>
+											<option <?php if ($internDetails['gender'] == 1) {
+                                                        echo 'selected=selected';
+                                                    } ?> value="1" <?php echo $volunteerDetails['gender']; ?>>Male</option>
+											<option <?php if ($internDetails['gender'] == 2) {
+                                                        echo 'selected=selected';
+                                                    } ?> value="2" <?php echo $volunteerDetails['gender']; ?>>Female</option>
+											<option <?php if ($internDetails['gender'] == 3) {
+                                                        echo 'selected=selected';
+                                                    } ?> value="3" <?php echo $volunteerDetails['gender']; ?>>Transgender</option>
 										</select>
-									</div> -->
-                                    <!-- <div class="form-group col-md-6 mb-0">
+									</div>
+                                    <div class="form-group col-md-6 mb-0">
 										<label class="form-label fw-bold"> Enter Email</label>
 										<input type="email" class="form-control" placeholder="Email" value="<?php echo $internDetails['email']; ?>" required name="email">
-									</div> -->
+									</div>
                                     <div class="form-group col-md-6 mb-0">
                                         <label class="form-label fw-bold"> Enter Mobile Number</label>
-                                        <input type="text" class="form-control" placeholder="Mobile number"
-                                            value="<?php echo $internDetails['mobile']; ?>" required name="mobile">
+                                        <input type="text" class="form-control" placeholder="Mobile number" value="<?php echo $internDetails['mobile']; ?>" required name="mobile">
                                     </div>
 
                                     <div class="form-group col-md-6 mb-0">
                                         <label class="form-label fw-bold">Present Address</label>
-                                        <input type="text" class="form-control" placeholder=""
-                                            value="<?php echo $internDetails['present_address']; ?>" required
-                                            name="present_address">
+                                        <input type="text" class="form-control" placeholder="" value="<?php echo $internDetails['present_address']; ?>" required name="present_address">
                                     </div>
                                     <div class="form-group col-md-6 mb-0">
                                         <label class="form-label fw-bold">Permanent Address</label>
-                                        <input type="text" class="form-control" placeholder=""
-                                            value="<?php echo $internDetails['permanent_address']; ?>" required
-                                            name="permanent_address">
+                                        <input type="text" class="form-control" placeholder="" value="<?php echo $internDetails['permanent_address']; ?>" required name="permanent_address">
                                     </div>
                                     <div class="form-group col-md-6 mb-0">
                                         <label class="form-label fw-bold">Emergency Contact</label>
-                                        <input type="text" class="form-control" placeholder=""
-                                            value="<?php echo $internDetails['emergency_contact']; ?>" required
-                                            name="emergency_contact">
+                                        <input type="text" class="form-control" placeholder="" value="<?php echo $internDetails['emergency_contact']; ?>" required name="emergency_contact">
                                     </div>
                                     <!-- 
 									<div class="form-group col-md-6 mb-0 select-dropdown">
@@ -96,7 +90,9 @@
 										<select class="form-control select2" name="city_id">
 											<option selected>Select District...</option>
 											<?php foreach ($city as $cc) { ?>
-											<option <?php if($internDetails['city_id']==$cc['city_id']){echo 'selected=selected';}?> value="<?php $cc['city_id']; ?>"><?php echo $cc['city_name']; ?></option>
+											<option <?php if ($internDetails['city_id'] == $cc['city_id']) {
+                                                        echo 'selected=selected';
+                                                    } ?> value="<?php $cc['city_id']; ?>"><?php echo $cc['city_name']; ?></option>
 											<?php } ?>
 										</select>
 									</div> -->
@@ -105,7 +101,9 @@
 										<select class="form-control select2" name="occupation_id">
 											<option selected>Select Occupation...</option>
 											<?php foreach ($occup as $occ) { ?>
-											<option <?php if($internDetails['occupation_id']==$occ['occupation_id']){echo 'selected=selected';}?> value="<?php $occ['occupation_id']; ?>"><?php echo $occ['occupation_name']; ?></option>
+											<option <?php if ($internDetails['occupation_id'] == $occ['occupation_id']) {
+                                                        echo 'selected=selected';
+                                                    } ?> value="<?php $occ['occupation_id']; ?>"><?php echo $occ['occupation_name']; ?></option>
 											<?php } ?>
 										</select>
 									</div>-->
@@ -115,7 +113,9 @@
 										<select class="form-control select2" name="vol_type_id">
 											<option selected>Select Type...</option>
 											<?php foreach ($vol_type as $vt) { ?>
-											<option <?php if($internDetails['vol_type_id']==$vt['vol_type_id']){echo 'selected=selected';}?> value="<?php echo $vt['vol_type_id']; ?>"><?php echo $vt['vol_type_name']; ?></option>
+											<option <?php if ($internDetails['vol_type_id'] == $vt['vol_type_id']) {
+                                                        echo 'selected=selected';
+                                                    } ?> value="<?php echo $vt['vol_type_id']; ?>"><?php echo $vt['vol_type_name']; ?></option>
 											<?php } ?>
 										</select>
 									</div> -->
@@ -125,7 +125,9 @@
 										<select class="form-control select2"  multiple name="opportunity_id[]">
 											<option value="0">Select Opportunity...</option>
 											<?php foreach ($oppor as $opr) { ?>
-											<option <?php if($internDetails['opportunity_id']==$opr['opportunity_id']){echo 'selected=selected';}?> value="<?php $opr['opportunity_id']; ?>"><?php echo $opr['opportunity_name']; ?></option>
+											<option <?php if ($internDetails['opportunity_id'] == $opr['opportunity_id']) {
+                                                        echo 'selected=selected';
+                                                    } ?> value="<?php $opr['opportunity_id']; ?>"><?php echo $opr['opportunity_name']; ?></option>
 											<?php } ?>
 										</select>
 									</div>

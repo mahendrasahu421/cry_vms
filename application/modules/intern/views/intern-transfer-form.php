@@ -8,10 +8,10 @@
             <div class="page-header">
                 <div>
                     <h1 class="page-title">
-                    Intern Transfer</h1>
+                     Transfer form</h1>
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item"><a href="admin-dashboard">Home</a></li>
-                        <li class="breadcrumb-item"><a href="javascript:void(0);">Intern Transfer
+                        <li class="breadcrumb-item"><a href="javascript:void(0);"> Transfer form
                             </a>
                         </li>
                     </ol>
@@ -22,7 +22,7 @@
                 <div class="col-lg-12 col-md-12 col-xl-12">
                     <div class="card">
                         <div class="card-header bg-warning">
-                            <h3 class="card-title text-white"> Intern Transfer  </h3>
+                            <h3 class="card-title text-white">  Transfer form  </h3>
                         </div>
                         <div class="card-body">
                         <?php

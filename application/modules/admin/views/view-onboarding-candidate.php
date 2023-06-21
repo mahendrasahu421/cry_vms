@@ -137,7 +137,7 @@
                                     <input type="hidden" name="regionId" value="<?php $regionId = $this->session->userdata('region_id'); ?>">
                                     <?php $regionId = $this->session->userdata('region_id'); ?>
                                     <select class="form-control select2-show-search form-select" name="region_id" id="region_id">
-                                        <option selected disabled value="">Select Region</option>
+                                        <option  value="99">All</option>
                                         <?php foreach ($regions as $rd) {
                                         ?>
                                             <option value="<?php echo $rd['region_id']; ?>" <?php if ($regionId == $rd['region_id']) {
@@ -227,7 +227,7 @@
                                                         <?php if ($internData['status'] == 4) { ?>
                                                             <button type='button' class='badge bg-success  me-1 mb-1 mt-1'>Post Registration </button>
                                                         <?php } else { ?>
-                                                            <button type='button' class='badge bg-info  me-1 mb-1 mt-1'>Cry Member</button>
+                                                            <button type='button' class='badge bg-info  me-1 mb-1 mt-1'>CRY intern</button>
 
                                                         <?php } ?>
                                                     </td>

@@ -13,28 +13,6 @@
 
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.8.7/chosen.css" integrity="sha512-0nkKORjFgcyxv3HbE4rzFUlENUMNqic/EzDIeYCgsKa/nwqr2B91Vu/tNAu4Q0cBuG4Xe/D1f/freEci/7GDRA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-<div class="modal fade profile-details" id="exampleModal1" tabindex="-1" role="dialog"
-    aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-            <div class="modal-header bg-warning">
-                <h5 class="modal-title " id="exampleModalLabel">
-                    Profile Details
-                </h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">×</span>
-                </button>
-            </div>
-            <div class="modal-body row" id="profile_details" style="height:480px; overflow:scroll">
-            </div>
-            <div class="modal-footer bg-default">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">
-                    Close
-                </button>
-            </div>
-        </div>
-    </div>
-</div>
 <div class="main-content app-content mt-0">
 	<div class="side-app">
 		<!-- CONTAINER -->
@@ -134,7 +112,7 @@
 										<thead>
 											<tr class="bg-gray-light">
 												<th>Sr.no</th>
-												<th>State Tranfer Date</th>
+												<th>Request Date</th>
 												<th>Name </th>
 												<th>Mobile Number</th>
 												<th>Email</th>
@@ -148,52 +126,7 @@
 											</tr>
 										</thead>
 										<tbody>
-											<?php
-											$count = 1;
-											foreach ($internTransfer as $internData) {
-												$relocate_id = $internData['relocate_id'];
-												$relocateState = $internData['relocate_state'];
-												$relocate_city = $internData['relocate_city'];
-												$intern_id = $internData['intern_id'];
-												$internEmail = $internData['email'];
-												$encoded_id = rtrim(strtr(base64_encode($intern_id), '+/', '-_'), '=');
-												$internencoded_id = rtrim(strtr(base64_encode($intern_id), '+/', '-_'), '=');
-											?>
-												<tr>
-													<td>
-														<input class="che" id="intern_id" name="numchec" value="<?php echo $intern_id; ?>" type="checkbox">
-													</td>
-													<td>
-														<?php echo date("d-m-Y", strtotime($internData['state_update_date'])); ?>
-													</td>
-													<td>
-														<?php echo ucwords($internData['first_name'] . ' ' . $internData['last_name']); ?>
-														<br>
-														<a href="#" data-toggle="modal" data-target=".profile-details" onclick="fetch_details('<?php echo $encoded_id; ?>','profile_details');">
-															<small class="text-primary">(View Profile)</small></a>
-													</td>
-													<td><?php echo $internData['mobile']; ?>
-													</td>
-													<td><?php echo $internEmail; ?></td>
-
-													<td><?php echo $internData['state_name']; ?></td>
-													<td>
-														<?php echo $internData['relocate_state_name']; ?></td>
-													<td>
-														<?php echo $internData['relocate_city_name']; ?></td>
-													<td>
-														<?php echo $internData['relocate_reason']; ?></td>
-													<td>
-														<?php if ($internData['status'] == 2) { ?>
-															<button type='button' class="btn btn-warning">Accepted</button>
-														<?php } else { ?>
-															<button type='button' onclick="getId_sendmail('<?php echo $internEmail; ?>',<?php echo $relocateState; ?>,<?php echo $relocate_id; ?>,<?php echo $intern_id; ?>,<?php echo $relocate_city; ?>)" class='badge bg-info  me-1 mb-1 mt-1'>Accept</button>
-
-														<?php } ?>
-													</td>
-												</tr>
-											<?php
-											} ?>
+										
 										</tbody>
 									</table>
 									<!-- <input type="botton" id="submit3" value="Send Post Registration" class="mt-5 btn btn-warning  pull-right" id="map_button" style="padding: 1% 2% 1% 2%;"> -->
@@ -214,10 +147,10 @@
 		//alert(id);
 		$('#' + display_id).html('<div class="text-center" style="color:red;margin:10 auto;"><i class="fa fa-spinner fa-pulse fa-4x"></i><p>Fetching Data</p></div>');
 		var request = $.ajax({
-			url: '<?php echo base_url("fetch-user-info-intern"); ?>',
+			url: '<?php echo base_url("fetch-user-info"); ?>',
 			method: "POST",
 			data: {
-				intern_id: id
+				volunteer_id: id
 			},
 			success: function(results) {
 				// console.log(results);
@@ -286,10 +219,10 @@
 	});
 </script>
 <script>
-	function getId_sendmail(internEmail) {
-		var intern_sendId = internEmail;
+	function getId_sendmail(volunteerEmail) {
+		var volunteer_sendId = volunteerEmail;
 		datastr = {
-			intern_sendId: internEmail
+			volunteer_sendId: volunteerEmail
 		};
 
 		$.ajax({

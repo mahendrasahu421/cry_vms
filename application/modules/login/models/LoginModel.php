@@ -166,7 +166,10 @@ class LoginModel extends CI_Model
         $this->db->join('states s', 's.state_id = i.state_id', 'left');
         $this->db->join('cities c', 'c.city_id = i.city_id', 'left');
         $this->db->where('i.status =8');
-        $this->db->where('i.state_id', $cityID);
+        if($cityID!=99){
+            $this->db->where('i.state_id', $cityID);
+        }
+        //$this->db->where('i.state_id', $cityID);
         $this->db->order_by('i.intern_id   DESC');
         $query = $this->db->get();
         // echo $this->db->last_query();
@@ -218,6 +221,19 @@ class LoginModel extends CI_Model
         $this->db->join('regions r', 'r.region_id = pv.program_region', 'left');
         $this->db->where('pv.status !=0');
         $this->db->order_by('pv.program_id    DESC');
+        $query = $this->db->get();
+        //echo $this->db->last_query(); die;
+        $result = $query->result_array();
+        $this->db->close();
+        return $result;
+    }
+
+    public function get_intern_email($where){
+        
+        $this->db->initialize();
+        $this->db->select('i.email');
+        $this->db->from('interns i');
+        $this->db->where($where);
         $query = $this->db->get();
         //echo $this->db->last_query(); die;
         $result = $query->result_array();

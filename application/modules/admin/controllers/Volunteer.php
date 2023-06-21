@@ -1,5 +1,7 @@
-<?php  
+<?php
+
 use SebastianBergmann\Exporter\Exporter;
+
 ob_start();
 defined('BASEPATH') or exit('No direct script access allowed');
 class volunteer extends MY_Controller
@@ -41,9 +43,9 @@ class volunteer extends MY_Controller
                 $role = $this->session->userdata('role_id');
                 if ($role == 1) {
                     $date2 = $data['date_to'] = date("Y-m-d");
-                    $data['date_from'] = date("Y-m-d", strtotime($date2 . '-7 days'));
+                    $data['date_from'] = date("Y-m-d", strtotime($date2 . '-30 days'));
                     $where = 'v.status =1 OR v.status =2';
-                    if ($this->input->post('start_new') != "" && $this->input->post('end_new') != "" &&  $this->input->post('state_name') != "" && $this->input->post('region_id') != "") {
+                    if ($this->input->post('start_new') != ""  && $this->input->post('end_new') != "" &&  $this->input->post('state_name') != "" && $this->input->post('region_id') != "") {
                         $data['state'] =  $state_name = $this->input->post('state_name');
                         $data['region_id'] =  $region_id = $this->input->post('region_id');
                         $date1 = $this->input->post('start_new');
@@ -53,17 +55,28 @@ class volunteer extends MY_Controller
                         $data['creation_date'] = $date1;
                         $data['creation_date'] = $date2;
                         $data['state_name'] = $state_name;
-                        //$data['region_id'] = $region_id;
                         $where = "creation_date>='" . $date_from . "' and creation_date<='" . $date_to . "' and v.state_id=" . $state_name . "  and (v.status=1 OR v.status=2)";
                         $data['volunteer'] = $this->Admin_model->volunteer_enquiry_Data($where);
-                        // echo "<pre>";
-                        // print_r($data['volunteer']);exit;
+                    } else if ($this->input->post('region_id') != "") {
+                        $regionId = $this->input->post('region_id');
+                        $states = $this->Crud_modal->all_data_select('state_id', 'states', "region_id='$regionId'", 'state_name ASC');
+                        $stateIds = '"' . implode('","', array_column($states, 'state_id')) . '"';
+                        $date1 = $this->input->post('start_new');
+                        $date2 = $this->input->post('end_new');
+                        $date_from = date("Y-m-d", strtotime($date1));
+                        $date_to = date("Y-m-d", strtotime($date2 . '+1 days'));
+                        $data['creation_date'] = $date1;
+                        $data['creation_date'] = $date2;
+
+                        $where = "creation_date >= '$date_from' AND creation_date <= '$date_to' AND (v.status = 1 OR v.status = 2) AND v.state_id in ($stateIds)";
+
+                        $data['volunteer'] = $this->Admin_model->volunteer_enquiry_Data($where);
                     }
                 } else {
                     $data['rname'] = $this->Curl_model->fetch_single_data('region_name,state_id', 'regions', array('region_id' => $region));
                     $data['states'] = $this->Crud_modal->fetch_all_data('*', 'states', 'region_id=' . $region);
                     $date2 = $data['date_to'] = date("Y-m-d");
-                    $data['date_from'] = date("Y-m-d", strtotime($date2 . '-7 days'));
+                    $data['date_from'] = date("Y-m-d", strtotime($date2 . '-30 days'));
                     $where = 'v.status =1 OR v.status =2';
                     if ($this->input->post('start_new') != "" && $this->input->post('end_new') != "" &&  $this->input->post('state_name') != "") {
                         $data['state'] =   $state_name = $this->input->post('state_name');
@@ -77,12 +90,27 @@ class volunteer extends MY_Controller
                         $where = "creation_date>='" . $date_from . "' and creation_date<='" . $date_to . "' and v.state_id=" . $state_name . "  and (v.status=1 OR v.status=2)";
                         $data['volunteer'] = $this->Admin_model->volunteer_enquiry_Data($where);
                     }
+                     else if ($this->input->post('region_id') != "") {
+                        $regionId = $this->input->post('region_id');
+                        $states = $this->Crud_modal->all_data_select('state_id', 'states', "region_id='$regionId'", 'state_name ASC');
+                        $stateIds = '"' . implode('","', array_column($states, 'state_id')) . '"';
+                        $date1 = $this->input->post('start_new');
+                        $date2 = $this->input->post('end_new');
+                        $date_from = date("Y-m-d", strtotime($date1));
+                        $date_to = date("Y-m-d", strtotime($date2 . '+1 days'));
+                        $data['creation_date'] = $date1;
+                        $data['creation_date'] = $date2;
+
+                        $where = "creation_date >= '$date_from' AND creation_date <= '$date_to' AND (v.status = 1 OR v.status = 2) AND v.state_id in ($stateIds)";
+
+                        $data['volunteer'] = $this->Admin_model->volunteer_enquiry_Data($where);
+                    }
                 }
 
                 $data['email_templates'] = $this->Crud_modal->fetch_single_data('email_templates_id,body_content', 'email_templates', 'status=1 AND email_templates_id=4');
-             
+
                 $data['regions'] = $this->Crud_modal->fetch_all_data('*', 'regions', 'region_status=1');
-                
+
                 $this->load->view('temp/head');
                 $this->load->view('temp/header', $data);
                 $this->load->view('temp/sidebar');
@@ -104,7 +132,7 @@ class volunteer extends MY_Controller
                 $role = $this->session->userdata('role_id');
                 if ($role == 1) {
                     $date2 = $data['date_to'] = date("Y-m-d");
-                    $data['date_from'] = date("Y-m-d", strtotime($date2 . '-7 days'));
+                    $data['date_from'] = date("Y-m-d", strtotime($date2 . '-30 days'));
                     $where = 'v.status =2 OR v.status =3';
                     if ($this->input->post('start_new') != "" && $this->input->post('end_new') != "" &&  $this->input->post('state_name') != "") {
                         $data['state'] =  $state_name = $this->input->post('state_name');
@@ -117,12 +145,26 @@ class volunteer extends MY_Controller
                         $data['state_name'] = $state_name;
                         $where = "creation_date>='" . $date_from . "' and creation_date<='" . $date_to . "' and v.state_id=" . $state_name . "  and (v.status=2 OR v.status=3)";
                         $data['volunteer'] = $this->Admin_model->volunteer_enquiry_Data($where);
+                    } else if ($this->input->post('region_id') != "") {
+                        $regionId = $this->input->post('region_id');
+                        $states = $this->Crud_modal->all_data_select('state_id', 'states', "region_id='$regionId'", 'state_name ASC');
+                        $stateIds = '"' . implode('","', array_column($states, 'state_id')) . '"';
+                        $date1 = $this->input->post('start_new');
+                        $date2 = $this->input->post('end_new');
+                        $date_from = date("Y-m-d", strtotime($date1));
+                        $date_to = date("Y-m-d", strtotime($date2 . '+1 days'));
+                        $data['creation_date'] = $date1;
+                        $data['creation_date'] = $date2;
+
+                        $where = "creation_date >= '$date_from' AND creation_date <= '$date_to' AND (v.status = 1 OR v.status = 2) AND v.state_id in ($stateIds)";
+
+                        $data['volunteer'] = $this->Admin_model->volunteer_enquiry_Data($where);
                     }
                 } else {
                     $data['rname'] = $this->Curl_model->fetch_single_data('region_name,state_id', 'regions', array('region_id' => $region));
                     $data['states'] = $this->Crud_modal->fetch_all_data('*', 'states', 'region_id=' . $region);
                     $date2 = $data['date_to'] = date("Y-m-d");
-                    $data['date_from'] = date("Y-m-d", strtotime($date2 . '-7 days'));
+                    $data['date_from'] = date("Y-m-d", strtotime($date2 . '-30 days'));
                     $where = 'v.status =2 OR v.status =3';
                     if ($this->input->post('start_new') != "" && $this->input->post('end_new') != "" &&  $this->input->post('state_name') != "") {
                         $data['state'] = $state_name = $this->input->post('state_name');
@@ -134,6 +176,20 @@ class volunteer extends MY_Controller
                         $data['creation_date'] = $date2;
                         $data['state_name'] = $state_name;
                         $where = "creation_date>='" . $date_from . "' and creation_date<='" . $date_to . "' and v.state_id=" . $state_name . "  and (v.status=2 OR v.status=3)";
+                        $data['volunteer'] = $this->Admin_model->volunteer_enquiry_Data($where);
+                    } else if ($this->input->post('region_id') != "") {
+                        $regionId = $this->input->post('region_id');
+                        $states = $this->Crud_modal->all_data_select('state_id', 'states', "region_id='$regionId'", 'state_name ASC');
+                        $stateIds = '"' . implode('","', array_column($states, 'state_id')) . '"';
+                        $date1 = $this->input->post('start_new');
+                        $date2 = $this->input->post('end_new');
+                        $date_from = date("Y-m-d", strtotime($date1));
+                        $date_to = date("Y-m-d", strtotime($date2 . '+1 days'));
+                        $data['creation_date'] = $date1;
+                        $data['creation_date'] = $date2;
+
+                        $where = "creation_date >= '$date_from' AND creation_date <= '$date_to' AND (v.status = 1 OR v.status = 2) AND v.state_id in ($stateIds)";
+
                         $data['volunteer'] = $this->Admin_model->volunteer_enquiry_Data($where);
                     }
                 }
@@ -154,16 +210,16 @@ class volunteer extends MY_Controller
 
     public function volenteership()
     {
-       
+
         try {
             if (($this->session->userdata('emp_id') != "" || $this->session->userdata('emp_id') != null)) {
                 $region = $this->session->userdata('region_id');
                 $role = $this->session->userdata('role_id');
-              
+
                 if ($role == 1) {
                     $date2 = $data['date_to'] = date("Y-m-d");
-                    $data['date_from'] = date("Y-m-d", strtotime($date2 . '-7 days'));
-                   // $where = 'v.status =4 OR v.status =5';
+                    $data['date_from'] = date("Y-m-d", strtotime($date2 . '-30 days'));
+                    // $where = 'v.status =4 OR v.status =5';
                     if ($this->input->post('start_new') != "" && $this->input->post('end_new') != "" &&  $this->input->post('state_name') != "") {
                         $data['state'] =  $state_name = $this->input->post('state_name');
                         $date1 = $this->input->post('start_new');
@@ -178,12 +234,26 @@ class volunteer extends MY_Controller
                         // echo "<pre>";
                         // print_r($data['volunteer']);exit;
 
+                    } else if ($this->input->post('region_id') != "") {
+                        $regionId = $this->input->post('region_id');
+                        $states = $this->Crud_modal->all_data_select('state_id', 'states', "region_id='$regionId'", 'state_name ASC');
+                        $stateIds = '"' . implode('","', array_column($states, 'state_id')) . '"';
+                        $date1 = $this->input->post('start_new');
+                        $date2 = $this->input->post('end_new');
+                        $date_from = date("Y-m-d", strtotime($date1));
+                        $date_to = date("Y-m-d", strtotime($date2 . '+1 days'));
+                        $data['creation_date'] = $date1;
+                        $data['creation_date'] = $date2;
+
+                        $where = "creation_date >= '$date_from' AND creation_date <= '$date_to' AND (v.status = 4 OR v.status = 5) AND v.state_id in ($stateIds)";
+
+                        $data['volunteer'] = $this->Admin_model->volunteer_enquiry_Data($where);
                     }
                 } else {
                     $data['rname'] = $this->Curl_model->fetch_single_data('region_name,state_id', 'regions', array('region_id' => $region));
                     $data['states'] = $this->Crud_modal->fetch_all_data('*', 'states', 'region_id=' . $region);
                     $date2 = $data['date_to'] = date("Y-m-d");
-                    $data['date_from'] = date("Y-m-d", strtotime($date2 . '-7 days'));
+                    $data['date_from'] = date("Y-m-d", strtotime($date2 . '-30 days'));
                     $where = 'v.status =4 OR v.status =5';
                     if ($this->input->post('start_new') != "" && $this->input->post('end_new') != "" &&  $this->input->post('state_name') != "") {
                         $data['state'] = $state_name = $this->input->post('state_name');
@@ -195,6 +265,20 @@ class volunteer extends MY_Controller
                         $data['creation_date'] = $date2;
                         $data['state_name'] = $state_name;
                         $where = "creation_date>='" . $date_from . "' and creation_date<='" . $date_to . "' and v.state_id=" . $state_name . "  and (v.status=4 OR v.status=5)";
+                        $data['volunteer'] = $this->Admin_model->volunteer_enquiry_Data($where);
+                    } else if ($this->input->post('region_id') != "") {
+                        $regionId = $this->input->post('region_id');
+                        $states = $this->Crud_modal->all_data_select('state_id', 'states', "region_id='$regionId'", 'state_name ASC');
+                        $stateIds = '"' . implode('","', array_column($states, 'state_id')) . '"';
+                        $date1 = $this->input->post('start_new');
+                        $date2 = $this->input->post('end_new');
+                        $date_from = date("Y-m-d", strtotime($date1));
+                        $date_to = date("Y-m-d", strtotime($date2 . '+1 days'));
+                        $data['creation_date'] = $date1;
+                        $data['creation_date'] = $date2;
+
+                        $where = "creation_date >= '$date_from' AND creation_date <= '$date_to' AND (v.status = 4 OR v.status = 5) AND v.state_id in ($stateIds)";
+
                         $data['volunteer'] = $this->Admin_model->volunteer_enquiry_Data($where);
                     }
                 }
@@ -213,5 +297,3 @@ class volunteer extends MY_Controller
         }
     }
 }
-
-?>

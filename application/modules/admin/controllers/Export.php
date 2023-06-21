@@ -37,21 +37,21 @@ class Export extends MY_Controller
 
     public function preRegistrationVolunteer_exporttoExcel()
     {
+
         $host = "localhost";
-        $username = "root";
-        $password = "";
+        $username = "mgracwck_cryuser";
+        $password = "QM?VYXd.%N4A";
         $dbname = "mgracwck_cryvms";
         $conn = mysqli_connect($host, $username, $password, $dbname);
-
         // Retrieve the data
         $sql =  "SELECT volunteer_id,first_name, last_name, email, mobile,state_name,city_name FROM volunteer LEFT JOIN states ON volunteer.state_id=states.state_id LEFT JOIN cities ON volunteer.city_id=cities.city_id WHERE volunteer.status=1";
         $result = mysqli_query($conn, $sql);
-
         // Create a file pointer
-        $fp = fopen('php://output', 'w');
+        $fp = fopen('Pre Registration Volunteer.csv', 'w');
         ob_clean();
         // Write the header row
         $header = array('volunteer_id', 'First Name', 'Last Name', 'email', 'number', 'state_name', 'city_name');
+
         fputcsv($fp, $header);
 
         // Write the data rows
@@ -61,103 +61,36 @@ class Export extends MY_Controller
 
         // Close the file pointer
         fclose($fp);
-
         // Set headers for download
         header('Content-Type: text/csv');
-        header('Content-Disposition: attachment; filename="Pre_Registration_Volunteer.csv"');
+        //header('Content-Disposition: attachment; filename="Pre Registration Volunteer.csv"');
 
-        // Output the file to the browser for download
-        readfile('Pre_Registration_Volunteer.csv');
-    }
+        // Read the file and output it to the user
+        //readfile('Pre Registration Volunteer.csv');
 
-    public function postRegistrationexporttoExcel()
-    {
-        $host = "localhost";
-        $username = "root";
-        $password = "";
-        $dbname = "mgracwck_cryvms";
-        $conn = mysqli_connect($host, $username, $password, $dbname);
-
-        // Retrieve the data
-        $sql =  "SELECT volunteer_id,first_name, last_name, email, mobile,state_name,city_name FROM volunteer LEFT JOIN states ON volunteer.state_id=states.state_id LEFT JOIN cities ON volunteer.city_id=cities.city_id WHERE volunteer.status=2";
-        $result = mysqli_query($conn, $sql);
-
-        // Create a file pointer
-        $fp = fopen('php://output', 'w');
-        ob_clean();
-        // Write the header row
-        $header = array('volunteer_id', 'First Name', 'Last Name', 'email', 'number', 'state_name', 'city_name');
-        fputcsv($fp, $header);
-
-        // Write the data rows
-        while ($row = mysqli_fetch_assoc($result)) {
-            fputcsv($fp, $row);
-        }
-
-        // Close the file pointer
-        fclose($fp);
-
-        // Set headers for download
-        header('Content-Type: text/csv');
-        header('Content-Disposition: attachment; filename="Post Registration Volunteer.csv"');
-
-        // Output the file to the browser for download
-        readfile('Post Registration Volunteer.csv');
-    }
-
-    public function onboar_volunteerd_ExporttoExcel()
-    {
-        $host = "localhost";
-        $username = "root";
-        $password = "";
-        $dbname = "mgracwck_cryvms";
-        $conn = mysqli_connect($host, $username, $password, $dbname);
-
-        // Retrieve the data
-        $sql =  "SELECT volunteer_id,first_name, last_name, email, mobile,state_name,city_name FROM volunteer LEFT JOIN states ON volunteer.state_id=states.state_id LEFT JOIN cities ON volunteer.city_id=cities.city_id WHERE volunteer.status=5";
-        $result = mysqli_query($conn, $sql);
-
-        // Create a file pointer
-        $fp = fopen('php://output', 'w');
-        ob_clean();
-        // Write the header row
-        $header = array('volunteer_id', 'First Name', 'Last Name', 'email', 'number', 'state_name', 'city_name');
-        fputcsv($fp, $header);
-
-        // Write the data rows
-        while ($row = mysqli_fetch_assoc($result)) {
-            fputcsv($fp, $row);
-        }
-
-        // Close the file pointer
-        fclose($fp);
-
-        // Set headers for download
-        header('Content-Type: text/csv');
-        header('Content-Disposition: attachment; filename="Onboard Volunteer.csv"');
-
-        // Output the file to the browser for download
-        readfile('Onboard Volunteer.csv');
     }
 
 
     public function preRegistrationinterns_exporttoExcel()
     {
+
         $host = "localhost";
-        $username = "root";
-        $password = "";
+        $username = "mgracwck_cryuser";
+        $password = "QM?VYXd.%N4A";
         $dbname = "mgracwck_cryvms";
         $conn = mysqli_connect($host, $username, $password, $dbname);
 
         // Retrieve the data
-        $sql =  "SELECT volunteer_id,first_name, last_name, email, mobile,state_name,city_name FROM volunteer LEFT JOIN states ON volunteer.state_id=states.state_id LEFT JOIN cities ON volunteer.city_id=cities.city_id WHERE volunteer.status=5";
+        $sql = "SELECT intern_id,first_name, last_name, email, mobile,state_name,city_name FROM interns LEFT JOIN states ON interns.state_id=states.state_id LEFT JOIN cities ON interns.city_id=cities.city_id WHERE interns.status=1";
         $result = mysqli_query($conn, $sql);
 
         // Create a file pointer
-        $fp = fopen('php://output', 'w');
+        $fp = fopen('Pre Registration interns.csv', 'w');
         ob_clean();
+
+
         // Write the header row
-        $header = array('volunteer_id', 'First Name', 'Last Name', 'email', 'number', 'state_name', 'city_name');
+        $header = array('intern_id', 'First Name', 'Last Name', 'email', 'number', 'state_name', 'city_name');
         fputcsv($fp, $header);
 
         // Write the data rows
@@ -169,21 +102,20 @@ class Export extends MY_Controller
         fclose($fp);
 
         // Set headers for download
-        header('Content-Type: text/csv');
-        header('Content-Disposition: attachment; filename="Onboard Volunteer.csv"');
+        // header('Content-Type: text/csv');
+        header('Content-Disposition: attachment; filename="Pre Registration interns.csv"');
 
-        // Output the file to the browser for download
-        readfile('Onboard Volunteer.csv');
+        // Read the file and output it to the user
+        readfile('Pre Registration interns.csv');
     }
-
 
 
     public function shortlistInterns()
     {
 
         $host = "localhost";
-        $username = "root";
-        $password = "";
+        $username = "mgracwck_cryuser";
+        $password = "QM?VYXd.%N4A";
         $dbname = "mgracwck_cryvms";
         $conn = mysqli_connect($host, $username, $password, $dbname);
 
@@ -220,8 +152,8 @@ class Export extends MY_Controller
     {
 
         $host = "localhost";
-        $username = "root";
-        $password = "";
+        $username = "mgracwck_cryuser";
+        $password = "QM?VYXd.%N4A";
         $dbname = "mgracwck_cryvms";
         $conn = mysqli_connect($host, $username, $password, $dbname);
 
@@ -253,13 +185,13 @@ class Export extends MY_Controller
         // Read the file and output it to the user
         readfile('Post Registration Interns.csv');
     }
-
+    
     public function all_onboard_intern_memberexportToexcel()
     {
 
         $host = "localhost";
-        $username = "root";
-        $password = "";
+        $username = "mgracwck_cryuser";
+        $password = "QM?VYXd.%N4A";
         $dbname = "mgracwck_cryvms";
         $conn = mysqli_connect($host, $username, $password, $dbname);
 
@@ -293,67 +225,118 @@ class Export extends MY_Controller
     }
 
 
-    public function task_exportTOexcel()
+    public function postRegistrationexporttoExcel()
     {
+
         $host = "localhost";
-        $username = "root";
-        $password = "";
+        $username = "mgracwck_cryuser";
+        $password = "QM?VYXd.%N4A";
         $dbname = "mgracwck_cryvms";
-
-        // Create connection
         $conn = mysqli_connect($host, $username, $password, $dbname);
-
-        // Check connection
-        if (!$conn) {
-            die("Connection failed: " . mysqli_connect_error());
-        }
-
         // Retrieve the data
-        $sql = "SELECT task_id, task_type, region_name,task_title, task_brief, start_date, expected_end_date, volunteer_required, state_name, city_name 
-        FROM task 
-        LEFT JOIN states ON task.task_state_id = states.state_id 
-        LEFT JOIN cities ON task.task_city_id = cities.city_id 
-        LEFT JOIN regions ON task.region_id = regions.region_id 
-        LEFT JOIN task_type ON task.task_type_id = task_type.task_type_id 
-        WHERE task.status = 1";
-
-
+        $sql =  "SELECT volunteer_id,first_name, last_name, email, mobile,state_name,city_name FROM volunteer LEFT JOIN states ON volunteer.state_id=states.state_id LEFT JOIN cities ON volunteer.city_id=cities.city_id WHERE volunteer.status=4";
         $result = mysqli_query($conn, $sql);
+        // Create a file pointer
+        $fp = fopen('Post Registration Volunteer.csv', 'w');
 
-        if (!$result) {
-            die("Error retrieving data: " . mysqli_error($conn));
-        }
-
-        // Open file for writing
-        $fp = fopen('Task.csv', 'w');
-        ob_clean();
         // Write the header row
-        $header = array('Task Id', 'Task Type', 'Region Name', 'Task Title', 'Task Description', 'Start Date', 'End Date', 'Intern required', 'State Name', 'City Name');
+        $header = array('volunteer_id', 'First Name', 'Last Name', 'email', 'number', 'state_name', 'city_name');
+
         fputcsv($fp, $header);
 
         // Write the data rows
         while ($row = mysqli_fetch_assoc($result)) {
-            $row['task_brief'] = str_replace('&nbsp;', '', $row['task_brief']);
-            $row['task_brief'] = strip_tags($row['task_brief']);
-
-            // Write the row to the CSV file
             fputcsv($fp, $row);
         }
 
         // Close the file pointer
         fclose($fp);
-
         // Set headers for download
         header('Content-Type: text/csv');
-        header('Content-Disposition: attachment; filename="Task.csv"');
-        header('Pragma: no-cache');
-        header('Expires: 0');
+        // header('Content-Disposition: attachment; filename="Post Registration Volunteer.csv"');
 
-        // Output the file contents
-        readfile('Task.csv');
+        // // Read the file and output it to the user
+        // readfile('Post Registration Volunteer.csv');
 
-        // Exit the script
-        exit();
+    }
+
+
+    public function onboar_volunteerd_ExporttoExcel()
+    {
+
+        $host = "localhost";
+        $username = "mgracwck_cryuser";
+        $password = "QM?VYXd.%N4A";
+        $dbname = "mgracwck_cryvms";
+        $conn = mysqli_connect($host, $username, $password, $dbname);
+        // Retrieve the data
+        $sql = "SELECT volunteer_id,first_name, last_name, email, mobile,state_name,city_name FROM volunteer LEFT JOIN states ON volunteer.state_id=states.state_id LEFT JOIN cities ON volunteer.city_id=cities.city_id WHERE volunteer.status=5";
+
+        $result = mysqli_query($conn, $sql);
+        // Create a file pointer
+        $fp = fopen('On Board Volunteer.csv', 'w');
+        ob_clean();
+        // Write the header row
+        $header = array('volunteer_id', 'First Name', 'Last Name', 'email', 'number', 'state_name', 'city_name');
+
+        fputcsv($fp, $header);
+
+        // Write the data rows
+        while ($row = mysqli_fetch_assoc($result)) {
+            fputcsv($fp, $row);
+        }
+
+        // Close the file pointer
+        fclose($fp);
+        // Set headers for download
+        header('Content-Type: text/csv');
+        // header('Content-Disposition: attachment; filename="On Board Volunteer.csv"');
+
+        // // Read the file and output it to the user
+        // readfile('On Board Volunteer.csv');
+
+    }
+
+    public function task_exportTOexcel()
+    {
+
+        $host = "localhost";
+        $username = "mgracwck_cryuser";
+        $password = "QM?VYXd.%N4A";
+        $dbname = "mgracwck_cryvms";
+        $conn = mysqli_connect($host, $username, $password, $dbname);
+        // Retrieve the data
+        $sql = "SELECT task_id,task_type_id,task_title,task_brief,start_date,expected_end_date,volunteer_required,state_name,city_name,region_name 
+        FROM task 
+        LEFT JOIN states ON task.task_state_id=states.state_id 
+        LEFT JOIN cities ON task.task_city_id=cities.city_id 
+        LEFT JOIN regions ON task.region_id=regions.region_id 
+        WHERE task.status=1";
+
+        $result = mysqli_query($conn, $sql);
+
+
+        $fp = fopen('Task.csv', 'w');
+        ob_clean();
+        // Write the header row
+        $header = array('Task Id', 'Task Type', 'Task Tittle', 'Task Description', 'Start Date', 'End Date', 'Volunteer required', 'State Name', 'City Name', 'Region Name');
+
+        fputcsv($fp, $header);
+
+        // Write the data rows
+        while ($row = mysqli_fetch_assoc($result)) {
+            fputcsv($fp, $row);
+        }
+
+        // Close the file pointer
+        fclose($fp);
+        // Set headers for download
+        header('Content-Type: text/csv');
+        // header('Content-Disposition: attachment; filename="Task.csv"');
+
+        // // Read the file and output it to the user
+        // readfile('Task.csv');
+
     }
 
     public function intern_task_exportToexcel()
@@ -362,80 +345,80 @@ class Export extends MY_Controller
         $username = "root";
         $password = "";
         $dbname = "mgracwck_cryvms";
-
+    
         // Create connection
         $conn = mysqli_connect($host, $username, $password, $dbname);
-
+    
         // Check connection
         if (!$conn) {
             die("Connection failed: " . mysqli_connect_error());
         }
-
+    
         // Retrieve the data
-        $sql = "SELECT intern_task_id, task_type, region_name,task_title, task_brief, start_date, expected_end_date, intern_required,    state_name, city_name 
+        $sql = "SELECT intern_task_id, task_type, region_name,task_title, task_brief, start_date, expected_end_date, intern_required, state_name, city_name 
                 FROM interntask 
                 LEFT JOIN states ON interntask.task_state_id = states.state_id 
                 LEFT JOIN cities ON interntask.task_city_id = cities.city_id 
                 LEFT JOIN regions ON interntask.region_id = regions.region_id 
                 LEFT JOIN task_type ON interntask.task_type_id = task_type.task_type_id 
                 WHERE interntask.status = 1";
-
+    
         $result = mysqli_query($conn, $sql);
-
+    
         if (!$result) {
             die("Error retrieving data: " . mysqli_error($conn));
         }
-
+    
         // Open file for writing
         $fp = fopen('Task.csv', 'w');
         ob_clean();
         // Write the header row
-        $header = array('Task Id', 'Task Type', 'Region Name', 'Task Title', 'Task Description', 'Start Date', 'End Date', 'Intern required', 'State Name', 'City Name');
+        $header = array('Task Id', 'Task Type', 'Region Name','Task Title', 'Task Description', 'Start Date', 'End Date', 'Intern required', 'State Name', 'City Name');
         fputcsv($fp, $header);
-
+    
         // Write the data rows
         while ($row = mysqli_fetch_assoc($result)) {
             $row['task_brief'] = str_replace('&nbsp;', '', $row['task_brief']);
             $row['task_brief'] = strip_tags($row['task_brief']);
 
-            // Write the row to the CSV file
-            fputcsv($fp, $row);
+    // Write the row to the CSV file
+    fputcsv($fp, $row);
         }
-
+    
         // Close the file pointer
         fclose($fp);
-
+    
         // Set headers for download
         header('Content-Type: text/csv');
         header('Content-Disposition: attachment; filename="Task.csv"');
         header('Pragma: no-cache');
         header('Expires: 0');
-
+    
         // Output the file contents
         readfile('Task.csv');
-
+    
         // Exit the script
         exit();
     }
 
 
     function assign_taskDetails_exportToExcel()
-    {
-        $host = "localhost";
-        $username = "root";
-        $password = "";
-        $dbname = "mgracwck_cryvms";
+{
+    $host = "localhost";
+    $username = "root";
+    $password = "";
+    $dbname = "mgracwck_cryvms";
 
-        // Create connection
-        $conn = mysqli_connect($host, $username, $password, $dbname);
+    // Create connection
+    $conn = mysqli_connect($host, $username, $password, $dbname);
 
-        // Check connection
-        if (!$conn) {
-            die("Connection failed: " . mysqli_connect_error());
-        }
+    // Check connection
+    if (!$conn) {
+        die("Connection failed: " . mysqli_connect_error());
+    }
 
-        // Retrieve the data
-        $sql = "SELECT intern_assigning_task.intern_assigned_task_id, 
+    // Retrieve the data
+    $sql = "SELECT intern_assigning_task.intern_assigned_task_id, 
             interntask.task_title, 
             interntask.task_brief, 
             interns.intern_id, 
@@ -452,157 +435,46 @@ class Export extends MY_Controller
             LEFT JOIN master_role ON master_role.role_id = intern_assigning_task.assign_by_task 
             WHERE intern_assigning_task.status = 1";
 
-        // Use prepared statement to avoid SQL injection
-        $stmt = mysqli_prepare($conn, $sql);
-        mysqli_stmt_execute($stmt);
-        $result = mysqli_stmt_get_result($stmt);
+    // Use prepared statement to avoid SQL injection
+    $stmt = mysqli_prepare($conn, $sql);
+    mysqli_stmt_execute($stmt);
+    $result = mysqli_stmt_get_result($stmt);
 
-        // Open file for writing
-        $fp = fopen('Assign Task.csv', 'w');
-        ob_clean();
-        // Write the header row
-        $header = array('Task Id', 'Task Title', 'Task Description', 'Intern Id', 'First Name', 'Last Name', 'Email', 'Mobile', 'Task Assign Date', 'Task Assign By', 'Reminder');
-        fputcsv($fp, $header);
+    // Open file for writing
+    $fp = fopen('Assign Task.csv', 'w');
 
-        // Write the data rows using a generator function to read the data from the database in chunks
-        function get_data($result)
-        {
-            while ($row = mysqli_fetch_assoc($result)) {
-                $row['task_brief'] = str_replace('&nbsp;', '', $row['task_brief']);
-                $row['task_brief'] = strip_tags($row['task_brief']);
-                yield $row;
-            }
-        }
+    // Write the header row
+    $header = array('Task Id', 'Task Title', 'Task Description', 'Intern Id', 'First Name', 'Last Name', 'Email', 'Mobile', 'Task Assign Date', 'Task Assign By', 'Reminder');
+    fputcsv($fp, $header);
 
-        foreach (get_data($result) as $row) {
-            // Write the row to the CSV file
-            fputcsv($fp, $row);
-        }
-
-        // Close the file pointer
-        fclose($fp);
-
-        // Set headers for download
-        header('Content-Type: text/csv');
-        header('Content-Disposition: attachment; filename="Assign Task.csv"');
-        header('Pragma: no-cache');
-        header('Expires: 0');
-
-        // Output the file contents
-        readfile('Assign Task.csv');
-    }
-
-    function volunteer_assign_taskDetails_exportToExcel()
+    // Write the data rows using a generator function to read the data from the database in chunks
+    function get_data($result)
     {
-        $host = "localhost";
-        $username = "root";
-        $password = "";
-        $dbname = "mgracwck_cryvms";
-
-        // Create connection
-        $conn = mysqli_connect($host, $username, $password, $dbname);
-
-        // Check connection
-        if (!$conn) {
-            die("Connection failed: " . mysqli_connect_error());
-        }
-
-        // Retrieve the data
-        $sql = "SELECT assigning_task.assigned_task_id, 
-            task.task_title, 
-            task.task_brief, 
-            volunteer.volunteer_id, 
-            volunteer.first_name, 
-            volunteer.last_name, 
-            volunteer.email, 
-            volunteer.mobile, 
-            assigning_task.assigned_date, 
-            master_role.role_name, 
-            assigning_task.reminder 
-            FROM assigning_task 
-            LEFT JOIN task ON task.task_id = assigning_task.task_id 
-            LEFT JOIN volunteer ON volunteer.volunteer_id = assigning_task.volunteer_id 
-            LEFT JOIN master_role ON master_role.role_id = assigning_task.assign_by 
-            WHERE assigning_task.status = 1";
-
-        // Use prepared statement to avoid SQL injection
-        $stmt = mysqli_prepare($conn, $sql);
-        mysqli_stmt_execute($stmt);
-        $result = mysqli_stmt_get_result($stmt);
-
-        // Open file for writing
-        $fp = fopen('Assign Task.csv', 'w');
-        ob_clean();
-        // Write the header row
-        $header = array('Task Id', 'Task Title', 'Task Description', 'Intern Id', 'First Name', 'Last Name', 'Email', 'Mobile', 'Task Assign Date', 'Task Assign By', 'Reminder');
-        fputcsv($fp, $header);
-
-        // Write the data rows using a generator function to read the data from the database in chunks
-        function assigntasK_get_data($result)
-        {
-            while ($row = mysqli_fetch_assoc($result)) {
-                $row['task_brief'] = str_replace('&nbsp;', '', $row['task_brief']);
-                $row['task_brief'] = strip_tags($row['task_brief']);
-                yield $row;
-            }
-        }
-
-        foreach (assigntasK_get_data($result) as $row) {
-            // Write the row to the CSV file
-            fputcsv($fp, $row);
-        }
-
-        // Close the file pointer
-        fclose($fp);
-
-        // Set headers for download
-        header('Content-Type: text/csv');
-        header('Content-Disposition: attachment; filename="Assign Task.csv"');
-        header('Pragma: no-cache');
-        header('Expires: 0');
-
-        // Output the file contents
-        readfile('Assign Task.csv');
-    }
-
-    
-    public function sent_certificate_exportToexcel()
-    {
-        $host = "localhost";
-        $username = "root";
-        $password = "";
-        $dbname = "mgracwck_cryvms";
-        $conn = mysqli_connect($host, $username, $password, $dbname);
-
-        // Retrieve the data
-        $sql =  "SELECT intern_id,first_name, last_name, email, mobile, state_name, city_name FROM interns 
-        LEFT JOIN states ON interns.state_id=states.state_id 
-        LEFT JOIN cities ON interns.city_id=cities.city_id 
-        WHERE certificate_status=1";
-        $result = mysqli_query($conn, $sql);
-
-        // Create a file pointer
-        $fp = fopen('php://output', 'w');
-        ob_clean();
-        // Write the header row
-        $header = array('Intern_id', 'First Name', 'Last Name', 'email', 'number', 'state_name', 'city_name');
-        fputcsv($fp, $header);
-
-        // Write the data rows
         while ($row = mysqli_fetch_assoc($result)) {
-            fputcsv($fp, $row);
+            $row['task_brief'] = str_replace('&nbsp;', '', $row['task_brief']);
+            $row['task_brief'] = strip_tags($row['task_brief']);
+            yield $row;
         }
-
-        // Close the file pointer
-        fclose($fp);
-
-        // Set headers for download
-        header('Content-Type: text/csv');
-        header('Content-Disposition: attachment; filename="Sent Certificate.csv"');
-
-        // Output the file to the browser for download
-        readfile('Sent Certificate.csv');
     }
+
+    foreach (get_data($result) as $row) {
+        // Write the row to the CSV file
+        fputcsv($fp, $row);
+    }
+
+    // Close the file pointer
+    fclose($fp);
+
+    // Set headers for download
+    header('Content-Type: text/csv');
+    header('Content-Disposition: attachment; filename="Assign Task.csv"');
+    header('Pragma: no-cache');
+    header('Expires: 0');
+
+    // Output the file contents
+    readfile('Assign Task.csv');
+}
+
 
     
 }

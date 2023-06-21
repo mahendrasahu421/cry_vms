@@ -252,8 +252,8 @@
 														</button>
 														<ul class="dropdown-menu">
 															<li><a href="#" data-toggle="modal" data-target=".daily-report" onclick="fetch_report('<?php echo $encoded_sr_id; ?>','<?php echo $encoded_id; ?>','daily-report');"><small class="text-primary">(View details)</small></a></li>
-											
-															<li><a href="<?php echo base_url() ?>view_rating/<?php echo $encoded_id;?>">View FeedBack</a></li>
+
+															<li><a href="<?php echo base_url() ?>view_rating/<?php echo $encoded_id; ?>">View FeedBack</a></li>
 														</ul>
 													</div>
 												</td>
@@ -298,9 +298,9 @@
 			type: 'post',
 			data: datastr,
 			success: function(data) {
-				if (data == 1) {
-					window.location.href = "submission_reports";
-				}
+				// if (data == 1) {
+					window.location.href = data;
+				//}
 				$('#success_msg').html('Your Registration Complete We Will Contact Soon!');
 			},
 			error: function(data) {}

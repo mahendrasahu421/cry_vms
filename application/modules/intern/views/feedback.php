@@ -39,9 +39,8 @@
 
                             <div class="col-md-6">
                                 <label for="validationCustom01" class="form-label fs-6"><b>The pre-internship
-                                        correspondence was systematic and clear *</b></label>
-                                1:
-                                <input type="radio" value="1" name="pre_internship_correspondence">
+                                        correspondence was systematic and clear <span style="color:red; font-size:20px;">*</span></b></label>
+                                1: <input type="radio" value="1" name="pre_internship_correspondence" required>
 
                                 2 :
                                 <input type="radio" value="2" name="pre_internship_correspondence">
@@ -57,9 +56,9 @@
 
                             <div class="col-md-6">
                                 <label for="validationCustom01" class="form-label fs-6 ">The Selection Process was fair
-                                    and transparent*</label>
+                                    and transparent <span style="color:red; font-size:20px;">*</span></label>
                                 1 :
-                                <input type="radio" value="1" name="selection_process">
+                                <input type="radio" value="1" name="selection_process" required>
 
                                 2 :
                                 <input type="radio" value="2" name="selection_process">
@@ -76,9 +75,9 @@
                             <div class="col-md-6">
                                 <label for="validationCustom01" class="form-label fs-6">The orientation at the beginning
                                     of the Internship was clear , useful, and insightful
-                                    *</label>
+                                    <span style="color:red; font-size:20px;">*</span></label>
                                 1 :
-                                <input type="radio" value="1" name="orientation_beginning">
+                                <input type="radio" value="1" name="orientation_beginning" required>
 
                                 2 :
                                 <input type="radio" value="2" name="orientation_beginning">
@@ -94,9 +93,9 @@
 
                             <div class="col-md-6">
                                 <label for="validationCustom01" class="form-label fs-6">The mentor clearly defined goals
-                                    at the start of the internship*</label>
+                                    at the start of the internship <span style="color:red; font-size:20px;">*</span></label>
                                 1 :
-                                <input type="radio" value="1" name="defined_goals">
+                                <input type="radio" value="1" name="defined_goals" required>
 
                                 2 :
                                 <input type="radio" value="2" name="defined_goals">
@@ -113,9 +112,9 @@
                             <div class="col-md-6">
                                 <label for="validationCustom01" class="form-label fs-6">The assignment planning process
                                     was participatory
-                                    *</label>
+                                    <span style="color:red; font-size:20px;">*</span></label>
                                 1 :
-                                <input type="radio" value="1" name="assignment_planning">
+                                <input type="radio" value="1" name="assignment_planning" required>
 
                                 2 :
                                 <input type="radio" value="2" name="assignment_planning">
@@ -133,9 +132,9 @@
                             <div class="col-md-6">
                                 <label for="validationCustom01" class="form-label fs-6">The mentor provided me with
                                     constructive feedback
-                                    *</label>
+                                    <span style="color:red; font-size:20px;">*</span></label>
                                 1 :
-                                <input type="radio" value="1" name="constructive_feedback">
+                                <input type="radio" value="1" name="constructive_feedback" required>
 
                                 2 :
                                 <input type="radio" value="2" name="constructive_feedback">
@@ -152,9 +151,9 @@
                             <div class="col-md-6">
                                 <label for="validationCustom01" class="form-label fs-6">The mentor was available
                                     whenever I needed support
-                                    *</label>
+                                    <span style="color:red; font-size:20px;">*</span></label>
                                 1 :
-                                <input type="radio" value="1" name="needed_support">
+                                <input type="radio" value="1" name="needed_support" required>
 
                                 2 :
                                 <input type="radio" value="2" name="needed_support">
@@ -171,9 +170,9 @@
                             <div class="col-md-6">
                                 <label for="validationCustom01" class="form-label fs-6">The overall quality of
                                     supervision was appropriate and sufficient
-                                    *</label>
+                                    <span style="color:red; font-size:20px;">*</span></label>
                                 1 :
-                                <input type="radio" value="1" name="appropriate_and_sufficient">
+                                <input type="radio" value="1" name="appropriate_and_sufficient" required>
 
                                 2 :
                                 <input type="radio" value="2" name="appropriate_and_sufficient">
@@ -190,9 +189,9 @@
                             <div class="col-md-6">
                                 <label for="validationCustom01" class="form-label fs-6">I felt well integrated in the
                                     work flow
-                                    *</label>
+                                    <span style="color:red; font-size:20px;">*</span></label>
                                 1 :
-                                <input type="radio" value="1" name="work_flow">
+                                <input type="radio" value="1" name="work_flow" required>
 
                                 2 :
                                 <input type="radio" value="2" name="work_flow">
@@ -209,9 +208,9 @@
                             <div class="col-md-6">
                                 <label for="validationCustom01" class="form-label fs-6">The working climate was positive
                                     and encouraging
-                                    *</label>
+                                    <span style="color:red; font-size:20px;">*</span></label>
                                 1 :
-                                <input type="radio" value="1" name="encouraging">
+                                <input type="radio" value="1" name="encouraging" required>
 
                                 2 :
                                 <input type="radio" value="2" name="encouraging">
@@ -228,9 +227,9 @@
                             <div class="col-md-6">
                                 <label for="validationCustom01" class="form-label fs-6">I found this internship to be
                                     challenging and stimulating
-                                    *</label>
+                                    <span style="color:red; font-size:20px;">*</span></label>
                                 1 :
-                                <input type="radio" value="1" name="stimulating">
+                                <input type="radio" value="1" name="stimulating" required>
 
                                 2 :
                                 <input type="radio" value="2" name="stimulating">
@@ -246,9 +245,9 @@
 
                             <div class="col-md-6">
                                 <label for="validationCustom01" class="form-label fs-6">I understood how my internship
-                                    contributed to the movement for Child Rights and to CRY’s work</label>
+                                    contributed to the movement for Child Rights and to CRY’s work <span style="color:red; font-size:20px;">*</span></label>
                                 1 :
-                                <input type="radio" value="1" name="contributed_cry_work">
+                                <input type="radio" value="1" name="contributed_cry_work" required>
 
                                 2 :
                                 <input type="radio" value="2" name="contributed_cry_work">
@@ -264,9 +263,9 @@
 
                             <div class="col-md-6">
                                 <label for="validationCustom01" class="form-label fs-6">The Internship duration helped
-                                    in increased conceptual learning/ understanding on child rights issues</label>
+                                    in increased conceptual learning/ understanding on child rights issues <span style="color:red; font-size:20px;">*</span></label>
                                 1 :
-                                <input type="radio" value="1" name="increased_conceptual_learning">
+                                <input type="radio" value="1" name="increased_conceptual_learning" required>
 
                                 2 :
                                 <input type="radio" value="2" name="increased_conceptual_learning">
@@ -283,9 +282,9 @@
                             <div class="col-md-6">
                                 <label for="validationCustom01" class="form-label fs-6">I would definitely recommend
                                     this internship to another student
-                                    *</label>
+                                    <span style="color:red; font-size:20px;">*</span></label>
                                 1 :
-                                <input type="radio" value="1" name="another_student">
+                                <input type="radio" value="1" name="another_student" required>
 
                                 2 :
                                 <input type="radio" value="2" name="another_student">
@@ -302,9 +301,11 @@
 
                             <div class="col-md-6">
                                 <label for="validationCustom01" class="form-label fs-6">Overall, how would you rate this
-                                    internship?*</label>
-                                <select class="form-control" id="exampleFormControlSelect1" name="overall_internship" required>
-                                    <option value="">Overall, how would you rate this internship?</option>
+                                    internship? <span style="color:red; font-size:20px;">*</span></label>
+                                <select class="form-control select2 form-select" id="exampleFormControlSelect1" name="overall_internship" required>
+
+                                    <option value="" selected disabled>Overall, how would you rate this
+                                        internship?</option>
                                     <option value="Poor">Poor</option>
                                     <option value="Adequate">Adequate</option>
                                     <option value="Good">Good</option>
@@ -314,10 +315,11 @@
                             </div>
                             <div class="col-md-6">
                                 <label for="validationCustom01" class="form-label fs-6">If you had the choice, would you
-                                    do internship with CRY again?*</label>
-                                <select class="form-control" id="exampleFormControlSelect1" name="internship_with_cry_again" required>
-                                    <option value="">If you had the choice, would you do internship with CRY again?
-                                    </option>
+                                    do internship with CRY again? <span style="color:red; font-size:20px;">*</span></label>
+                                <select class="form-control select2 form-select" id="exampleFormControlSelect1" name="internship_with_cry_again" required>
+
+                                    <option value="" selected disabled>If you had the choice, would you
+                                        do internship with CRY again?</option>
                                     <option value="1">Yes</option>
                                     <option value="2">No</option>
                                     <option value="3">May Be</option>
@@ -326,10 +328,11 @@
                             <div class="col-md-6">
                                 <label for="validationCustom01" class="form-label fs-6">If you wish to continue to
                                     partner with CRY in building a movement for Child Rights, these are the following
-                                    ways you could do (kindly tick the ones you want to do)</label>
-                                <select class="form-control" id="exampleFormControlSelect1" name="continue_partner" required>
-                                    <option value="">If you wish to continue to partner with CRY in building a movement
-                                        for Child Rights</option>
+                                    ways you could do (kindly tick the ones you want to do) <span style="color:red; font-size:20px;">*</span></label>
+                                <select class="form-control select2 form-select" id="exampleFormControlSelect1" name="continue_partner" required>
+
+                                    <option value="" selected disabled>If you wish to continue to
+                                        partner</option>
                                     <option value="Be a volunteer with CRY: Social media champion">Be a volunteer with
                                         CRY: Social media champion</option>
                                     <option value="Be a volunteer with CRY: Community action">Be a volunteer with CRY:
@@ -348,14 +351,14 @@
                             <div class="col-md-6">
                                 <label for="validationCustom01" class="form-label fs-6">A quote on your overall
                                     experience. What will you like to say to a potential intern about CRY and your
-                                    experience? what that you learnt and what sort of memories if you made?</label>
-                                <input type="text" class="form-control" name="overall_experience" value="" id="dailyReportTimeIn" placeholder="Name and address of the institutionthe institution" required>
+                                    experience? what that you learnt and what sort of memories if you made? <span style="color:red; font-size:20px;">*</span></label>
+                                <input type="text" class="form-control" name="overall_experience" value="" id="dailyReportTimeIn" placeholder="your overall experience and what sort of memories if you made" required>
                             </div>
 
                             <div class="col-md-6">
                                 <label for="validationCustom01" class="form-label fs-6">Any suggestions to make this
-                                    internship program more fruitful?</label>
-                                <input type="text" class="form-control" name="any_suggestions" value="" id="dailyReportTimeIn" placeholder="Name and address of the institutionthe institution" required>
+                                    internship program more fruitful? <span style="color:red; font-size:20px;">*</span></label>
+                                <input type="text" class="form-control" name="any_suggestions" value="" id="dailyReportTimeIn" placeholder="Any suggestions to make this  internship program more fruitful" required>
                             </div>
 
 

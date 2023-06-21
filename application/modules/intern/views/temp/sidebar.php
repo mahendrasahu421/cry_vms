@@ -34,7 +34,7 @@
                 </li> -->
                 <li class="sub-category">
                     <h3>Elements</h3>
-                <!-- </li>
+                    <!-- </li>
                 <li class="slide">
                     <a class="side-menu__item" data-bs-toggle="slide" href="javascript:void(0);"><i class="side-menu__icon fe fe-database"></i><span class="side-menu__label">Daily Report</span><i class="angle fa fa-angle-right"></i></a>
                     <ul class="slide-menu">
@@ -47,27 +47,23 @@
                 </li> -->
 
 
-                <!-- <li>
-                    <a class="side-menu__item" href="<?php echo base_url(); ?>intern-claim-certificate"><i class="side-menu__icon fe fe-grid"></i><span class="side-menu__label">Claim Certificate</span></a>
-                </li> -->
 
-                <!-- <li>
-                    <a class="side-menu__item" href="intern-transfer-form"><i class="side-menu__icon fe fe-grid"></i><span class="side-menu__label">Transfer Request</span></a>
-                </li> -->
 
-                <li class="slide">
-                    <a class="side-menu__item" data-bs-toggle="slide" href="javascript:void(0);"><i class="side-menu__icon fe fe-grid"></i><span class="side-menu__label">Transfer Report</span><i class="angle fa fa-angle-right"></i></a>
+
+
+                <!-- <li class="slide">
+                    <a class="side-menu__item" data-bs-toggle="slide" href="javascript:void(0);"><i class="side-menu__icon fe fe-grid"></i><span class="side-menu__label">Change Location</span><i class="angle fa fa-angle-right"></i></a>
                     <ul class="slide-menu">
-                        <li class="side-menu-label1"><a href="javascript:void(0)">Transfer Report</a></li>
-                        <li><a href="<?php echo base_url(); ?>intern-transfer-form" class="slide-item"> Add Transfer Report</a></li>
-                        <li><a href="<?php echo base_url(); ?>intern-transfer-report" class="slide-item"> View Transfer Report</a></li>
-                        <!-- <li><a href="intern-self-task-daily-report" class="slide-item"> Self Task Daily Report</a></li>
-                        <li><a href="intern-self-task-view-daily-report" class="slide-item"> View Self Task Daily Report</a></li> -->
+                        <li class="side-menu-label1"><a href="javascript:void(0)">Change Location</a></li>
+                        <li><a href="<?php echo base_url(); ?>intern-transfer-form" class="slide-item">Transfer Form</a></li>
+                        <li><a href="<?php echo base_url(); ?>intern-transfer" class="slide-item"> View Transfer Status</a></li>
+                        <li><a href="intern-self-task-daily-report" class="slide-item"> Self Task Daily Report</a></li>
+                        <li><a href="intern-self-task-view-daily-report" class="slide-item"> View Self Task Daily Report</a></li>
                     </ul>
-                </li>
+                </li> -->
 
-               
+
     </aside>
-    
+
 </div>
 <!--/APP-SIDEBAR-->

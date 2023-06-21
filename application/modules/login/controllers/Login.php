@@ -90,7 +90,7 @@ class Login extends MY_Controller
                                     $this->session->set_userdata('error', 'Your Login has been block.');
                                 }
                             } else {
-                                
+
                                 $this->session->set_userdata('emp_id', $results['emp_id']);
                                 $this->session->set_userdata('sid', $results['sid']);
                                 $this->session->set_userdata('region_id', $results['region_id']);
@@ -240,12 +240,14 @@ class Login extends MY_Controller
     public function preregistration()
     {
         try {
-            $data['occupation'] = $this->Crud_modal->fetch_all_data('*', 'occupation', 'status= 1', 'occupation_name ASC');
+            $data['occupation'] = $this->Crud_modal->fetch_all_data('*', 'occupation', 'status= 1 AND looking_for_type=1', 'occupation_name ASC');
+            $data['intoccupation'] = $this->Crud_modal->fetch_all_data('*', 'occupation', 'status= 1 AND looking_for_type=2', 'occupation_name ASC');
             $data['opportunity'] = $this->Crud_modal->fetch_all_data('*', 'opportunity', 'opportunity_status= 1', 'opportunity_name ASC');
             $data['skills'] = $this->Crud_modal->fetch_all_data('*', 'skills', 'status= 1', 'skill_name ASC');
             $data['countries'] = $this->Crud_modal->fetch_all_data('*', 'countries', 'status= 1', 'Name ASC');
             $data['state'] = $this->Crud_modal->all_data_select('*', 'states', 'status=1 and state_id !=45', 'state_name ASC');
-            $data['taskType'] = $this->Crud_modal->fetch_all_data('*', 'volunteer_type', 'status = 1');
+            $data['taskType'] = $this->Crud_modal->fetch_all_data('*', 'task_type', 'status = 1');
+
             $this->load->view('preregistration', $data);
         } catch (Exception $e) {
             echo 'Caught exception: ',  $e->getMessage(), "\n";
@@ -268,8 +270,10 @@ class Login extends MY_Controller
             $state_id = $this->input->post('state_id');
             $city_name = $this->input->post('city_name');
             $occupation = $this->input->post('occupation');
+            $otheroccupation = $this->input->post('otheroccupation');
             $volunteering_type = $this->input->post('volunteering_type');
             $where_know_opportunity = $this->input->post('where_know_opportunity');
+            $other_opportunity = $this->input->post('other_opportunity');
             $volunteerSkill = $this->input->post('skill_id');
             $internskill_id = $this->input->post('internskill_id');
             $Uploade_file = $this->input->post('Uploade_file');
@@ -313,9 +317,12 @@ class Login extends MY_Controller
                     'state_id' => $state_id,
                     'city_id ' => $city_name,
                     'occupation_id' => $occupation,
+                    'otheroccupation' => $otheroccupation,
                     'skill_id' => implode(",", $internskill_id),
                     'past_volunteering' => $mention_past,
                     'internshipType' => $internshipType,
+                    'where_did_u_know' => $where_know_opportunity,
+                    'other_opportunity' => $other_opportunity,
                     'internshipDeruation' => $internshipDeruation,
                     'what_you_aim' => $whatyou_aim,
                     'creation_date' => date('Y-m-d'),
@@ -332,6 +339,22 @@ class Login extends MY_Controller
                     $file = $this->upload->data();
                     $internData['cv_file'] = $file['file_name'];
                     $internDataresult =  $this->Crud_modal->intern_data_insert('interns', $internData);
+                    if ($internDataresult > 0) {
+                        $email = $this->input->post('email');
+                        $preregistrationConfirmmail = $this->send_preregistraion_conformaition_mail($email);
+
+                        if ($preregistrationConfirmmail) {
+                            // Email sent successfully
+                            redirect(base_url() . 'thank-you');
+                        } else {
+                            // Error sending email
+                            echo 'Error sending email.';
+                        }
+                    } else {
+                        // Error inserting data
+                        echo 'Error inserting data.';
+                    }
+
                     redirect(base_url() . 'thank-you');
                 } else {
 
@@ -346,6 +369,40 @@ class Login extends MY_Controller
             }
         } catch (Exception $e) {
             echo 'Caught exception: ',  $e->getMessage(), "\n";
+        }
+    }
+
+
+    public function send_preregistraion_conformaition_mail()
+    {
+        $internemail = $this->input->post('email');
+        $emailBody = "Thank you for showing interest and filling in the registration form. We will get back to you in 5-6 working days. For furthur updates please keep checking your email. Reagrds Team CRY";
+
+        $to = $internemail; {
+            $mail = new PHPMailer();
+            $mail->IsSMTP();
+            $mail->Host = 'smtp.office365.com';
+            $mail->SMTPDebug = 1;
+            $mail->SMTPAuth = true;
+            $mail->SMTPSecure = "tls";
+            $mail->Port = 587;
+            $mail->Username = "noreply@crymail.org";
+            $mail->Password = "^%n7wh#m7_2k";
+            $mail->setFrom('noreply@crymail.org');
+            $mail->AddAddress($to);
+            $mail->addBCC("mahendra.s@neuralinfo.org", "Ravi");
+            $mail->FromName = 'cry Vms';
+            $mail->IsHTML(true);
+            $mail->Subject = 'Pre Registration Confirmation';
+            $mail->Body = $emailBody;
+
+            if (!$mail->Send()) {
+                echo "Message could not be sent. <p>";
+                echo "Mailer Error: " . $mail->ErrorInfo;
+            } else {
+
+                redirect(base_url() . 'thank-you');
+            }
         }
     }
 
@@ -375,7 +432,7 @@ class Login extends MY_Controller
         }
     }
 
-   
+
 
     public function insertoccupationDetails()
     {
@@ -585,7 +642,7 @@ class Login extends MY_Controller
                 'email' => $email,
                 'mobile' => $mobile,
                 'date_of_birth' => $dob,
-                //  'age' => $age,
+                //'age' => $age,
                 'gender' => $gender,
             );
             $basicData2 = array(
@@ -616,6 +673,7 @@ class Login extends MY_Controller
             $data['state'] = $this->Crud_modal->fetch_all_data('*', 'states', 'status=1');
             $data['cities'] = $this->Crud_modal->fetch_all_data('*', 'cities', 'status=1');
             $data['regions'] = $this->Crud_modal->fetch_all_data('*', 'regions', 'region_status=1');
+            $data['cry_language_master'] = $this->Crud_modal->fetch_all_data('*', 'cry_language_master', 'status=1');
             $data['occupation'] = $this->Crud_modal->fetch_all_data('*', 'occupation', 'status= 1', 'occupation_name ASC');
             $data['opportunity'] = $this->Crud_modal->fetch_all_data('*', 'opportunity', 'opportunity_status= 1', 'opportunity_name ASC');
             $this->load->view('post-registration-intern', $data);
@@ -635,6 +693,7 @@ class Login extends MY_Controller
             $data['state'] = $this->Crud_modal->fetch_all_data('*', 'states', 'status=1');
             $data['cities'] = $this->Crud_modal->fetch_all_data('*', 'cities', 'status=1');
             $data['regions'] = $this->Crud_modal->fetch_all_data('*', 'regions', 'region_status=1');
+
             $data['occupation'] = $this->Crud_modal->fetch_all_data('*', 'occupation', 'status= 1', 'occupation_name ASC');
             $data['opportunity'] = $this->Crud_modal->fetch_all_data('*', 'opportunity', 'opportunity_status= 1', 'opportunity_name ASC');
             $this->load->view('post-registration-volunteer', $data);
@@ -642,9 +701,6 @@ class Login extends MY_Controller
             echo 'Caught exception: ',  $e->getMessage(), "\n";
         }
     }
-
-
-
 
     public function secondinsertBasicdata()
     {
@@ -922,16 +978,14 @@ class Login extends MY_Controller
     public function create_emailOtp()
     {
         $email = $this->input->post('VOLUNTEEREMAIL');
-        //print_r($email);exit;
         $length = 4;
         $to = $email;
         $keys = array_merge(range(0, 9), range(0, 9));
-        //print_r($keys);exit;
         $key = "";
         for ($i = 0; $i < $length; $i++) {
             $key .= $keys[mt_rand(0, count($keys) - 1)];
         }
-        // print_r($key);
+        // echo $key;
         // exit;
         echo  $this->preregistration_sendMail($key, $to);
     }
@@ -954,9 +1008,6 @@ class Login extends MY_Controller
         $mail->IsHTML(true);
         $mail->Subject = 'OTP From CRY VMS ';
         $html = '<div style="margin:0;padding:0" bgcolor="#FFFFFF">
-
-
-
         <table style="min-width:348px" width="100%" lang="en" height="100%" cellspacing="0" cellpadding="0" border="0">
 
             <tbody>
@@ -1119,7 +1170,7 @@ class Login extends MY_Controller
         for ($i = 0; $i < $length; $i++) {
             $key .= $keys[mt_rand(0, count($keys) - 1)];
         }
-        // echo $key;
+
         echo  $this->volunteer_programspre_registration_sendMail($key, $to);
     }
 
@@ -1161,8 +1212,6 @@ class Login extends MY_Controller
     public function inquiry()
     {
         if ($this->input->post()) {
-            // print_r($this->input->post('name'));
-            // die();
             $name = ucwords($this->input->post('name'));
             $email = $this->input->post('email');
             $message = ucwords($this->input->post('message'));
@@ -1170,7 +1219,6 @@ class Login extends MY_Controller
             $rcaptcha = $this->input->post('rcaptcha');
             $admin_data = $this->Curl_model->fetch_data('users', array('email'), array('roleID' => 1), 1, array('userID', 'ASC'));
             $href = base_url() . 'login';
-            //$href2 = base_url().'verify/'.md5($results);
             $to = $admin_data['email'];
             $from = 'volunteer@caritasindia.org';
             $msg = 'Caritas India Volunteer';
@@ -1521,7 +1569,7 @@ class Login extends MY_Controller
                                 ?>
                                     <td>
                                         <span class="badge bg-success  me-1 mb-1 mt-1">Assigned</span><br>
-                                        
+
                                     </td>
                                 <?php } else { ?>
                                     <td><span class="badge bg-danger  me-1 mb-1 mt-1">Not Assigned</span></td>
@@ -1564,7 +1612,7 @@ class Login extends MY_Controller
                             <th class="text-white">Name</th>
                             <th class="text-white">Mobile</th>
                             <th class="text-white">Email</th>
-                            
+
                             <th class="text-white">City</th>
                             <th class="text-white">Status</th>
                         </tr>
@@ -1604,7 +1652,7 @@ class Login extends MY_Controller
                                 </td>
                                 <td><?php echo $value['mobile']; ?></td>
                                 <td><?php echo $value['email']; ?></td>
-                           
+
                                 <td><?php echo $value['city_name']; ?></td>
                                 <?php
                                 if (sizeof($assigning_task) > 0) {
@@ -2027,11 +2075,11 @@ class Login extends MY_Controller
 
 
 
-   
+
 
     public function upload_close_up_photo()
     {
-   
+
         $id_proof = $this->input->post('close_up_photo');
         $intern_id = $this->input->post('intern_id');
         if ($_FILES['close_up_photo'] != "") {
@@ -2050,12 +2098,12 @@ class Login extends MY_Controller
                 $where = array(
                     'intern_id' => $intern_id,
                 );
-             $result=   $this->Curl_model->update_data('interns_data', $close_up_photoint, $where);
-                if($result==1){
+                $result =   $this->Curl_model->update_data('interns_data', $close_up_photoint, $where);
+                if ($result == 1) {
                     echo 1;
-                   }else{
+                } else {
                     echo 0;
-                   }
+                }
             }
             // echo json_encode(array('status' => $status, 'msg' => $msg));
         }
@@ -2081,12 +2129,12 @@ class Login extends MY_Controller
                 $where = array(
                     'intern_id' => $intern_id,
                 );
-               $result= $this->Curl_model->update_data('interns_data', $letter_parents_attachint, $where);
-                if($result==1){
+                $result = $this->Curl_model->update_data('interns_data', $letter_parents_attachint, $where);
+                if ($result == 1) {
                     echo 1;
-                   }else{
+                } else {
                     echo 0;
-                   }
+                }
             }
             // echo json_encode(array('status' => $status, 'msg' => $msg));
         }
@@ -2112,12 +2160,12 @@ class Login extends MY_Controller
                 $where = array(
                     'intern_id' => $intern_id,
                 );
-              $result=  $this->Curl_model->update_data('interns_data', $ref_attachint, $where);
-                if($result==1){
+                $result =  $this->Curl_model->update_data('interns_data', $ref_attachint, $where);
+                if ($result == 1) {
                     echo 1;
-                   }else{
+                } else {
                     echo 0;
-                   }
+                }
             }
             // echo json_encode(array('status' => $status, 'msg' => $msg));
         }
@@ -2143,12 +2191,12 @@ class Login extends MY_Controller
                 $where = array(
                     'intern_id' => $intern_id,
                 );
-              $result=  $this->Curl_model->update_data('interns_data', $cv_attachint, $where);
-                if($result==1){
+                $result =  $this->Curl_model->update_data('interns_data', $cv_attachint, $where);
+                if ($result == 1) {
                     echo 1;
-                   }else{
+                } else {
                     echo 0;
-                   }
+                }
             }
             // echo json_encode(array('status' => $status, 'msg' => $msg));
         }
@@ -2156,7 +2204,7 @@ class Login extends MY_Controller
 
     public function upload_add_proof_attach()
     {
-      
+
         $id_proof = $this->input->post('add_proof_attach');
         $intern_id = $this->input->post('intern_id');
         if ($_FILES['add_proof_attach'] != "") {
@@ -2175,12 +2223,12 @@ class Login extends MY_Controller
                 $where = array(
                     'intern_id' => $intern_id,
                 );
-              $result=  $this->Curl_model->update_data('interns_data', $add_proof_attachint, $where);
-                if($result==1){
+                $result =  $this->Curl_model->update_data('interns_data', $add_proof_attachint, $where);
+                if ($result == 1) {
                     echo 1;
-                   }else{
+                } else {
                     echo 0;
-                   }
+                }
             }
             // echo json_encode(array('status' => $status, 'msg' => $msg));
         }
@@ -2188,7 +2236,7 @@ class Login extends MY_Controller
 
     public function upload_id_proff()
     {
-    
+
         $id_proof = $this->input->post('id_proof');
         $intern_id = $this->input->post('intern_id');
         if ($_FILES['id_proof_attach1'] != "") {
@@ -2207,12 +2255,12 @@ class Login extends MY_Controller
                 $where = array(
                     'intern_id' => $intern_id,
                 );
-               $result =  $this->Curl_model->update_data('interns_data', $id_proof_attach1int, $where);
-               if($result==1){
-                echo 1;
-               }else{
-                echo 0;
-               }
+                $result =  $this->Curl_model->update_data('interns_data', $id_proof_attach1int, $where);
+                if ($result == 1) {
+                    echo 1;
+                } else {
+                    echo 0;
+                }
             }
             // echo json_encode(array('status' => $status, 'msg' => $msg));
         }
@@ -2220,41 +2268,29 @@ class Login extends MY_Controller
 
     public function intern_insertoccupationDetails()
     {
-        
+
         try {
             $intern_id = $this->input->post('intern_id');
-            $emergency_contact = $this->input->post('emergency_contact');
-            $occupation = $this->input->post('occupation');
-            $otherOccupation = $this->input->post('otherOccupation');
             $name_of_school = $this->input->post('name_of_school');
             $designation = $this->input->post('designation');
             $language = $this->input->post('language');
-            $Otherlanguages = $this->input->post('otherlanguage');
             $representative = $this->input->post('representative');
             $communicatedWith = $this->input->post('communicatedWith');
-            $project_profile = $this->input->post('project_profile');
+            // $project_profile = $this->input->post('project_profile');
+            // $other_profile = $this->input->post('other_profile');
             $signature = $this->input->post('signature');
 
             $occupationDetails = array(
-                'emergency_contact' => $emergency_contact,
-                'occupation' => $occupation,
-                'otherOccupation' => $otherOccupation,
                 'name_of_school' => $name_of_school,
                 'designation' =>  $designation,
-                'language' => implode(',',$language),
-                'otherlanguages' => $Otherlanguages,
+                'language' => implode(',', $language),
                 'representative_cry' => $representative,
                 'whichcryOffice' => $communicatedWith,
-                'project_profile' => $project_profile,
-                'Otherlanguages' => $Otherlanguages,
+                // 'project_profile' => implode(',', $project_profile),
+                // 'other_profile' => $other_profile,
                 'signature' => $signature,
-                'designation' => $designation,
 
             );
-            // echo "<pre>";
-            // print_r($occupationDetails);exit;
-
-
             $status = array(
                 'status' => 7,
             );

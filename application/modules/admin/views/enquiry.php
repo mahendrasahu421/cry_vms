@@ -6,8 +6,8 @@
 }
 </style>
 <!-- <?php print_r(
-			$_POST['ids']
-		); ?> -->
+            $_POST['ids']
+        ); ?> -->
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.8.7/chosen.css"
     integrity="sha512-0nkKORjFgcyxv3HbE4rzFUlENUMNqic/EzDIeYCgsKa/nwqr2B91Vu/tNAu4Q0cBuG4Xe/D1f/freEci/7GDRA=="
@@ -102,10 +102,11 @@
                                         id="region_id">
                                         <option selected disabled value="">Select Region</option>
                                         <?php foreach ($regions as $rd) {
-										?>
+                                        ?>
                                         <option value="<?php echo $rd['region_id']; ?>" <?php if ($regionId == $rd['region_id']) {
-																								echo "selected";
-																							} ?>><?php echo $rd['region_name'] ?></option>
+                                                                                                echo "selected";
+                                                                                            } ?>>
+                                            <?php echo $rd['region_name'] ?></option>
                                         <?php } ?>
                                     </select>
                                 </div>
@@ -176,12 +177,12 @@
                                         </thead>
                                         <tbody>
                                             <?php
-											$count = 1;
-											foreach ($volunteer as $volunteerData) {
-												$volunteer_id = $volunteerData['volunteer_id'];
-												$volunteerEmail = $volunteerData['email'];
-												$encoded_id = rtrim(strtr(base64_encode($volunteer_id), '+/', '-_'), '=');
-											?>
+                                            $count = 1;
+                                            foreach ($volunteer as $volunteerData) {
+                                                $volunteer_id = $volunteerData['volunteer_id'];
+                                                $volunteerEmail = $volunteerData['email'];
+                                                $encoded_id = rtrim(strtr(base64_encode($volunteer_id), '+/', '-_'), '=');
+                                            ?>
                                             <tr>
                                                 <td>
                                                     <input class="che" id="volunteer_id" name="numchec"
@@ -218,7 +219,7 @@
                                                 </td>
                                             </tr>
                                             <?php
-											} ?>
+                                            } ?>
                                         </tbody>
                                     </table>
 
@@ -240,7 +241,33 @@
 </div>
 </div>
 </div>
+<script>
+$(document).ready(function() {
+    $('#region_id').change(function() {
+        let region_id = $('#region_id').val();
+        if (region_id == "") {
+            alert('Please Select Region');
 
+        } else {
+            datastr = {
+                region_id: region_id,
+
+            };
+            $.ajax({
+                url: '<?php echo base_url() ?>all_states_volunteers',
+                type: 'post',
+                data: datastr,
+                uccess: function(response) {
+                    $('#success_msg').html('Orientation Mail Sent Successfully');
+
+                }
+
+            });
+
+        }
+    });
+});
+</script>
 <script>
 $(document).ready(function() {
     $('#saveData').click(function() {
@@ -300,7 +327,7 @@ function fetch_details(id, display_id) {
     //alert(id);
     $('#' + display_id).html(
         '<div class="text-center" style="color:red;margin:10 auto;"><i class="fa fa-spinner fa-pulse fa-4x"></i><p>Fetching Data</p></div>'
-        );
+    );
     var request = $.ajax({
         url: '<?php echo base_url("fetch-user-info"); ?>',
         method: "POST",

@@ -49,6 +49,22 @@ class Hr_proccess extends MY_Controller
             }
         }
     }
+    public function not_shortlist_mail()
+    {
+        if ($this->session->userdata('emp_id') != "" || $this->session->userdata('emp_id') != null) {
+            $emp_id = $this->session->userdata('emp_id');
+            $intern_id = $this->input->post('intern_id');
+            $user_data = $this->Crud_modal->fetch_single_data("first_name,email", "interns", "intern_id='$intern_id'");
+            $data['user_name'] = $user_data['first_name'];
+            $data['user_email'] = $user_data['email'];
+            if ($this->Admin_model->not_shortlist_mail($data)) {
+                $this->Crud_modal->update_data("intern_id='$intern_id'", "interns", ['status' => '0']);
+                echo true;
+            } else {
+                echo false;
+            }
+        }
+    }
 
     public function shortlist_status_update()
     {
@@ -404,7 +420,7 @@ class Hr_proccess extends MY_Controller
         $mail->setFrom('noreply@crymail.org');
         $mail->AddAttachment($att);
         $mail->AddAddress($to);
-        $mail->addBCC("pransi.g@neuralinfo.org", "Pransi");
+        $mail->addBCC("mahendra.s@neuralinfo.org", "Pransi");
         $mail->FromName = 'cry Vms';
         $mail->IsHTML(true);
         $mail->Subject = 'Cry Offer Letter';
@@ -417,6 +433,7 @@ class Hr_proccess extends MY_Controller
             redirect(base_url() . 'hr-process/' . $intern_id);
         }
     }
+    
     public function send_offer_letter($internemailData)
     {
 
@@ -450,7 +467,8 @@ class Hr_proccess extends MY_Controller
             // $email_templates = $this->Crud_modal->fetch_all_data('*', 'email_templates', 'status=1 AND email_templates_id=5');
             $val = rtrim(strtr(base64_encode($intern['intern_id']), '+/', '-_'), '=');
             $url = base_url('') . 'intern-login';
-            $password = 'intern12345';
+            $timestamp = time();
+        $password = "Int".$timestamp;
             $to = $intern['email']; {
                 $mail = new PHPMailer();
                 $mail->IsSMTP();
@@ -463,7 +481,7 @@ class Hr_proccess extends MY_Controller
                 $mail->Password = "^%n7wh#m7_2k";
                 $mail->setFrom('noreply@crymail.org');
                 $mail->AddAddress($to);
-                $mail->addBCC("ravishankar.k@neuralinfo.org", "Ravi");
+                $mail->addBCC("mahendra.s@neuralinfo.org", "Ravi");
                 $mail->FromName = 'cry Vms';
                 $mail->IsHTML(true);
                 $mail->Subject = 'Joining Letter';
@@ -472,10 +490,9 @@ class Hr_proccess extends MY_Controller
                     echo "Message could not be sent. <p>";
                     echo "Mailer Error: " . $mail->ErrorInfo;
                 } else {
-                    $this->Admin_model->intern_count_send_maillogincredational($intern_id, $creation_date);
+                    $this->Admin_model->intern_count_send_maillogincredational($intern_id, $creation_date,$password);
                 }
             }
         }
     }
 }
-?>

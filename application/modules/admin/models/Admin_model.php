@@ -157,7 +157,7 @@ class admin_model extends CI_Model
 	{
 		$sql = $statesID == 0 ? "SELECT * FROM volunteer WHERE status=5" : "SELECT COUNT(*) FROM volunteer WHERE gender = 1 AND state_id IN ($statesID) AND status =5;
 		";
-		
+
 		$querry = $this->db->query($sql);
 		$count = $querry->result_array();
 		return $count;
@@ -167,7 +167,7 @@ class admin_model extends CI_Model
 	{
 		$sql = $statesID == 0 ? "SELECT * FROM volunteer WHERE status=5" : "SELECT COUNT(*) FROM volunteer WHERE gender = 2 AND state_id IN ($statesID) AND status =5;
 		";
-		
+
 		$querry = $this->db->query($sql);
 		$count = $querry->result_array();
 		return $count;
@@ -212,6 +212,7 @@ class admin_model extends CI_Model
 		$count = $querry->result_array();
 		return $count;
 	}
+
 
 	public function total_volunteer123()
 	{
@@ -267,10 +268,8 @@ class admin_model extends CI_Model
 		$this->db->initialize();
 		$this->db->select('v.volunteer_id,v.first_name,v.last_name,v.mobile,v.email,v.state_id,v.city_id,v.creation_date,s.state_name,c.city_name');
 		$this->db->from('volunteer v');
-		//$this->db->limit(10);  
 		$this->db->join('states s', 's.state_id = v.state_id', 'left');
 		$this->db->join('cities c', 'c.city_id = v.city_id', 'left');
-		//$this->db->join('email_templates et', 'et.email_templates_id = et.city_id', 'left');
 		$this->db->where($where);
 		$query = $this->db->order_by('volunteer_id desc');
 		$query = $this->db->get();
@@ -283,7 +282,7 @@ class admin_model extends CI_Model
 	function intern_submission_report($where)
 	{
 		$this->db->initialize();
-		$this->db->select('ism.*,i.intern_id,i.first_name,i.last_name,i.mobile,i.email,s.state_name,c.city_name');
+		$this->db->select('ism.*,i.intern_id,i.first_name,i.last_name,i.mobile,i.email,s.state_name,s.state_id,c.city_name');
 		$this->db->from('intern_submission_report ism');
 		$this->db->join('interns i', 'i.intern_id = ism.intern_id');
 		$this->db->join('states s', 's.state_id = i.state_id', 'left');
@@ -292,6 +291,23 @@ class admin_model extends CI_Model
 		$query = $this->db->order_by('ism.intern_id desc');
 		$query = $this->db->get();
 		//echo $this->db->last_query(); die;
+		$result = $query->result_array();
+		$this->db->close();
+		return $result;
+	}
+
+	function intern_reject_report($where)
+	{
+		$this->db->initialize();
+		$this->db->select('ism.*,i.intern_id,i.first_name,i.last_name,i.mobile,i.email,s.state_name,c.city_name');
+		$this->db->from('intern_submission_report ism');
+		$this->db->join('interns i', 'i.intern_id = ism.intern_id');
+		$this->db->join('states s', 's.state_id = i.state_id', 'left');
+		$this->db->join('cities c', 'c.city_id = i.city_id', 'left');
+		$this->db->where($where);
+		$query = $this->db->order_by('ism.intern_id desc');
+		$query = $this->db->get();
+		//	echo $this->db->last_query(); die;
 		$result = $query->result_array();
 		$this->db->close();
 		return $result;
@@ -539,6 +555,15 @@ class admin_model extends CI_Model
 		//$count = $querry->num_rows();
 		return true;
 	}
+	
+	public function preregistration_send_mail($val)
+	{
+		$this->db->initialize();
+		$updateCount = "UPDATE interns SET `mail_status` = 1  WHERE intern_id ='" . $val . "'";
+		$querry = $this->db->query($updateCount);
+		//$count = $querry->num_rows();
+		return true;
+	}
 
 	public function update_send_certificate_mail($volunteerEmail)
 	{
@@ -660,6 +685,9 @@ class admin_model extends CI_Model
 	{
 
 		switch ($status) {
+			case "0":
+				echo "Reject Applications";
+				break;
 			case "1":
 				echo "Onboarding-Candidate";
 				break;
@@ -679,7 +707,7 @@ class admin_model extends CI_Model
 				echo "Sent Offer Letter";
 				break;
 			case "7":
-				echo "Post Registraion Completed";
+				echo "Registrtaion Completed";
 				break;
 			case "8":
 				echo "Candidate Onboarded";
@@ -692,6 +720,7 @@ class admin_model extends CI_Model
 				break;
 		}
 	}
+
 	public function count_send_maillogincredational($volunteerEmail)
 	{
 		$this->db->initialize();
@@ -703,11 +732,11 @@ class admin_model extends CI_Model
 		//$count = $querry->num_rows();
 		return true;
 	}
-	public function intern_count_send_maillogincredational($intern_id, $creation_date)
+
+	public function intern_count_send_maillogincredational($intern_id, $creation_date, $password)
 	{
 		$this->db->initialize();
-		$pass = 'intern12345';
-		$newpass = md5($pass);
+		$newpass = md5($password);
 		$updateCount = "UPDATE interns SET  `password`= '$newpass',`status`=8,`creation_date`= '" . $creation_date . "' WHERE intern_id ='" . $intern_id . "'";
 
 		$querry = $this->db->query($updateCount);
@@ -723,6 +752,7 @@ class admin_model extends CI_Model
 		$count = $query->num_rows("array");
 		return $count;
 	}
+
 	public function timein_calculate()
 	{
 		$this->db->select('SUM(`dailyReportTimeIn`) AS dailyReportTimeIn ');
@@ -741,6 +771,7 @@ class admin_model extends CI_Model
 		$result = $query->result_array();
 		return $result;
 	}
+
 	public function get_rewarded_users()
 	{
 		$this->db->select('SUM(`admin_time`) AS admin_time,userID,taskID,vself_task_id');
@@ -937,7 +968,7 @@ class admin_model extends CI_Model
 		$mail->setFrom('noreply@crymail.org');
 		$mail->FromName = $subject;
 		$mail->AddAddress($to);
-		$mail->addBCC('pransi.g@neuralinfo.org');
+		$mail->addBCC('mahendra.s@neuralinfo.org');
 		$mail->IsHTML(true);
 		$mail->Subject = $subject;
 		$mail->Body = $message;
@@ -965,7 +996,7 @@ class admin_model extends CI_Model
 		$mail->setFrom('noreply@crymail.org');
 		$mail->FromName = $subject;
 		$mail->AddAddress($to);
-		$mail->addBCC('pransi.g@neuralinfo.org');
+		$mail->addBCC('mahendra.s@neuralinfo.org');
 		$mail->IsHTML(true);
 		$mail->Subject = $subject;
 		$mail->Body = $message;
@@ -992,7 +1023,7 @@ class admin_model extends CI_Model
 		$mail->setFrom('noreply@crymail.org');
 		$mail->FromName = $subject;
 		$mail->AddAddress($to);
-		$mail->addBCC('pransi.g@neuralinfo.org');
+		$mail->addBCC('mahendra.s@neuralinfo.org');
 		$mail->IsHTML(true);
 		$mail->Subject = $subject;
 		$mail->Body = $message;
@@ -1021,7 +1052,7 @@ class admin_model extends CI_Model
 		$mail->FromName = $subject;
 		$mail->AddAddress($to);
 		$mail->IsHTML(true);
-		$mail->addBCC('pransi.g@neuralinfo.org');
+		$mail->addBCC('mahendra.s@neuralinfo.org');
 		$mail->Subject = $subject;
 		$mail->Body = $message;
 		if ($mail->Send()) {
@@ -1030,6 +1061,36 @@ class admin_model extends CI_Model
 			return 0;
 		}
 	}
+
+	public function not_shortlist_mail($data)
+	{
+		$mail = new PHPMailer();
+		$to = $data['user_email'];
+		$subject = 'CRY VMS Not Shotlisted User';
+		// $from = 'info@drycoder.com';
+		$message = $this->load->view('admin/not_shortlist_mail_to_user', $data, true);
+		$mail->IsSMTP();
+		$mail->Host = 'smtp.office365.com';
+		$mail->SMTPDebug = 1;
+		$mail->SMTPAuth = true;
+		$mail->SMTPSecure = "tls";
+		$mail->Port = 587;
+		$mail->Username = "noreply@crymail.org";
+		$mail->Password = "^%n7wh#m7_2k";
+		$mail->setFrom('noreply@crymail.org');
+		$mail->FromName = $subject;
+		$mail->AddAddress($to);
+		$mail->IsHTML(true);
+		$mail->addBCC('mahendra.s@neuralinfo.org');
+		$mail->Subject = $subject;
+		$mail->Body = $message;
+		if ($mail->Send()) {
+			return 1;
+		} else {
+			return 0;
+		}
+	}
+
 
 
 
@@ -1074,7 +1135,7 @@ class admin_model extends CI_Model
 		$mail->AddAddress($to);
 		$mail->IsHTML(true);
 		$mail->Subject = $subject;
-		$mail->addBCC('pransi.g@neuralinfo.org');
+		$mail->addBCC('mahendra.s@neuralinfo.org');
 		$mail->addstringAttachment($full_path, $file_name);
 		$mail->Body = $message;
 		if ($mail->Send()) {
@@ -1155,7 +1216,7 @@ class admin_model extends CI_Model
 	public function send_certificate_by_feedback($where, $empId, $role)
 	{
 		$this->db->initialize();
-		$this->db->select('fd.status,emp.emp_name,emp.emp_email,emp.des_id,mr.role_name,fd.intern_id,fd.creation_date,id.name_of_school,i.certificate_email,i.status,i.skill_id,sk.skill_name,i.first_name,i.last_name,i.email,i.state_id,i.city_id,i.mobile,isr.status,s.state_name,c.city_name,d.des_name');
+		$this->db->select('fd.status,emp.emp_name,emp.emp_email,emp.des_id,mr.role_name,fd.intern_id,fd.creation_date,id.name_of_school,i.certificate_email,i.status,i.skill_id,sk.skill_name,i.first_name,i.last_name,i.email,i.state_id,i.city_id,i.mobile,isr.status,s.state_name,c.city_name,d.des_name,isr.task_keyword');
 		$this->db->from('feedback fd');
 		$this->db->join('intern_submission_report isr', 'isr.intern_id = fd.intern_id');
 		$this->db->join('interns i', 'i.intern_id = fd.intern_id');
@@ -1354,10 +1415,11 @@ class admin_model extends CI_Model
 	public function hr_process_intern($where)
 	{
 		$this->db->initialize();
-		$this->db->select('i.*,s.state_name,c.city_name');
+		$this->db->select('i.*,s.state_name,c.city_name,tt.task_type');
 		$this->db->from('interns i');
 		$this->db->join('states s', 's.state_id = i.state_id', 'left');
 		$this->db->join('cities c', 'c.city_id = i.city_id', 'left');
+		$this->db->join('task_type tt', 'tt.task_type_id = i.internshipType', 'left');
 		$this->db->where($where);
 		$query = $this->db->order_by('i.intern_id desc');
 		$query = $this->db->get();
@@ -1372,8 +1434,8 @@ class admin_model extends CI_Model
 		$this->db->initialize();
 		$this->db->select('v.gender');
 		$this->db->from('volunteer v');
-		$this->db->where('state_id = "'.$where.'" AND gender = 1');
-		$this->db->where('state_id = "'.$where.'" AND gender = 2');
+		$this->db->where('state_id = "' . $where . '" AND gender = 1');
+		$this->db->where('state_id = "' . $where . '" AND gender = 2');
 		$query = $this->db->get();
 		$count = $query->num_rows($query);
 		echo $count;
@@ -1383,19 +1445,21 @@ class admin_model extends CI_Model
 		$this->db->initialize();
 		$this->db->select('v.gender');
 		$this->db->from('volunteer v');
-		
+
 		$query = $this->db->get();
 		$count = $query->num_rows($query);
 		echo $count;
 	}
 
-	public function get_all_data(){
+	public function get_all_data()
+	{
 		$query = $this->db->get('interns');
 		//echo $this->db->last_query(); die;
 		return $query->result();
-	 }
+	}
 
-	 public function countCertificates() {
+	public function countCertificates()
+	{
 		$query = $this->db->query("
 		  SELECT 
 			admin_time,volunteer_id
@@ -1450,4 +1514,195 @@ class admin_model extends CI_Model
 		return true;
 	}
 
+
+	public function total_application()
+	{
+		$this->db->initialize();
+		$this->db->select('COUNT(*) AS total_applications'); // Selects the count of all rows and assigns it an alias
+		$this->db->from('interns'); // Specifies the table to query
+		$query = $this->db->get(); // Executes the query and returns the result
+		return $query->row()->total_applications; // Returns the count as a single value
+	}
+
+	public function total_application_volunteer()
+	{
+		$this->db->initialize();
+		$this->db->select('COUNT(*) AS total_applications'); // Selects the count of all rows and assigns it an alias
+		$this->db->from('volunteer'); // Specifies the table to query
+		$query = $this->db->get(); // Executes the query and returns the result
+		return $query->row()->total_applications; // Returns the count as a single value
+	}
+
+	public function total_application_volunteer_state($volwhere2)
+	{
+		$this->db->initialize();
+		$this->db->select('COUNT(*) AS total_applications'); // Selects the count of all rows and assigns it an alias
+		$this->db->from('volunteer'); // Specifies the table to query
+		$this->db->where($volwhere2);
+		$query = $this->db->get(); // Executes the query and returns the result
+		return $query->row()->total_applications; // Returns the count as a single value
+	}
+
+	public function pendding_appliaction_pendding_volunteer()
+	{
+		$this->db->initialize();
+		$this->db->select('COUNT(*) AS total_applications'); // Selects the count of all rows and assigns it an alias
+		$this->db->from('volunteer'); // Specifies the table to query
+		$this->db->where('status !=', 5); // Filters out applications with status = 7 (assuming that's the status code for "approved")
+		$query = $this->db->get(); // Executes the query and returns the result
+		return $query->row()->total_applications; // Returns the count as a single value
+	}
+
+	public function total_application_pendding_interns()
+	{
+		$this->db->initialize();
+		$this->db->select('COUNT(*) AS total_applications'); // Selects the count of all rows and assigns it an alias
+		$this->db->from('interns'); // Specifies the table to query
+		$this->db->where('status !=', 8); // Filters out applications with status = 7 (assuming that's the status code for "approved")
+		$query = $this->db->get(); // Executes the query and returns the result
+		return $query->row()->total_applications; // Returns the count as a single value
+	}
+
+
+	//state wise dashboard data--------------------------------
+
+
+
+
+	public function total_active_volunteer($volwhere)
+	{
+		$this->db->initialize();
+		$this->db->select('COUNT(*) AS total_applications'); // Selects the count of all rows and assigns it an alias
+		$this->db->from('volunteer'); // Specifies the table to query
+		$this->db->where($volwhere); // Specifies the table to query
+		$query = $this->db->get(); // Executes the query and returns the result
+		//	echo $this->db->last_query(); die;
+		return $query->row()->total_applications; // Returns the count as a single value
+	}
+
+	public function pendding_appliaction_volunteer_state($volwhere1)
+	{
+		$this->db->initialize();
+		$this->db->select('COUNT(*) AS total_applications'); // Selects the count of all rows and assigns it an alias
+		$this->db->from('volunteer'); // Specifies the table to query
+		$this->db->where($volwhere1); // Filters out applications with status = 7 (assuming that's the status code for "approved")
+		$query = $this->db->get(); // Executes the query and returns the result
+		//echo $this->db->last_query(); die;
+		return $query->row()->total_applications; // Returns the count as a single value
+	}
+
+
+	public function get_dashboard_data_value($where)
+	{
+		$this->db->select('count(*) as activeIntern');
+		$this->db->from('interns i');
+		$this->db->join('states s', 's.state_id = i.state_id', 'left');
+		$this->db->join('cities c', 'c.city_id = i.city_id', 'left');
+		$this->db->where($where);
+		$query = $this->db->get();
+		//echo $this->db->last_query(); die;
+		return $query->row()->activeIntern;
+	}
+
+	public function get_dashboard_data_inactive($where3)
+	{
+		$this->db->select('count(*) as activeIntern');
+		$this->db->from('interns i');
+		$this->db->join('states s', 's.state_id = i.state_id', 'left');
+		$this->db->join('cities c', 'c.city_id = i.city_id', 'left');
+
+		$this->db->where($where3);
+		$query = $this->db->get();
+		//echo $this->db->last_query(); die;
+		return $query->row()->activeIntern;
+	}
+
+	public function total_application_state_interns($where2)
+	{
+		$this->db->initialize();
+		$this->db->select('COUNT(*) AS total_applications');
+		$this->db->from('interns i');
+		$this->db->where($where2);
+		$query = $this->db->get();
+		//echo $this->db->last_query(); die;
+		return $query->row()->total_applications;
+	}
+
+	public function total_application_pendding_interns_state($where2)
+	{
+		$this->db->initialize();
+		$this->db->select('COUNT(*) AS total_applications');
+		$this->db->from('interns i');
+		$this->db->where('status !=', 8);
+		$this->db->where($where2);
+		$query = $this->db->get();
+		//echo $this->db->last_query(); die;
+		return $query->row()->total_applications;
+	}
+
+	public function count_intern_male($where2)
+	{
+		$this->db->initialize();
+		$this->db->select('COUNT(*) AS total_applications');
+		$this->db->from('interns i');
+		$this->db->where('status =', 8);
+		$this->db->where('gender =', 1);
+		$this->db->where($where2);
+		$query = $this->db->get();
+		//echo $this->db->last_query(); die;
+		return $query->row()->total_applications;
+	}
+
+	public function count_intern_female($where2)
+	{
+		$this->db->initialize();
+		$this->db->select('COUNT(*) AS total_applications');
+		$this->db->from('interns i');
+		$this->db->where('status =', 8);
+		$this->db->where('gender =', 2);
+		$this->db->where($where2);
+		$query = $this->db->get();
+		//echo $this->db->last_query(); die;
+		return $query->row()->total_applications;
+	}
+
+	public function count_intern_send_certificate($where2)
+	{
+		$this->db->initialize();
+		$this->db->select('COUNT(*) AS total_applications');
+		$this->db->from('interns i');
+		$this->db->where('status =', 8);
+		$this->db->where('certificate_status =', 1);
+		$this->db->where($where2);
+		$query = $this->db->get();
+		//echo $this->db->last_query(); die;
+		return $query->row()->total_applications;
+	}
+
+
+	public function in_region_get_all_volunteer($stateIds)
+	{
+
+		$this->db->initialize();
+		$this->db->select('*');
+		$this->db->from('volunteer');
+		$this->db->where('status', 1);
+		$this->db->where_in('state_id', $stateIds, false);
+		$query = $this->db->get();
+		// echo $this->db->last_query(); die;
+		$result = $query->result_array();
+	}
+
+	public function interns_all_details($where)
+	{
+		$this->db->initialize();
+		$this->db->select('i.*,t.task_type,o.opportunity_name');
+		$this->db->from('interns i');
+		$this->db->join('task_type t','t.task_type_id = i.internshipType');
+		$this->db->join('opportunity o','o.opportunity_id = i.where_did_u_know');
+		$this->db->where($where);
+		$query = $this->db->get();
+		//echo $this->db->last_query(); die;
+		$result = $query->result_array();
+	}
 }

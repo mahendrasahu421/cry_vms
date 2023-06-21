@@ -11,14 +11,17 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="description" content="Zanex – Bootstrap  Admin & Dashboard Template">
     <meta name="author" content="Spruko Technologies Private Limited">
-    <meta name="keywords" content="admin, dashboard, dashboard ui, admin dashboard template, admin panel dashboard, admin panel html, admin panel html template, admin panel template, admin ui templates, administrative templates, best admin dashboard, best admin templates, bootstrap 4 admin template, bootstrap admin dashboard, bootstrap admin panel, html css admin templates, html5 admin template, premium bootstrap templates, responsive admin template, template admin bootstrap 4, themeforest html">
-    <link rel="shortcut icon" type="image/x-icon" href="<?php echo base_url('admin/'); ?>assets/images/brand/favicon.png" />
+    <meta name="keywords"
+        content="admin, dashboard, dashboard ui, admin dashboard template, admin panel dashboard, admin panel html, admin panel html template, admin panel template, admin ui templates, administrative templates, best admin dashboard, best admin templates, bootstrap 4 admin template, bootstrap admin dashboard, bootstrap admin panel, html css admin templates, html5 admin template, premium bootstrap templates, responsive admin template, template admin bootstrap 4, themeforest html">
+    <link rel="shortcut icon" type="image/x-icon"
+        href="<?php echo base_url('admin/'); ?>assets/images/brand/favicon.png" />
 
     <!-- TITLE -->
     <title>CRY : VMS</title>
 
     <!-- BOOTSTRAP CSS -->
-    <link id="style" href="<?php echo base_url('admin/'); ?>assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+    <link id="style" href="<?php echo base_url('admin/'); ?>assets/plugins/bootstrap/css/bootstrap.min.css"
+        rel="stylesheet" />
 
     <!-- STYLE CSS -->
     <link href="<?php echo base_url('admin/'); ?>assets/css/style.css" rel="stylesheet" />
@@ -30,37 +33,39 @@
     <!--- FONT-ICONS CSS -->
     <link href="<?php echo base_url('admin/'); ?>assets/css/icons.css" rel="stylesheet" />
     <link type="text/css" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css" rel="stylesheet">
-    <link type="text/css" href="https://cdn.datatables.net/buttons/2.2.3/css/buttons.dataTables.min.css" rel="stylesheet">
+    <link type="text/css" href="https://cdn.datatables.net/buttons/2.2.3/css/buttons.dataTables.min.css"
+        rel="stylesheet">
 
     <!-- COLOR SKIN CSS -->
-    <link id="theme" rel="stylesheet" type="text/css" media="all" href="<?php echo base_url('admin/'); ?>assets/colors/color1.css" />
+    <link id="theme" rel="stylesheet" type="text/css" media="all"
+        href="<?php echo base_url('admin/'); ?>assets/colors/color1.css" />
 
     <style>
-        .dt-buttons {
-            display: none;
-        }
+    .dt-buttons {
+        display: none;
+    }
     </style>
     <style>
-        ul#menu li {
-            display: inline;
-        }
+    ul#menu li {
+        display: inline;
+    }
 
-        .page-header {
-            display: -ms-flexbox;
-            display: flex;
-            -ms-flex-align: center;
-            align-items: center;
-            /* margin: 1.5rem 0rem 1.5rem; */
-            margin-top: 5px;
-            -ms-flex-wrap: wrap;
-            justify-content: space-between;
-            padding: 0;
-            /* border-radius: 7px; */
-            position: relative;
-            min-height: 50px;
-            border: 1px solid transparent;
-            border-radius: 5px;
-        }
+    .page-header {
+        display: -ms-flexbox;
+        display: flex;
+        -ms-flex-align: center;
+        align-items: center;
+        /* margin: 1.5rem 0rem 1.5rem; */
+        margin-top: 5px;
+        -ms-flex-wrap: wrap;
+        justify-content: space-between;
+        padding: 0;
+        /* border-radius: 7px; */
+        position: relative;
+        min-height: 50px;
+        border: 1px solid transparent;
+        border-radius: 5px;
+    }
     </style>
 
 </head>
@@ -79,7 +84,8 @@
                 <!-- CONTAINER OPEN -->
                 <div class="col col-login mx-auto">
                     <div class="text-center">
-                        <img src="<?php echo base_url('users/'); ?>assets/images/brand/ezgif.com-gif-maker.gif" class="" alt="">
+                        <img src="<?php echo base_url('users/'); ?>assets/images/brand/ezgif.com-gif-maker.gif" class=""
+                            alt="">
                     </div>
                 </div>
                 <div class="container-login100">
@@ -88,22 +94,23 @@
                             <?php
                             if ($this->session->userdata('error')) {
                             ?>
-                                <center>
-                                    <div class="alert alert-danger alert-dismissible fade show mb-5" role="alert">
-                                        <strong>Error!</strong> <?php echo $this->session->userdata('error'); ?>
-                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                            <span aria-hidden="true">&times;</span>
-                                        </button>
-                                    </div>
-                                </center>
+                            <center>
+                                <div class="alert alert-danger alert-dismissible fade show mb-5" role="alert">
+                                    <strong>Error!</strong> <?php echo $this->session->userdata('error'); ?>
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                            </center>
                             <?php $this->session->unset_userdata('error');
                             } ?>
-                         
+
                             <form class="login100-form validate-form" action="#" method="post">
                                 <span class="login100-form-title">
                                     Login
                                 </span>
-                                <div class="wrap-input100 validate-input" data-bs-validate="Valid email is required: ex@abc.xyz">
+                                <div class="wrap-input100 validate-input"
+                                    data-bs-validate="Valid email is required: ex@abc.xyz">
                                     <input class="input100" type="text" name="email" value="" placeholder="Email">
 
                                     <span class="focus-input100"></span>
@@ -112,7 +119,8 @@
                                     </span>
                                 </div>
                                 <div class="wrap-input100 validate-input" data-bs-validate="Password is required">
-                                    <input class="input100" type="password" name="password" value="" placeholder="Password">
+                                    <input class="input100" type="password" name="password" value=""
+                                        placeholder="Password">
 
                                     <span class="focus-input100"></span>
                                     <span class="symbol-input100">
@@ -124,12 +132,13 @@
                                         <a href="reset-password" class="text-warning ms-1">Forgot Password?</a>
                                     </p>
                                 </div>
-                                <button class="btn btn-block btn-warning mb-4 rounded-pill" type="submit" name="signin" value="signin">Login</button>
-                               
+                                <button class="btn btn-block btn-warning mb-4 rounded-pill" type="submit" name="signin"
+                                    value="signin">Login</button>
+
                             </form>
 
                         </div>
-                        
+
                     </div>
                 </div>
                 <!-- CONTAINER CLOSED -->
@@ -252,27 +261,27 @@
     <script src="<?php echo base_url('admin/'); ?>assets/js/form-elements.js"></script>
 
     <script>
-        $('#feel-the-wave').wavify({
-            height: 100,
-            bones: 3,
-            amplitude: 90,
-            color: 'rgba(146, 43, 33 , 4)',
-            speed: .25
-        });
-        $('#feel-the-wave-two').wavify({
-            height: 70,
-            bones: 5,
-            amplitude: 60,
-            color: 'rgba(169, 50, 38 , .3)',
-            speed: .35
-        });
-        $('#feel-the-wave-three').wavify({
-            height: 50,
-            bones: 4,
-            amplitude: 50,
-            color: 'rgba(192, 57, 43 , .2)',
-            speed: .45
-        });
+    $('#feel-the-wave').wavify({
+        height: 100,
+        bones: 3,
+        amplitude: 90,
+        color: 'rgba(146, 43, 33 , 4)',
+        speed: .25
+    });
+    $('#feel-the-wave-two').wavify({
+        height: 70,
+        bones: 5,
+        amplitude: 60,
+        color: 'rgba(169, 50, 38 , .3)',
+        speed: .35
+    });
+    $('#feel-the-wave-three').wavify({
+        height: 50,
+        bones: 4,
+        amplitude: 50,
+        color: 'rgba(192, 57, 43 , .2)',
+        speed: .45
+    });
     </script>
 </body>
 

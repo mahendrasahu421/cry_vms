@@ -275,6 +275,7 @@ class Crud_modal extends CI_model
 			echo 'Caught exception: ',  $this->$e->getMessage(), "\n";
 		}
 	}
+
 	function intern_data_insert($bl_name, $field)
 	{
 		try {
@@ -284,16 +285,29 @@ class Crud_modal extends CI_model
 			$this->db->insert('interns_data', $uid);
 
 			if ($insert == 1) {
-				//$this->db->close();	
-				return $uid['intern_id'];
+				//$this->db->close();    
+				return array(
+					'success' => true,
+					'intern_id' => $uid['intern_id'],
+					'email' => $uid['email'],
+
+				);
 			} else {
-				//$this->db->close();	
-				return 0;
+				//$this->db->close();    
+				return array(
+					'success' => false,
+					'intern_id' => 0
+				);
 			}
 		} catch (Exception $e) {
 			echo 'Caught exception: ',  $this->$e->getMessage(), "\n";
+			return array(
+				'success' => false,
+				'intern_id' => 0
+			);
 		}
 	}
+
 
 	function program_volunteer_insert($bl_name, $field)
 	{
@@ -1320,6 +1334,4 @@ class Crud_modal extends CI_model
 
 		return $result->num_rows();
 	}
-
-	
 }
